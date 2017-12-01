@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+	xmlns:p="http://www.springframework.org/schema/p"  
+	xmlns:context="http://www.springframework.org/schema/context"   
+	xmlns:tx="http://www.springframework.org/schema/tx"  
+	xmlns:aop="http://www.springframework.org/schema/aop"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd    
+	http://www.springframework.org/schema/tx    
+	http://www.springframework.org/schema/tx/spring-tx-3.1.xsd    
+	http://www.springframework.org/schema/context    
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd">  
+
+	<!-- AOP切点，强制CGLIB动态代理；否则将报错提示Cannot subclass final class class $Proxy -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid"/>
+		<property name="httpOnly" value="true"/>
+		<property name="maxAge" value="-1"/>
+	</bean>
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe"/>
+		<property name="httpOnly" value="true"/>
+		<property name="maxAge" value="2592000"/><!-- 30天 -->
+	</bean>
+	<bean id="rememberMeManager"
+		  class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+		<property name="cookie" ref="rememberMeCookie"/>
+	</bean>
+
+	<!-- 安全管理SecurityManager，自定义realm，自定义加密算法，缓存 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 配置自定义realm -->
+		<property name="realm" ref="authRealm"/>
+		<!-- 引入二级缓存的支持 -->
+		<property name="cacheManager" ref="shiroEhcacheManager"/>
+		<property name="rememberMeManager" ref="rememberMeManager"/>
+	</bean>
+	
+	<!-- 自定义realm -->
+	<bean id="authRealm" class="com.ani.ccyl.leg.service.infrastructure.shiro.AuthRealm">
+		<property name="credentialsMatcher" ref="passwordMatcher"/>
+	</bean>
+	<bean id="authcFilter" class="com.ani.ccyl.leg.service.infrastructure.shiro.ExtendedAuthenticationFilter"/>
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<!-- 登录页面  -->
+		<property name="loginUrl" value="/index"/>
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="authcFilter"/>
+			</map>
+		</property>
+		<!-- 欢迎页面  -->
+		<property name="successUrl" value="/home/index"/>
+		<!-- url过滤，静态资源+动态资源 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/** = anon
+			</value>
+		</property>
+	</bean>
+	
+	<!-- 自定义加密算法 -->
+	<bean id="passwordMatcher" class="com.ani.ccyl.leg.service.infrastructure.shiro.CustomCredentialsMatcher"/>
+	
+    <!-- 用户授权/认证信息Cache, 采用EhCache  缓存 -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:properties/ehcache-shiro.xml"/>
+    </bean>	
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 生成代理，通过代理进行控制 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    
+    <!-- 安全管理器 -->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+</beans>
