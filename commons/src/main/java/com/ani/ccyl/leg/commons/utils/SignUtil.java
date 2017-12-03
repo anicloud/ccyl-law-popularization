@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public class SignUtil {
     // 与接口配置信息中的Token要一致
-    private static String token = Constants.PROPERTIES.getProperty("wechat.token","");
+    private static String token = Constants.PROPERTIES.getProperty("wechat.token");
 
     /**
      * 验证签名</br>
