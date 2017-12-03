@@ -62,9 +62,15 @@
         <spring-agent-version>2.5.6</spring-agent-version>
         <javacv-version>0.8</javacv-version>
         <javaee-api-version>7.0</javaee-api-version>
+        <dom4j-version>1.6.1</dom4j-version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>${dom4j-version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
