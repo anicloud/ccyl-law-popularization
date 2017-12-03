@@ -6,7 +6,6 @@ import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
 import com.ani.ccyl.leg.commons.utils.ParseXmlUtil;
 import com.ani.ccyl.leg.commons.utils.SignUtil;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
