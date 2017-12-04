@@ -17,6 +17,7 @@ const Routes = () => (
         <Route path='/elapse' component={AsyncElapse} />
         <Route path='/route/:id' component={AsyncRoute} />
         <Route path='/404' component={AsyncPageNotFound} />
+        <Redirect path='/home/index' to='/' />
         <Redirect from='*' to='/404' />
     </Switch>
 );
