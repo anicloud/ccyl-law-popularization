@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.dto.wechat.AccessToken;
 import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,8 @@ import java.io.*;
 public class WechatController {
     private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
+    private String oauthTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.oauth.token.url");
+    private String fetchUserInfoUrl = Constants.PROPERTIES.getProperty("wechat.fetch.user.info.url");
     @Autowired
     private WechatService wechatService;
     @RequestMapping(value = "/entrance")
@@ -33,15 +36,7 @@ public class WechatController {
             PrintWriter writer = response.getWriter();
             writer.print(echostr);
         } else {
-            StringBuffer sb = new StringBuffer();
-            InputStream is = request.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-            BufferedReader br = new BufferedReader(isr);
-            String s = "";
-            while ((s = br.readLine()) != null) {
-                sb.append(s);
-            }
-            String respXml = wechatService.processRequest(sb.toString());
+            String respXml = wechatService.processRequest(request, response);
             response.getOutputStream().write(respXml.getBytes("UTF-8"));
         }
     }
@@ -68,6 +63,20 @@ public class WechatController {
                 pw.flush();
             }
         }
+    }
+
+    @RequestMapping("/redirect")
+    public String redirect(String code, String state, HttpServletRequest request) throws Exception {
+        oauthTokenUrl = oauthTokenUrl.replace("APPID",appId).replace("SECRET",appSecret).replace("CODE",code);
+        JSONObject tokenObj = WechatUtil.httpRequest(oauthTokenUrl, "GET", null);
+        if(tokenObj!=null) {
+            if(tokenObj.containsKey("access_token")) {
+                String accessToken = tokenObj.getString("access_token");
+                ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(request);
+            }
+            return "index";
+        }
+        return null;
     }
 
 }
