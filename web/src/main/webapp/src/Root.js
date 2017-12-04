@@ -8,7 +8,7 @@ class Root extends Component {
     render() {
         return (
             <Provider store={store}>
-                <BrowserRouter>
+                <BrowserRouter  basename='/leg'>
                     <Routes></Routes>
                 </BrowserRouter>
             </Provider>
