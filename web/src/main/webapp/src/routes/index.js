@@ -11,7 +11,7 @@ import AsyncPageNotFound from '../views/AsyncPageNotFound';
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={App} />
-        <Route path='/home' component={Home} />
+        <Route exact path='/home' component={Home} />
         <Route path='/counter' component={AsyncCounter} />
         <Route path='/zen' component={AsyncZen} />
         <Route path='/elapse' component={AsyncElapse} />
