@@ -7,6 +7,11 @@ import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 /**
@@ -15,9 +20,17 @@ import java.util.Date;
 @Service
 public class WechatServiceImpl implements WechatService {
     @Override
-    public String processRequest(String xml) throws Exception {
+    public String processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String respContent = "请求处理异常，请稍后尝试！";
-        ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(xml);
+        StringBuffer sb = new StringBuffer();
+        InputStream is = request.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+        BufferedReader br = new BufferedReader(isr);
+        String s = "";
+        while ((s = br.readLine()) != null) {
+            sb.append(s);
+        }
+        ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(sb.toString());
         if(msgEntity != null) {
             String fromUserName = msgEntity.getFromUserName();
             String toUserName = msgEntity.getToUserName();
@@ -29,12 +42,14 @@ public class WechatServiceImpl implements WechatService {
                 if(eventType.equals(Constants.WechatMsgType.EVENT_TYPE_CLICK)) {
                     // 事件KEY值，与创建自定义菜单时指定的KEY值对应，然后分别处理
                     String eventKey = msgEntity.getEventKey();
+                    if("suggestions".equals(eventKey)) {//意见反馈
 
+                    }
                 }
             } else if(Constants.WechatMsgType.EVENT_TYPE_SUBSCRIBE.equals(eventType)) {//订阅类型的消息
                 respContent = "中国共青团欢迎您的到来！ \n 回复\"用户名绑定\"+登录用户名  如:用户名绑定fangw  可完成账号绑定！\n 只有绑定账号后才可以实现接下来的操作";
             }
-            if(fromContent.contains("用户名绑定")) {
+            if(fromContent!=null && fromContent.contains("用户名绑定")) {
                 //绑定微信用户到后台账户
                 respContent = "用户绑定";
 

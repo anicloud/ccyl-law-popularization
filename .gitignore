@@ -20,6 +20,11 @@ galleryApp/ios
 # IDE related
 .idea
 ./**/.idea
+./**/.project
+./**/.classpath
+./**/.myeclipse
+./**/.eclipse
+./**/.settings
 *.iml
 npm-debug.log
 ./**/.iml

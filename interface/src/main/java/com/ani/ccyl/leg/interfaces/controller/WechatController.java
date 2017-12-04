@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.dto.wechat.AccessToken;
 import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,7 @@ import java.io.*;
 public class WechatController {
     private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
+    private String codeTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.code.token.url");
     @Autowired
     private WechatService wechatService;
     @RequestMapping(value = "/entrance")
@@ -33,15 +35,7 @@ public class WechatController {
             PrintWriter writer = response.getWriter();
             writer.print(echostr);
         } else {
-            StringBuffer sb = new StringBuffer();
-            InputStream is = request.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-            BufferedReader br = new BufferedReader(isr);
-            String s = "";
-            while ((s = br.readLine()) != null) {
-                sb.append(s);
-            }
-            String respXml = wechatService.processRequest(sb.toString());
+            String respXml = wechatService.processRequest(request, response);
             response.getOutputStream().write(respXml.getBytes("UTF-8"));
         }
     }
@@ -67,6 +61,16 @@ public class WechatController {
                 pw.println("菜单创建失败，错误码：" + result);
                 pw.flush();
             }
+        }
+    }
+
+    @RequestMapping("/redirect")
+    public void redirect(String code, String state) {
+        codeTokenUrl = codeTokenUrl.replace("APPID",appId).replace("SECRET",appSecret).replace("CODE",code);
+        JSONObject resultObj = WechatUtil.httpRequest(codeTokenUrl, "GET", null);
+        if(resultObj!=null) {
+            String accessToken = resultObj.getString("access_token");
+            System.out.print(accessToken);
         }
     }
 

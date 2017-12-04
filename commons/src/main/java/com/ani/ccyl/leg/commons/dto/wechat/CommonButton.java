@@ -5,7 +5,7 @@ package com.ani.ccyl.leg.commons.dto.wechat;
  */
 public class CommonButton extends Button {
 	private String type;  
-    private String key;  
+    private String key;
   
     public String getType() {  
         return type;  
@@ -21,5 +21,5 @@ public class CommonButton extends Button {
   
     public void setKey(String key) {  
         this.key = key;  
-    }  
+    }
 }

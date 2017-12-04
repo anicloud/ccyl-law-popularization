@@ -192,11 +192,12 @@ public class WechatUtil {
         btn32.setType("click");
         btn32.setKey("callAdmin");
 
-        CommonButton btn33 = new CommonButton();
-        btn33.setName("意见反馈");
-        btn33.setType("click");
+        ViewButton btn33 = new ViewButton();
+        btn33.setName("授权");
+        btn33.setType("view");
         btn33.setKey("suggestions");
-
+        btn33.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+Constants.PROPERTIES.getProperty("wechat.appid")+"&redirect_uri="+Constants.PROPERTIES.getProperty("wechat.redirect.url")+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
+//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa8a719b165e1d3dc&redirect_uri=https://a61118ff.ngrok.io/leg/wechat/redirect&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
         ComplexButton mainBtn1 = new ComplexButton();
         mainBtn1.setName("个人信息");
         mainBtn1.setSub_button(new Button[] { btn11, btn12});
@@ -235,7 +236,6 @@ public class WechatUtil {
             Iterator<?> iter = root.elementIterator();
 
             // 遍历所有结点
-            msg = new ReceiveXmlEntity();
             Class<?> c = Class.forName("com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity");
             msg = (ReceiveXmlEntity)c.newInstance();//创建这个实体的对象
 
@@ -247,6 +247,7 @@ public class WechatUtil {
             }
             return msg;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new Exception("微信消息解析错误");
         }
     }
@@ -277,6 +278,7 @@ public class WechatUtil {
             byte[] digest = md.digest(content.toString().getBytes());
             tmpStr = byteToStr(digest);
         } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
             throw new NoSuchAlgorithmException("验证签名异常");
         }
 

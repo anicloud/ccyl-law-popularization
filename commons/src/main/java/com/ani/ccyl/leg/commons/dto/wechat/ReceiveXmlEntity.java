@@ -1,9 +1,12 @@
 package com.ani.ccyl.leg.commons.dto.wechat;
 
+import java.io.Serializable;
+
 /**
  * Created by lihui on 17-12-2.
  */
-public class ReceiveXmlEntity {
+public class ReceiveXmlEntity implements Serializable{
+    private static final long serialVersionUID = -7583692106296155296L;
     private String ToUserName;
     private String FromUserName;
     private String CreateTime;
@@ -28,11 +31,12 @@ public class ReceiveXmlEntity {
     private String Format;
     private String Recognition;
     private String Encrypt;
+    private String MenuId;
 
     public ReceiveXmlEntity() {
     }
 
-    public ReceiveXmlEntity(String toUserName, String fromUserName, String createTime, String msgType, String msgId, String event, String eventKey, String ticket, String latitude, String longitude, String precision, String picUrl, String mediaId, String title, String description, String URL, String location_X, String location_Y, String scale, String label, String content, String format, String recognition, String encrypt) {
+    public ReceiveXmlEntity(String toUserName, String fromUserName, String createTime, String msgType, String msgId, String event, String eventKey, String ticket, String latitude, String longitude, String precision, String picUrl, String mediaId, String title, String description, String URL, String location_X, String location_Y, String scale, String label, String content, String format, String recognition, String encrypt, String menuId) {
         ToUserName = toUserName;
         FromUserName = fromUserName;
         CreateTime = createTime;
@@ -57,6 +61,15 @@ public class ReceiveXmlEntity {
         Format = format;
         Recognition = recognition;
         Encrypt = encrypt;
+        MenuId = menuId;
+    }
+
+    public String getMenuId() {
+        return MenuId;
+    }
+
+    public void setMenuId(String menuId) {
+        MenuId = menuId;
     }
 
     public String getEncrypt() {
