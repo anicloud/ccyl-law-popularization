@@ -22,15 +22,7 @@ public class WechatServiceImpl implements WechatService {
     @Override
     public String processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String respContent = "请求处理异常，请稍后尝试！";
-        StringBuffer sb = new StringBuffer();
-        InputStream is = request.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-        BufferedReader br = new BufferedReader(isr);
-        String s = "";
-        while ((s = br.readLine()) != null) {
-            sb.append(s);
-        }
-        ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(sb.toString());
+        ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(request);
         if(msgEntity != null) {
             String fromUserName = msgEntity.getFromUserName();
             String toUserName = msgEntity.getToUserName();

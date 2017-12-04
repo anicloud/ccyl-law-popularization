@@ -16,6 +16,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -219,6 +220,17 @@ public class WechatUtil {
         menu.setButton(new Button[] { mainBtn1, mainBtn2, mainBtn3 });
 
         return menu;
+    }
+    public static ReceiveXmlEntity getMsgEntity(HttpServletRequest request) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        InputStream is = request.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+        BufferedReader br = new BufferedReader(isr);
+        String s = "";
+        while ((s = br.readLine()) != null) {
+            sb.append(s);
+        }
+        return getMsgEntity(sb.toString());
     }
 
     public static ReceiveXmlEntity getMsgEntity(String strXml) throws Exception {

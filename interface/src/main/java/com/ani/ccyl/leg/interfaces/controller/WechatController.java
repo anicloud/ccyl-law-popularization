@@ -24,7 +24,8 @@ import java.io.*;
 public class WechatController {
     private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
-    private String codeTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.code.token.url");
+    private String oauthTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.oauth.token.url");
+    private String fetchUserInfoUrl = Constants.PROPERTIES.getProperty("wechat.fetch.user.info.url");
     @Autowired
     private WechatService wechatService;
     @RequestMapping(value = "/entrance")
@@ -65,13 +66,17 @@ public class WechatController {
     }
 
     @RequestMapping("/redirect")
-    public void redirect(String code, String state) {
-        codeTokenUrl = codeTokenUrl.replace("APPID",appId).replace("SECRET",appSecret).replace("CODE",code);
-        JSONObject resultObj = WechatUtil.httpRequest(codeTokenUrl, "GET", null);
-        if(resultObj!=null) {
-            String accessToken = resultObj.getString("access_token");
-            System.out.print(accessToken);
+    public String redirect(String code, String state, HttpServletRequest request) throws Exception {
+        oauthTokenUrl = oauthTokenUrl.replace("APPID",appId).replace("SECRET",appSecret).replace("CODE",code);
+        JSONObject tokenObj = WechatUtil.httpRequest(oauthTokenUrl, "GET", null);
+        if(tokenObj!=null) {
+            if(tokenObj.containsKey("access_token")) {
+                String accessToken = tokenObj.getString("access_token");
+                ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(request);
+            }
+            return "index";
         }
+        return null;
     }
 
 }
