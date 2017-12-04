@@ -3,8 +3,6 @@ package com.ani.ccyl.leg.interfaces.controller;
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.wechat.AccessToken;
 import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
-import com.ani.ccyl.leg.commons.utils.ParseXmlUtil;
-import com.ani.ccyl.leg.commons.utils.SignUtil;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -26,7 +24,7 @@ public class WechatController {
     @RequestMapping(value = "/entrance")
     @ResponseBody
     public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (!StringUtils.isEmpty(echostr) && SignUtil.checkSignature(signature, timestamp, nonce)) {
+        if (!StringUtils.isEmpty(echostr) && WechatUtil.checkSignature(signature, timestamp, nonce)) {
             PrintWriter writer = response.getWriter();
             writer.print(echostr);
         } else {
@@ -40,7 +38,7 @@ public class WechatController {
             }
             String xml = sb.toString();
 
-            ReceiveXmlEntity msgEntity = ParseXmlUtil.getMsgEntity(xml);
+            ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(xml);
             System.out.print(msgEntity);
         }
     }

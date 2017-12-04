@@ -2,18 +2,29 @@ package com.ani.ccyl.leg.commons.utils;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.wechat.*;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import net.sf.json.JSONObject;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.ConnectException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Created by lihui on 17-12-3.
@@ -23,6 +34,9 @@ public class WechatUtil {
     public final static String access_token_url = Constants.PROPERTIES.getProperty("wechat.access.token.url");
     // 菜单创建（POST） 限100（次/天）
     public static String menu_create_url = Constants.PROPERTIES.getProperty("wechat.menu.create.url");
+    // 与接口配置信息中的Token要一致
+    private static String token = Constants.PROPERTIES.getProperty("wechat.token");
+
     /**
      * 发起https请求并获取结果
      *
@@ -205,4 +219,152 @@ public class WechatUtil {
 
         return menu;
     }
+
+    public static ReceiveXmlEntity getMsgEntity(String strXml) throws Exception {
+        try {
+            ReceiveXmlEntity msg = null;
+            //<xml>    <URL><![CDATA[http://84799e25.ngrok.io/leg/test/helloWorld]]></URL>    <ToUserName><![CDATA[lh812486664]]></ToUserName>    <FromUserName><![CDATA[test]]></FromUserName>    <CreateTime>1</CreateTime>    <MsgType><![CDATA[text]]></MsgType>    <Content><![CDATA[testmsg]]></Content>    <MsgId>123</MsgId>    <Encrypt><![CDATA[5i7mxHYEmuQqQvZtXhlobdKgZFnWrv62K0MPDlnUZfkJUY+SGtDFtYXfkWFppHxiIz3uEwvP7If98gWyqgYa7qG6MBKd+ftzXGJq92uJSg9ZM9BgrFw5259ZOa68eWgHH9Imko05eqhVB7NZBlFqb1QWcD9Jp0r4jf9SdZdbVplO7XaZrEqhXOSC3yfz4hJWd6Q124qWXQdaLQNwt6ta2Y/BsGuwb9g7Go9Eht/Rt2GR+RQFJa3PG84XNGiwA0Xflgzl6JPy8efgbFjDvf8er0oiRJbxWt5mSTtu1DuCesS4YiFJVXUXqGLVHvx57NqbwP5wvRFZMHT5FK+8y7VR4BjuBwnpaXQtao+Fw08F3qvoVjvvxjRY4LzUowy4PXuYH3eUoTuuTFtx0JBmUEHacHcYoRaG67gyxOhrFAMzA1O9poczja0sMj277uaFOdJSXQNWVItqH35bm0GrE1GP8g==]]></Encrypt></xml>
+            if (strXml == null || strXml.length() <= 0)
+                return null;
+
+            // 将字符串转化为XML文档对象
+            Document document = DocumentHelper.parseText(strXml);
+            // 获得文档的根节点
+            Element root = document.getRootElement();
+            // 遍历根节点下所有子节点
+            Iterator<?> iter = root.elementIterator();
+
+            // 遍历所有结点
+            msg = new ReceiveXmlEntity();
+            Class<?> c = Class.forName("com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity");
+            msg = (ReceiveXmlEntity)c.newInstance();//创建这个实体的对象
+
+            while(iter.hasNext()){
+                Element ele = (Element)iter.next();
+                Field field = c.getDeclaredField(ele.getName());
+                Method method = c.getDeclaredMethod("set"+ele.getName(), field.getType());
+                method.invoke(msg, ele.getText());
+            }
+            return msg;
+        } catch (Exception e) {
+            throw new Exception("微信消息解析错误");
+        }
+    }
+
+    /**
+     * 验证签名</br>
+     * @param signature
+     * @param timestamp
+     * @param nonce
+     * @return
+     * @throws
+     */
+    public static boolean checkSignature(String signature, String timestamp,String nonce) throws NoSuchAlgorithmException {
+        // 1.将token、timestamp、nonce三个参数进行字典序排序
+        String[] arr = new String[] { token, timestamp, nonce };
+        Arrays.sort(arr);
+
+        // 2. 将三个参数字符串拼接成一个字符串进行sha1加密
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            content.append(arr[i]);
+        }
+        MessageDigest md = null;
+        String tmpStr = null;
+        try {
+            md = MessageDigest.getInstance("SHA-1");
+            // 将三个参数字符串拼接成一个字符串进行sha1加密
+            byte[] digest = md.digest(content.toString().getBytes());
+            tmpStr = byteToStr(digest);
+        } catch (NoSuchAlgorithmException e) {
+            throw new NoSuchAlgorithmException("验证签名异常");
+        }
+
+        content = null;
+        // 3.将sha1加密后的字符串可与signature对比，标识该请求来源于微信
+        return tmpStr != null && tmpStr.equals(signature.toUpperCase());
+    }
+
+    /**
+     * 将字节数组转换为十六进制字符串</br>
+     * @param byteArray
+     * @return
+     * @throws
+     */
+    private static String byteToStr(byte[] byteArray) {
+        String strDigest = "";
+        for (int i = 0; i < byteArray.length; i++) {
+            strDigest += byteToHexStr(byteArray[i]);
+        }
+        return strDigest;
+    }
+
+    /**
+     * 将字节转换为十六进制字符串</br>
+     * @param mByte
+     * @return
+     * @throws
+     */
+    private static String byteToHexStr(byte mByte) {
+        char[] Digit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A','B', 'C', 'D', 'E', 'F' };
+        char[] tempArr = new char[2];
+        tempArr[0] = Digit[(mByte >>> 4) & 0X0F];
+        tempArr[1] = Digit[mByte & 0X0F];
+        String s = new String(tempArr);
+        return s;
+    }
+
+    /**
+     * 响应消息转换成xml返回
+     * 文本消息对象转换成xml
+     */
+    public  static String textMessageToXml(TextMessage textMessage) {
+        xstream.alias("xml", textMessage.getClass());
+        return xstream.toXML(textMessage);
+    }
+    /**
+     * 音乐消息的对象的转换成xml
+     *
+     */
+    public  static String musicMessageToXml(MusicMessage musicMessage) {
+        xstream.alias("xml", musicMessage.getClass());
+        return xstream.toXML(musicMessage);
+    }
+    /**
+     * 图文消息的对象转换成xml
+     *
+     */
+    public  static String newsMessageToXml(NewsMessage newsMessage) {
+        xstream.alias("xml", newsMessage.getClass());
+        xstream.alias("item", Article.class);
+        return xstream.toXML(newsMessage);
+    }
+    /**
+     * 拓展xstream，使得支持CDATA块
+     *
+     */
+    private static XStream xstream = new XStream(new XppDriver(){
+        public HierarchicalStreamWriter createWriter(Writer out){
+            return new PrettyPrintWriter(out){
+                //对所有的xml节点的转换都增加CDATA标记
+                boolean cdata = true;
+
+                @SuppressWarnings("unchecked")
+                public void startNode(String name,Class clazz){
+                    super.startNode(name,clazz);
+                }
+
+                protected void writeText(QuickWriter writer, String text){
+                    if(cdata){
+                        writer.write("<![CDATA[");
+                        writer.write(text);
+                        writer.write("]]>");
+                    }else{
+                        writer.write(text);
+                    }
+                }
+            };
+        }
+    });
+
 }
