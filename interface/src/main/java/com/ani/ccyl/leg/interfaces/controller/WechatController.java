@@ -72,11 +72,11 @@ public class WechatController {
         if(tokenObj!=null) {
             if(tokenObj.containsKey("access_token")) {
                 String accessToken = tokenObj.getString("access_token");
-                ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(request);
             }
             return "index";
         }
         return null;
     }
+
 
 }
