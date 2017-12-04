@@ -1,9 +1,13 @@
 package com.ani.ccyl.leg.commons.dto.wechat;
+
+import java.io.Serializable;
+
 /**
  * 消息基类 
  * Created by lihui on 17-12-4.
  */
-public class BaseMessage {
+public class BaseMessage implements Serializable{
+	private static final long serialVersionUID = -3543436250306113064L;
 	//接收方账号（收到的openId）
 	private String ToUserName;
 	//开发者微信号

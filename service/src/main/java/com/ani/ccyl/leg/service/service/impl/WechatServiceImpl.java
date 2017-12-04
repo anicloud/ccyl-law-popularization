@@ -41,8 +41,8 @@ public class WechatServiceImpl implements WechatService {
             }
             //回复文本消息
             TextMessage textMessage = new TextMessage();
-            textMessage.setToUserName(toUserName);
-            textMessage.setFromUserName(fromUserName);
+            textMessage.setToUserName(fromUserName);
+            textMessage.setFromUserName(toUserName);
             textMessage.setCreateTime(new Date().getTime());
             textMessage.setMsgType(Constants.WechatMsgType.RESP_MESSSAGE_TYPE_TEXT);
             textMessage.setFuncFlag(0);

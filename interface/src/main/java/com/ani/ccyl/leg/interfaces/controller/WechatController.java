@@ -4,6 +4,8 @@ import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.wechat.AccessToken;
 import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
+import com.ani.ccyl.leg.service.service.facade.WechatService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +23,12 @@ import java.io.*;
 public class WechatController {
     private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
+    @Autowired
+    private WechatService wechatService;
     @RequestMapping(value = "/entrance")
     @ResponseBody
     public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        response.setContentType("text/html; charset=utf-8");
         if (!StringUtils.isEmpty(echostr) && WechatUtil.checkSignature(signature, timestamp, nonce)) {
             PrintWriter writer = response.getWriter();
             writer.print(echostr);
@@ -36,10 +41,8 @@ public class WechatController {
             while ((s = br.readLine()) != null) {
                 sb.append(s);
             }
-            String xml = sb.toString();
-
-            ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(xml);
-            System.out.print(msgEntity);
+            String respXml = wechatService.processRequest(sb.toString());
+            response.getOutputStream().write(respXml.getBytes("UTF-8"));
         }
     }
 
