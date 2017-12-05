@@ -60,12 +60,19 @@
   <filter-mapping>
     <filter-name>shiroFilter</filter-name>
     <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
   </filter-mapping>
 
   <session-config>
     <session-timeout>360</session-timeout>
   </session-config>
-
+  <error-page>
+    <error-code>404</error-code>
+    <location>/home/404</location>
+  </error-page>
 
 </web-app>
 
