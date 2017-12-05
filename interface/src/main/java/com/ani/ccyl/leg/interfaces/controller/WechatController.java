@@ -67,11 +67,17 @@ public class WechatController {
 
     @RequestMapping("/redirect")
     public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        oauthTokenUrl = oauthTokenUrl.replace("APPID",appId).replace("SECRET",appSecret).replace("CODE",code);
-        JSONObject tokenObj = WechatUtil.httpRequest(oauthTokenUrl, "GET", null);
+        String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
+        JSONObject tokenObj = WechatUtil.httpRequest(tokenUrl, "GET", null);
         if(tokenObj!=null) {
             if(tokenObj.containsKey("access_token")) {
                 String accessToken = tokenObj.getString("access_token");
+                String openId = tokenObj.getString("openid");
+                String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
+                JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
+                // TODO: 17-12-5 通过openId查询用户，如果没有，则和后台用户关联
+            } else if(tokenObj.containsKey("errcode")) {
+                return null;
             }
         }
         return "index";
