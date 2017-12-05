@@ -66,15 +66,15 @@ public class WechatController {
     }
 
     @RequestMapping("/redirect")
-    public void redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws Exception {
         oauthTokenUrl = oauthTokenUrl.replace("APPID",appId).replace("SECRET",appSecret).replace("CODE",code);
         JSONObject tokenObj = WechatUtil.httpRequest(oauthTokenUrl, "GET", null);
         if(tokenObj!=null) {
             if(tokenObj.containsKey("access_token")) {
                 String accessToken = tokenObj.getString("access_token");
             }
-            response.sendRedirect(request.getContextPath()+"/home/index");
         }
+        return "index";
     }
 
 

@@ -71,7 +71,7 @@
   </session-config>
   <error-page>
     <error-code>404</error-code>
-    <location>/home/404</location>
+    <location>/home/index</location>
   </error-page>
 
 </web-app>
