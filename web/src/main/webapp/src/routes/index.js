@@ -18,7 +18,7 @@ const Routes = () => (
         <Route path='/route/:id' component={AsyncRoute} />
         <Route path='/404' component={AsyncPageNotFound} />
 
-        <Redirect exact from='/home/index' to='/' />
+        {/*<Redirect exact from='/home/index' to='/' />*/}
         {/*<Redirect exact from='/wechat/redirect' to='/' />*/}
         <Redirect from='*' to='/' />
     </Switch>
