@@ -13,12 +13,11 @@ const Routes = () => (
         <Route exact path='/' component={App} />
         <Route exact path='/home' component={Home} />
         <Route path='/counter' component={AsyncCounter} />
-        <Route path='/zen.html' component={AsyncZen} />
+        <Route path='/zen' component={AsyncZen} />
         <Route path='/elapse' component={AsyncElapse} />
         <Route path='/route/:id' component={AsyncRoute} />
         <Route path='/404' component={AsyncPageNotFound} />
         <Redirect exact from='/home/index' to='/' />
-        <Redirect exact from='/home/404' to='/' />
         <Redirect from='*' to='/404' />
     </Switch>
 );
