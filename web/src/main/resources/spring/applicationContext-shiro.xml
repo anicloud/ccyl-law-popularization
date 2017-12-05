@@ -51,7 +51,7 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager"/>
 		<!-- 登录页面  -->
-		<property name="loginUrl" value="/index"/>
+		<property name="loginUrl" value="/home/index"/>
 		<property name="filters">
 			<map>
 				<entry key="authc" value-ref="authcFilter"/>
@@ -62,7 +62,13 @@
 		<!-- url过滤，静态资源+动态资源 -->
 		<property name="filterChainDefinitions">
 			<value>
-				/** = anon
+				/wechat/entrance = anon
+				/wechat/redirect = anon
+				/wechat/makeMenu = anon
+				/home/index = anon
+				/build/** = anon
+				/ = anon
+				/** = authc
 			</value>
 		</property>
 	</bean>

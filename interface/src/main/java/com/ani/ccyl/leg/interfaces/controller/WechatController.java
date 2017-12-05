@@ -75,7 +75,7 @@ public class WechatController {
                 String openId = tokenObj.getString("openid");
                 String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
-                // TODO: 17-12-5 通过openId查询用户，如果没有，则和后台用户关联
+                // TODO: 17-12-5 通过openId查询用户，如果有则自动登陆，如果没有则进入登陆/注册页面，登陆完成后再进行关联
             } else if(tokenObj.containsKey("errcode")) {
                 return null;
             }
