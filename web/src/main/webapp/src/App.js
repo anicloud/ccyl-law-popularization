@@ -3,8 +3,9 @@ import './App.less';
 import { Button, Form, FormCell, CellHeader, CellBody, Input, Label } from 'react-weui';
 
 class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        console.log(this.props)
         this.state = {
             userName: '',
             password: ''

@@ -19,8 +19,8 @@ const Routes = () => (
         <Route path='/404' component={AsyncPageNotFound} />
 
         <Redirect exact from='/home/index' to='/' />
-        <Redirect exact from='/wechat/redirect' to='/' />
-        <Redirect from='*' to='/404' />
+        {/*<Redirect exact from='/wechat/redirect' to='/' />*/}
+        <Redirect from='*' to='/' />
     </Switch>
 );
 
