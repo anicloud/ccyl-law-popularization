@@ -99,7 +99,6 @@ public class WechatUtil {
             System.out.println("Weixin server connection timed out.");
         } catch (Exception e) {
             System.err.println("https request error:{}");
-//            log.error("https request error:{}", e);
         }
         return jsonObject;
     }
