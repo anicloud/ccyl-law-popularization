@@ -73,7 +73,6 @@ public class WechatUtil {
             // 当有数据需要提交时
             if (null != outputStr) {
                 OutputStream outputStream = httpUrlConn.getOutputStream();
-                // 注意编码格式，防止中文乱码
                 outputStream.write(outputStr.getBytes("UTF-8"));
                 outputStream.close();
             }
@@ -89,9 +88,7 @@ public class WechatUtil {
             }
             bufferedReader.close();
             inputStreamReader.close();
-            // 释放资源
             inputStream.close();
-            inputStream = null;
             httpUrlConn.disconnect();
             System.out.println(buffer.toString());
             jsonObject = JSONObject.fromObject(buffer.toString());
@@ -197,7 +194,6 @@ public class WechatUtil {
         btn33.setType("view");
         btn33.setKey("suggestions");
         btn33.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+Constants.PROPERTIES.getProperty("wechat.appid")+"&redirect_uri="+Constants.PROPERTIES.getProperty("wechat.redirect.url")+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
-//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa8a719b165e1d3dc&redirect_uri=https://a61118ff.ngrok.io/leg/wechat/redirect&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
         ComplexButton mainBtn1 = new ComplexButton();
         mainBtn1.setName("个人信息");
         mainBtn1.setSub_button(new Button[] { btn11, btn12});
@@ -212,7 +208,7 @@ public class WechatUtil {
 
         /**
          * 在某个一级菜单下没有二级菜单的情况，menu应如下定义<br>
-         * 比如，第三个一级菜单项不是“更多体验”，而直接是“幽默笑话”，那么menu应该这样定义：<br>
+         * 比如，第三个一级菜单项不是多级菜单，而直接是单级菜单，那么menu应该这样定义：<br>
          * menu.setButton(new Button[] { mainBtn1, mainBtn2, btn33 });
          */
         Menu menu = new Menu();
