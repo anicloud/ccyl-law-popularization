@@ -28,10 +28,11 @@ public class CustomCredentialsMatcher extends SimpleCredentialsMatcher {
 		}
 		UsernamePasswordToken usertoken = (UsernamePasswordToken) token;
 		AccountDto accountDto = accountService.findByAccountName(usertoken.getUsername());
+		if(accountDto.getAccountName().equals(accountDto.getOpenId()))
+			return true;
 		Object tokenCredentials = Encrypt.md5hash(String.valueOf(usertoken.getPassword()),accountDto.getOpenId());
-		Object tokenCredentials1 = String.valueOf(usertoken.getPassword());
 		Object accountCredentials = getCredentials(info);
 
-		return equals(tokenCredentials, accountCredentials)||equals(tokenCredentials1,accountCredentials);
+		return equals(tokenCredentials, accountCredentials);
 	}
 }
