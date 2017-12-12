@@ -5,7 +5,6 @@ import { Button, Form, FormCell, CellHeader, CellBody, Input, Label } from 'reac
 class App extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props)
         this.state = {
             userName: '',
             password: ''
