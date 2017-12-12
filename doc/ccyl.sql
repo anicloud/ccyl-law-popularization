@@ -9,7 +9,7 @@ CREATE TABLE `t_account` (
   `address` varchar(256) comment '地址',
   `province` tinyint(2) comment '省份',
   `nick_name` varchar(64) comment '昵称',
-  `portrait` varchar(128) comment '头像',
+  `portrait` varchar(1024) comment '头像',
   `is_reward` BOOLEAN comment '是否领取过奖励',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
