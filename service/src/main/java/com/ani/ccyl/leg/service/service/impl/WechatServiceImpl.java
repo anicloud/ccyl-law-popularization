@@ -39,7 +39,7 @@ public class WechatServiceImpl implements WechatService {
                     }
                 }
             } else if(Constants.WechatMsgType.EVENT_TYPE_SUBSCRIBE.equals(eventType)) {//订阅类型的消息
-                respContent = "中国共青团欢迎您的到来！ \n 回复\"用户名绑定\"+登录用户名  如:用户名绑定fangw  可完成账号绑定！\n 只有绑定账号后才可以实现接下来的操作";
+                respContent = "中国共青团欢迎您的到来！";
             }
             if(fromContent!=null && fromContent.contains("用户名绑定")) {
                 //绑定微信用户到后台账户
