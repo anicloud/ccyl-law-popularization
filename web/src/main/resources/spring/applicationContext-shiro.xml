@@ -44,6 +44,7 @@
 	
 	<!-- 自定义realm -->
 	<bean id="authRealm" class="com.ani.ccyl.leg.service.infrastructure.shiro.AuthRealm">
+		<property name="accountService" ref="accountService"/>
 		<property name="credentialsMatcher" ref="passwordMatcher"/>
 	</bean>
 	<bean id="authcFilter" class="com.ani.ccyl.leg.service.infrastructure.shiro.ExtendedAuthenticationFilter"/>

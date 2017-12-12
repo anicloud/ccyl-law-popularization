@@ -1,25 +1,19 @@
-package com.ani.ccyl.leg.persistence.po;
+package com.ani.ccyl.leg.commons.dto;
 
 import com.ani.ccyl.leg.commons.enums.ProvinceEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * Created by lihui on 17-12-12.
  */
-@Table(name = "t_account")
-public class AccountPO implements Serializable {
-    private static final long serialVersionUID = -6283966223734937579L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Mysql")
+public class AccountDto implements Serializable {
+    private static final long serialVersionUID = -4936367335801027242L;
     private Integer id;
     private String openId;
     private String accountName;
+    @JsonIgnore
     private String accountPwd;
     private String phone;
     private String email;
@@ -28,12 +22,9 @@ public class AccountPO implements Serializable {
     private String nickName;
     private String portrait;
     private Boolean isReward;
-    private Timestamp updateTime;
-    private Timestamp createTime;
-    private Boolean isDel;
     private Boolean sex;
 
-    public AccountPO(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Timestamp updateTime, Timestamp createTime, Boolean isDel, Boolean sex) {
+    public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Boolean sex) {
         this.id = id;
         this.openId = openId;
         this.accountName = accountName;
@@ -45,21 +36,10 @@ public class AccountPO implements Serializable {
         this.nickName = nickName;
         this.portrait = portrait;
         this.isReward = isReward;
-        this.updateTime = updateTime;
-        this.createTime = createTime;
-        this.isDel = isDel;
         this.sex = sex;
     }
 
-    public AccountPO() {
-    }
-
-    public Boolean getSex() {
-        return sex;
-    }
-
-    public void setSex(Boolean sex) {
-        this.sex = sex;
+    public AccountDto() {
     }
 
     public Integer getId() {
@@ -85,7 +65,7 @@ public class AccountPO implements Serializable {
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
-
+    @JsonIgnore
     public String getAccountPwd() {
         return accountPwd;
     }
@@ -150,27 +130,11 @@ public class AccountPO implements Serializable {
         isReward = reward;
     }
 
-    public Timestamp getUpdateTime() {
-        return updateTime;
+    public Boolean getSex() {
+        return sex;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Boolean getDel() {
-        return isDel;
-    }
-
-    public void setDel(Boolean del) {
-        isDel = del;
+    public void setSex(Boolean sex) {
+        this.sex = sex;
     }
 }
