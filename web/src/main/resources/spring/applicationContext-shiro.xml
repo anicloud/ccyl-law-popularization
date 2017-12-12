@@ -75,7 +75,9 @@
 	</bean>
 	
 	<!-- 自定义加密算法 -->
-	<bean id="passwordMatcher" class="com.ani.ccyl.leg.service.infrastructure.shiro.CustomCredentialsMatcher"/>
+	<bean id="passwordMatcher" class="com.ani.ccyl.leg.service.infrastructure.shiro.CustomCredentialsMatcher">
+		<property name="accountService" ref="accountService"/>
+	</bean>
 	
     <!-- 用户授权/认证信息Cache, 采用EhCache  缓存 -->
     <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
