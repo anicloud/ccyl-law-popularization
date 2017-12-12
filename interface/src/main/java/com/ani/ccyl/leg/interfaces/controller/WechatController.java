@@ -1,11 +1,16 @@
 package com.ani.ccyl.leg.interfaces.controller;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
+import com.ani.ccyl.leg.commons.dto.AccountDto;
 import com.ani.ccyl.leg.commons.dto.wechat.AccessToken;
 import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
+import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 
 /**
@@ -28,6 +34,8 @@ public class WechatController {
     private String fetchUserInfoUrl = Constants.PROPERTIES.getProperty("wechat.fetch.user.info.url");
     @Autowired
     private WechatService wechatService;
+    @Autowired
+    private AccountService accountService;
     @RequestMapping(value = "/entrance")
     @ResponseBody
     public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -69,19 +77,23 @@ public class WechatController {
     public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
         JSONObject tokenObj = WechatUtil.httpRequest(tokenUrl, "GET", null);
+        HttpSession session = request.getSession();
         if(tokenObj!=null) {
             if(tokenObj.containsKey("access_token")) {
                 String accessToken = tokenObj.getString("access_token");
                 String openId = tokenObj.getString("openid");
                 String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
-                // TODO: 17-12-5 通过openId查询用户，如果有则自动登陆，如果没有则进入登陆/注册页面，登陆完成后再进行关联
+                AccountDto accountDto = accountService.insertAccount(userObj);
+                Subject subject = SecurityUtils.getSubject();
+                UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getAccountName(), accountDto.getAccountPwd());
+                subject.login(token);
+                AccountDto loginAccount = (AccountDto) subject.getPrincipal();
+                session.setAttribute(Constants.LOGIN_SESSION,loginAccount);
             } else if(tokenObj.containsKey("errcode")) {
                 return null;
             }
         }
         return "index";
     }
-
-
 }

@@ -6,7 +6,9 @@ import java.util.Properties;
  * Created by lihui on 17-12-1.
  */
 public class Constants {
+    public static final String LOGIN_SESSION = "LOGIN_SESSION";
     public static Properties PROPERTIES;
+    public static final String DEFAULT_PWD = "123456";
     public static class WechatMsgType {
         /**
          * 返回信息类型：文本
