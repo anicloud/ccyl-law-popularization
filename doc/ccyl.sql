@@ -62,15 +62,14 @@ CREATE TABLE `t_score` (
   KEY `t_score_account_id_key` (`account_id`),
   KEY `t_score_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='积分表';
-DROP TABLE IF EXISTS `v_day_score`;
-DROP VIEW IF EXISTS `v_day_score`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE VIEW v_day_score AS (SELECT id,account_id,count(DISTINCT question_id)*10 AS score FROM t_achievement WHERE is_correct=TRUE AND date_format(create_time,'%y-%m-%d')=date_format(now(),'%y-%m-%d') GROUP BY account_id);
-SET character_set_client = @saved_cs_client;
-DROP TABLE IF EXISTS `v_total_score`;
-DROP VIEW IF EXISTS `v_total_score`;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE VIEW v_total_score AS (SELECT id,account_id,count(DISTINCT question_id)*10 AS score, CURRENT_TIMESTAMP AS create_time FROM t_achievement WHERE is_correct=TRUE GROUP BY account_id);
-SET character_set_client = @saved_cs_client;
+DROP TABLE IF EXISTS `t_sign_in`;
+CREATE TABLE `t_sign_in` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` INT(11) NOT NULL COMMENT '账户id',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '删除标志',
+  PRIMARY KEY (`id`),
+  KEY `t_sign_in_account_id_key` (`account_id`),
+  KEY `t_sign_in_is_del_key` (`is_del`)
+) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='签到表';
