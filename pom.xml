@@ -70,9 +70,16 @@
         <net-sf-ezmorph-version>1.0.6</net-sf-ezmorph-version>
         <net-sf-json-lib-version>2.2.3</net-sf-json-lib-version>
         <xstream-version>1.4.10</xstream-version>
+        <poi-version>3.17</poi-version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi-version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>

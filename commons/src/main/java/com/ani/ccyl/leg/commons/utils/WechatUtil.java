@@ -2,6 +2,8 @@ package com.ani.ccyl.leg.commons.utils;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.wechat.*;
+import com.ani.ccyl.leg.commons.enums.ExceptionEnum;
+import com.ani.ccyl.leg.commons.exception.WechatException;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -93,9 +95,11 @@ public class WechatUtil {
             System.out.println(buffer.toString());
             jsonObject = JSONObject.fromObject(buffer.toString());
         } catch (ConnectException ce) {
-            System.out.println("Weixin server connection timed out.");
+            ce.printStackTrace();
+            throw new WechatException(ce.getMessage(), ExceptionEnum.WECHAT_SERVER_TIME_OUT);
         } catch (Exception e) {
-            System.err.println("https request error:{}");
+            e.printStackTrace();
+            throw new WechatException(e.getMessage(),ExceptionEnum.WECHAT_ERROR);
         }
         return jsonObject;
     }
@@ -118,9 +122,8 @@ public class WechatUtil {
                 accessToken.setToken(jsonObject.getString("access_token"));
                 accessToken.setExpiresIn(jsonObject.getInt("expires_in"));
             } catch (Exception e) {
-                accessToken = null;
-                // 获取token失败
-                System.out.println("获取token失败 errcode:"+jsonObject.getInt("errcode")+"errmsg:"+jsonObject.getString("errmsg"));
+                e.printStackTrace();
+                throw new WechatException("获取token失败",ExceptionEnum.WECHAT_TOKEN_ERROR);
             }
         }
         return accessToken;
@@ -146,7 +149,7 @@ public class WechatUtil {
             if (0 != jsonObject.getInt("errcode")) {
                 result = jsonObject.getInt("errcode");
                 System.out.println("创建菜单失败errcode:"+jsonObject.getInt("errcode")+"errmsg:"+jsonObject.getString("errmsg"));
-//	            log.error("创建菜单失败 errcode:{} errmsg:{}", jsonObject.getInt("errcode"), jsonObject.getString("errmsg"));
+                throw new WechatException("创建菜单失败",ExceptionEnum.WECHAT_MAKE_MENU_ERROR);
             }
         }
 
@@ -216,19 +219,24 @@ public class WechatUtil {
 
         return menu;
     }
-    public static ReceiveXmlEntity getMsgEntity(HttpServletRequest request) throws Exception {
-        StringBuffer sb = new StringBuffer();
-        InputStream is = request.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-        BufferedReader br = new BufferedReader(isr);
-        String s = "";
-        while ((s = br.readLine()) != null) {
-            sb.append(s);
+    public static ReceiveXmlEntity getMsgEntity(HttpServletRequest request)  {
+        try {
+            StringBuffer sb = new StringBuffer();
+            InputStream is = request.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+            BufferedReader br = new BufferedReader(isr);
+            String s = "";
+            while ((s = br.readLine()) != null) {
+                sb.append(s);
+            }
+            return getMsgEntity(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new WechatException("解析微信消息错误",ExceptionEnum.WECHAT_PARSE_XML_ERROR);
         }
-        return getMsgEntity(sb.toString());
     }
 
-    public static ReceiveXmlEntity getMsgEntity(String strXml) throws Exception {
+    public static ReceiveXmlEntity getMsgEntity(String strXml) {
         try {
             ReceiveXmlEntity msg = null;
             //<xml>    <URL><![CDATA[http://84799e25.ngrok.io/leg/test/helloWorld]]></URL>    <ToUserName><![CDATA[lh812486664]]></ToUserName>    <FromUserName><![CDATA[test]]></FromUserName>    <CreateTime>1</CreateTime>    <MsgType><![CDATA[text]]></MsgType>    <Content><![CDATA[testmsg]]></Content>    <MsgId>123</MsgId>    <Encrypt><![CDATA[5i7mxHYEmuQqQvZtXhlobdKgZFnWrv62K0MPDlnUZfkJUY+SGtDFtYXfkWFppHxiIz3uEwvP7If98gWyqgYa7qG6MBKd+ftzXGJq92uJSg9ZM9BgrFw5259ZOa68eWgHH9Imko05eqhVB7NZBlFqb1QWcD9Jp0r4jf9SdZdbVplO7XaZrEqhXOSC3yfz4hJWd6Q124qWXQdaLQNwt6ta2Y/BsGuwb9g7Go9Eht/Rt2GR+RQFJa3PG84XNGiwA0Xflgzl6JPy8efgbFjDvf8er0oiRJbxWt5mSTtu1DuCesS4YiFJVXUXqGLVHvx57NqbwP5wvRFZMHT5FK+8y7VR4BjuBwnpaXQtao+Fw08F3qvoVjvvxjRY4LzUowy4PXuYH3eUoTuuTFtx0JBmUEHacHcYoRaG67gyxOhrFAMzA1O9poczja0sMj277uaFOdJSXQNWVItqH35bm0GrE1GP8g==]]></Encrypt></xml>
@@ -255,7 +263,7 @@ public class WechatUtil {
             return msg;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("微信消息解析错误");
+            throw new WechatException("解析微信消息错误",ExceptionEnum.WECHAT_PARSE_XML_ERROR);
         }
     }
 
@@ -267,7 +275,7 @@ public class WechatUtil {
      * @return
      * @throws
      */
-    public static boolean checkSignature(String signature, String timestamp,String nonce) throws NoSuchAlgorithmException {
+    public static boolean checkSignature(String signature, String timestamp,String nonce) {
         // 1.将token、timestamp、nonce三个参数进行字典序排序
         String[] arr = new String[] { token, timestamp, nonce };
         Arrays.sort(arr);
@@ -286,10 +294,9 @@ public class WechatUtil {
             tmpStr = byteToStr(digest);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new NoSuchAlgorithmException("验证签名异常");
+            throw new WechatException("解析签名异常",ExceptionEnum.WECHAT_CHECK_SIGN_ERROR);
         }
 
-        content = null;
         // 3.将sha1加密后的字符串可与signature对比，标识该请求来源于微信
         return tmpStr != null && tmpStr.equals(signature.toUpperCase());
     }
