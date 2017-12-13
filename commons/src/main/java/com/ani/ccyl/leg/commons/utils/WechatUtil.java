@@ -1,6 +1,7 @@
 package com.ani.ccyl.leg.commons.utils;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
+import com.ani.ccyl.leg.commons.dto.AccessTokenDto;
 import com.ani.ccyl.leg.commons.dto.wechat.*;
 import com.ani.ccyl.leg.commons.enums.ExceptionEnum;
 import com.ani.ccyl.leg.commons.exception.WechatException;
@@ -26,6 +27,7 @@ import java.net.ConnectException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -33,7 +35,7 @@ import java.util.Iterator;
  * Created by lihui on 17-12-3.
  */
 public class WechatUtil {
-    // 获取access_token的接口地址（GET） 限200（次/天）
+    // 获取access_token的接口地址（GET） 限2000（次/天）
     public final static String access_token_url = Constants.PROPERTIES.getProperty("wechat.access.token.url");
     // 菜单创建（POST） 限100（次/天）
     public static String menu_create_url = Constants.PROPERTIES.getProperty("wechat.menu.create.url");
@@ -110,17 +112,18 @@ public class WechatUtil {
      * @param appSecret 密钥
      * @return
      */
-    public static AccessToken getAccessToken(String appId, String appSecret) {
-        AccessToken accessToken = null;
+    public static AccessTokenDto getAccessToken(String appId, String appSecret) {
+        AccessTokenDto accessToken = null;
 
         String requestUrl = access_token_url.replace("APPID", appId).replace("APPSECRET", appSecret);
         JSONObject jsonObject = httpRequest(requestUrl, "GET", null);
         // 如果请求成功
         if (null != jsonObject) {
             try {
-                accessToken = new AccessToken();
-                accessToken.setToken(jsonObject.getString("access_token"));
-                accessToken.setExpiresIn(jsonObject.getInt("expires_in"));
+                accessToken = new AccessTokenDto();
+                accessToken.setAccessToken(jsonObject.getString("access_token"));
+                accessToken.setTokenExpiresIn(jsonObject.getLong("expires_in"));
+                accessToken.setTokenCreateTime(new Timestamp(System.currentTimeMillis()));
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new WechatException("获取token失败",ExceptionEnum.WECHAT_TOKEN_ERROR);
@@ -299,6 +302,18 @@ public class WechatUtil {
 
         // 3.将sha1加密后的字符串可与signature对比，标识该请求来源于微信
         return tmpStr != null && tmpStr.equals(signature.toUpperCase());
+    }
+    public static String getJsSDKSign(String noncestr,String jsapi_ticket, String timestamp, String url) {
+        try {
+            StringBuilder content = new StringBuilder();
+            content.append("jsapi_ticket=").append(jsapi_ticket).append("&noncestr=").append(noncestr).append("&timestamp=").append(timestamp).append("&url=").append(url);
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            byte[] digest = messageDigest.digest(content.toString().getBytes());
+            return byteToStr(digest);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            throw new WechatException("创建jssdk签名失败",ExceptionEnum.WECHAT_GENERATE_SIGNATURE_ERROR);
+        }
     }
 
     /**

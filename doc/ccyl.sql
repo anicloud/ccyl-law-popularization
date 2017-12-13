@@ -73,3 +73,16 @@ CREATE TABLE `t_sign_in` (
   KEY `t_sign_in_account_id_key` (`account_id`),
   KEY `t_sign_in_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='签到表';
+DROP TABLE IF EXISTS `t_access_token`;
+CREATE TABLE `t_access_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `access_token` VARCHAR(256) NOT NULL COMMENT 'token',
+  `token_expires_in` int(11) NOT NULL COMMENT '过期时间',
+  `ticket_expires_in` int(11) DEFAULT NULL,
+  `token_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `ticket_create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `jsapi_ticket` VARCHAR(256) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `t_access_token_is_del_key` (`is_del`)
+) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='token表'
