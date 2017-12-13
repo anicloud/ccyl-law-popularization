@@ -38,7 +38,7 @@ public class WechatController {
     private AccountService accountService;
     @RequestMapping(value = "/entrance")
     @ResponseBody
-    public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         if (!StringUtils.isEmpty(echostr) && WechatUtil.checkSignature(signature, timestamp, nonce)) {
             PrintWriter writer = response.getWriter();
@@ -74,7 +74,7 @@ public class WechatController {
     }
 
     @RequestMapping("/redirect")
-    public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response)  {
         String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
         JSONObject tokenObj = WechatUtil.httpRequest(tokenUrl, "GET", null);
         HttpSession session = request.getSession();
@@ -86,7 +86,7 @@ public class WechatController {
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
                 AccountDto accountDto = accountService.insertAccount(userObj);
                 Subject subject = SecurityUtils.getSubject();
-                UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getAccountName(), accountDto.getAccountPwd());
+                UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());
                 subject.login(token);
                 AccountDto loginAccount = (AccountDto) subject.getPrincipal();
                 session.setAttribute(Constants.LOGIN_SESSION,loginAccount);

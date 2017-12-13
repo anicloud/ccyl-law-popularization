@@ -20,7 +20,7 @@ import java.util.Date;
 @Service
 public class WechatServiceImpl implements WechatService {
     @Override
-    public String processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String processRequest(HttpServletRequest request, HttpServletResponse response) {
         String respContent = "请求处理异常，请稍后尝试！";
         ReceiveXmlEntity msgEntity = WechatUtil.getMsgEntity(request);
         if(msgEntity != null) {

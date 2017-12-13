@@ -1,23 +1,16 @@
-package com.ani.ccyl.leg.persistence.po;
+package com.ani.ccyl.leg.commons.dto;
 
 import com.ani.ccyl.leg.commons.enums.CategoryEnum;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Created by lihui on 17-12-12.
+ * Created by lihui on 17-12-13.
  */
-@Table(name = "t_question")
-public class QuestionPO implements Serializable{
-    private static final long serialVersionUID = 4977445732454556437L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Mysql")
+public class QuestionDto implements Serializable {
+    private static final long serialVersionUID = 8489051395234397897L;
     private Integer id;
     private String title;
     private CategoryEnum category;
@@ -27,11 +20,11 @@ public class QuestionPO implements Serializable{
     private String optionThree;
     private QuestionTypeEnum type;
     private String answer;
-    private Timestamp updateTime;
-    private Timestamp createTime;
-    private Boolean isDel;
 
-    public QuestionPO(Integer id, String title, CategoryEnum category, String content, String optionOne, String optionTwo, String optionThree, QuestionTypeEnum type, String answer, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public QuestionDto() {
+    }
+
+    public QuestionDto(Integer id, String title, CategoryEnum category, String content, String optionOne, String optionTwo, String optionThree, QuestionTypeEnum type, String answer) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -41,12 +34,6 @@ public class QuestionPO implements Serializable{
         this.optionThree = optionThree;
         this.type = type;
         this.answer = answer;
-        this.updateTime = updateTime;
-        this.createTime = createTime;
-        this.isDel = isDel;
-    }
-
-    public QuestionPO() {
     }
 
     public Integer getId() {
@@ -119,29 +106,5 @@ public class QuestionPO implements Serializable{
 
     public void setAnswer(String answer) {
         this.answer = answer;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Boolean getDel() {
-        return isDel;
-    }
-
-    public void setDel(Boolean del) {
-        isDel = del;
     }
 }
