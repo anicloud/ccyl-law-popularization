@@ -1,47 +1,46 @@
 import React, {Component} from 'react';
 import './App.less';
-import { Button, Form, FormCell, CellHeader, CellBody, Input, Label } from 'react-weui';
+import star from './media/images/star_idol.png';
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            userName: '',
-            password: ''
+        this.handleTouch = this.handleTouch.bind(this);
+    }
+    handleTouch(num) {
+        if (num === 1) {
+            this.props.history.push('/answer');
         }
-    }
-    handleUserName(e) {
-        this.setState({
-            userName: e.target.value
-        });
-    }
-    handlePassword(e) {
-        this.setState({
-            password: e.target.value
-        })
     }
     render() {
         return (
-            <div className="App">
-                <Form className='login'>
-                    <FormCell>
-                        <CellHeader>
-                            <Label>用户名</Label>
-                        </CellHeader>
-                        <CellBody>
-                            <Input type="text" placeholder="请输入用户名" onChange={(e) => this.handleUserName(e)} />
-                        </CellBody>
-                    </FormCell>
-                    <FormCell>
-                        <CellHeader>
-                            <Label>密码</Label>
-                        </CellHeader>
-                        <CellBody>
-                            <Input type="password" placeholder="请输入密码" onChange={(e) => this.handlePassword(e)} />
-                        </CellBody>
-                    </FormCell>
-                    <Button className='login-btn'>登录</Button>
-                </Form>
+            <div className="app main-bg">
+                <h2 className="text-center title">
+                    <span>法律PK赛</span>
+                </h2>
+                <ul className="lists">
+                    <li className="text-center">
+                        <span>赛事说明</span>
+                    </li>
+                    <li className="text-center" onClick={() => this.handleTouch(1)}>
+                        <span>每日必答</span>
+                    </li>
+                    <li className="text-center">
+                        <span>我的任务</span>
+                    </li>
+                    <li className="text-center">
+                        <span>我的积分</span>
+                    </li>
+                    <li className="text-center">
+                        <span>积分兑奖</span>
+                    </li>
+                    <li className="text-center">
+                        <span>荣耀榜</span>
+                    </li>
+                </ul>
+                <div className="star">
+                    <img src={star} alt=""/>
+                </div>
             </div>
         );
     }
