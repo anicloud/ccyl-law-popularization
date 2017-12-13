@@ -21,6 +21,7 @@
         <div id="root"></div>
 
         <script src="${pageContext.request.contextPath}/build/assets/js/rem.js"></script>
+        <script src="${pageContext.request.contextPath}/build/assets/js/jweixin-1.2.0.js"></script>
         <script type=text/javascript src="${pageContext.request.contextPath}/build/static/js/main.js"></script>
     </body>
 </html>
