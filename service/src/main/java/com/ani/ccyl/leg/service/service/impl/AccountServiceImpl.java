@@ -2,7 +2,9 @@ package com.ani.ccyl.leg.service.service.impl;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
+import com.ani.ccyl.leg.commons.enums.ProvinceEnum;
 import com.ani.ccyl.leg.commons.utils.Encrypt;
+import com.ani.ccyl.leg.commons.utils.ExcelUtil;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
@@ -50,6 +52,16 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto findByAccountName(String accountName) {
         AccountPO accountPO = new AccountPO();
         accountPO.setAccountName(accountName);
+        List<AccountPO> accountPOs = accountMapper.select(accountPO);
+        if(accountPOs.size()>0)
+            return AccountAdapter.fromPO(accountPOs.get(0));
+        return null;
+    }
+
+    @Override
+    public AccountDto findByOpenId(String openId) {
+        AccountPO accountPO = new AccountPO();
+        accountPO.setOpenId(openId);
         List<AccountPO> accountPOs = accountMapper.select(accountPO);
         if(accountPOs.size()>0)
             return AccountAdapter.fromPO(accountPOs.get(0));
