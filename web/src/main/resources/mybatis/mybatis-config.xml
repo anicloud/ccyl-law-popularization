@@ -18,6 +18,10 @@
 					 javaType="com.ani.ccyl.leg.commons.enums.CategoryEnum"/>
 		<typeHandler handler="com.ani.ccyl.leg.service.infrastructure.mybatis.UniversalEnumHandler"
 					 javaType="com.ani.ccyl.leg.commons.enums.QuestionTypeEnum"/>
+		<typeHandler handler="com.ani.ccyl.leg.service.infrastructure.mybatis.UniversalEnumHandler"
+					 javaType="com.ani.ccyl.leg.commons.enums.FileTypeEnum"/>
+		<typeHandler handler="com.ani.ccyl.leg.service.infrastructure.mybatis.UniversalEnumHandler"
+					 javaType="com.ani.ccyl.leg.commons.enums.BusinessTypeEnum"/>
 	</typeHandlers>
 	<plugins>
 		<!-- 分页插件：com.github.pagehelper为PageHelper类所在包名 -->

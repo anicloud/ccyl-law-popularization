@@ -16,6 +16,8 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionMapper;
     @Override
     public void insertQuestionFromFile(QuestionTypeEnum type, MultipartFile file) {
+        if(type != null) {
 
+        }
     }
 }

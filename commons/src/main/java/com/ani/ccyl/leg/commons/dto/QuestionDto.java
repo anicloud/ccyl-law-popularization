@@ -21,11 +21,12 @@ public class QuestionDto implements Serializable {
     private QuestionTypeEnum type;
     private String answer;
     private String questionNo;
+    private Integer fileId;
 
     public QuestionDto() {
     }
 
-    public QuestionDto(Integer id, String title, CategoryEnum category, String content, String optionOne, String optionTwo, String optionThree, QuestionTypeEnum type, String answer, String questionNo) {
+    public QuestionDto(Integer id, String title, CategoryEnum category, String content, String optionOne, String optionTwo, String optionThree, QuestionTypeEnum type, String answer, String questionNo, Integer fileId) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -36,6 +37,15 @@ public class QuestionDto implements Serializable {
         this.type = type;
         this.answer = answer;
         this.questionNo = questionNo;
+        this.fileId = fileId;
+    }
+
+    public Integer getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Integer fileId) {
+        this.fileId = fileId;
     }
 
     public String getQuestionNo() {
