@@ -17,7 +17,7 @@ public enum QuestionTypeEnum implements BaseEnum<QuestionTypeEnum, Integer> {
             enumMap.put(provinceEnum.getCode(), provinceEnum);
         }
     }
-    QuestionTypeEnum(Integer code, String value) {
+    private QuestionTypeEnum(Integer code, String value) {
         this.code = code;
         this.value = value;
     }
