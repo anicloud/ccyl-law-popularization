@@ -14,8 +14,7 @@ export function getSearchString(key) {
 }
 
 export function jsSdkConfig(axios, host) {
-    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr='nonceStr'&url=${window.location.href}`).then(function (response) {
-        console.log(response);
+    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/
             window.wx.config({
@@ -30,6 +29,6 @@ export function jsSdkConfig(axios, host) {
             });
         }
     }).catch(function (errors) {
-        console.log(errors);
+        console.log('errors', errors);
     });
 }

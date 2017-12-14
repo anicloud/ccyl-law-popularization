@@ -4,7 +4,6 @@ import App from '../App';
 /*引导页*/
 import Main from '../views/Main'
 
-import Home from '../views/Home';
 import AsyncCounter from '../views/AsyncCounter';
 import AsyncZen from '../views/AsyncZen';
 import AsyncElapse from '../views/AsyncElapse';
@@ -18,12 +17,14 @@ import AnswerQuestion from '../views/AnswerQuestion';
 import Description from '../views/Description';
 /*签到*/
 import SignIn from '../views/SignIn';
+import Options from '../views/Options';
 
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
+        <Route exact path='/home/index' component={Options} />
         <Route path='/signin' component={SignIn}/>
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />

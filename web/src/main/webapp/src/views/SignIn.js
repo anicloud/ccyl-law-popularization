@@ -5,9 +5,7 @@
  * 签到界面
  */
 import React,{Component} from "react";
-import {Button} from 'react-weui';
 import '../media/styles/signin.less';
-import main from '../media/images/signin_main.png';
 
 class SignIn extends Component{
     constructor(props){
@@ -16,7 +14,7 @@ class SignIn extends Component{
     getDayStr(){
         var weekDay = this.getDayOfWeek();
         var beforeMouthLastDay = this.getBeforeMouthLastDay().getDate();
-        for(var i=1;i<weekDay;i++){
+        for(var k=1;k<weekDay;k++){
             beforeMouthLastDay--;
         }
         var htmlStr = "";
@@ -27,13 +25,13 @@ class SignIn extends Component{
         for(var i=0;i<6;i++){
             htmlStr += "<tr>";
             for(var j=0;j<7;j++){
-                if(i==0&&j==weekDay){
+                if(i===0&&j===weekDay){
                     htmlStr +="<td>"+currentMouthDay+"</td>";
                     currentMouthDay++;
-                }else if(i==0&&j>weekDay){
+                }else if(i===0&&j>weekDay){
                     htmlStr +="<td>"+currentMouthDay+"</td>";
                     currentMouthDay++;
-                }else if(i==0&&j<weekDay){
+                }else if(i===0&&j<weekDay){
                     htmlStr +="<td style='color:grey;'><span class=\"signIcon\">"+boforeMouthDay+"</span></td>";
                     boforeMouthDay++;
                 }
