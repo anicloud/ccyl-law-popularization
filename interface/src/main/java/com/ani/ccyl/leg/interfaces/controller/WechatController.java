@@ -1,9 +1,11 @@
 package com.ani.ccyl.leg.interfaces.controller;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
+import com.ani.ccyl.leg.commons.dto.AccessTokenDto;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
-import com.ani.ccyl.leg.commons.dto.wechat.AccessToken;
-import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
+import com.ani.ccyl.leg.commons.dto.JsSDKConfigDto;
+import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
+import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
@@ -52,13 +54,10 @@ public class WechatController {
     @RequestMapping(value = "/makeMenu")
     @ResponseBody
     public void makeMenu(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        AccessToken accessToken = WechatUtil.getAccessToken(appId, appSecret);
+        AccessTokenDto accessToken = wechatService.updateToken();
 
         if (null != accessToken) {
-            // 调用接口创建菜单
-            int result = WechatUtil.createMenu(WechatUtil.getMenu(), accessToken.getToken());
-
-            // 判断菜单创建结果
+            int result = WechatUtil.createMenu(WechatUtil.getMenu(), accessToken.getAccessToken());
             if (0 == result){
                 response.setContentType("text/html;charset=UTF-8");
                 PrintWriter pw = response.getWriter();
@@ -96,4 +95,25 @@ public class WechatController {
         }
         return "index";
     }
+
+    @RequestMapping("/getJsSDKConfig")
+    @ResponseBody
+    public ResponseMessageDto getJsSDKConfig(String timestamp, String nonceStr, String url, HttpServletRequest request) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccessTokenDto accessToken = wechatService.updateToken();
+
+        if(accessToken != null) {
+            String jsSDKSign = WechatUtil.getJsSDKSign(nonceStr, accessToken.getJsapiTicket(), timestamp, url);
+            JsSDKConfigDto jsSDKConfigDto = new JsSDKConfigDto();
+            jsSDKConfigDto.setAppId(appId);
+            jsSDKConfigDto.setNonceStr(nonceStr);
+            jsSDKConfigDto.setSignature(jsSDKSign);
+            jsSDKConfigDto.setTimestamp(timestamp);
+            message.setData(jsSDKConfigDto);
+        }
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        return message;
+    }
+
 }
