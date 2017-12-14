@@ -29,3 +29,4 @@ galleryApp/ios
 npm-debug.log
 ./**/.iml
 
+web/src/main/webapp/build/

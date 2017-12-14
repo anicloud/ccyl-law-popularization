@@ -1,6 +1,9 @@
 /**
  * Created by sunminggui on 2017/12/13.
  */
+/**
+ * 判断题组件
+ */
 import React,{Component} from "react";
 import {Form,FormCell,CellHeader,CellBody,Radio,Button} from 'react-weui';
 import "../../media/styles/question.less"
