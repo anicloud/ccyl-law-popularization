@@ -144,6 +144,7 @@ module.exports = {
             options: {
               limit: 10000,
               name: 'static/media/[name].[ext]',
+              publicPath: '/leg/build/'
             },
           },
           // Process JS with Babel.
@@ -152,7 +153,6 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
               compact: true,
             },
           },
@@ -231,6 +231,7 @@ module.exports = {
             exclude: [/\.js$/, /\.html$/, /\.json$/],
             options: {
               name: 'static/media/[name].[ext]',
+              publicPath: '/leg/build/'
             },
           },
           // ** STOP ** Are you adding a new loader?
