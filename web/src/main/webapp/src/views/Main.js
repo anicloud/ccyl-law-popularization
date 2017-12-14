@@ -6,9 +6,6 @@ import '../media/styles/main.less';
 import star from '../media/images/star_idol.png';
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-    }
     handleTouch() {
        this.props.history.push('/home');
     }

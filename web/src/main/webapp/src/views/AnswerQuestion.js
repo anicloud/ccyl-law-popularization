@@ -1,18 +1,19 @@
 /**
  * Created by wxw on 2017/12/13.
  */
-/**
- * 答题界面
- */
 import React, {Component} from 'react';
 import '../media/styles/answer.less';
-import ChoiceQuestion from "./questiontype/ChoiceQuestion"
-import TrueFalseQuestion from "./questiontype/TrueFalseQuestion"
+import ChoiceQuestion from "./questiontype/ChoiceQuestion";
+import TrueFalseQuestion from "./questiontype/TrueFalseQuestion";
+import Back from './Back';
 
 class AnswerQuestion extends Component {
     render() {
         return (
             <div className="answer main-bg">
+                <div className='clearfix'>
+                    <Back location='/home' history={this.props.history} />
+                </div>
                 <h2 className="text-center h2 title">
                     <span>今日必答</span>
                 </h2>
