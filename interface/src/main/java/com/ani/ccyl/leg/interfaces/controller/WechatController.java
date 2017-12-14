@@ -9,6 +9,8 @@ import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +38,7 @@ public class WechatController {
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
     private String oauthTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.oauth.token.url");
     private String fetchUserInfoUrl = Constants.PROPERTIES.getProperty("wechat.fetch.user.info.url");
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     @Autowired
     private WechatService wechatService;
     @Autowired
@@ -46,15 +50,18 @@ public class WechatController {
         if (!StringUtils.isEmpty(echostr) && WechatUtil.checkSignature(signature, timestamp, nonce)) {
             PrintWriter writer = response.getWriter();
             writer.print(echostr);
+            writer.close();
         } else {
             String respXml = wechatService.processRequest(request, response);
-            response.getOutputStream().write(respXml.getBytes("UTF-8"));
+            ServletOutputStream outputStream = response.getOutputStream();
+            outputStream.write(respXml.getBytes("UTF-8"));
+            outputStream.close();
         }
     }
 
     @RequestMapping(value = "/makeMenu")
     @ResponseBody
-    public ResponseMessageDto makeMenu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseMessageDto makeMenu() throws IOException {
         ResponseMessageDto message = new ResponseMessageDto();
         AccessTokenDto accessToken = wechatService.updateToken();
 
@@ -72,7 +79,9 @@ public class WechatController {
     }
 
     @RequestMapping("/redirect")
-    public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response)  {
+    @ResponseBody
+    public void redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html; charset=utf-8");
         String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
         JSONObject tokenObj = WechatUtil.httpRequest(tokenUrl, "GET", null);
         HttpSession session = request.getSession();
@@ -91,11 +100,12 @@ public class WechatController {
                 Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
                 cookie.setMaxAge(-1);
                 response.addCookie(cookie);
+                response.sendRedirect(request.getContextPath()+"/home/index"+"?op=loginSucess");
             } else if(tokenObj.containsKey("errcode")) {
-                return null;
+                response.sendRedirect(request.getContextPath()+"/home/index"+"?op=loginFailure");
             }
         }
-        return "index";
+//        return "index";
     }
 
     @RequestMapping("/getJsSDKConfig")
