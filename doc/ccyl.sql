@@ -85,4 +85,17 @@ CREATE TABLE `t_access_token` (
   `jsapi_ticket` VARCHAR(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `t_access_token_is_del_key` (`is_del`)
+) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='token表';
+DROP TABLE IF EXISTS `t_file`;
+CREATE TABLE `t_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `path` VARCHAR(256) NOT NULL COMMENT '物理地址',
+  `type` TINYINT(2) COMMENT '文件类型',
+  `busi_type` TINYINT(2) COMMENT '文件业务类型',
+  `name` VARCHAR(128) COMMENT '文件名',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  PRIMARY KEY (`id`),
+  KEY `t_file_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='token表'
