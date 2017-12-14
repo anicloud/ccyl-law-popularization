@@ -31,7 +31,7 @@ create table `t_question` (
 	`option_three` varchar(1024) comment '选项三',
 	`option_four` varchar(1024) comment '选项四',
 	`answer` char(4) comment '答案',
-  `question_no` CHAR(11) COMMENT '题号',
+  `question_no` INT(11) COMMENT '题号',
   `file_id` INT(11) COMMENT '题库源文件',
 	`update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
 	`create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
