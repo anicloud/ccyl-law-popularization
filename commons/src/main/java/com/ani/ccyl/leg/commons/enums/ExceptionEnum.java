@@ -11,7 +11,9 @@ public enum ExceptionEnum {
     WECHAT_PARSE_XML_ERROR("解析微信消息错误"),
     WECHAT_CHECK_SIGN_ERROR("验证签名异常"),
     WECHAT_GENERATE_SIGNATURE_ERROR("创建jssdk签名失败"),
-    PARSE_EXCEL_ERROR("解析excel文件错误");
+    PARSE_EXCEL_ERROR("解析excel文件错误"),
+    FILE_UPLOAD_EXCEPTION("上传文件失败"),
+    FILE_TYPE_ERROR("文件类型错误");
     private String value;
 
     public String getValue() {

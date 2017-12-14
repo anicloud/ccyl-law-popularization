@@ -20,7 +20,7 @@ import java.util.List;
  * Created by lihui on 17-12-13.
  */
 public class ExcelUtil {
-    public static List<QuestionDto> readFromExcel(QuestionTypeEnum type, String path) {
+    public static List<QuestionDto> readFromExcel(QuestionTypeEnum type, String path, Integer fileId) {
         try {
             List<QuestionDto> questions = new VirtualFlow.ArrayLinkedList<>();
             InputStream inputStream = new FileInputStream(path);
@@ -39,6 +39,7 @@ public class ExcelUtil {
                     questionDto.setOptionThree(row.getCell(4).getStringCellValue());
                     questionDto.setAnswer(row.getCell(5).getStringCellValue().trim());
                     questionDto.setType(type);
+                    questionDto.setFileId(fileId);
                     questions.add(questionDto);
                 }
             } else if(QuestionTypeEnum.JUDGEMENT.getCode().equals(type.getCode())) {
@@ -49,6 +50,7 @@ public class ExcelUtil {
                     questionDto.setContent(row.getCell(0).getStringCellValue());
                     questionDto.setAnswer(row.getCell(1).getStringCellValue().trim());
                     questionDto.setType(type);
+                    questionDto.setFileId(fileId);
                     questions.add(questionDto);
                 }
             }
