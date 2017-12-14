@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -53,23 +54,21 @@ public class WechatController {
 
     @RequestMapping(value = "/makeMenu")
     @ResponseBody
-    public void makeMenu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseMessageDto makeMenu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ResponseMessageDto message = new ResponseMessageDto();
         AccessTokenDto accessToken = wechatService.updateToken();
 
         if (null != accessToken) {
             int result = WechatUtil.createMenu(WechatUtil.getMenu(), accessToken.getAccessToken());
             if (0 == result){
-                response.setContentType("text/html;charset=UTF-8");
-                PrintWriter pw = response.getWriter();
-                pw.println("菜单创建成功！");
-                pw.flush();
+                message.setMsg("菜单创建成功");
+                message.setState(ResponseStateEnum.OK);
             }else{
-                response.setContentType("text/html;charset=UTF-8");
-                PrintWriter pw = response.getWriter();
-                pw.println("菜单创建失败，错误码：" + result);
-                pw.flush();
+                message.setState(ResponseStateEnum.ERROR);
+                message.setMsg("菜单创建失败");
             }
         }
+        return message;
     }
 
     @RequestMapping("/redirect")
@@ -89,6 +88,9 @@ public class WechatController {
                 subject.login(token);
                 AccountDto loginAccount = (AccountDto) subject.getPrincipal();
                 session.setAttribute(Constants.LOGIN_SESSION,loginAccount);
+                Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
+                cookie.setMaxAge(-1);
+                response.addCookie(cookie);
             } else if(tokenObj.containsKey("errcode")) {
                 return null;
             }

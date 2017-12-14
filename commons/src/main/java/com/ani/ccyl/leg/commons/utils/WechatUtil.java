@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.springframework.util.StringUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -304,6 +305,8 @@ public class WechatUtil {
         return tmpStr != null && tmpStr.equals(signature.toUpperCase());
     }
     public static String getJsSDKSign(String noncestr,String jsapi_ticket, String timestamp, String url) {
+        if(StringUtils.isEmpty(jsapi_ticket))
+            throw new WechatException("创建签名失败：ticket为空",ExceptionEnum.WECHAT_GENERATE_SIGNATURE_ERROR);
         try {
             StringBuilder content = new StringBuilder();
             content.append("jsapi_ticket=").append(jsapi_ticket).append("&noncestr=").append(noncestr).append("&timestamp=").append(timestamp).append("&url=").append(url);
