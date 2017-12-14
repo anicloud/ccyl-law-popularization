@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.dto.AccessTokenDto;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
 import com.ani.ccyl.leg.commons.dto.JsSDKConfigDto;
 import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
+import com.ani.ccyl.leg.commons.enums.HttpMessageEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
@@ -100,12 +101,11 @@ public class WechatController {
                 Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
                 cookie.setMaxAge(-1);
                 response.addCookie(cookie);
-                response.sendRedirect(request.getContextPath()+"/home/index"+"?op=loginSucess");
+                response.sendRedirect(request.getContextPath()+"/home/index"+"?op="+ HttpMessageEnum.LOGIN_SUCESS.name());
             } else if(tokenObj.containsKey("errcode")) {
-                response.sendRedirect(request.getContextPath()+"/home/index"+"?op=loginFailure");
+                response.sendRedirect(request.getContextPath()+"/home/index"+"?op="+HttpMessageEnum.LOGIN_FAILURE.name());
             }
         }
-//        return "index";
     }
 
     @RequestMapping("/getJsSDKConfig")
