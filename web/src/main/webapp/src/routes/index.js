@@ -17,17 +17,21 @@ import AnswerQuestion from '../views/AnswerQuestion';
 import Description from '../views/Description';
 /*签到*/
 import SignIn from '../views/SignIn';
+/*前后端转接组件*/
 import Options from '../views/Options';
+/*错误页面*/
+import Error from '../views/Error';
 
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
-        <Route exact path='/home/index' component={Options} />
+        <Route path='/home/index' component={Options} />
         <Route path='/signin' component={SignIn}/>
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />
+        <Route path='/error' component={Error} />
 
         <Route path='/counter' component={AsyncCounter} />
         <Route path='/zen' component={AsyncZen} />
