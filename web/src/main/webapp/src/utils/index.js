@@ -1,7 +1,6 @@
-export function getSearchString(key) {
+export function getSearchString(search, key) {
     // 获取URL中?之后的字符
-    let str = window.location.search;
-    str = str.substring(1,str.length);
+    let str = search.substring(1,search.length);
      // 以&分隔字符串，获得类似name=xiaoli这样的元素数组
     let arr = str.split("&");
     let obj = {};
