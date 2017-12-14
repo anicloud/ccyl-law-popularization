@@ -43,7 +43,7 @@ class App extends Component {
         }
     }
     handleSign() {
-        this.props.history.push('/sign');
+        this.props.history.push('/signin');
     }
     render() {
         return (

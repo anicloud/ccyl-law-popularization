@@ -1,6 +1,9 @@
 /**
  * Created by wangxingwen on 2017/12/12.
  */
+/**
+ * 注册界面
+ */
 import React, {Component} from 'react';
 import { Button, Form, FormCell, CellHeader, CellBody, Input, Label, Select } from 'react-weui';
 import '../media/styles/regist.less';

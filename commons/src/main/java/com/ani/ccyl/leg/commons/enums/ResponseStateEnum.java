@@ -1,5 +1,8 @@
 package com.ani.ccyl.leg.commons.enums;
 
+
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * Created by lihui on 2017/12/3.
  */
@@ -11,7 +14,7 @@ public enum ResponseStateEnum {
     private ResponseStateEnum(Integer code) {
         this.code = code;
     }
-
+    @JsonValue
     public Integer getCode() {
         return code;
     }

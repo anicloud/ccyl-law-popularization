@@ -30,8 +30,9 @@ public class QuestionPO implements Serializable{
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
+    private String questionNo;
 
-    public QuestionPO(Integer id, String title, CategoryEnum category, String content, String optionOne, String optionTwo, String optionThree, QuestionTypeEnum type, String answer, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public QuestionPO(Integer id, String title, CategoryEnum category, String content, String optionOne, String optionTwo, String optionThree, QuestionTypeEnum type, String answer, Timestamp updateTime, Timestamp createTime, Boolean isDel, String questionNo) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -44,6 +45,15 @@ public class QuestionPO implements Serializable{
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+        this.questionNo = questionNo;
+    }
+
+    public String getQuestionNo() {
+        return questionNo;
+    }
+
+    public void setQuestionNo(String questionNo) {
+        this.questionNo = questionNo;
     }
 
     public QuestionPO() {
