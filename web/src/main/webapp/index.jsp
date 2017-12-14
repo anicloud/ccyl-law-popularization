@@ -9,7 +9,6 @@
         <meta name="theme-color" content="#000000">
         <link rel="manifest" href="${pageContext.request.contextPath}/build/manifest.json">
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/build/assets/images/favicon.ico">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
         <link href="${pageContext.request.contextPath}/build/static/css/main.css" rel="stylesheet">
         <script src="${pageContext.request.contextPath}/build/assets/js/jweixin-1.2.0.js"></script>

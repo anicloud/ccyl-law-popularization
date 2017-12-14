@@ -9,6 +9,7 @@ import AsyncCounter from '../views/AsyncCounter';
 import AsyncZen from '../views/AsyncZen';
 import AsyncElapse from '../views/AsyncElapse';
 import AsyncRoute from '../views/AsyncRoute';
+
 /*注册信息*/
 import Regist from '../views/Regist';
 /*每日答题*/

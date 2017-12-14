@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import './App.less';
 import star from './media/images/star_idol.png';
 import {Toast} from 'react-weui';
-// import axios from 'axios';
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {jsSdkConfig} from './utils/index';
 
 class App extends Component {
     constructor(props) {
@@ -14,6 +16,20 @@ class App extends Component {
         this.handleTouch = this.handleTouch.bind(this);
         this.handleSign = this.handleSign.bind(this);
     }
+    componentWillMount() {
+        const {host} = this.props;
+        jsSdkConfig(axios, host);
+        window.wx.ready(function () {
+            window.wx.getLocation({
+                success: function (res) {
+                    console.log(res);
+                },
+                cancel: function (res) {
+                    console.log('用户拒绝授权获取地理位置');
+                }
+            })
+        });
+    }
     handleTouch(num) {
         switch (num) {
             case 0:
@@ -22,6 +38,8 @@ class App extends Component {
             case 1:
                 this.props.history.push('/answer');
                 break;
+            default:
+                return;
         }
     }
     handleSign() {
@@ -66,4 +84,10 @@ class App extends Component {
     }
 }
 
-export default App;
+function mapStateToProps(state) {
+    return {
+        host: state.host
+    };
+}
+
+export default connect(mapStateToProps)(App);

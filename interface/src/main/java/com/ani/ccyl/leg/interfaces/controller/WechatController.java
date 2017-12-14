@@ -1,9 +1,11 @@
 package com.ani.ccyl.leg.interfaces.controller;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
+import com.ani.ccyl.leg.commons.dto.AccessTokenDto;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
-import com.ani.ccyl.leg.commons.dto.wechat.AccessToken;
-import com.ani.ccyl.leg.commons.dto.wechat.ReceiveXmlEntity;
+import com.ani.ccyl.leg.commons.dto.JsSDKConfigDto;
+import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
+import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
@@ -17,6 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -51,26 +54,21 @@ public class WechatController {
 
     @RequestMapping(value = "/makeMenu")
     @ResponseBody
-    public void makeMenu(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        AccessToken accessToken = WechatUtil.getAccessToken(appId, appSecret);
+    public ResponseMessageDto makeMenu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccessTokenDto accessToken = wechatService.updateToken();
 
         if (null != accessToken) {
-            // 调用接口创建菜单
-            int result = WechatUtil.createMenu(WechatUtil.getMenu(), accessToken.getToken());
-
-            // 判断菜单创建结果
+            int result = WechatUtil.createMenu(WechatUtil.getMenu(), accessToken.getAccessToken());
             if (0 == result){
-                response.setContentType("text/html;charset=UTF-8");
-                PrintWriter pw = response.getWriter();
-                pw.println("菜单创建成功！");
-                pw.flush();
+                message.setMsg("菜单创建成功");
+                message.setState(ResponseStateEnum.OK);
             }else{
-                response.setContentType("text/html;charset=UTF-8");
-                PrintWriter pw = response.getWriter();
-                pw.println("菜单创建失败，错误码：" + result);
-                pw.flush();
+                message.setState(ResponseStateEnum.ERROR);
+                message.setMsg("菜单创建失败");
             }
         }
+        return message;
     }
 
     @RequestMapping("/redirect")
@@ -90,10 +88,34 @@ public class WechatController {
                 subject.login(token);
                 AccountDto loginAccount = (AccountDto) subject.getPrincipal();
                 session.setAttribute(Constants.LOGIN_SESSION,loginAccount);
+                Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
+                cookie.setMaxAge(-1);
+                response.addCookie(cookie);
             } else if(tokenObj.containsKey("errcode")) {
                 return null;
             }
         }
         return "index";
     }
+
+    @RequestMapping("/getJsSDKConfig")
+    @ResponseBody
+    public ResponseMessageDto getJsSDKConfig(String timestamp, String nonceStr, String url, HttpServletRequest request) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccessTokenDto accessToken = wechatService.updateToken();
+
+        if(accessToken != null) {
+            String jsSDKSign = WechatUtil.getJsSDKSign(nonceStr, accessToken.getJsapiTicket(), timestamp, url);
+            JsSDKConfigDto jsSDKConfigDto = new JsSDKConfigDto();
+            jsSDKConfigDto.setAppId(appId);
+            jsSDKConfigDto.setNonceStr(nonceStr);
+            jsSDKConfigDto.setSignature(jsSDKSign);
+            jsSDKConfigDto.setTimestamp(timestamp);
+            message.setData(jsSDKConfigDto);
+        }
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        return message;
+    }
+
 }
