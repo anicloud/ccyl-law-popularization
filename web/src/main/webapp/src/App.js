@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './App.less';
 import star from './media/images/star_idol.png';
 import {Toast} from 'react-weui';
-// import axios from 'axios';
 
 class App extends Component {
     constructor(props) {
@@ -22,15 +21,12 @@ class App extends Component {
             case 1:
                 this.props.history.push('/answer');
                 break;
+            default:
+                return;
         }
     }
     handleSign() {
-        /*发送签到请求*/
-        /*axios.get('').then(function (response) {
-
-        }).catch(function (errors) {
-
-        })*/
+        this.props.history.push('/sign');
     }
     render() {
         return (
