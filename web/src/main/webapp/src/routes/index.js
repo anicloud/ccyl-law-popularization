@@ -3,12 +3,6 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import App from '../App';
 /*引导页*/
 import Main from '../views/Main'
-
-import AsyncCounter from '../views/AsyncCounter';
-import AsyncZen from '../views/AsyncZen';
-import AsyncElapse from '../views/AsyncElapse';
-import AsyncRoute from '../views/AsyncRoute';
-
 /*注册信息*/
 import Regist from '../views/Regist';
 /*每日答题*/
@@ -21,22 +15,23 @@ import SignIn from '../views/SignIn';
 import Options from '../views/Options';
 /*错误页面*/
 import Error from '../views/Error';
+/*我的任务组件*/
+import Tasks from '../views/Tasks';
+/*荣耀排行榜组件*/
+import ScoreBoard from '../views/ScoreBoard';
 
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
+        <Route path='/tasks' component={Tasks} />
+        <Route path='/score' component={ScoreBoard} />
         <Route path='/home/index' component={Options} />
         <Route path='/signin' component={SignIn}/>
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />
         <Route path='/error' component={Error} />
-
-        <Route path='/counter' component={AsyncCounter} />
-        <Route path='/zen' component={AsyncZen} />
-        <Route path='/elapse' component={AsyncElapse} />
-        <Route path='/route/:id' component={AsyncRoute} />
 
         <Redirect from='*' to='/' />
     </Switch>

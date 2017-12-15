@@ -12,7 +12,7 @@ class Back extends Component {
     render() {
         return (
             <span style={{fontSize: '.36rem'}} className='pull-left' onClick={this.handleTouch}>
-                <i className='glyphicon glyphicon-menu-left'></i>
+                <i className='glyphicon glyphicon-menu-left'/>
                 返回
             </span>
         )

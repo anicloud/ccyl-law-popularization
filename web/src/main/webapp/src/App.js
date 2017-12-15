@@ -34,6 +34,12 @@ class App extends Component {
             case 1:
                 this.props.history.push('/answer');
                 break;
+            case 2:
+                this.props.history.push('/tasks');
+                break;
+            case 5:
+                this.props.history.push('/score');
+                break;
             default:
                 return;
         }
@@ -52,13 +58,13 @@ class App extends Component {
                     <span>法律PK赛</span>
                 </h2>
                 <ul className="lists">
-                    <li className="text-center" onClick={() => this.handleTouch(0)}>
+                    <li className="text-center" onClick={() => {this.handleTouch(0)}}>
                         <span>赛事说明</span>
                     </li>
-                    <li className="text-center" onClick={() => this.handleTouch(1)}>
+                    <li className="text-center" onClick={() => {this.handleTouch(1)}}>
                         <span>每日必答</span>
                     </li>
-                    <li className="text-center">
+                    <li className="text-center" onClick={() => {this.handleTouch(2)}}>
                         <span>我的任务</span>
                     </li>
                     <li className="text-center">
@@ -67,7 +73,7 @@ class App extends Component {
                     <li className="text-center">
                         <span>积分兑奖</span>
                     </li>
-                    <li className="text-center">
+                    <li className="text-center" onClick={() => {this.handleTouch(5)}}>
                         <span>荣耀榜</span>
                     </li>
                 </ul>
