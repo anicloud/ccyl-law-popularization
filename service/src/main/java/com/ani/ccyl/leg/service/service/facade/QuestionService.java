@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.service.service.facade;
 
+import com.ani.ccyl.leg.commons.dto.QuestionDto;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,4 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface QuestionService {
     void insertQuestionFromFile(QuestionTypeEnum type, MultipartFile file);
+
+    QuestionDto findById(Integer id);
 }

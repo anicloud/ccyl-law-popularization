@@ -1,5 +1,7 @@
 package com.ani.ccyl.leg.persistence.po;
 
+import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,17 +20,37 @@ public class ScorePO implements Serializable {
     private Integer id;
     private Integer accountId;
     private Integer score;
+    private ScoreSrcTypeEnum srcType;
+    private Integer srcId;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
 
-    public ScorePO(Integer id, Integer accountId, Integer score, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public ScorePO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcId, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
+        this.srcType = srcType;
+        this.srcId = srcId;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public ScoreSrcTypeEnum getSrcType() {
+        return srcType;
+    }
+
+    public void setSrcType(ScoreSrcTypeEnum srcType) {
+        this.srcType = srcType;
+    }
+
+    public Integer getSrcId() {
+        return srcId;
+    }
+
+    public void setSrcId(Integer srcId) {
+        this.srcId = srcId;
     }
 
     public ScorePO() {
