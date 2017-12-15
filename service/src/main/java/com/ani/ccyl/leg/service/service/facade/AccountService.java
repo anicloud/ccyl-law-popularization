@@ -8,6 +8,7 @@ import net.sf.json.JSONObject;
  */
 public interface AccountService {
     AccountDto insertAccount(JSONObject wechatObj);
+    void saveSelfInfo(AccountDto accountDto);
     AccountDto findByAccountName(String accountName);
 
     AccountDto findByOpenId(String openId);

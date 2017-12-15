@@ -23,8 +23,10 @@ public class AccountDto implements Serializable {
     private String portrait;
     private Boolean isReward;
     private Boolean sex;
+    private String orgName;
+    private Integer age;
 
-    public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Boolean sex) {
+    public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Boolean sex, String orgName, Integer age) {
         this.id = id;
         this.openId = openId;
         this.accountName = accountName;
@@ -37,6 +39,24 @@ public class AccountDto implements Serializable {
         this.portrait = portrait;
         this.isReward = isReward;
         this.sex = sex;
+        this.orgName = orgName;
+        this.age = age;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public AccountDto() {
@@ -122,11 +142,11 @@ public class AccountDto implements Serializable {
         this.portrait = portrait;
     }
 
-    public Boolean getReward() {
+    public Boolean getIsReward() {
         return isReward;
     }
 
-    public void setReward(Boolean reward) {
+    public void setIsReward(Boolean reward) {
         isReward = reward;
     }
 

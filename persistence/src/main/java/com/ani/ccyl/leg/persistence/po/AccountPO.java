@@ -32,8 +32,10 @@ public class AccountPO implements Serializable {
     private Timestamp createTime;
     private Boolean isDel;
     private Boolean sex;
+    private String orgName;
+    private Integer age;
 
-    public AccountPO(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Timestamp updateTime, Timestamp createTime, Boolean isDel, Boolean sex) {
+    public AccountPO(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Timestamp updateTime, Timestamp createTime, Boolean isDel, Boolean sex, String orgName, Integer age) {
         this.id = id;
         this.openId = openId;
         this.accountName = accountName;
@@ -49,6 +51,24 @@ public class AccountPO implements Serializable {
         this.createTime = createTime;
         this.isDel = isDel;
         this.sex = sex;
+        this.orgName = orgName;
+        this.age = age;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public AccountPO() {
