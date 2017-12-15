@@ -47,7 +47,7 @@
         <agent-wrapper-jar-version>1.0</agent-wrapper-jar-version>
         <mq-agent-jar-version>1.0</mq-agent-jar-version>
         <packet-wrapper-jar-version>1.0</packet-wrapper-jar-version>
-        <httpclient-version>4.5</httpclient-version>
+        <httpclient-version>4.5.1</httpclient-version>
         <commons-io-version>2.5</commons-io-version>
         <commons-compress-version>1.12</commons-compress-version>
         <slf4j-api-version>1.7.24</slf4j-api-version>
@@ -55,7 +55,6 @@
         <geronimo-jms_1.1_spec-version>1.1.1</geronimo-jms_1.1_spec-version>
         <im4java-version>1.4.0</im4java-version>
         <java-mail-version>1.4.4</java-mail-version>
-        <http-agent-version>0.0.1</http-agent-version>
         <commons-httpclient-version>3.1</commons-httpclient-version>
         <jasperreports-version>5.6.0</jasperreports-version>
         <groovy-version>2.2.2</groovy-version>
@@ -71,9 +70,16 @@
         <net-sf-json-lib-version>2.2.3</net-sf-json-lib-version>
         <xstream-version>1.4.10</xstream-version>
         <poi-version>3.17</poi-version>
+        <http-core-version>4.4.3</http-core-version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${http-core-version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
             <dependency>
                 <groupId>org.apache.poi</groupId>

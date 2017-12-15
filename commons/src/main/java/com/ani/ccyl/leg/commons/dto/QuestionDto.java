@@ -2,6 +2,7 @@ package com.ani.ccyl.leg.commons.dto;
 
 import com.ani.ccyl.leg.commons.enums.CategoryEnum;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -19,6 +20,7 @@ public class QuestionDto implements Serializable {
     private String optionTwo;
     private String optionThree;
     private QuestionTypeEnum type;
+    @JsonIgnore
     private String answer;
     private Integer questionNo;
     private Integer fileId;
@@ -120,6 +122,7 @@ public class QuestionDto implements Serializable {
         this.type = type;
     }
 
+    @JsonIgnore
     public String getAnswer() {
         return answer;
     }
