@@ -7,11 +7,54 @@
 import React, {Component} from 'react';
 import { Button, Form, FormCell, CellHeader, CellBody, Input, Label, Select } from 'react-weui';
 import '../media/styles/regist.less';
+import {connect} from 'react-redux';
+import axios from 'axios';
 
 class Regist extends Component {
     constructor() {
         super();
+        this.state = {
+            smsCodeInfo: {
+                second: 60,
+                disabled: false,
+                message: '发送验证码'
+            },
+        };
         this.handleSelect = this.handleSelect.bind(this);
+        this.getValidateCode = this.getValidateCode.bind(this);
+        this.second = 60;
+    }
+    getValidateCode() {
+        let _this = this;
+        const {host} = this.props;
+        _this.timer = setInterval(function () {
+            if (_this.state.smsCodeInfo.second === 0) {
+                clearInterval(_this.timer);
+                _this.second = 60;
+                _this.setState({
+                    smsCodeInfo: {
+                        second: _this.second,
+                        disabled: false,
+                        message: '重新发送'
+                    }
+                })
+            } else {
+                _this.setState({
+                    smsCodeInfo: {
+                        second: _this.second--,
+                        disabled: true,
+                        message: `(${_this.second + 1}s)后重新发送`
+                    }
+                });
+            }
+        }, 1000);
+        axios.get(`${host}/getCode?phone=18790909090`).then(function (response) {
+            if (response.data.state === 0) {
+                console.log(response.data.data);
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        })
     }
     handleSelect(e) {
         console.log(e.target.value);
@@ -93,7 +136,9 @@ class Regist extends Component {
                         </CellBody>
                     </FormCell>
                     <div className="code">
-                        <button className="btn btn-danger btn-sm">获取验证码</button>
+                        <button className="btn btn-danger btn-sm" disabled={this.state.smsCodeInfo.disabled} onClick={this.getValidateCode}>
+                            {this.state.smsCodeInfo.message}
+                        </button>
                     </div>
                     <FormCell>
                         <CellHeader>
@@ -110,4 +155,10 @@ class Regist extends Component {
     }
 }
 
-export default Regist;
+function mapStateToProps(state) {
+    return {
+        host: state.host
+    }
+}
+
+export default connect(mapStateToProps)(Regist);
