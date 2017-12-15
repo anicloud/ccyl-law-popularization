@@ -42,4 +42,10 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
     }
+
+    @Override
+    public QuestionDto findById(Integer id) {
+        QuestionPO questionPO = questionMapper.selectByPrimaryKey(id);
+        return QuestionAdapter.fromPO(questionPO);
+    }
 }

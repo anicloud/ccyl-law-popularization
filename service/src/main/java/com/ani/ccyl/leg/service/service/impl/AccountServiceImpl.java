@@ -49,6 +49,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void saveSelfInfo(AccountDto accountDto) {
+        if(accountDto != null && accountDto.getId() != null) {
+            accountDto.setOpenId(null);
+            accountDto.setAccountName(null);
+            accountDto.setAccountPwd(null);
+            accountDto.setIsReward(null);
+            accountMapper.updateByPrimaryKeySelective(AccountAdapter.fromDto(accountDto));
+        } else {
+            throw new RuntimeException("用户id为null");
+        }
+    }
+
+    @Override
     public AccountDto findByAccountName(String accountName) {
         AccountPO accountPO = new AccountPO();
         accountPO.setAccountName(accountName);

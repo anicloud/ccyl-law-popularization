@@ -41,4 +41,22 @@ public class QuestionAdapter {
         }
         return null;
     }
+
+    public static QuestionDto fromPO(QuestionPO questionPO) {
+        if(questionPO != null)
+            return new QuestionDto(
+                    questionPO.getId(),
+                    questionPO.getTitle(),
+                    questionPO.getCategory(),
+                    questionPO.getContent(),
+                    questionPO.getOptionOne(),
+                    questionPO.getOptionTwo(),
+                    questionPO.getOptionThree(),
+                    questionPO.getType(),
+                    questionPO.getAnswer(),
+                    questionPO.getQuestionNo(),
+                    questionPO.getFileId()
+            );
+        return null;
+    }
 }

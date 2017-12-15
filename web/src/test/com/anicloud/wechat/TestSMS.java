@@ -20,4 +20,9 @@ public class TestSMS {
     public void sendSMS() throws IOException, NoSuchAlgorithmException, KeyManagementException {
         SMSUtil.sendSMSCode();
     }
+
+    @Test
+    public void verifyCode() {
+        SMSUtil.verifyCode("15731118087","387943");
+    }
 }
