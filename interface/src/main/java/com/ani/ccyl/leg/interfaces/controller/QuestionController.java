@@ -54,6 +54,7 @@ public class QuestionController {
             message.setMsg("正确");
             verifyDto.setCorrect(true);
         } else {
+            scoreService.insertScore(accountDto.getId(),0, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("错误");
             verifyDto.setCorrect(false);
             verifyDto.setAnswer(questionDto == null?null:questionDto.getAnswer());
