@@ -9,6 +9,20 @@ import '../media/styles/signin.less';
 import Back from './Back';
 
 class SignIn extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            location: '/home'
+        }
+    }
+    componentWillMount() {
+        const {state} = this.props.location;
+        if (state === '/tasks') {
+            this.setState({
+                location: state
+            });
+        }
+    }
     getDayStr(){
         let weekDay = this.getDayOfWeek();
         let beforeMouthLastDay = this.getBeforeMouthLastDay().getDate();
@@ -51,8 +65,6 @@ class SignIn extends Component{
         let week = date.getDay();
         return week;
     }
-
-
     getNextMouthFirstDay(){
         let date=new Date();
         let currentMonth=date.getMonth();
@@ -79,7 +91,7 @@ class SignIn extends Component{
         return(
             <div className="signin main-bg">
                 <div className='clearfix'>
-                    <Back location='/home' history={this.props.history} />
+                    <Back location={this.state.location} history={this.props.history} />
                 </div>
                 <h2 className="text-center h2 title">
                     <span>我的签到</span>

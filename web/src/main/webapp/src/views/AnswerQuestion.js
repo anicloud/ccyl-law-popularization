@@ -3,16 +3,30 @@
  */
 import React, {Component} from 'react';
 import '../media/styles/answer.less';
-import ChoiceQuestion from "./questiontype/ChoiceQuestion";
+// import ChoiceQuestion from "./questiontype/ChoiceQuestion";
 import TrueFalseQuestion from "./questiontype/TrueFalseQuestion";
 import Back from './Back';
 
 class AnswerQuestion extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            location: '/home'
+        }
+    }
+    componentWillMount() {
+        const {state} = this.props.location;
+        if (state === '/tasks') {
+            this.setState({
+                location: state
+            });
+        }
+    }
     render() {
         return (
             <div className="answer main-bg">
                 <div className='clearfix'>
-                    <Back location='/home' history={this.props.history} />
+                    <Back location={this.state.location} history={this.props.history} />
                 </div>
                 <h2 className="text-center h2 title">
                     <span>今日必答</span>
