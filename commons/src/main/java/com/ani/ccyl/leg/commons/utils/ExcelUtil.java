@@ -49,9 +49,7 @@ public class ExcelUtil {
                     questions.add(questionDto);
                 }
             } else if(QuestionTypeEnum.JUDGEMENT.getCode().equals(type.getCode())) {
-                Iterator<Row> iterator = sheet.iterator();
-                while (iterator.hasNext()) {
-                    Row row = iterator.next();
+                for (Row row : sheet) {
                     QuestionDto questionDto = new QuestionDto();
                     questionDto.setContent(row.getCell(0).getStringCellValue());
                     questionDto.setAnswer(row.getCell(1).getStringCellValue().trim());

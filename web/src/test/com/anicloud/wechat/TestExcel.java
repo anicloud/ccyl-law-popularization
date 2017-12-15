@@ -16,4 +16,10 @@ public class TestExcel {
         List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.CHOICE, "/home/lihui/choice.xlsx", null);
         System.out.print(questionDtos.size());
     }
+
+    @Test
+    public void testReadJudge() {
+        List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.JUDGEMENT,"/home/lihui/judge.xlsx",null);
+        System.out.print(questionDtos.size());
+    }
 }
