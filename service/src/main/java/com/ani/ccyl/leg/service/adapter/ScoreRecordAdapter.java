@@ -14,16 +14,10 @@ import java.util.List;
 public class ScoreRecordAdapter {
     public static ScoreRecordDto fromPO(ScoreRecordPO scoreRecordPO) {
         if(scoreRecordPO != null) {
-            AccountDto accountDto = null;
-            QuestionDto questionDto = null;
-            if(scoreRecordPO.getSrcAccountId()!=null) {
-                accountDto = new AccountDto();
-                accountDto.setId(scoreRecordPO.getSrcAccountId());
-            }
-            if(scoreRecordPO.getSrcQuestionId()!=null) {
-                questionDto = new QuestionDto();
-                questionDto.setId(scoreRecordPO.getSrcQuestionId());
-            }
+            AccountDto accountDto = new AccountDto();
+            QuestionDto questionDto = new QuestionDto();
+            accountDto.setId(scoreRecordPO.getSrcAccountId());
+            questionDto.setId(scoreRecordPO.getSrcQuestionId());
             return new ScoreRecordDto(
                     scoreRecordPO.getId(),
                     scoreRecordPO.getScore(),
