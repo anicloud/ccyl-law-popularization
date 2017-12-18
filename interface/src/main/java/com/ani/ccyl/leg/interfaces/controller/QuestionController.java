@@ -12,6 +12,7 @@ import com.ani.ccyl.leg.service.service.facade.QuestionService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,10 +47,15 @@ public class QuestionController {
         HttpSession session = request.getSession();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         ResponseMessageDto message = new ResponseMessageDto();
+        if(StringUtils.isEmpty(answer)) {
+            message.setState(ResponseStateEnum.ERROR);
+            message.setMsg("答案不能为空");
+            return message;
+        }
         QuestionDto questionDto = questionService.findById(id);
         QuestionVerifyDto verifyDto = new QuestionVerifyDto();
         message.setState(ResponseStateEnum.OK);
-        if(questionDto != null && questionDto.getAnswer().equals(answer)) {
+        if(questionDto != null && questionDto.getAnswer().equalsIgnoreCase(answer)) {
             scoreRecordService.insertScore(accountDto.getId(),5, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("正确");
             verifyDto.setCorrect(true);
