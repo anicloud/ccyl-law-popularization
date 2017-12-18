@@ -100,9 +100,9 @@ public class WechatController {
                 Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
                 cookie.setMaxAge(-1);
                 response.addCookie(cookie);
-                response.sendRedirect(request.getContextPath()+"/home/index"+"?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
+                response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
             } else if(tokenObj.containsKey("errcode")) {
-                response.sendRedirect(request.getContextPath()+"/home/index"+"?op="+HttpMessageEnum.LOGIN_FAILURE.name());
+                response.sendRedirect(request.getContextPath()+"/home/index?op="+HttpMessageEnum.LOGIN_FAILURE.name());
             }
         }
     }
