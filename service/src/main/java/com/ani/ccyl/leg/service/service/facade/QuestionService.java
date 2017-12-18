@@ -16,5 +16,5 @@ public interface QuestionService {
 
     List<QuestionDto> findDayQuestions();
 
-    QuestionDto findCurrentQuestion(Integer accountId);
+    QuestionDto findNewQuestion(Integer accountId);
 }
