@@ -83,6 +83,9 @@ public class QuestionController {
         HttpSession session = request.getSession();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         QuestionDto currentQuestion = questionService.findCurrentQuestion(accountDto.getId());
+        message.setData(currentQuestion);
+        message.setMsg("查询成功");
+        message.setState(ResponseStateEnum.OK);
         return message;
     }
 }

@@ -88,6 +88,14 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public QuestionDto findCurrentQuestion(Integer accountId) {
-        return null;
+        QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(accountId));
+        if(questionDto == null) {
+            List<QuestionDto> questionDtos = findDayQuestions();
+            if(questionDtos != null && questionDtos.size()>0)
+                questionDto = questionDtos.get(0);
+        } else {
+            questionDto.setOrder(dayQuestionMapper.selectByPrimaryKey(questionDto.getId()).getOrder());
+        }
+        return questionDto;
     }
 }
