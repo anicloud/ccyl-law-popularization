@@ -9,10 +9,9 @@ import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
-import com.ani.ccyl.leg.service.service.facade.ScoreService;
+import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +29,7 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
     @Autowired
-    private ScoreService scoreService;
+    private ScoreRecordService scoreRecordService;
     @RequestMapping("/upload")
     @ResponseBody
     public ResponseMessageDto uploadQuestionFile(QuestionTypeEnum type, MultipartFile file) {
@@ -51,11 +50,11 @@ public class QuestionController {
         QuestionVerifyDto verifyDto = new QuestionVerifyDto();
         message.setState(ResponseStateEnum.OK);
         if(questionDto != null && questionDto.getAnswer().equals(answer)) {
-            scoreService.insertScore(accountDto.getId(),5, ScoreSrcTypeEnum.QUESTION,id);
+            scoreRecordService.insertScore(accountDto.getId(),5, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("正确");
             verifyDto.setCorrect(true);
         } else {
-            scoreService.insertScore(accountDto.getId(),0, ScoreSrcTypeEnum.QUESTION,id);
+            scoreRecordService.insertScore(accountDto.getId(),0, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("错误");
             verifyDto.setCorrect(false);
             verifyDto.setAnswer(questionDto == null?null:questionDto.getAnswer());
@@ -64,14 +63,26 @@ public class QuestionController {
         return message;
     }
 
-    @RequestMapping("/findDayQuestion")
+    @RequestMapping("/findDayQuestions")
     @ResponseBody
-    public ResponseMessageDto findDayQuestion() {
+    public ResponseMessageDto findDayQuestions(HttpServletRequest request) {
         ResponseMessageDto message = new ResponseMessageDto();
-        List<QuestionDto> questionDtos = questionService.findDayQuestion();
+        HttpSession session = request.getSession();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        List<QuestionDto> questionDtos = questionService.findDayQuestions();
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
         message.setData(questionDtos);
+        return message;
+    }
+
+    @RequestMapping("/findCurrentQuestion")
+    @ResponseBody
+    public ResponseMessageDto findCurrentQuestion(HttpServletRequest request) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        HttpSession session = request.getSession();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        QuestionDto currentQuestion = questionService.findCurrentQuestion(accountDto.getId());
         return message;
     }
 }

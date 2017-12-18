@@ -8,9 +8,11 @@ import com.ani.ccyl.leg.commons.utils.FileUtil;
 import com.ani.ccyl.leg.persistence.mapper.DayQuestionMapper;
 import com.ani.ccyl.leg.persistence.mapper.FileMapper;
 import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
+import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
 import com.ani.ccyl.leg.persistence.po.DayQuestionPO;
 import com.ani.ccyl.leg.persistence.po.FilePO;
 import com.ani.ccyl.leg.persistence.po.QuestionPO;
+import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.service.adapter.FileAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +35,8 @@ public class QuestionServiceImpl implements QuestionService {
     private DayQuestionMapper dayQuestionMapper;
     @Autowired
     private FileMapper fileMapper;
+    @Autowired
+    private ScoreRecordMapper scoreRecordMapper;
     @Override
     public void insertQuestionFromFile(QuestionTypeEnum type, MultipartFile file) {
         if(type != null && file != null) {
@@ -55,17 +60,34 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDto> findDayQuestion() {
+    public List<QuestionDto> findDayQuestions() {
         List<QuestionPO> dayQuestions = questionMapper.findDayQuestions(new Timestamp(System.currentTimeMillis()));
-        if(dayQuestions.size()==0) {
+        List<QuestionDto> resultDtos = new ArrayList<>();
+        if(dayQuestions == null || dayQuestions.size()==0) {
             dayQuestions = questionMapper.findTopThree();
             if(dayQuestions != null) {
+                int i = 1;
                 for(QuestionPO questionPO:dayQuestions) {
-                    DayQuestionPO dayQuestionPO = new DayQuestionPO(questionPO.getId(),null,new Timestamp(System.currentTimeMillis()),false);
+                    DayQuestionPO dayQuestionPO = new DayQuestionPO(questionPO.getId(),null,new Timestamp(System.currentTimeMillis()),false, i);
+                    QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
+                    questionDto.setOrder(i);
+                    resultDtos.add(questionDto);
                     dayQuestionMapper.insertSelective(dayQuestionPO);
+                    i++;
                 }
             }
+        } else {
+            for(QuestionPO questionPO:dayQuestions) {
+                QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
+                questionDto.setOrder(dayQuestionMapper.selectByPrimaryKey(questionPO.getId()).getOrder());
+                resultDtos.add(questionDto);
+            }
         }
-        return QuestionAdapter.fromPOList(dayQuestions);
+        return resultDtos;
+    }
+
+    @Override
+    public QuestionDto findCurrentQuestion(Integer accountId) {
+        return null;
     }
 }

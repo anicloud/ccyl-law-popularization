@@ -16,15 +16,25 @@ public class DayQuestionPO implements Serializable {
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
+    private Integer order;
 
     public DayQuestionPO() {
     }
 
-    public DayQuestionPO(Integer id, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public DayQuestionPO(Integer id, Timestamp updateTime, Timestamp createTime, Boolean isDel, Integer order) {
         this.id = id;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+        this.order = order;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     public Integer getId() {

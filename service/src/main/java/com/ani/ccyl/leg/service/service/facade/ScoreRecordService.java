@@ -5,6 +5,6 @@ import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 /**
  * Created by lihui on 17-12-15.
  */
-public interface ScoreService {
-    void insertScore(Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcId);
+public interface ScoreRecordService {
+    void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId);
 }
