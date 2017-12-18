@@ -12,7 +12,6 @@ import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
 import com.ani.ccyl.leg.persistence.po.DayQuestionPO;
 import com.ani.ccyl.leg.persistence.po.FilePO;
 import com.ani.ccyl.leg.persistence.po.QuestionPO;
-import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.service.adapter.FileAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
