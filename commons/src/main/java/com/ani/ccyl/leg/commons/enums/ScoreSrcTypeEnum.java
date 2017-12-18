@@ -16,7 +16,7 @@ public enum ScoreSrcTypeEnum implements BaseEnum<ScoreSrcTypeEnum, Integer> {
             enumMap.put(provinceEnum.getCode(), provinceEnum);
         }
     }
-    private ScoreSrcTypeEnum(Integer code, String value) {
+    ScoreSrcTypeEnum(Integer code, String value) {
         this.code = code;
         this.value = value;
     }

@@ -20,6 +20,8 @@ import Error from '../views/Error';
 import Tasks from '../views/Tasks';
 /*荣耀排行榜组件*/
 import ScoreBoard from '../views/ScoreBoard';
+/*我的积分*/
+import MyScore from '../views/MyScore';
 import SharePrize from '../views/SharePrize';
 
 const Routes = () => (
@@ -27,6 +29,7 @@ const Routes = () => (
         <Route exact path='/' component={Main} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
+        <Route path='/myscore' component={MyScore}/>
         <Route path='/tasks' component={Tasks} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/prize' component={SharePrize} />

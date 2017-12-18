@@ -26,7 +26,7 @@ public enum ExceptionEnum {
         this.value = value;
     }
 
-    private ExceptionEnum(String value) {
+    ExceptionEnum(String value) {
         this.value = value;
     }
 }
