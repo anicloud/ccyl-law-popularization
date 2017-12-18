@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper">
+    <select id="findCurrentQuestion" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
+        SELECT q.* FROM t_question q LEFT JOIN t_score_record s ON q.id=s.src_question_id WHERE s.create_time=(SELECT max(create_time) FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d'))
+    </select>
+    <select id="findDailyScoreRecord" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
+        SELECT * FROM t_score_record WHERE score>0 AND src_question_id IS NOT NULL AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+    </select>
+    <select id="findById" parameterType="java.lang.Integer" resultMap="scoreResultMap">
+        SELECT
+            sr.id AS scoreId,sr.account_id AS scoreAccountId, sr.score AS score, sr.src_type AS scoreSrcType, sr.src_question_id AS scoreQuestionId, sr.self_answer AS scoreSelfAnswer, sr.src_account_id AS scoreAccountId,
+            acc.id AS accId, acc.open_id AS accOpenId, acc.account_name AS accAccountName, acc.account_pwd AS accAccountPwd, acc.phone AS accPhone, acc.email AS accEmail, acc.address AS accAddress, acc.province AS accProvince, acc.nick_name AS accNickName, acc.portrait AS accPortrait, acc.is_reward AS accIsReward, acc.sex AS accSex, acc.org_name AS accOrgName, acc.age AS accAge,acc.name AS accName,
+            q.id AS qId, q.title AS qTitle, q.category AS qCategory, q.content AS qContent, q.option_one AS qOptionOne, q.option_two AS qOptionTwo, q.option_three AS qOptionThree, q.type AS qType, q.answer AS qAnswer, q.question_no AS qQuestionNo, q.file_id AS qFileId
+        FROM t_score_record sr, t_account acc, t_question q
+        WHERE sr.account_id=acc.id AND sr.src_question_id=q.id AND sr.id=#{id}
+    </select>
+    <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
+        <id property="id" column="scoreId"/>
+        <result property="accountId" column="scoreAccountId"/>
+        <result property="score" column="score"/>
+        <result property="selfAnswer" column="scoreSelfAnswer"/>
+        <result property="srcType" column="scoreSrcType"/>
+        <association property="srcQuestion" column="scoreQuestionId" javaType="com.ani.ccyl.leg.commons.dto.QuestionDto" resultMap="questionResultMap"/>
+        <association property="srcAccount" column="scoreAccountId" javaType="com.ani.ccyl.leg.commons.dto.AccountDto" resultMap="accountResultMap"/>
+    </resultMap>
+    <resultMap id="questionResultMap" type="com.ani.ccyl.leg.commons.dto.QuestionDto">
+        <id property="id" column="qId"/>
+        <result property="title" column="qTitle"/>
+        <result property="category" column="qCategory"/>
+        <result property="content" column="qContent"/>
+        <result property="optionOne" column="qOptionOne"/>
+        <result property="optionTwo" column="qOptionTwo"/>
+        <result property="optionThree" column="qOptionThree"/>
+        <result property="type" column="qType"/>
+        <result property="answer" column="qAnswer"/>
+        <result property="questionNo" column="qQuestionNo"/>
+        <result property="fileId" column="qFileId"/>
+    </resultMap>
+    <resultMap id="accountResultMap" type="com.ani.ccyl.leg.commons.dto.AccountDto">
+        <id property="id" column="accId"/>
+        <result property="openId" column="accOpenId"/>
+        <result property="accountName" column="accAccountName"/>
+        <result property="accountPwd" column="accAccountPwd"/>
+        <result property="phone" column="accPhone"/>
+        <result property="email" column="accEmail"/>
+        <result property="address" column="accAddress"/>
+        <result property="province" column="accProvince"/>
+        <result property="nickName" column="accNickName"/>
+        <result property="portrait" column="accPortrait"/>
+        <result property="isReward" column="accIsReward"/>
+        <result property="sex" column="accSex"/>
+        <result property="orgName" column="accOrgName"/>
+        <result property="age" column="accAge"/>
+        <result property="name" column="accName"/>
+    </resultMap>
+</mapper>
