@@ -111,6 +111,7 @@ CREATE TABLE `t_file` (
 DROP TABLE IF EXISTS `t_day_question`;
 CREATE TABLE `t_day_question` (
   `id` int(11) NOT NULL COMMENT '主键，同question表主键保持一致，不自动生成',
+  `day_num` INT(2) COMMENT '竞赛第几天',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
