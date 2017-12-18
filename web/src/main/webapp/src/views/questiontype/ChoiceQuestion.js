@@ -99,7 +99,7 @@ class ChoiceQuestion extends Component {
                         <Toast icon="loading" show={true}>Loading...</Toast>
                     )
                 }
-
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         )
     }
@@ -107,7 +107,8 @@ class ChoiceQuestion extends Component {
 
 function mapStateToProps(state) {
     return {
-        host: state.host
+        host: state.host,
+        showLoading: state.showLoading
     };
 }
 

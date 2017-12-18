@@ -22,7 +22,6 @@ class Regist extends Component {
                 message: '发送验证码'
             },
             showToast: false,
-            showLoading: false,
             toastTimer: null,
             errorStatus: Map({
                 name: Map({
@@ -166,20 +165,11 @@ class Regist extends Component {
                     });
                 }
             }, 1000);
-            _this.setState({
-                showLoading: true
-            });
             axios.get(`${host}/account/sendCode?phone=${phone}`).then(function (response) {
-                _this.setState({
-                    showLoading: false
-                });
                 if (response.data.state === 0) {
                     console.log(response.data.data);
                 }
             }).catch(function (errors) {
-                _this.setState({
-                    showLoading: false
-                });
                 console.log(errors);
             })
         }
@@ -340,13 +330,7 @@ class Regist extends Component {
         let _this = this;
         const {host} = _this.props;
         let registInfo = this.state.registInfo.toJS();
-        _this.setState({
-            showLoading: true
-        });
         axios.post(`${host}/account/saveSelfInfo`, registInfo).then(function (response) {
-            _this.setState({
-                showLoading: false
-            });
             if (response.data.state === 0) {
                 _this.setState({showToast: true});
                 _this.state.toastTimer = setTimeout(()=> {
@@ -355,9 +339,6 @@ class Regist extends Component {
             }
         }).catch(function (errors) {
             console.log(errors);
-            _this.setState({
-                showLoading: false
-            });
         });
         console.log(registInfo);
 
@@ -463,7 +444,7 @@ class Regist extends Component {
                     <Button className='reg-btn' onClick={this.submitForm}>领取奖品</Button>
                 </Form>
                 <Toast icon="success-no-circle" show={this.state.showToast}>Done</Toast>
-                <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         )
     }
@@ -471,7 +452,8 @@ class Regist extends Component {
 
 function mapStateToProps(state) {
     return {
-        host: state.host
+        host: state.host,
+        showLoading: state.showLoading
     }
 }
 

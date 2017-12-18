@@ -81,12 +81,9 @@ class AnswerQuestion extends Component {
                 <h2 className="text-center h2 title">
                     <span>今日必答</span>
                 </h2>
-                <ChoiceQuestion handleShowNext={this.handleShowNext} question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐'}} />
+                {/*<ChoiceQuestion handleShowNext={this.handleShowNext} question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐'}} />*/}
                 {
-                    question === ''? (
-                        // TODO: show = true
-                        <Toast icon="loading" show={false}>Loading...</Toast>
-                    ) : (
+                    question === ''? (null) : (
                         <div>
                             <h3 className="text-center h3 title">
                                 <span>第{question.dayNum}天</span>
@@ -113,6 +110,7 @@ class AnswerQuestion extends Component {
                             ) : (null)
                     ) : (null)
                 }
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         )
     }
@@ -120,7 +118,8 @@ class AnswerQuestion extends Component {
 
 function mapStateToProps(state) {
     return {
-        host: state.host
+        host: state.host,
+        showLoading: state.showLoading
     }
 }
 
