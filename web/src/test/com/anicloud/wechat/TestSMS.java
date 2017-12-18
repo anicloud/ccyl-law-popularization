@@ -18,11 +18,11 @@ import java.security.NoSuchAlgorithmException;
 public class TestSMS {
     @Test
     public void sendSMS() throws IOException, NoSuchAlgorithmException, KeyManagementException {
-        SMSUtil.sendSMSCode();
+        SMSUtil.sendSMSCode("15731118087");
     }
 
     @Test
     public void verifyCode() {
-        SMSUtil.verifyCode("15731118087","387943");
+        SMSUtil.verifyCode("15731118087","392031");
     }
 }
