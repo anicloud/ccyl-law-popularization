@@ -13,7 +13,9 @@ public enum ExceptionEnum {
     WECHAT_GENERATE_SIGNATURE_ERROR("创建jssdk签名失败"),
     PARSE_EXCEL_ERROR("解析excel文件错误"),
     FILE_UPLOAD_EXCEPTION("上传文件失败"),
-    FILE_TYPE_ERROR("文件类型错误");
+    FILE_TYPE_ERROR("文件类型错误"),
+    SMS_SEND_EXCEPTION("短信发送失败"),
+    SMS_VERIFY_EXCEPTION("短信验证异常");
     private String value;
 
     public String getValue() {
@@ -24,7 +26,7 @@ public enum ExceptionEnum {
         this.value = value;
     }
 
-    private ExceptionEnum(String value) {
+    ExceptionEnum(String value) {
         this.value = value;
     }
 }

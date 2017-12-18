@@ -41,4 +41,33 @@ public class QuestionAdapter {
         }
         return null;
     }
+
+    public static QuestionDto fromPO(QuestionPO questionPO) {
+        if(questionPO != null)
+            return new QuestionDto(
+                    questionPO.getId(),
+                    questionPO.getTitle(),
+                    questionPO.getCategory(),
+                    questionPO.getContent(),
+                    questionPO.getOptionOne(),
+                    questionPO.getOptionTwo(),
+                    questionPO.getOptionThree(),
+                    questionPO.getType(),
+                    questionPO.getAnswer(),
+                    questionPO.getQuestionNo(),
+                    questionPO.getFileId()
+            );
+        return null;
+    }
+
+    public static List<QuestionDto> fromPOList(List<QuestionPO> questions) {
+        if(questions != null) {
+            List<QuestionDto> questionDtos = new ArrayList<>();
+            for(QuestionPO questionPO: questions) {
+                questionDtos.add(fromPO(questionPO));
+            }
+            return questionDtos;
+        }
+        return null;
+    }
 }

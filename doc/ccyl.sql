@@ -11,6 +11,9 @@ CREATE TABLE `t_account` (
   `nick_name` varchar(64) comment '昵称',
   `portrait` varchar(1024) comment '头像',
   `is_reward` BOOLEAN comment '是否领取过奖励',
+  `org_name` VARCHAR(256) COMMENT '学校/单位名',
+  `age` INT(4) COMMENT '年龄',
+  `name` VARCHAR(128) COMMENT '姓名',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '删除标志',
@@ -57,11 +60,14 @@ CREATE TABLE `t_score` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `account_id` int(11) NOT NULL COMMENT '账户id',
   `score` INT(4) NOT NULL COMMENT '积分',
+  `src_type` TINYINT(2) COMMENT '得分来源',
+  `src_question_id` INT(11) COMMENT '来源题目id',
+  `src_account_id` INT(11) COMMENT '来源账户id',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  KEY `t_score_account_id_key` (`account_id`),
+  UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_id`),
   KEY `t_score_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='积分表';
 DROP TABLE IF EXISTS `t_sign_in`;
@@ -100,4 +106,13 @@ CREATE TABLE `t_file` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t_file_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='token表'
+) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='token表';
+DROP TABLE IF EXISTS `t_day_question`;
+CREATE TABLE `t_day_question` (
+  `id` int(11) NOT NULL COMMENT '主键，同question表主键保持一致，不自动生成',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  PRIMARY KEY (`id`),
+  KEY `t_file_is_del_key` (`is_del`)
+) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='每日问题表';

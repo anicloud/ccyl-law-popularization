@@ -1,5 +1,6 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
+/*首页*/
 import App from '../App';
 /*引导页*/
 import Main from '../views/Main'
@@ -21,6 +22,7 @@ import Tasks from '../views/Tasks';
 import ScoreBoard from '../views/ScoreBoard';
 /*我的积分*/
 import MyScore from '../views/MyScore';
+import SharePrize from '../views/SharePrize';
 
 const Routes = () => (
     <Switch>
@@ -30,6 +32,7 @@ const Routes = () => (
         <Route path='/myscore' component={MyScore}/>
         <Route path='/tasks' component={Tasks} />
         <Route path='/score' component={ScoreBoard} />
+        <Route path='/prize' component={SharePrize} />
         <Route path='/home/index' component={Options} />
         <Route path='/signin' component={SignIn}/>
         <Route path='/answer' component={AnswerQuestion} />

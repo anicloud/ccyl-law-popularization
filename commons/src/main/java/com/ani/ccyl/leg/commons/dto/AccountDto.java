@@ -23,8 +23,12 @@ public class AccountDto implements Serializable {
     private String portrait;
     private Boolean isReward;
     private Boolean sex;
+    private String orgName;
+    private Integer age;
+    private String name;
+    private String code;
 
-    public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Boolean sex) {
+    public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Boolean sex, String orgName, Integer age, String name, String code) {
         this.id = id;
         this.openId = openId;
         this.accountName = accountName;
@@ -37,6 +41,42 @@ public class AccountDto implements Serializable {
         this.portrait = portrait;
         this.isReward = isReward;
         this.sex = sex;
+        this.orgName = orgName;
+        this.age = age;
+        this.name = name;
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public AccountDto() {
@@ -122,11 +162,11 @@ public class AccountDto implements Serializable {
         this.portrait = portrait;
     }
 
-    public Boolean getReward() {
+    public Boolean getIsReward() {
         return isReward;
     }
 
-    public void setReward(Boolean reward) {
+    public void setIsReward(Boolean reward) {
         isReward = reward;
     }
 

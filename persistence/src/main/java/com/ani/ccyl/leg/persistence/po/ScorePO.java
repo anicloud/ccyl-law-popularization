@@ -1,5 +1,7 @@
 package com.ani.ccyl.leg.persistence.po;
 
+import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,17 +20,47 @@ public class ScorePO implements Serializable {
     private Integer id;
     private Integer accountId;
     private Integer score;
+    private ScoreSrcTypeEnum srcType;
+    private Integer srcQuestionId;
+    private Integer srcAccountId;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
 
-    public ScorePO(Integer id, Integer accountId, Integer score, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public ScorePO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, Integer srcAccountId, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
+        this.srcType = srcType;
+        this.srcQuestionId = srcQuestionId;
+        this.srcAccountId = srcAccountId;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public Integer getSrcAccountId() {
+        return srcAccountId;
+    }
+
+    public void setSrcAccountId(Integer srcAccountId) {
+        this.srcAccountId = srcAccountId;
+    }
+
+    public ScoreSrcTypeEnum getSrcType() {
+        return srcType;
+    }
+
+    public void setSrcType(ScoreSrcTypeEnum srcType) {
+        this.srcType = srcType;
+    }
+
+    public Integer getSrcQuestionId() {
+        return srcQuestionId;
+    }
+
+    public void setSrcQuestionId(Integer srcQuestionId) {
+        this.srcQuestionId = srcQuestionId;
     }
 
     public ScorePO() {
