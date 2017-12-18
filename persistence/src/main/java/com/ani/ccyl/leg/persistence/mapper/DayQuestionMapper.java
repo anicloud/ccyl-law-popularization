@@ -9,4 +9,5 @@ import com.ani.ccyl.leg.persistence.po.QuestionPO;
  */
 public interface DayQuestionMapper extends SysMapper<DayQuestionPO> {
     QuestionPO findNewQuestion(Integer order);
+    Integer findMaxDayNum(Integer accountId);
 }

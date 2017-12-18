@@ -56,6 +56,7 @@ public class QuestionAdapter {
                     questionPO.getAnswer(),
                     questionPO.getQuestionNo(),
                     questionPO.getFileId(),
+                    null,
                     null
             );
         return null;

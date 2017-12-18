@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDto> findDayQuestions() {
+    public List<QuestionDto> findDayQuestions(Integer accountId) {
         List<QuestionPO> dayQuestions = questionMapper.findDayQuestions(new Timestamp(System.currentTimeMillis()));
         List<QuestionDto> resultDtos = new ArrayList<>();
         if(dayQuestions == null || dayQuestions.size()==0) {
@@ -68,9 +69,11 @@ public class QuestionServiceImpl implements QuestionService {
             if(dayQuestions != null) {
                 int i = 1;
                 for(QuestionPO questionPO:dayQuestions) {
-                    DayQuestionPO dayQuestionPO = new DayQuestionPO(questionPO.getId(),null,new Timestamp(System.currentTimeMillis()),false, i);
+                    Integer dayNum = dayQuestionMapper.findMaxDayNum(accountId);
+                    DayQuestionPO dayQuestionPO = new DayQuestionPO(questionPO.getId(),dayNum==null?1:(dayNum+1),null,new Timestamp(System.currentTimeMillis()),false, i);
                     QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
                     questionDto.setOrder(i);
+                    questionDto.setDayNum(dayQuestionPO.getDayNum());
                     resultDtos.add(questionDto);
                     dayQuestionMapper.insertSelective(dayQuestionPO);
                     i++;
@@ -79,7 +82,9 @@ public class QuestionServiceImpl implements QuestionService {
         } else {
             for(QuestionPO questionPO:dayQuestions) {
                 QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
-                questionDto.setOrder(dayQuestionMapper.selectByPrimaryKey(questionPO.getId()).getOrder());
+                DayQuestionPO dayQuestionPO = dayQuestionMapper.selectByPrimaryKey(questionPO.getId());
+                questionDto.setOrder(dayQuestionPO.getOrder());
+                questionDto.setDayNum(dayQuestionPO.getDayNum() == null?1:dayQuestionPO.getDayNum());
                 resultDtos.add(questionDto);
             }
         }
@@ -90,7 +95,7 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionDto findNewQuestion(Integer accountId) {
         QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(accountId));
         if(questionDto == null) {
-            List<QuestionDto> questionDtos = findDayQuestions();
+            List<QuestionDto> questionDtos = findDayQuestions(accountId);
             if(questionDtos != null && questionDtos.size()>0)
                 questionDto = questionDtos.get(0);
         } else {

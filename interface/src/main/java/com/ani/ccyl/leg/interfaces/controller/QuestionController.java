@@ -69,7 +69,7 @@ public class QuestionController {
         ResponseMessageDto message = new ResponseMessageDto();
         HttpSession session = request.getSession();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        List<QuestionDto> questionDtos = questionService.findDayQuestions();
+        List<QuestionDto> questionDtos = questionService.findDayQuestions(accountDto.getId());
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
         message.setData(questionDtos);
