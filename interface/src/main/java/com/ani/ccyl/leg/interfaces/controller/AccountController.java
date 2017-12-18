@@ -37,7 +37,7 @@ public class AccountController {
     }
 
     @ResponseBody
-    @RequestMapping("/sendSMSCode")
+    @RequestMapping("/sendCode")
     public ResponseMessageDto sendSMSCode(String phone, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         Long startTime = (Long) session.getAttribute(Constants.SMS_CODE_TIME_SESSION);
