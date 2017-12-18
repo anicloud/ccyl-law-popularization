@@ -25,7 +25,9 @@ public class AccountAdapter {
                     accountPO.getReward(),
                     accountPO.getSex(),
                     accountPO.getOrgName(),
-                    accountPO.getAge()
+                    accountPO.getAge(),
+                    accountPO.getName(),
+                    null
             );
         return null;
     }
@@ -49,7 +51,8 @@ public class AccountAdapter {
                     false,
                     accountDto.getSex(),
                     accountDto.getOrgName(),
-                    accountDto.getAge()
+                    accountDto.getAge(),
+                    accountDto.getName()
             );
         return null;
     }
