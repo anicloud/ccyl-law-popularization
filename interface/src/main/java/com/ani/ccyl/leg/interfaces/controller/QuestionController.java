@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by lihui on 17-12-14.
@@ -35,7 +36,7 @@ public class QuestionController {
     public ResponseMessageDto uploadQuestionFile(QuestionTypeEnum type, MultipartFile file) {
         ResponseMessageDto message = new ResponseMessageDto();
         questionService.insertQuestionFromFile(type,file);
-        message.setMsg("插入成功");
+        message.setMsg("上传成功");
         message.setState(ResponseStateEnum.OK);
         return message;
     }
@@ -60,6 +61,17 @@ public class QuestionController {
             verifyDto.setAnswer(questionDto == null?null:questionDto.getAnswer());
         }
         message.setData(verifyDto);
+        return message;
+    }
+
+    @RequestMapping("/findDayQuestion")
+    @ResponseBody
+    public ResponseMessageDto findDayQuestion() {
+        ResponseMessageDto message = new ResponseMessageDto();
+        List<QuestionDto> questionDtos = questionService.findDayQuestion();
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        message.setData(questionDtos);
         return message;
     }
 }

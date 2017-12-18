@@ -22,13 +22,17 @@ public class ScoreServiceImpl implements ScoreService {
         if(accountId != null && score != null && srcType != null && srcId != null) {
             ScorePO scorePO = new ScorePO();
             scorePO.setAccountId(accountId);
-            scorePO.setSrcId(srcId);
-            List<ScorePO> scorePOs = scoreMapper.select(scorePO);
-            if(scorePOs.size()==0) {
-                scorePO.setScore(score);
-                scorePO.setSrcType(srcType);
-                scorePO.setCreateTime(new Timestamp(System.currentTimeMillis()));
-                scoreMapper.insertSelective(scorePO);
+            switch (srcType.getCode()) {
+                case 1:
+                    scorePO.setSrcQuestionId(srcId);
+                    List<ScorePO> scorePOs = scoreMapper.select(scorePO);
+                    if(scorePOs.size()==0) {
+                        scorePO.setScore(score);
+                        scorePO.setSrcType(srcType);
+                        scorePO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        scoreMapper.insertSelective(scorePO);
+                    }
+                    break;
             }
         }
     }

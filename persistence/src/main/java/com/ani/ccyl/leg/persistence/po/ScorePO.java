@@ -21,20 +21,30 @@ public class ScorePO implements Serializable {
     private Integer accountId;
     private Integer score;
     private ScoreSrcTypeEnum srcType;
-    private Integer srcId;
+    private Integer srcQuestionId;
+    private Integer srcAccountId;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
 
-    public ScorePO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcId, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public ScorePO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, Integer srcAccountId, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
         this.srcType = srcType;
-        this.srcId = srcId;
+        this.srcQuestionId = srcQuestionId;
+        this.srcAccountId = srcAccountId;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public Integer getSrcAccountId() {
+        return srcAccountId;
+    }
+
+    public void setSrcAccountId(Integer srcAccountId) {
+        this.srcAccountId = srcAccountId;
     }
 
     public ScoreSrcTypeEnum getSrcType() {
@@ -45,12 +55,12 @@ public class ScorePO implements Serializable {
         this.srcType = srcType;
     }
 
-    public Integer getSrcId() {
-        return srcId;
+    public Integer getSrcQuestionId() {
+        return srcQuestionId;
     }
 
-    public void setSrcId(Integer srcId) {
-        this.srcId = srcId;
+    public void setSrcQuestionId(Integer srcQuestionId) {
+        this.srcQuestionId = srcQuestionId;
     }
 
     public ScorePO() {

@@ -5,8 +5,10 @@ import com.ani.ccyl.leg.commons.dto.QuestionDto;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import com.ani.ccyl.leg.commons.utils.ExcelUtil;
 import com.ani.ccyl.leg.commons.utils.FileUtil;
+import com.ani.ccyl.leg.persistence.mapper.DayQuestionMapper;
 import com.ani.ccyl.leg.persistence.mapper.FileMapper;
 import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
+import com.ani.ccyl.leg.persistence.po.DayQuestionPO;
 import com.ani.ccyl.leg.persistence.po.FilePO;
 import com.ani.ccyl.leg.persistence.po.QuestionPO;
 import com.ani.ccyl.leg.service.adapter.FileAdapter;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -25,6 +28,8 @@ import java.util.List;
 public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private DayQuestionMapper dayQuestionMapper;
     @Autowired
     private FileMapper fileMapper;
     @Override
@@ -47,5 +52,20 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionDto findById(Integer id) {
         QuestionPO questionPO = questionMapper.selectByPrimaryKey(id);
         return QuestionAdapter.fromPO(questionPO);
+    }
+
+    @Override
+    public List<QuestionDto> findDayQuestion() {
+        List<QuestionPO> dayQuestions = questionMapper.findDayQuestions(new Timestamp(System.currentTimeMillis()));
+        if(dayQuestions.size()==0) {
+            dayQuestions = questionMapper.findTopThree();
+            if(dayQuestions != null) {
+                for(QuestionPO questionPO:dayQuestions) {
+                    DayQuestionPO dayQuestionPO = new DayQuestionPO(questionPO.getId(),null,new Timestamp(System.currentTimeMillis()),false);
+                    dayQuestionMapper.insertSelective(dayQuestionPO);
+                }
+            }
+        }
+        return QuestionAdapter.fromPOList(dayQuestions);
     }
 }
