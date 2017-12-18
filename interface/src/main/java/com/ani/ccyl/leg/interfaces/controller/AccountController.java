@@ -25,7 +25,14 @@ public class AccountController {
     @ResponseBody
     public ResponseMessageDto saveSelfInfo(AccountDto accountDto) {
         ResponseMessageDto message = new ResponseMessageDto();
-        accountService.saveSelfInfo(accountDto);
+        if(SMSUtil.verifyCode(accountDto.getPhone(),accountDto.getCode())) {
+            accountService.saveSelfInfo(accountDto);
+            message.setState(ResponseStateEnum.OK);
+            message.setMsg("保存成功");
+        } else {
+            message.setState(ResponseStateEnum.ERROR);
+            message.setMsg("验证码验证失败");
+        }
         return message;
     }
 
