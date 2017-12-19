@@ -1,13 +1,81 @@
 .MyScore {
   margin:0 auto;
   width: 100%;
-  height: 100%;
-  padding: .4rem .3rem 0;
-  position: relative;
+  height: 5.4rem;
   overflow: auto;
   .cloud{
-    margin-top:3.8rem;
+    margin-top: 3.2rem;
     text-align: center;
     font-size:.5rem;
+    h2{
+      margin-top: .1rem;
+      margin-bottom: .1rem;
+    }
+    h3{
+      margin-top: .1rem;
+      margin-bottom: .1rem;
+    }
+  }
+
+}
+.bottomDiv{
+  button.weui-btn, input.weui-btn{
+    background-color: white;
+    color:black;
+    margin:0rem;
+    display:inline;
+    width:50%;
+    margin-bottom:0.1rem;
+    box-shadow: none;
+  }
+  background-color: white;
+  width:100%;
+  height:100%;
+  position:absolute;
+  .buttonDiv{
+    width:100%;
+    background-color:white;
+  }
+  .scoreTask{
+    width:98%;
+    height:1rem;
+    background-color: lightgrey;
+    margin:0 auto;
+    span{
+      position:fixed;
+      margin-top:.1rem;
+      margin-left:.2rem;
+      font-size: .5rem;
+    }
+  }
+  .task{
+    width:98%;
+    height:1rem;
+    margin:0 auto;
+    border-bottom:.01rem solid lightgrey;
+    span{
+      position:fixed;
+      height:1rem;
+      font-size: .5rem;
+      color:black;
+      margin-top:.1rem;
+      margin-left:.2rem;
+    }
+    .desc{
+      margin-top:.2rem;
+      margin-left:3.5rem;
+      font-size: .3rem;
+      color: indianred;
+    }
+    Button{
+      text-align: center;
+      line-height:59%;
+      margin-top:.2rem;
+      width:1.5rem;
+      height:59%;
+      color:blue;
+      float:right;
+      border-radius:.1px;
+    }
   }
 }
