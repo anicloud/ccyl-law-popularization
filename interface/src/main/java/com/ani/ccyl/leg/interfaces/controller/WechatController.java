@@ -10,7 +10,6 @@ import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
@@ -38,7 +38,6 @@ public class WechatController {
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
     private String oauthTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.oauth.token.url");
     private String fetchUserInfoUrl = Constants.PROPERTIES.getProperty("wechat.fetch.user.info.url");
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     @Autowired
     private WechatService wechatService;
     @Autowired
@@ -107,7 +106,7 @@ public class WechatController {
         }
     }
 
-    @RequestMapping("/getJsSDKConfig")
+    @RequestMapping(value = "/getJsSDKConfig",method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto getJsSDKConfig(String timestamp, String nonceStr, String url, HttpServletRequest request) {
         ResponseMessageDto message = new ResponseMessageDto();

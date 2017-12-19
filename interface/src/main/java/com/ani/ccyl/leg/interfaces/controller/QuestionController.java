@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +32,7 @@ public class QuestionController {
     private QuestionService questionService;
     @Autowired
     private ScoreRecordService scoreRecordService;
-    @RequestMapping("/upload")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessageDto uploadQuestionFile(QuestionTypeEnum type, MultipartFile file) {
         ResponseMessageDto message = new ResponseMessageDto();
@@ -41,7 +42,7 @@ public class QuestionController {
         return message;
     }
 
-    @RequestMapping("/verify")
+    @RequestMapping(value = "/verify", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto verifyAnswer(Integer id, String answer, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -69,7 +70,7 @@ public class QuestionController {
         return message;
     }
 
-    @RequestMapping("/findDayQuestions")
+    @RequestMapping(value = "/findDayQuestions", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findDayQuestions(HttpServletRequest request) {
         ResponseMessageDto message = new ResponseMessageDto();
@@ -82,7 +83,7 @@ public class QuestionController {
         return message;
     }
 
-    @RequestMapping("/findCurrentQuestion")
+    @RequestMapping(value = "/findCurrentQuestion", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findCurrentQuestion(HttpServletRequest request) {
         ResponseMessageDto message = new ResponseMessageDto();

@@ -7,7 +7,9 @@ import java.util.Map;
  * Created by lihui on 17-12-12.
  */
 public enum ScoreSrcTypeEnum implements BaseEnum<ScoreSrcTypeEnum, Integer> {
-    QUESTION(1,"答题");
+    QUESTION(1,"答题"),
+    THUMB_UP(2,"点赞"),
+    SIGN_IN(3,"签到");
     private Integer code;
     private String value;
     private static Map<Integer,ScoreSrcTypeEnum> enumMap = new HashMap<>();
