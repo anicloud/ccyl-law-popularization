@@ -1,6 +1,7 @@
 package com.ani.ccyl.leg.persistence.mapper;
 
 import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
+import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
 import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.QuestionPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
@@ -14,4 +15,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     QuestionPO findCurrentQuestion(Integer accountId);
     List<ScoreRecordPO> findDailyScoreRecords(Integer accountId);
     ScoreRecordDto findById(Integer id);
+    TotalScoreDto findTotalScore(Integer accountId);
 }

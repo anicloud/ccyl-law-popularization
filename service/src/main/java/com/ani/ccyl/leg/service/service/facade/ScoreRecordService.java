@@ -1,6 +1,7 @@
 package com.ani.ccyl.leg.service.service.facade;
 
 import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
+import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 
 import java.util.List;
@@ -11,4 +12,6 @@ import java.util.List;
 public interface ScoreRecordService {
     void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId);
     List<ScoreRecordDto> findDailyScoreRecoreds(Integer accountId);
+
+    TotalScoreDto findTotalScore(Integer accountId);
 }

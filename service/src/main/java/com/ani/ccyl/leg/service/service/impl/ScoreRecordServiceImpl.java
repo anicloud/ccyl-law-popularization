@@ -3,6 +3,7 @@ package com.ani.ccyl.leg.service.service.impl;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
 import com.ani.ccyl.leg.commons.dto.QuestionDto;
 import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
+import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
 import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
@@ -63,5 +64,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             }
         }
         return scoreRecordDtos;
+    }
+
+    @Override
+    public TotalScoreDto findTotalScore(Integer accountId) {
+        return scoreRecordMapper.findTotalScore(accountId);
     }
 }

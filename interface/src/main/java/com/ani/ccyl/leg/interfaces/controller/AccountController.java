@@ -8,7 +8,9 @@ import com.ani.ccyl.leg.commons.utils.SMSUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -21,9 +23,9 @@ import javax.servlet.http.HttpSession;
 public class AccountController {
     @Autowired
     private AccountService accountService;
-    @RequestMapping("/saveSelfInfo")
+    @RequestMapping(value = "/saveSelfInfo", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessageDto saveSelfInfo(AccountDto accountDto) {
+    public ResponseMessageDto saveSelfInfo(@RequestBody AccountDto accountDto) {
         ResponseMessageDto message = new ResponseMessageDto();
         if(SMSUtil.verifyCode(accountDto.getPhone(),accountDto.getCode())) {
             accountService.saveSelfInfo(accountDto);
@@ -37,7 +39,7 @@ public class AccountController {
     }
 
     @ResponseBody
-    @RequestMapping("/sendCode")
+    @RequestMapping(value = "/sendCode", method = RequestMethod.GET)
     public ResponseMessageDto sendSMSCode(String phone, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         Long startTime = (Long) session.getAttribute(Constants.SMS_CODE_TIME_SESSION);
@@ -53,7 +55,7 @@ public class AccountController {
         return message;
     }
 
-    @RequestMapping("/verifyCode")
+    @RequestMapping(value = "/verifyCode", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto verifySMSCode(String phone, String code) {
         ResponseMessageDto message = new ResponseMessageDto();
