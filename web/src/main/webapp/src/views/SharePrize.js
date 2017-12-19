@@ -15,7 +15,7 @@ class SharePrize extends Component {
                     <img src={icon} alt=""/>
                 </div>
                 <p className='text-center share'>
-                    <button className='btn btn-success'>立即分享</button>
+                    <button className='btn btn-success' >立即分享</button>
                 </p>
             </div>
         )

@@ -16,8 +16,8 @@ import SignIn from '../views/SignIn';
 import Options from '../views/Options';
 /*错误页面*/
 import Error from '../views/Error';
-/*我的任务组件*/
-import Tasks from '../views/Tasks';
+///*我的任务组件*/
+//import Tasks from '../views/Tasks';
 /*荣耀排行榜组件*/
 import ScoreBoard from '../views/ScoreBoard';
 /*我的积分*/
@@ -30,7 +30,7 @@ const Routes = () => (
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
         <Route path='/myscore' component={MyScore}/>
-        <Route path='/tasks' component={Tasks} />
+        <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/prize' component={SharePrize} />
         <Route path='/home/index' component={Options} />
