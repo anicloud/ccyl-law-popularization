@@ -1,7 +1,9 @@
 package com.ani.ccyl.leg.commons.utils;
 
+import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.enums.ExceptionEnum;
 import com.ani.ccyl.leg.commons.exception.SMSException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -16,27 +18,25 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lihui on 17-12-15.
  */
 public class SMSUtil {
     //发送验证码的请求路径URL
-    private static final String SERVER_URL="https://api.netease.im/sms/sendcode.action";
-    private static final String VERIFY_URL="https://api.netease.im/sms/verifycode.action";
-    //网易云信分配的账号，请替换你在管理后台应用下申请的Appkey
-    private static final String APP_KEY="5abe891e43e92cfb92ee56ca83ace819";
-    //网易云信分配的密钥，请替换你在管理后台应用下申请的appSecret
-    private static final String APP_SECRET="00fefe12a86c";
+    private static final String SERVER_URL=Constants.PROPERTIES.getProperty("netease.server.url");
+    private static final String VERIFY_URL=Constants.PROPERTIES.getProperty("netease.verify.url");
+    private static final String APP_KEY=Constants.PROPERTIES.getProperty("netease.app.key");
+    private static final String APP_SECRET=Constants.PROPERTIES.getProperty("netease.app.secret");
     //随机数
-    private static final String NONCE="123456";
+    private static final String NONCE=Constants.PROPERTIES.getProperty("netease.nonce");
     //短信模板ID
-    private static final String TEMPLATEID="3136433";
-    //手机号
-    private static final String MOBILE="15731118087";
+    private static final String TEMPLATEID=Constants.PROPERTIES.getProperty("netease.template.id");
     //验证码长度，范围4～10，默认为4
-    private static final String CODELEN="6";
-    public static void sendSMSCode() {
+    private static final String CODELEN= Constants.PROPERTIES.getProperty("netease.code.length");
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    public static void sendSMSCode(String phone) {
         try {
             SSLClient httpClient = new SSLClient();
             HttpPost httpPost = new HttpPost(SERVER_URL);
@@ -52,7 +52,7 @@ public class SMSUtil {
 
             List<NameValuePair> nvps = new ArrayList<>();
             nvps.add(new BasicNameValuePair("templateid", TEMPLATEID));
-            nvps.add(new BasicNameValuePair("mobile", MOBILE));
+            nvps.add(new BasicNameValuePair("mobile", phone));
             nvps.add(new BasicNameValuePair("codeLen", CODELEN));
 
             httpPost.setEntity(new UrlEncodedFormEntity(nvps, "utf-8"));
@@ -69,7 +69,7 @@ public class SMSUtil {
         }
     }
 
-    public static void verifyCode(String phone, String code) {
+    public static Boolean verifyCode(String phone, String code) {
         try {
             String curTime = String.valueOf((new Date()).getTime() / 1000L);
             SSLClient httpClient = new SSLClient();
@@ -84,7 +84,12 @@ public class SMSUtil {
             nameValuePairs.add(new BasicNameValuePair("code",code));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "utf-8"));
             HttpResponse response = httpClient.execute(httpPost);
-            System.out.println(EntityUtils.toString(response.getEntity(), "utf-8"));
+            String jsonResult = EntityUtils.toString(response.getEntity(), "utf-8");
+            Map<String,String> resultMap = OBJECT_MAPPER.readValue(jsonResult, Map.class);
+            if(resultMap.get("code").equals("200"))
+                return true;
+            else
+                return false;
         } catch (Exception e) {
             e.printStackTrace();
             throw new SMSException("验证异常",ExceptionEnum.SMS_VERIFY_EXCEPTION);

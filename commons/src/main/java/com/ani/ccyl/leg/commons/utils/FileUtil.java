@@ -17,7 +17,7 @@ import java.util.Date;
  * Created by lihui on 17-12-14.
  */
 public class FileUtil {
-    private static final String BASE_FILE_PATH = Constants.PROPERTIES.getProperty("base_file_path");
+    private static final String BASE_FILE_PATH = Constants.PROPERTIES.getProperty("base.file.path");
     public static FileDto saveFile(MultipartFile file) {
         try {
             String originalFilename = file.getOriginalFilename();

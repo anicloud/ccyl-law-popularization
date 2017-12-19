@@ -13,18 +13,38 @@ public class DayQuestionPO implements Serializable {
     private static final long serialVersionUID = 9178619804645371178L;
     @Id
     private Integer id;
+    private Integer dayNum;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
+    private Integer order;
 
     public DayQuestionPO() {
     }
 
-    public DayQuestionPO(Integer id, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public DayQuestionPO(Integer id, Integer dayNum, Timestamp updateTime, Timestamp createTime, Boolean isDel, Integer order) {
         this.id = id;
+        this.dayNum = dayNum;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+        this.order = order;
+    }
+
+    public Integer getDayNum() {
+        return dayNum;
+    }
+
+    public void setDayNum(Integer dayNum) {
+        this.dayNum = dayNum;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     public Integer getId() {

@@ -8,6 +8,7 @@ import java.util.Properties;
 public class Constants {
     public static final String LOGIN_SESSION = "LOGIN_SESSION";
     public static final String LOGIN_COOKIE = "LOGIN_COOKIE";
+    public static final String SMS_CODE_TIME_SESSION = "SMS_CODE_TIME_SESSION";
     public static Properties PROPERTIES;
     public static final String DEFAULT_PWD = "123456";
     public static class WechatMsgType {

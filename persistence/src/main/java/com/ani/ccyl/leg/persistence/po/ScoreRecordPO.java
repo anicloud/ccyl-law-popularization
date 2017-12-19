@@ -12,8 +12,8 @@ import java.sql.Timestamp;
 /**
  * Created by lihui on 17-12-12.
  */
-@Table(name = "t_score")
-public class ScorePO implements Serializable {
+@Table(name = "t_score_record")
+public class ScoreRecordPO implements Serializable {
     private static final long serialVersionUID = -3922003186472664899L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Mysql")
@@ -22,21 +22,31 @@ public class ScorePO implements Serializable {
     private Integer score;
     private ScoreSrcTypeEnum srcType;
     private Integer srcQuestionId;
+    private String selfAnswer;
     private Integer srcAccountId;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
 
-    public ScorePO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, Integer srcAccountId, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public ScoreRecordPO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, String selfAnswer, Integer srcAccountId, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
         this.srcType = srcType;
         this.srcQuestionId = srcQuestionId;
+        this.selfAnswer = selfAnswer;
         this.srcAccountId = srcAccountId;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public String getSelfAnswer() {
+        return selfAnswer;
+    }
+
+    public void setSelfAnswer(String selfAnswer) {
+        this.selfAnswer = selfAnswer;
     }
 
     public Integer getSrcAccountId() {
@@ -63,7 +73,7 @@ public class ScorePO implements Serializable {
         this.srcQuestionId = srcQuestionId;
     }
 
-    public ScorePO() {
+    public ScoreRecordPO() {
     }
 
     public Integer getId() {

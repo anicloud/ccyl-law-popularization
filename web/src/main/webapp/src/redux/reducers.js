@@ -1,13 +1,9 @@
-import { ADD_TODO } from './actionTypes'
+import { SHOW_LOADING } from './actionTypes'
 
 function reducers(state = {}, action) {
     switch (action.type) {
-        case ADD_TODO:
-            console.log(state);
-            return Object.assign({}, state, {todos: state.todos.concat({
-                text: action.text,
-                completed: false
-            })});
+        case SHOW_LOADING:
+            return Object.assign({}, state, {showLoading: action.flag});
         default:
             return state
     }

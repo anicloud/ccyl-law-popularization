@@ -55,19 +55,20 @@ create table `t_achievement` (
   KEY `t_achievement_account_id_key` (`account_id`),
   KEY `t_achievement_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='答题记录表';
-DROP TABLE IF EXISTS `t_score`;
-CREATE TABLE `t_score` (
+DROP TABLE IF EXISTS `t_score_record`;
+CREATE TABLE `t_score_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `account_id` int(11) NOT NULL COMMENT '账户id',
   `score` INT(4) NOT NULL COMMENT '积分',
   `src_type` TINYINT(2) COMMENT '得分来源',
   `src_question_id` INT(11) COMMENT '来源题目id',
+  `self_answer` VARCHAR(4) COMMENT '所选题目选项',
   `src_account_id` INT(11) COMMENT '来源账户id',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_id`),
+  UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_question_id`),
   KEY `t_score_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='积分表';
 DROP TABLE IF EXISTS `t_sign_in`;
@@ -110,6 +111,7 @@ CREATE TABLE `t_file` (
 DROP TABLE IF EXISTS `t_day_question`;
 CREATE TABLE `t_day_question` (
   `id` int(11) NOT NULL COMMENT '主键，同question表主键保持一致，不自动生成',
+  `day_num` INT(2) COMMENT '竞赛第几天',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
