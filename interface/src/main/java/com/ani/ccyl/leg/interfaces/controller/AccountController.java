@@ -36,6 +36,16 @@ public class AccountController {
         return message;
     }
 
+    @RequestMapping("/findById")
+    @ResponseBody
+    public ResponseMessageDto findById(Integer id) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = accountService.findById(id);
+        message.setData(accountDto);
+        message.setMsg("查询成功");
+        message.setState(ResponseStateEnum.OK);
+        return message;
+    }
     @RequestMapping("/findProvinces")
     @ResponseBody
     public ResponseMessageDto findProvinces() {

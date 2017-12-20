@@ -80,4 +80,9 @@ public class AccountServiceImpl implements AccountService {
             return AccountAdapter.fromPO(accountPOs.get(0));
         return null;
     }
+
+    @Override
+    public AccountDto findById(Integer id) {
+        return AccountAdapter.fromPO(accountMapper.selectByPrimaryKey(id));
+    }
 }
