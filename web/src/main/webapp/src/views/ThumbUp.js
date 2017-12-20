@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import {Toast} from 'react-weui';
 import '../media/styles/thumb.less';
+import icon from '../media/images/signin_icon.png';
 
 class ThumbUp extends Component {
     constructor(props) {
@@ -30,8 +31,24 @@ class ThumbUp extends Component {
         return (
             <div className='thumb main-bg'>
                 <h2 className="text-center title">
-                    <span>我的荣誉</span>
+                    <span>wxw的荣誉</span>
                 </h2>
+                <div className='flower'>
+                    <img src={icon} alt=""/>
+                </div>
+                <p className='text-center score-ques'>
+                    答题积分：<span>15 积分</span>
+                </p>
+                <p className='text-center share'>
+                    <button className='btn btn-success'>
+                        <i className='glyphicon glyphicon-thumbs-up'/>
+                        <span className='thumb-up'>点赞</span>
+                    </button>
+                    <button className='btn btn-success'>
+                        <i className='glyphicon glyphicon-share-alt'/>
+                        <span className='thumb-up'>去答题</span>
+                    </button>
+                </p>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
