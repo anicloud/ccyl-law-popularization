@@ -37,7 +37,7 @@ class ThumbUp extends Component {
                     <img src={icon} alt=""/>
                 </div>
                 <p className='text-center score-ques'>
-                    答题积分：<span>15 积分</span>
+                    答题获得积分：<span>15 积分</span>
                 </p>
                 <p className='text-center share'>
                     <button className='btn btn-success'>
