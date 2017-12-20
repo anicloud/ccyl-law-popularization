@@ -7,13 +7,20 @@ class Options extends Component {
         console.log(this.props);
     }
     componentWillMount() {
-        let opt = getSearchString(this.props.location.search, 'op');
+        let search = this.props.location.search;
+        let opt = getSearchString(search, 'op');
         switch (opt) {
             case 'LOGIN_SUCCESS':
                 this.props.history.push('/');
                 break;
             case 'LOGIN_FAILURE':
-                this.props.history.push('/error')
+                this.props.history.push('/error');
+                break;
+            case 'THUMB_UP':
+                this.props.history.push({
+                    pathname: '/thumb',
+                    state: getSearchString(search, 'id')
+                });
                 break;
             default:
                 return;

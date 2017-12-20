@@ -25,6 +25,10 @@ import MyScore from '../views/MyScore';
 import SharePrize from '../views/SharePrize';
 /*积分商城*/
 import ScoreShopping from '../views/ScoreShopping';
+/*通过连接点赞*/
+import ThumbUp from '../views/ThumbUp';
+/*上传题库*/
+import UploadQuestion from '../views/UploadQuestion';
 
 const Routes = () => (
     <Switch>
@@ -36,11 +40,13 @@ const Routes = () => (
         <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/prize' component={SharePrize} />
+        <Route path='/thumb' component={ThumbUp} />
         <Route path='/home/index' component={Options} />
         <Route path='/signin' component={SignIn}/>
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />
         <Route path='/error' component={Error} />
+        <Route path='/upload' component={UploadQuestion} />
 
         <Redirect from='*' to='/' />
     </Switch>
