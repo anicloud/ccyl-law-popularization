@@ -52,6 +52,8 @@ public class ExcelUtil {
                 for (Row row : sheet) {
                     QuestionDto questionDto = new QuestionDto();
                     questionDto.setContent(row.getCell(0).getStringCellValue());
+                    questionDto.setOptionOne("Y");
+                    questionDto.setOptionTwo("N");
                     questionDto.setAnswer(row.getCell(1).getStringCellValue().trim());
                     questionDto.setType(type);
                     questionDto.setFileId(fileId);
