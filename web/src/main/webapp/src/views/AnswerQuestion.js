@@ -69,7 +69,7 @@ class AnswerQuestion extends Component {
         const {history} = this.props;
         history.push({
             pathname: '/prize'
-        })
+        });
     }
     render() {
         let question = this.state.question? this.state.question.toJS() : '';
@@ -81,7 +81,9 @@ class AnswerQuestion extends Component {
                 <h2 className="text-center h2 title">
                     <span>今日必答</span>
                 </h2>
-                {/*<ChoiceQuestion handleShowNext={this.handleShowNext} question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐'}} />*/}
+                {/*<TrueFalseQuestion
+                    handleShowNext={this.handleShowNext}
+                    question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐', id: 1, optionOne: 'Y', optionTwo: 'N'}} />*/}
                 {
                     question === ''? (null) : (
                         <div>
@@ -92,23 +94,21 @@ class AnswerQuestion extends Component {
                                 question.type === 'CHOICE'? (
                                     <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
                                 ) : (
-                                    <TrueFalseQuestion question={question} />
+                                    <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
                                 )
+                            }
+                            {
+                                (this.state.showNext && question.order !== 3 )? (
+                                    <Button className='questionButton' type="primary" plain onClick={this.handleNext}>下一题</Button>
+                                ) : (null)
+                            }
+                            {
+                                (this.state.showNext && question.order === 3)? (
+                                    <Button className='questionButton' type="primary" plain onClick={this.handleShare}>分享荣誉</Button>
+                                ) : (null)
                             }
                         </div>
                     )
-                }
-                {
-                    this.state.showNext? (
-                        <Button className='questionButton' type="primary" plain onClick={this.handleNext}>下一题</Button>
-                    ) : (null)
-                }
-                {
-                    question? (
-                        question.order === 3? (
-                            <Button className='questionButton' type="primary" plain onClick={this.handleShare}>分享荣誉</Button>
-                            ) : (null)
-                    ) : (null)
                 }
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
