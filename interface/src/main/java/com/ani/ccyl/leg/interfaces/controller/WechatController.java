@@ -60,7 +60,7 @@ public class WechatController {
 
     @RequestMapping("/shareUrl")
     @ResponseBody
-    public ResponseMessageDto processQRCode(HttpSession session) {
+    public ResponseMessageDto getShareUrl(HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",String.valueOf(accountDto.getId()));
