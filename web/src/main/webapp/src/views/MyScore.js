@@ -10,8 +10,14 @@ import Back from './Back';
 class MyScore extends Component{
     constructor(props){
         super(props);
+        this.state = {
+            location: '/home'
+        };
+        this.handleShopping = this.handleShopping.bind(this);
     }
-
+    handleShopping() {
+        this.props.history.push('/scoreshopping');
+    }
     render() {
         return(
             <div className="root">
@@ -30,8 +36,8 @@ class MyScore extends Component{
               </div>
               <div className="bottomDiv">
                       <div className="buttonDiv">
-                          <span><i className='scoreshopping'/>积分商城</span>
-                          <span><i className='scoredetail'/>积分明细</span>
+                          <span onClick={this.handleShopping}><i className='scoreshopping'/>积分商城</span>
+                          <span><i className='scoredetail'/>积分榜</span>
                       </div>
                       <div className="scoreTask">
                          <span>积分任务</span>
@@ -39,7 +45,6 @@ class MyScore extends Component{
                       </div>
                       <div className="task">
                           <span>签到</span>
-
                           <Button>签到</Button>
                           <span className="desc">+5积分/次</span>
                       </div>

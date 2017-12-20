@@ -23,6 +23,8 @@ import ScoreBoard from '../views/ScoreBoard';
 /*我的积分*/
 import MyScore from '../views/MyScore';
 import SharePrize from '../views/SharePrize';
+/*积分商城*/
+import ScoreShopping from '../views/ScoreShopping';
 
 const Routes = () => (
     <Switch>
@@ -30,6 +32,7 @@ const Routes = () => (
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
         <Route path='/myscore' component={MyScore}/>
+        <Route path='/scoreshopping' component={ScoreShopping}/>
         <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/prize' component={SharePrize} />

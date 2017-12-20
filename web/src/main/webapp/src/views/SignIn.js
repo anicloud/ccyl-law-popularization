@@ -7,6 +7,7 @@
 import React,{Component} from "react";
 import '../media/styles/signin.less';
 import Back from './Back';
+import {Button} from 'react-weui';
 
 class SignIn extends Component{
     constructor(props) {
@@ -97,6 +98,7 @@ class SignIn extends Component{
                     <span>我的签到</span>
                 </h2>
                 <div className="sign_main">
+                    <div className="signdiv"><Button className="signbutton">已签到</Button></div>
                     <table>
                         <tbody dangerouslySetInnerHTML={{__html: this.getDayStr()}} >
                         </tbody>
