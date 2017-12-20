@@ -18,4 +18,6 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     TotalScoreDto findTotalScore(Integer accountId);
 
     List<ScoreRecordPO> findByConditions(ScoreRecordPO scoreRecordPO);
+    List<ScoreRecordPO> findDailyTop20();
+    Integer findDailyTotalScore(ScoreRecordPO scoreRecordPO);
 }

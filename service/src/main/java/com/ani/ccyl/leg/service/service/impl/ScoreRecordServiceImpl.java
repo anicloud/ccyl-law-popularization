@@ -81,4 +81,12 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     public TotalScoreDto findTotalScore(Integer accountId) {
         return scoreRecordMapper.findTotalScore(accountId);
     }
+
+    @Override
+    public Integer findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType) {
+        ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
+        scoreRecordPO.setAccountId(accountId);
+        scoreRecordPO.setSrcType(srcType);
+        return scoreRecordMapper.findDailyTotalScore(scoreRecordPO);
+    }
 }

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lihui on 17-12-18.
@@ -34,6 +36,17 @@ public class ScoreRecordController {
         message.setData(scoreRecordDtos);
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
+        return message;
+    }
+
+    @RequestMapping(value = "/findDailyTotalScore")
+    @ResponseBody
+    public ResponseMessageDto findDailyTotalScore(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        message.setData(scoreRecordService.findDailyTotalScore(accountDto.getId(),ScoreSrcTypeEnum.QUESTION));
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
         return message;
     }
 
