@@ -39,14 +39,24 @@ public class ScoreRecordController {
         return message;
     }
 
-    @RequestMapping(value = "/findDailyTotalScore")
+    @RequestMapping(value = "/findDailyTotalScore",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findDailyTotalScore(HttpSession session) {
+    public ResponseMessageDto findDailyTotalScore(Integer id, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        message.setData(scoreRecordService.findDailyTotalScore(accountDto.getId(),ScoreSrcTypeEnum.QUESTION));
+        message.setData(id==null?scoreRecordService.findDailyTotalScore(accountDto.getId(),ScoreSrcTypeEnum.QUESTION) : id);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
+        return message;
+    }
+
+    @RequestMapping(value = "/findTop20", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findDailyTop20() {
+        ResponseMessageDto message = new ResponseMessageDto();
+        message.setMsg("查询成功");
+        message.setState(ResponseStateEnum.OK);
+        message.setData(scoreRecordService.findDailyTop20());
         return message;
     }
 

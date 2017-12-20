@@ -1,13 +1,11 @@
 package com.ani.ccyl.leg.service.service.impl;
 
-import com.ani.ccyl.leg.commons.dto.AccountDto;
-import com.ani.ccyl.leg.commons.dto.QuestionDto;
-import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
-import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
+import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
 import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
 import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
+import com.ani.ccyl.leg.persistence.po.AccountPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
@@ -17,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,5 +87,23 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         scoreRecordPO.setAccountId(accountId);
         scoreRecordPO.setSrcType(srcType);
         return scoreRecordMapper.findDailyTotalScore(scoreRecordPO);
+    }
+
+    @Override
+    public List<Top20Dto> findDailyTop20() {
+        List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.findDailyTop20();
+        List<Top20Dto> top20Dtos = new ArrayList<>();
+        if(scoreRecordPOs != null && scoreRecordPOs.size()>0) {
+            for(ScoreRecordPO scoreRecordPO:scoreRecordPOs) {
+                Top20Dto top20Dto = new Top20Dto();
+                top20Dto.setId(scoreRecordPO.getAccountId());
+                top20Dto.setScore(findDailyTotalScore(scoreRecordPO.getAccountId(),null));
+                AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
+                top20Dto.setName(accountPO.getNickName());
+                top20Dto.setPortrat(accountPO.getPortrait());
+                top20Dtos.add(top20Dto);
+            }
+        }
+        return top20Dtos;
     }
 }
