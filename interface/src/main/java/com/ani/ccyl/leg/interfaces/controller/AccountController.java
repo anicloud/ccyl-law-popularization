@@ -3,6 +3,7 @@ package com.ani.ccyl.leg.interfaces.controller;
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
 import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
+import com.ani.ccyl.leg.commons.enums.ProvinceEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.SMSUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lihui on 17-12-13.
@@ -27,14 +30,24 @@ public class AccountController {
     @ResponseBody
     public ResponseMessageDto saveSelfInfo(@RequestBody AccountDto accountDto) {
         ResponseMessageDto message = new ResponseMessageDto();
-        if(SMSUtil.verifyCode(accountDto.getPhone(),accountDto.getCode())) {
-            accountService.saveSelfInfo(accountDto);
-            message.setState(ResponseStateEnum.OK);
-            message.setMsg("保存成功");
-        } else {
-            message.setState(ResponseStateEnum.ERROR);
-            message.setMsg("验证码验证失败");
+        accountService.saveSelfInfo(accountDto);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("保存成功");
+        return message;
+    }
+
+    @RequestMapping("/findProvinces")
+    @ResponseBody
+    public ResponseMessageDto findProvinces() {
+        ResponseMessageDto message = new ResponseMessageDto();
+        Map<String,Object> resultMap = new HashMap<>();
+        for(ProvinceEnum province:ProvinceEnum.values()) {
+            resultMap.put("name",province.name());
+            resultMap.put("value",province.getValue());
         }
+        message.setData(resultMap);
+        message.setMsg("查询成功");
+        message.setState(ResponseStateEnum.OK);
         return message;
     }
 
