@@ -14,7 +14,7 @@ class ScoreBoard extends Component {
                 {
                     [1, 2, 3, 4, 5, 6, 7].map((item, index) => {
                         return (
-                            <div className='row score-list'>
+                            <div className='row score-list' key={index}>
                                 <div className='col-xs-3 text-center head'>
                                     <img src={icon} alt=""/>
                                 </div>
