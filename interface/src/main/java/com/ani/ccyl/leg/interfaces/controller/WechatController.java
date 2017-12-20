@@ -58,6 +58,18 @@ public class WechatController {
         }
     }
 
+    @RequestMapping("/shareUrl")
+    @ResponseBody
+    public ResponseMessageDto getShareUrl(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",String.valueOf(accountDto.getId()));
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        message.setData(url);
+        return message;
+    }
+
     @RequestMapping(value = "/makeMenu")
     @ResponseBody
     public ResponseMessageDto makeMenu() throws IOException {
@@ -99,7 +111,11 @@ public class WechatController {
                 Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
                 cookie.setMaxAge(-1);
                 response.addCookie(cookie);
-                response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
+                if(state.matches("^[0-9]+$")) {
+                    AccountDto toAccount = accountService.findById(Integer.parseInt(state));
+                    response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
+                } else
+                    response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
             } else if(tokenObj.containsKey("errcode")) {
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+HttpMessageEnum.LOGIN_FAILURE.name());
             }

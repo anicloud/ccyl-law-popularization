@@ -26,8 +26,7 @@ public class AccountAdapter {
                     accountPO.getSex(),
                     accountPO.getOrgName(),
                     accountPO.getAge(),
-                    accountPO.getName(),
-                    null
+                    accountPO.getName()
             );
         return null;
     }

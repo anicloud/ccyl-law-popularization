@@ -6,5 +6,6 @@ package com.ani.ccyl.leg.commons.enums;
 public enum HttpMessageEnum {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
-    NOT_FOUND
+    NOT_FOUND,
+    THUMB_UP
 }

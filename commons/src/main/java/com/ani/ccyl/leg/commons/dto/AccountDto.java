@@ -26,9 +26,8 @@ public class AccountDto implements Serializable {
     private String orgName;
     private Integer age;
     private String name;
-    private String code;
 
-    public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Boolean sex, String orgName, Integer age, String name, String code) {
+    public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Boolean sex, String orgName, Integer age, String name) {
         this.id = id;
         this.openId = openId;
         this.accountName = accountName;
@@ -44,7 +43,6 @@ public class AccountDto implements Serializable {
         this.orgName = orgName;
         this.age = age;
         this.name = name;
-        this.code = code;
     }
 
     public String getName() {
@@ -53,14 +51,6 @@ public class AccountDto implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getOrgName() {
