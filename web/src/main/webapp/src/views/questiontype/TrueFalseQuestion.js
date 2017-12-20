@@ -91,7 +91,7 @@ class TrueFalseQuestion extends Component {
                         <Toast icon="loading" show={true}>Loading...</Toast>
                     )
                 }
-
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         )
     }
