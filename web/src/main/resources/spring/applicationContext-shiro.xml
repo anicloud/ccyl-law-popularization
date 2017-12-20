@@ -67,6 +67,7 @@
 				/wechat/redirect = anon
 				/wechat/makeMenu = anon
 				/home/index = anon
+				/upload = anon
 				/wechat/getJsSDKConfig = anon
 				/build/** = anon
 				/ = anon

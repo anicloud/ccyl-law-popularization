@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +35,7 @@ public class QuestionController {
     private ScoreRecordService scoreRecordService;
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessageDto uploadQuestionFile(QuestionTypeEnum type, MultipartFile file) {
+    public ResponseMessageDto uploadQuestionFile(@RequestParam QuestionTypeEnum type, @RequestParam MultipartFile file) {
         ResponseMessageDto message = new ResponseMessageDto();
         questionService.insertQuestionFromFile(type,file);
         message.setMsg("上传成功");
