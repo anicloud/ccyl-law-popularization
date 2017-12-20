@@ -51,10 +51,6 @@ class Regist extends Component {
                 phone: Map({
                     status: false,
                     msg: '请输入手机号'
-                }),
-                code: Map({
-                    status: false,
-                    msg: '请输入验证码'
                 })
             }),
             registInfo: Map({
@@ -64,8 +60,7 @@ class Regist extends Component {
                 address: '',
                 orgName: '',
                 email: '',
-                phone: '',
-                code: ''
+                phone: ''
             })
         };
         this.getValidateCode = this.getValidateCode.bind(this);
@@ -326,22 +321,178 @@ class Regist extends Component {
             }
         })
     }
+    validateAll() {
+        let _this = this;
+        let flag = true;
+        let descriptor = {
+            type: 'object',
+            fields: {
+                name: function(cb) {
+                    if (this.value.trim() === '') {
+                        cb({key: 'name', message: '请输入姓名'});
+                    } else {
+                        _this.setState((prevState) => {
+                            let info = prevState.errorStatus.setIn(['name', 'status'], false);
+                            return {
+                                errorStatus: info
+                            }
+                        });
+                        cb();
+                    }
+                },
+                sex: function(cb) {
+                    if (this.value.trim() === '') {
+                        cb({key: 'sex', message: '请选择性别'});
+                    } else {
+                        _this.setState((prevState) => {
+                            let info = prevState.errorStatus.setIn(['sex', 'status'], false);
+                            return {
+                                errorStatus: info
+                            }
+                        });
+                        cb();
+                    }
+                },
+                age: function(cb) {
+                    if (this.value.trim() === '') {
+                        cb({key: 'age', message: '请选择年龄'});
+                    } else {
+                        _this.setState((prevState) => {
+                            let info = prevState.errorStatus.setIn(['age', 'status'], false);
+                            return {
+                                errorStatus: info
+                            }
+                        });
+                        cb();
+                    }
+                },
+                address: function(cb) {
+                    if (this.value.trim() === '') {
+                        cb({key: 'address', message: '请选择地区'});
+                    } else {
+                        _this.setState((prevState) => {
+                            let info = prevState.errorStatus.setIn(['address', 'status'], false);
+                            return {
+                                errorStatus: info
+                            }
+                        });
+                        cb();
+                    }
+                },
+                orgName: function(cb) {
+                    if (this.value.trim() === '') {
+                        cb({key: 'orgName', message: '请输入学校或单位'});
+                    } else {
+                        _this.setState((prevState) => {
+                            let info = prevState.errorStatus.setIn(['orgName', 'status'], false);
+                            return {
+                                errorStatus: info
+                            }
+                        });
+                        cb();
+                    }
+                },
+                email: [
+                    function(cb) {
+                        if (this.value.trim() === '') {
+                            cb({key: 'email', message: '请输入邮箱'});
+                        } else {
+                            _this.setState((prevState) => {
+                                let info = prevState.errorStatus.setIn(['email', 'status'], false);
+                                return {
+                                    errorStatus: info
+                                }
+                            });
+                            cb();
+                        }
+                    },
+                    function(cb) {
+                        let pattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                        if (!pattern.test(this.value)) {
+                            cb({key: 'email', message: '邮箱格式不正确'});
+                        } else {
+                            _this.setState((prevState) => {
+                                let info = prevState.errorStatus.setIn(['email', 'status'], false);
+                                return {
+                                    errorStatus: info
+                                }
+                            });
+                            cb();
+                        }
+                    }
+                ],
+                phone: [
+                    function(cb) {
+                        if (this.value.trim() === '') {
+                            cb({key: 'phone', message: '请输入手机号'});
+                        } else {
+                            _this.setState((prevState) => {
+                                let info = prevState.errorStatus.setIn(['phone', 'status'], false);
+                                return {
+                                    errorStatus: info
+                                }
+                            });
+                            cb();
+                        }
+                    },
+                    function(cb) {
+                        let pattern = /^1[3|4|5|7|8][0-9]{9}$/;
+                        if (!pattern.test(this.value)) {
+                            cb({key: 'phone', message: '手机号码格式不正确'});
+                        } else {
+                            _this.setState((prevState) => {
+                                let info = prevState.errorStatus.setIn(['phone', 'status'], false);
+                                return {
+                                    errorStatus: info
+                                }
+                            });
+                            cb();
+                        }
+                    }
+                ]
+            }
+        };
+        let source = this.state.registInfo.toJS();
+        let schema = new Schema(descriptor);
+        Schema.plugin([
+            require('async-validate/plugin/object'),
+            require('async-validate/plugin/string'),
+            require('async-validate/plugin/util')
+        ]);
+        schema.validate(source, (err, res) => {
+            if (err) {
+                console.log(err);
+                this.setState((prevState) => {
+                    let info = prevState.errorStatus.setIn([err.key, 'status'], true);
+                    info = info.setIn([err.key, 'msg'], err.message)
+                    return {
+                        errorStatus: info
+                    }
+                });
+                flag = false;
+            } else {
+                flag = true;
+            }
+        });
+        return flag;
+    }
     submitForm() {
         let _this = this;
-        const {host} = _this.props;
-        let registInfo = this.state.registInfo.toJS();
-        axios.post(`${host}/account/saveSelfInfo`, registInfo).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({showToast: true});
-                _this.state.toastTimer = setTimeout(()=> {
-                    _this.setState({showToast: false});
-                }, 2000);
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });
-        console.log(registInfo);
-
+        if (_this.validateAll()) {
+            const {host} = _this.props;
+            let registInfo = this.state.registInfo.toJS();
+            axios.post(`${host}/account/saveSelfInfo`, registInfo).then(function (response) {
+                if (response.data.state === 0) {
+                    _this.setState({showToast: true});
+                    _this.state.toastTimer = setTimeout(()=> {
+                        _this.setState({showToast: false});
+                    }, 2000);
+                }
+            }).catch(function (errors) {
+                console.log(errors);
+            });
+            console.log(registInfo);
+        }
     }
     render() {
         let errorInfo = this.state.errorStatus.toJS();
@@ -427,7 +578,7 @@ class Regist extends Component {
                         </CellBody>
                     </FormCell>
                     <p className={errorInfo.phone.status? 'text-danger' : 'hidden'}>{errorInfo.phone.msg}</p>
-                    <div className="code">
+                    {/*<div className="code">
                         <button className="btn btn-danger btn-sm" disabled={this.state.smsCodeInfo.disabled} onClick={this.getValidateCode}>
                             {this.state.smsCodeInfo.message}
                         </button>
@@ -440,7 +591,7 @@ class Regist extends Component {
                             <Input type="text" onChange={(e) => this.handleForm('code', e)} onBlur={(e) => this.handleBlur('code', e)} placeholder="请输入验证码" />
                         </CellBody>
                     </FormCell>
-                    <p className={errorInfo.code.status? 'text-danger' : 'hidden'}>{errorInfo.code.msg}</p>
+                    <p className={errorInfo.code.status? 'text-danger' : 'hidden'}>{errorInfo.code.msg}</p>*/}
                     <Button className='reg-btn' onClick={this.submitForm}>领取奖品</Button>
                 </Form>
                 <Toast icon="success-no-circle" show={this.state.showToast}>Done</Toast>
