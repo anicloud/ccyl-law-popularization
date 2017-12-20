@@ -31,12 +31,12 @@ public enum FileTypeEnum implements BaseEnum<FileTypeEnum,Integer>{
     }
     @Override
     public Integer getCode() {
-        return null;
+        return code;
     }
 
     @Override
     public String getValue() {
-        return null;
+        return value;
     }
 
     public static FileTypeEnum getEnum(Integer code) {

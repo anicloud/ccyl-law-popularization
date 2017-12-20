@@ -21,7 +21,7 @@ public class FileUtil {
     public static FileDto saveFile(MultipartFile file) {
         try {
             String originalFilename = file.getOriginalFilename();
-            String ext = originalFilename.substring(originalFilename.lastIndexOf("\\."));
+            String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
             String fileName = String.valueOf(System.currentTimeMillis())+ext;
             FileTypeEnum type;
             if(ext.toLowerCase().equals(".xlsx") || ext.toLowerCase().equals(".xls")) {
