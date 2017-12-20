@@ -61,16 +61,35 @@ class Regist extends Component {
                 orgName: '',
                 email: '',
                 phone: ''
-            })
+            }),
+            provinces: []
         };
-        this.getValidateCode = this.getValidateCode.bind(this);
+        /*生成年龄*/
+        this.arr = [];
+        for (let i = 1; i <= 100; i++) {
+            this.arr.push(i);
+        }
+        /*this.getValidateCode = this.getValidateCode.bind(this);*/
         this.submitForm = this.submitForm.bind(this);
         this.second = 60;
+    }
+    componentDidMount() {
+        let _this = this;
+        const {host} = _this.props;
+        axios.get(`${host}/account/getProvinces`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    provinces: response.data.data
+                });
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        })
     }
     componentWillUnmount() {
         this.state.toastTimer && clearTimeout(this.state.toastTimer);
     }
-    validatePhone() {
+    /*validatePhone() {
         let _this = this;
         let flag = false;
         let source = _this.state.registInfo.toJS();
@@ -133,8 +152,8 @@ class Regist extends Component {
             }
         });
         return flag;
-    }
-    getValidateCode() {
+    }*/
+    /*getValidateCode() {
         let _this = this;
         if (_this.validatePhone()) {
             const {host} = this.props;
@@ -168,14 +187,13 @@ class Regist extends Component {
                 console.log(errors);
             })
         }
-    }
+    }*/
     handleForm(field, e) {
         let value = e.target.value;
         this.setState((prevState) => {
             return {registInfo: prevState.registInfo.set(field, value)};
         });
     }
-    /*表单验证*/
     handleBlur(key, e) {
         let _this = this;
         let descriptor = {};
@@ -494,6 +512,7 @@ class Regist extends Component {
             console.log(registInfo);
         }
     }
+
     render() {
         let errorInfo = this.state.errorStatus.toJS();
         return (
@@ -531,8 +550,11 @@ class Regist extends Component {
                         <CellBody>
                             <Select onChange={(e) => this.handleForm('age', e)} onBlur={(e) => this.handleBlur('age', e)}>
                                 <option value="">请选择年龄</option>
-                                <option value="1">10</option>
-                                <option value="2">11</option>
+                                {
+                                    this.arr.map((item, index) => {
+                                        return <option value={item} key={index}>{item}</option>
+                                    })
+                                }
                             </Select>
                         </CellBody>
                     </FormCell>
@@ -544,9 +566,11 @@ class Regist extends Component {
                         <CellBody>
                             <Select onChange={(e) => this.handleForm('address', e)} onBlur={(e) => this.handleBlur('address', e)}>
                                 <option value="">请选择地区</option>
-                                <option value="1">北京</option>
-                                <option value="2">上海</option>
-                                <option value="2">深圳</option>
+                                {
+                                    this.state.provinces.map((item, index) => {
+                                        return <option value={item.name}>{item.value}</option>
+                                    })
+                                }
                             </Select>
                         </CellBody>
                     </FormCell>
