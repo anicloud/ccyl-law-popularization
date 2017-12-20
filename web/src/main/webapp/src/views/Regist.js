@@ -22,7 +22,6 @@ class Regist extends Component {
                 message: '发送验证码'
             },
             showToast: false,
-            toastTimer: null,
             errorStatus: Map({
                 name: Map({
                     status: false,
@@ -71,6 +70,7 @@ class Regist extends Component {
         }
         /*this.getValidateCode = this.getValidateCode.bind(this);*/
         this.submitForm = this.submitForm.bind(this);
+        this.toastTimer = null;
         this.second = 60;
     }
     componentDidMount() {
@@ -87,7 +87,7 @@ class Regist extends Component {
         })
     }
     componentWillUnmount() {
-        this.state.toastTimer && clearTimeout(this.state.toastTimer);
+        this.toastTimer && clearTimeout(this.toastTimer);
     }
     /*validatePhone() {
         let _this = this;
@@ -502,7 +502,7 @@ class Regist extends Component {
             axios.post(`${host}/account/saveSelfInfo`, registInfo).then(function (response) {
                 if (response.data.state === 0) {
                     _this.setState({showToast: true});
-                    _this.state.toastTimer = setTimeout(()=> {
+                    _this.toastTimer = setTimeout(()=> {
                         _this.setState({showToast: false});
                     }, 2000);
                 }
