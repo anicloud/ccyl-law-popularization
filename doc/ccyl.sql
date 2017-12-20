@@ -42,19 +42,6 @@ create table `t_question` (
 	PRIMARY KEY (`id`),
 	KEY `t_question_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='题库表';
-drop table if exists `t_achievement`;
-create table `t_achievement` (
-	`id` int(11) not null AUTO_INCREMENT comment '主键',
-  `account_id` int(11) not null COMMENT '账户id',
-  `question_id` int(11) NOT NULL COMMENT '题目id',
-  `is_correct` BOOLEAN NOT NULL DEFAULT FALSE,
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
-  `is_del` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '删除标志',
-  PRIMARY KEY (`id`),
-  KEY `t_achievement_account_id_key` (`account_id`),
-  KEY `t_achievement_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='答题记录表';
 DROP TABLE IF EXISTS `t_score_record`;
 CREATE TABLE `t_score_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -71,17 +58,6 @@ CREATE TABLE `t_score_record` (
   UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_question_id`),
   KEY `t_score_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='积分表';
-DROP TABLE IF EXISTS `t_sign_in`;
-CREATE TABLE `t_sign_in` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `account_id` INT(11) NOT NULL COMMENT '账户id',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
-  `is_del` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '删除标志',
-  PRIMARY KEY (`id`),
-  KEY `t_sign_in_account_id_key` (`account_id`),
-  KEY `t_sign_in_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='签到表';
 DROP TABLE IF EXISTS `t_access_token`;
 CREATE TABLE `t_access_token` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',

@@ -47,6 +47,17 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                     }
                     break;
+                case 2:
+                case 3:
+                    scoreRecordPO.setSrcAccountId(srcId);
+                    List<ScoreRecordPO> scoreRecordPOs1 = scoreRecordMapper.findByConditions(scoreRecordPO);
+                    if(scoreRecordPOs1==null||scoreRecordPOs1.size()==0) {
+                        scoreRecordPO.setScore(score);
+                        scoreRecordPO.setSrcType(srcType);
+                        scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        scoreRecordMapper.insertSelective(scoreRecordPO);
+                    }
+                    break;
             }
         }
     }

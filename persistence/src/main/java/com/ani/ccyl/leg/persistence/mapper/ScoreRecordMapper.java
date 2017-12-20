@@ -16,4 +16,6 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     List<ScoreRecordPO> findDailyScoreRecords(Integer accountId);
     ScoreRecordDto findById(Integer id);
     TotalScoreDto findTotalScore(Integer accountId);
+
+    List<ScoreRecordPO> findByConditions(ScoreRecordPO scoreRecordPO);
 }
