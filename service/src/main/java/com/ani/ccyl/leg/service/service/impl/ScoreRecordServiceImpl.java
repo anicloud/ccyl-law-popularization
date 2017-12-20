@@ -82,22 +82,31 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public Integer findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType) {
+    public DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType) {
         ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
         scoreRecordPO.setAccountId(accountId);
         scoreRecordPO.setSrcType(srcType);
-        return scoreRecordMapper.findDailyTotalScore(scoreRecordPO);
+        Integer score = scoreRecordMapper.findDailyTotalScore(scoreRecordPO);
+        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+        DailyTotalScoreDto scoreDto = new DailyTotalScoreDto();
+        scoreDto.setAccountId(accountId);
+        scoreDto.setName(accountPO.getNickName());
+        scoreDto.setScore(score);
+        scoreDto.setPortrait(accountPO.getPortrait());
+        return scoreDto;
     }
 
     @Override
     public List<Top20Dto> findDailyTop20() {
         List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.findDailyTop20();
         List<Top20Dto> top20Dtos = new ArrayList<>();
+        ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
         if(scoreRecordPOs != null && scoreRecordPOs.size()>0) {
             for(ScoreRecordPO scoreRecordPO:scoreRecordPOs) {
                 Top20Dto top20Dto = new Top20Dto();
                 top20Dto.setId(scoreRecordPO.getAccountId());
-                top20Dto.setScore(findDailyTotalScore(scoreRecordPO.getAccountId(),null));
+                scoreRecordParam.setAccountId(scoreRecordPO.getAccountId());
+                top20Dto.setScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
                 AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
                 top20Dto.setName(accountPO.getNickName());
                 top20Dto.setPortrat(accountPO.getPortrait());

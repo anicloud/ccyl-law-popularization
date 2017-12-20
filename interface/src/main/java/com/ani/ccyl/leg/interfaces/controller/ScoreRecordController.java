@@ -1,10 +1,7 @@
 package com.ani.ccyl.leg.interfaces.controller;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
-import com.ani.ccyl.leg.commons.dto.AccountDto;
-import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
-import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
-import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
+import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
@@ -42,8 +39,9 @@ public class ScoreRecordController {
     public ResponseMessageDto findDailyTotalScore(Integer id, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        message.setData(id==null?scoreRecordService.findDailyTotalScore(accountDto.getId(),ScoreSrcTypeEnum.QUESTION) : id);
+        DailyTotalScoreDto scoreDto = scoreRecordService.findDailyTotalScore(id == null?accountDto.getId():id,ScoreSrcTypeEnum.QUESTION);
         message.setState(ResponseStateEnum.OK);
+        message.setData(scoreDto);
         message.setMsg("查询成功");
         return message;
     }

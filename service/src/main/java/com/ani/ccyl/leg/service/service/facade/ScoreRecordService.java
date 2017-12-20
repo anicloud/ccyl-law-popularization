@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.service.service.facade;
 
+import com.ani.ccyl.leg.commons.dto.DailyTotalScoreDto;
 import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
 import com.ani.ccyl.leg.commons.dto.Top20Dto;
 import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
@@ -16,6 +17,6 @@ public interface ScoreRecordService {
     List<ScoreRecordDto> findDailyScoreRecoreds(Integer accountId);
 
     TotalScoreDto findTotalScore(Integer accountId);
-    Integer findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType);
+    DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType);
     List<Top20Dto> findDailyTop20();
 }
