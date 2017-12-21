@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Back from './Back';
-import icon from '../media/images/signin_icon.png';
 import {connect} from 'react-redux';
 import {jsSdkConfig, getCookie} from "../utils/index";
 import {Toast} from 'react-weui';
@@ -92,7 +91,7 @@ class SharePrize extends Component {
                 {
                     scoreInfo? (
                         <div>
-                            <div className='flower'>
+                            <div className={scoreInfo.score === 15? 'flower-gold' : scoreInfo.score === 10? 'flower-silver' : scoreInfo.score === 5 ? 'flower-copper' : 'flower'}>
                                 <img src={scoreInfo.portrait} alt=""/>
                             </div>
                             <p className='text-center score-ques'>
