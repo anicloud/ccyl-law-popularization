@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
 import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
 import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
+import com.ani.ccyl.leg.persistence.mapper.ShareRelationMapper;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;

@@ -36,7 +36,7 @@ public class AccountController {
         return message;
     }
 
-    @RequestMapping("/findById")
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findById(Integer id) {
         ResponseMessageDto message = new ResponseMessageDto();
@@ -46,7 +46,7 @@ public class AccountController {
         message.setState(ResponseStateEnum.OK);
         return message;
     }
-    @RequestMapping("/findProvinces")
+    @RequestMapping(value = "/findProvinces",method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findProvinces() {
         ResponseMessageDto message = new ResponseMessageDto();
