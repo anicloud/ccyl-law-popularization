@@ -31,7 +31,7 @@ class SharePrize extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        jsSdkConfig(axios, host);
+        // jsSdkConfig(axios, host);
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
