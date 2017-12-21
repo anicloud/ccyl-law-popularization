@@ -95,7 +95,6 @@ public class WechatUtil {
             inputStreamReader.close();
             inputStream.close();
             httpUrlConn.disconnect();
-            System.out.println(buffer.toString());
             jsonObject = JSONObject.fromObject(buffer.toString());
         } catch (ConnectException ce) {
             ce.printStackTrace();
