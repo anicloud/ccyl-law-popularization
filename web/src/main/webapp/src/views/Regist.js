@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import Schema from 'async-validate';
 import {Map} from 'immutable';
+import Back from './Back';
 
 class Regist extends Component {
     constructor() {
@@ -517,6 +518,9 @@ class Regist extends Component {
         let errorInfo = this.state.errorStatus.toJS();
         return (
             <div className="regist main-bg">
+                <div className='clearfix'>
+                    <Back location='/home' history={this.props.history} />
+                </div>
                 <h2 className="text-center title">
                     <span>知识竞赛选手注册</span>
                 </h2>
