@@ -43,6 +43,9 @@ class App extends Component {
             case 5:
                 this.props.history.push('/score');
                 break;
+            case 6:
+                this.props.history.push('/regist');
+                break;
             default:
                 return;
         }
@@ -78,6 +81,9 @@ class App extends Component {
                     </li>
                     <li className="text-center" onClick={() => {this.handleTouch(5)}}>
                         <span>荣耀榜</span>
+                    </li>
+                    <li className="text-center" onClick={() => {this.handleTouch(6)}}>
+                        <span>补填信息</span>
                     </li>
                 </ul>
                 <div className="star">
