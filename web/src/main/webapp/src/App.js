@@ -34,11 +34,11 @@ class App extends Component {
             case 1:
                 this.props.history.push('/answer');
                 break;
-            case 2:
-                this.props.history.push('/tasks');
-                break;
             case 3:
                 this.props.history.push('/tasks');
+                break;
+            case 4:
+                this.props.history.push('/scoreshopping');
                 break;
             case 5:
                 this.props.history.push('/score');
@@ -67,13 +67,13 @@ class App extends Component {
                     <li className="text-center" onClick={() => {this.handleTouch(1)}}>
                         <span>每日必答</span>
                     </li>
-                    <li className="text-center" onClick={() => {this.handleTouch(2)}}>
+                    {/*<li className="text-center" onClick={() => {this.handleTouch(2)}}>
                         <span>我的任务</span>
-                    </li>
+                    </li>*/}
                     <li className="text-center" onClick={() => {this.handleTouch(3)}}>
                         <span>我的积分</span>
                     </li>
-                    <li className="text-center">
+                    <li className="text-center" onClick={() => {this.handleTouch(4)}}>
                         <span>积分兑奖</span>
                     </li>
                     <li className="text-center" onClick={() => {this.handleTouch(5)}}>

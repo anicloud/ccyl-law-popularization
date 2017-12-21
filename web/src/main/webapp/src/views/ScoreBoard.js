@@ -11,7 +11,8 @@ class ScoreBoard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rankingInfo: null
+            rankingInfo: null,
+            location: this.props.location.state? this.props.location.state : '/home'
         }
     }
     componentDidMount() {
@@ -34,7 +35,7 @@ class ScoreBoard extends Component {
         return (
             <div className='score main-bg'>
                 <div className='clearfix'>
-                    <Back location='/home' history={this.props.history} />
+                    <Back location={this.state.location} history={this.props.history} />
                 </div>
                 <h2 className="text-center title">荣耀排行榜</h2>
                 {

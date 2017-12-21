@@ -13,7 +13,8 @@ class SharePrize extends Component {
         this.state = {
             scoreInfo: null,
             showToast: false,
-            toastText: '分享成功'
+            toastText: '分享成功',
+            location: this.props.location.state? this.props.location.state : '/answer'
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
@@ -84,7 +85,7 @@ class SharePrize extends Component {
         return (
             <div className='share-prize main-bg'>
                 <div className='clearfix'>
-                    <Back location='/answer' history={this.props.history} />
+                    <Back location={this.state.location} history={this.props.history} />
                 </div>
                 <h3 className='text-center'>荣誉奖状</h3>
                 {

@@ -12,7 +12,7 @@ class ScoreShopping extends Component{
     constructor(props){
        super(props);
         this.state = {
-            location: '/myscore'
+            location: this.props.location.state? this.props.location.state : '/home'
         };
     }
     getCurrentScore(){

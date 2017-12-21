@@ -17,7 +17,8 @@ class AnswerQuestion extends Component {
         this.state = {
             location: '/home',
             question: null,
-            showNext: false
+            showNext: false,
+            isComplete: false
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
@@ -40,6 +41,10 @@ class AnswerQuestion extends Component {
                     _this.setState({
                         question: Map(response.data.data)
                     });
+                } else {
+                    _this.setState({
+                        isComplete: true
+                    })
                 }
             }
         }).catch(function (errors) {
@@ -77,6 +82,7 @@ class AnswerQuestion extends Component {
     }
     render() {
         let question = this.state.question? this.state.question.toJS() : '';
+        let isComplete = this.state.isComplete;
         return (
             <div className="answer main-bg">
                 <div className='clearfix'>
@@ -91,9 +97,12 @@ class AnswerQuestion extends Component {
                 />*/}
                 {
                     question === ''? (
-                        <div className='text-center complete'>
-                            今日答题已完成
-                        </div>
+                        isComplete? (
+                            <div className='text-center complete'>
+                                今日答题已完成
+                                <Button className='share' type="primary" plain onClick={this.handleShare}>分享荣誉</Button>
+                            </div>
+                        ) : (null)
                     ) : (
                         <div>
                             <h3 className="text-center h3 title">
