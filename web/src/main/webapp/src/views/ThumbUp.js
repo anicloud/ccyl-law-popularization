@@ -12,6 +12,8 @@ class ThumbUp extends Component {
         this.state = {
             scoreInfo: null
         };
+        this.handleAnswer = this.handleAnswer.bind(this);
+        this.handleThumb = this.handleThumb.bind(this);
     }
     componentDidMount() {
         let _this = this;
@@ -22,6 +24,22 @@ class ThumbUp extends Component {
                 _this.setState({
                     scoreInfo: response.data.data
                 })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        })
+    }
+    handleAnswer() {
+        const {history} = this.props;
+        history.push('/');
+    }
+    handleThumb() {
+        let _this = this;
+        const {host} = _this.props;
+        const userId = _this.props.location.state;
+        axios.get(`${host}/thumb?id=${userId}`).then(function (response) {
+            if (response.data.state === 0) {
+
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -40,11 +58,11 @@ class ThumbUp extends Component {
                     答题获得积分：<span>15 积分</span>
                 </p>
                 <p className='text-center share'>
-                    <button className='btn btn-success'>
+                    <button className='btn btn-success' onClick={this.handleThumb}>
                         <i className='glyphicon glyphicon-thumbs-up'/>
                         <span className='thumb-up'>点赞</span>
                     </button>
-                    <button className='btn btn-success'>
+                    <button className='btn btn-success' onClick={this.handleAnswer}>
                         <i className='glyphicon glyphicon-share-alt'/>
                         <span className='thumb-up'>去答题</span>
                     </button>

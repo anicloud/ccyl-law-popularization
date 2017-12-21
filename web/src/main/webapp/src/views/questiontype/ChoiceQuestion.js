@@ -21,6 +21,7 @@ class ChoiceQuestion extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (!this.state.question || (nextProps.question.order !== this.state.question.order)) {
             this.setState({
                 question: nextProps.question,
