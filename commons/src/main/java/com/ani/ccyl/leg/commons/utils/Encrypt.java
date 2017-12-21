@@ -18,8 +18,4 @@ public class Encrypt {
 	public static String md5hash(String password, String salt){
 		return new Md5Hash(password, salt, 2).toString();
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(Encrypt.md5hash("123456", "helen"));
-	}
 }

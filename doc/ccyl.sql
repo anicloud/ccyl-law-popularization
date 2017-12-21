@@ -112,13 +112,13 @@ CREATE PROCEDURE proce_init_day_questions()
     FETCH cursor_day_question INTO day_question_id;
     IF (flag=1) THEN
       SET cur_order_num = 1;
-      SET cur_day_num = datediff('2017-12-20',date_format(now(),'%Y-%m-%d'))+1;
+      SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2017-12-20')+1;
       SET flag=0;
       OPEN cursor_top3_question;
       FETCH cursor_top3_question INTO day_question_id;
       WHILE flag <> 1 DO
         INSERT INTO t_day_question(id,day_num,update_time,create_time,is_del,order_num) VALUES (day_question_id,cur_day_num,now(),now(),0,cur_order_num);
-        SET cur_order_num = cur_day_num+1;
+        SET cur_order_num = cur_order_num+1;
         FETCH cursor_top3_question INTO day_question_id;
       END WHILE;
       CLOSE cursor_top3_question;
