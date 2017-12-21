@@ -18,11 +18,11 @@ public class QuestionVerifyDto implements Serializable {
         this.answer = answer;
     }
 
-    public Boolean getCorrect() {
+    public Boolean getIdCorrect() {
         return isCorrect;
     }
 
-    public void setCorrect(Boolean correct) {
+    public void setIdCorrect(Boolean correct) {
         isCorrect = correct;
     }
 

@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -60,11 +61,11 @@ public class QuestionController {
         if(questionDto != null && questionDto.getAnswer().equalsIgnoreCase(answer)) {
             scoreRecordService.insertScore(accountDto.getId(),5, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("正确");
-            verifyDto.setCorrect(true);
+            verifyDto.setIdCorrect(true);
         } else {
             scoreRecordService.insertScore(accountDto.getId(),0, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("错误");
-            verifyDto.setCorrect(false);
+            verifyDto.setIdCorrect(false);
             verifyDto.setAnswer(questionDto == null?null:questionDto.getAnswer());
         }
         message.setData(verifyDto);
@@ -73,7 +74,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/findDayQuestions", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findDayQuestions(HttpServletRequest request) {
+    public ResponseMessageDto findDayQuestions(HttpServletRequest request) throws ParseException {
         ResponseMessageDto message = new ResponseMessageDto();
         HttpSession session = request.getSession();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
@@ -86,7 +87,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/findCurrentQuestion", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findCurrentQuestion(HttpServletRequest request) {
+    public ResponseMessageDto findCurrentQuestion(HttpServletRequest request) throws ParseException {
         ResponseMessageDto message = new ResponseMessageDto();
         HttpSession session = request.getSession();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);

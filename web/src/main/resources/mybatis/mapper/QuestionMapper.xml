@@ -7,6 +7,6 @@
         SELECT q.* FROM t_question q LEFT JOIN t_day_question dq ON q.id=dq.id WHERE date_format(dq.create_time,'%Y-%m-%d')=date_format(#{createTime},'%Y-%m-%d') ORDER BY q.id
     </select>
     <select id="findTopThree" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
-        SELECT * FROM t_question WHERE is_del=FALSE LIMIT 3
+        SELECT * FROM t_question WHERE is_del=FALSE AND id &gt; (SELECT max(id) FROM t_day_question) ORDER BY id LIMIT 3
     </select>
 </mapper>

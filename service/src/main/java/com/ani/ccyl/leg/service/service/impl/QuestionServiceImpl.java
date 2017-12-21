@@ -1,8 +1,10 @@
 package com.ani.ccyl.leg.service.service.impl;
 
+import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.FileDto;
 import com.ani.ccyl.leg.commons.dto.QuestionDto;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
+import com.ani.ccyl.leg.commons.utils.DateUtil;
 import com.ani.ccyl.leg.commons.utils.ExcelUtil;
 import com.ani.ccyl.leg.commons.utils.FileUtil;
 import com.ani.ccyl.leg.persistence.mapper.DayQuestionMapper;
@@ -20,7 +22,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,16 +64,18 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDto> findDayQuestions(Integer accountId) {
+    public List<QuestionDto> findDayQuestions(Integer accountId) throws ParseException {
         List<QuestionPO> dayQuestions = questionMapper.findDayQuestions(new Timestamp(System.currentTimeMillis()));
         List<QuestionDto> resultDtos = new ArrayList<>();
         if(dayQuestions == null || dayQuestions.size()==0) {
             dayQuestions = questionMapper.findTopThree();
             if(dayQuestions != null) {
                 int i = 1;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date startTime = simpleDateFormat.parse(Constants.PROPERTIES.getProperty("start.time"));
+                Integer dayNum = DateUtil.differentDays(startTime,new Date());
                 for(QuestionPO questionPO:dayQuestions) {
-                    Integer dayNum = dayQuestionMapper.findMaxDayNum(accountId);
-                    DayQuestionPO dayQuestionPO = new DayQuestionPO(questionPO.getId(),dayNum==null?1:(dayNum+1),null,new Timestamp(System.currentTimeMillis()),false, i);
+                    DayQuestionPO dayQuestionPO = new DayQuestionPO(null,dayNum,null,new Timestamp(System.currentTimeMillis()),false, i);
                     QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
                     questionDto.setOrder(i);
                     questionDto.setDayNum(dayQuestionPO.getDayNum());
@@ -90,16 +97,18 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionDto updateNewQuestion(Integer accountId) {
+    public QuestionDto updateNewQuestion(Integer accountId) throws ParseException {
         QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(accountId));
         if(questionDto == null) {
             List<QuestionDto> questionDtos = findDayQuestions(accountId);
             if(questionDtos != null && questionDtos.size()>0)
                 questionDto = questionDtos.get(0);
         } else {
-            Integer order = dayQuestionMapper.selectByPrimaryKey(questionDto.getId()).getOrderNum();
+            DayQuestionPO dayQuestionPO = dayQuestionMapper.selectByPrimaryKey(questionDto.getId());
+            Integer order = dayQuestionPO.getOrderNum();
             if(order<3) {
                 questionDto = QuestionAdapter.fromPO(dayQuestionMapper.findNewQuestion(order+1));
+                questionDto.setDayNum(dayQuestionPO.getDayNum());
                 questionDto.setOrder(order+1);
             } else {
                 return null;

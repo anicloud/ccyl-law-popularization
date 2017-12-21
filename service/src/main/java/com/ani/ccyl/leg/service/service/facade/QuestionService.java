@@ -4,6 +4,7 @@ import com.ani.ccyl.leg.commons.dto.QuestionDto;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public interface QuestionService {
 
     QuestionDto findById(Integer id);
 
-    List<QuestionDto> findDayQuestions(Integer accountId);
+    List<QuestionDto> findDayQuestions(Integer accountId) throws ParseException;
 
-    QuestionDto updateNewQuestion(Integer accountId);
+    QuestionDto updateNewQuestion(Integer accountId) throws ParseException;
 }
