@@ -10,10 +10,13 @@ class ThumbUp extends Component {
         super(props);
         console.log(this.props);
         this.state = {
-            scoreInfo: null
+            scoreInfo: null,
+            showToast: false,
+            isThumbUp: false
         };
         this.handleAnswer = this.handleAnswer.bind(this);
         this.handleThumb = this.handleThumb.bind(this);
+        this.toastTimer = null;
     }
     componentDidMount() {
         let _this = this;
@@ -29,6 +32,9 @@ class ThumbUp extends Component {
             console.log(errors);
         })
     }
+    componentWillUnmount() {
+        this.toastTimer && clearTimeout(this.toastTimer);
+    }
     handleAnswer() {
         const {history} = this.props;
         history.push('/');
@@ -37,36 +43,51 @@ class ThumbUp extends Component {
         let _this = this;
         const {host} = _this.props;
         const userId = _this.props.location.state;
-        axios.get(`${host}/thumb?id=${userId}`).then(function (response) {
+        axios.get(`${host}/score/thumbUp?toAccountId=${userId}`).then(function (response) {
             if (response.data.state === 0) {
-
+                _this.setState({
+                    showToast: true,
+                    isThumbUp: true
+                });
+                _this.toastTimer = setTimeout(()=> {
+                    _this.setState({showToast: false});
+                }, 2000);
             }
         }).catch(function (errors) {
             console.log(errors);
         })
     }
     render() {
+        let isThumbUp = this.state.isThumbUp;
+        let scoreInfo = this.state.scoreInfo;
         return (
             <div className='thumb main-bg'>
-                <h2 className="text-center title">
-                    <span>wxw的荣誉</span>
-                </h2>
-                <div className='flower'>
-                    <img src={icon} alt=""/>
-                </div>
-                <p className='text-center score-ques'>
-                    答题获得积分：<span>15 积分</span>
-                </p>
-                <p className='text-center share'>
-                    <button className='btn btn-success' onClick={this.handleThumb}>
-                        <i className='glyphicon glyphicon-thumbs-up'/>
-                        <span className='thumb-up'>点赞</span>
-                    </button>
-                    <button className='btn btn-success' onClick={this.handleAnswer}>
-                        <i className='glyphicon glyphicon-share-alt'/>
-                        <span className='thumb-up'>去答题</span>
-                    </button>
-                </p>
+                {scoreInfo? (
+                    <div>
+                        <h2 className="text-center title">
+                            <span>{scoreInfo.name}的荣誉</span>
+                        </h2>
+                        <div className='flower'>
+                            <img src={scoreInfo.portrait} alt=""/>
+                        </div>
+                        <p className='text-center score-ques'>
+                            答题获得积分：<span>{scoreInfo.score} 积分</span>
+                        </p>
+                        <p className='text-center share'>
+                            <button className='btn btn-success' onClick={this.handleThumb}>
+                                <i className='glyphicon glyphicon-thumbs-up' style={{color: isThumbUp? '#f60' : '#fff'}} />
+                                <span className='thumb-up' style={{color: isThumbUp? '#f60' : '#fff'}}>{isThumbUp? '已点赞' : '点赞'}</span>
+                            </button>
+                            <button className='btn btn-success' onClick={this.handleAnswer}>
+                                <i className='glyphicon glyphicon-share-alt'/>
+                                <span className='thumb-up'>去答题</span>
+                            </button>
+                        </p>
+                    </div>
+                ) : (
+                    <Toast icon="loading" show={true}>Loading...</Toast>
+                )}
+                <Toast icon="success-no-circle" show={this.state.showToast}>点赞成功</Toast>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
