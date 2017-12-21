@@ -94,17 +94,17 @@ class MyScore extends Component {
                     <div className="task">
                         <span>签到</span>
                         <Button onClick={this.handleSignIn}>签到</Button>
-                        <span className="desc">+5积分/次</span>
+                        <span className="desc">+2积分/次</span>
                     </div>
                     <div className="task">
                         <span>普法小奖状</span>
                         <Button onClick={this.handleShare}>查看</Button>
-                        <span className="desc">+5积分/次</span>
+                        <span className="desc">+3积分/次</span>
                     </div>
                     <div className="task">
                         <span>好友点赞</span>
                         <Button onClick={this.handleShare}>分享</Button>
-                        <span className="desc">+5积分/次</span>
+                        <span className="desc">+2积分/次</span>
                     </div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
