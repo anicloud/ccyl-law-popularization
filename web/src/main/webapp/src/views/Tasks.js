@@ -28,7 +28,7 @@ class Tasks extends Component {
         return (
             <div className='tasks main-bg'>
                 <div className='clearfix'>
-                    <Back location='/home' history={this.props.history} />
+                    <Back location='/tasks' history={this.props.history} />
                 </div>
                 <h2 className="text-center title">
                     <span>每日任务</span>
@@ -38,21 +38,21 @@ class Tasks extends Component {
                     <div className='one'>
                         <h3 className='text-center'>任务一： 分享</h3>
                         <p><span>任务简述：</span> 每次答题完毕后生成小奖状，小奖状上带个人身份识别二维码，可分享至朋友圈邀请好友答题。好友可通过扫描二维码进行注册的，答题者可获得积分+3。</p>
-                        <p className='text-center'>
+                        {/*<p className='text-center'>
                             <button className='btn btn-success' onClick={() => {this.handleTouch(0)}}>前往做任务</button>
-                        </p>
+                        </p>*/}
                     </div>
                     <div className='two'>
                         <h3 className='text-center'>任务二： 签到</h3>
                         <p><span>任务简述：</span> 每日签到，签到后可获得积分+2。</p>
-                        <p className='text-center'>
+                        {/*<p className='text-center'>
                             <button className='btn btn-success' onClick={() => {this.handleTouch(1)}}>前往做任务</button>
-                        </p>
+                        </p>*/}
                     </div>
                     <div className='three'>
                         <h3 className='text-center'>任务三： 好友点赞</h3>
                         <p><span>任务简述：</span> 好友通过链接点赞可为【加分包】蓄能，能量蓄满后可得5个积分。</p>
-                        <p className='text-center'><button className='btn btn-success'>前往做任务</button></p>
+                        {/*<p className='text-center'><button className='btn btn-success'>前往做任务</button></p>*/}
                     </div>
                 </div>
             </div>
