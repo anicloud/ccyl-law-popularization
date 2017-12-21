@@ -15,7 +15,7 @@ public interface QuestionService {
 
     QuestionDto findById(Integer id);
 
-    List<QuestionDto> findDayQuestions(Integer accountId) throws ParseException;
+    List<QuestionDto> findDayQuestions() throws ParseException;
 
     QuestionDto updateNewQuestion(Integer accountId) throws ParseException;
 }
