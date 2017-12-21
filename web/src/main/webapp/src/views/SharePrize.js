@@ -88,6 +88,11 @@ class SharePrize extends Component {
                         console.log(3);
                     }
                 });
+
+                window.wx.error(function (res) {
+                    console.log('错误信息')
+                    console.log(res.errMsg);
+                });
                 console.log(2);
             }
         }).catch(function (errors) {
