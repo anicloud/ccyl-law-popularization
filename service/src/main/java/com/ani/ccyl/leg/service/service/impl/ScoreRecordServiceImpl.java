@@ -5,8 +5,11 @@ import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
 import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
 import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
+import com.ani.ccyl.leg.persistence.mapper.ShareRelationMapper;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
+import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
+import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
 import com.ani.ccyl.leg.service.adapter.ScoreRecordAdapter;
@@ -29,11 +32,26 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private QuestionMapper questionMapper;
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private ShareRelationPersistenceService shareRelationPersistenceService;
+    @Autowired
+    private ShareRelationMapper shareRelationMapper;
+
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
             scoreRecordPO.setAccountId(accountId);
+            ShareRelationPO shareRelationPO = shareRelationPersistenceService.findBySharedId(accountId);
+            if(shareRelationPO != null&&!shareRelationPO.getPartIn()) {
+                ScoreRecordPO shareRecord = new ScoreRecordPO();
+                shareRecord.setAccountId(shareRelationPO.getShareId());
+                shareRecord.setScore(3);
+                shareRecord.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                scoreRecordMapper.insertSelective(shareRecord);
+                shareRelationPO.setPartIn(true);
+                shareRelationMapper.updateByPrimaryKeySelective(shareRelationPO);
+            }
             switch (srcType.getCode()) {
                 case 1:
                     scoreRecordPO.setSrcQuestionId(srcId);

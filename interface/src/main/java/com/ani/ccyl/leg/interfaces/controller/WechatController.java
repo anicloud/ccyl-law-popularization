@@ -9,6 +9,7 @@ import com.ani.ccyl.leg.commons.enums.HttpMessageEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
+import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
 import org.apache.shiro.SecurityUtils;
@@ -42,6 +43,8 @@ public class WechatController {
     private WechatService wechatService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private ShareRelationService shareRelationService;
     @RequestMapping(value = "/entrance")
     @ResponseBody
     public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -113,6 +116,7 @@ public class WechatController {
                 response.addCookie(cookie);
                 if(state.matches("^[0-9]+$")) {
                     AccountDto toAccount = accountService.findById(Integer.parseInt(state));
+                    shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());

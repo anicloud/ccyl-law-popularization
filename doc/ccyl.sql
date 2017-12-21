@@ -95,7 +95,20 @@ CREATE TABLE `t_day_question` (
   PRIMARY KEY (`id`),
   KEY `t_day_question_is_del_key` (`is_del`),
   KEY `t_day_question_order_num_key` (`order_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='每日问题表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日问题表';
+DROP TABLE IF EXISTS `t_share_relation`;
+CREATE TABLE `t_share_relation` (
+  `id` INT(11) NOT NULL COMMENT '主键',
+  `share_id` INT(11) NOT NULL COMMENT '分享者id',
+  `shared_id` INT(11) NOT NULL COMMENT '被分享者id',
+  `is_part_in` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '被分享者是否参与',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `t_share_relation_unique_key` (`shared_id`),
+  KEY `t_share_relation_share_id_key` (share_id)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='分享表';
 DROP PROCEDURE IF EXISTS proce_init_day_questions;
 DELIMITER $
 CREATE PROCEDURE proce_init_day_questions()
