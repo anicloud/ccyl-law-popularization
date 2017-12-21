@@ -1,5 +1,7 @@
 package com.ani.ccyl.leg.commons.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -12,6 +14,7 @@ public class Top20Dto implements Serializable {
     private String name;
     private String portrat;
     private Integer score;
+    @JsonFormat(pattern="HH:mm:ss")
     private Timestamp updateTime;
 
     public Top20Dto() {
@@ -25,6 +28,7 @@ public class Top20Dto implements Serializable {
         this.updateTime = updateTime;
     }
 
+    @JsonFormat(pattern="HH:mm:ss")
     public Timestamp getUpdateTime() {
         return updateTime;
     }

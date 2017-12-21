@@ -61,11 +61,11 @@ public class QuestionController {
         if(questionDto != null && questionDto.getAnswer().equalsIgnoreCase(answer)) {
             scoreRecordService.insertScore(accountDto.getId(),5, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("正确");
-            verifyDto.setIdCorrect(true);
+            verifyDto.setIsCorrect(true);
         } else {
             scoreRecordService.insertScore(accountDto.getId(),0, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("错误");
-            verifyDto.setIdCorrect(false);
+            verifyDto.setIsCorrect(false);
             verifyDto.setAnswer(questionDto == null?null:questionDto.getAnswer());
         }
         message.setData(verifyDto);
