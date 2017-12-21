@@ -1,10 +1,36 @@
 import React, {Component} from 'react';
-import '../media/styles/score.less';
 import Back from './Back';
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {Toast} from 'react-weui';
+import {getPartName} from "../utils/index";
 import icon from '../media/images/signin_icon.png';
+import '../media/styles/score.less';
 
 class ScoreBoard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            rankingInfo: null
+        }
+    }
+    componentDidMount() {
+        let _this = this;
+        const {host} = _this.props;
+        axios.get(`${host}/score/findTop20`).then(function (response) {
+            if (response.data.state === 0) {
+                if (response.data.data !== null) {
+                    _this.setState({
+                        rankingInfo: response.data.data
+                    })
+                }
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        })
+    }
     render() {
+        let rankingInfo = this.state.rankingInfo;
         return (
             <div className='score main-bg'>
                 <div className='clearfix'>
@@ -12,18 +38,24 @@ class ScoreBoard extends Component {
                 </div>
                 <h2 className="text-center title">荣耀排行榜</h2>
                 {
-                    [1, 2, 3, 4, 5, 6, 7].map((item, index) => {
-                        return (
-                            <div className='row score-list' key={index}>
-                                <div className='col-xs-3 text-center head'>
-                                    <img src={icon} alt=""/>
+                    rankingInfo? (
+                        rankingInfo.map((item, index) => {
+                            return (
+                                <div className='row score-list' key={index}>
+                                    <div className='col-xs-3 text-center head'>
+                                        <img src={item.portrat} alt=""/>
+                                    </div>
+                                    <div className='col-xs-3 text-center'>
+                                        {getPartName(item.name)}
+                                    </div>
+                                    <div className='col-xs-3 text-center'>{item.score}分</div>
+                                    <div className='col-xs-3 text-center'>{item.updateTime}</div>
                                 </div>
-                                <div className='col-xs-3 text-center'>112...</div>
-                                <div className='col-xs-3 text-center'>109分</div>
-                                <div className='col-xs-3 text-center'>9:12:59</div>
-                            </div>
-                        )
-                    })
+                            )
+                        })
+                    ) : (
+                        <div className='text-center ranking'>暂无排行榜信息</div>
+                    )
                 }
                 <div className='score-info'>
                     <p>
@@ -31,9 +63,17 @@ class ScoreBoard extends Component {
                         活动以天为单位，进行当日积分累计排行，显示前TOP20。共计6周。前20名将获得现金红包奖励。
                     </p>
                 </div>
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         )
     }
 }
 
-export default ScoreBoard;
+function mapStateToProps(state) {
+    return {
+        host: state.host,
+        showLoading: state.showLoading
+    }
+}
+
+export default connect(mapStateToProps)(ScoreBoard);

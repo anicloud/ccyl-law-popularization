@@ -43,3 +43,10 @@ export function getCookie(name) {
     }
     return "";
 }
+
+export function getPartName(name) {
+    if (name.length > 3) {
+        return name.substr(0, 3) + '...';
+    }
+    return name;
+}
