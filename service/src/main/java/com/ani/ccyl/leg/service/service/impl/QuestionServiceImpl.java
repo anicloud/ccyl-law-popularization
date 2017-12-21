@@ -73,7 +73,7 @@ public class QuestionServiceImpl implements QuestionService {
                 int i = 1;
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date startTime = simpleDateFormat.parse(Constants.PROPERTIES.getProperty("start.time"));
-                Integer dayNum = DateUtil.differentDays(startTime,new Date());
+                Integer dayNum = DateUtil.differentDays(startTime,new Date())+1;
                 for(QuestionPO questionPO:dayQuestions) {
                     DayQuestionPO dayQuestionPO = new DayQuestionPO(null,dayNum,null,new Timestamp(System.currentTimeMillis()),false, i);
                     QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
