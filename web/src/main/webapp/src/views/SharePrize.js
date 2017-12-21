@@ -47,6 +47,8 @@ class SharePrize extends Component {
                     link: response.data.data,
                     imgUrl: _this.state.scoreInfo.portrait,
                     success: function (res) {
+                        console.log(res);
+                        console.log('success');
                         _this.setState({
                             showToast: true,
                             toastText: '分享成功'
@@ -54,8 +56,11 @@ class SharePrize extends Component {
                         _this.toastTimer = setTimeout(()=> {
                             _this.setState({showToast: false});
                         }, 2000);
+                        console.log(5);
                     },
                     cancel: function (res) {
+                        console.log(res);
+                        console.log('cancel');
                         _this.setState({
                             showToast: true,
                             toastText: '分享取消'
@@ -63,8 +68,11 @@ class SharePrize extends Component {
                         _this.toastTimer = setTimeout(()=> {
                             _this.setState({showToast: false});
                         }, 2000);
+                        console.log(4);
                     },
                     fail: function (res) {
+                        console.log(res);
+                        console.log('fail');
                         _this.setState({
                             showToast: true,
                             toastText: '分享失败'
@@ -72,6 +80,7 @@ class SharePrize extends Component {
                         _this.toastTimer = setTimeout(()=> {
                             _this.setState({showToast: false});
                         }, 2000);
+                        console.log(3);
                     }
                 });
                 console.log(2);
