@@ -39,11 +39,12 @@ class SharePrize extends Component {
     handleShare() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/wechat/shareUrl`).then(function (response) {
+        let prize = _this.scoreInfo.score === 15? '金牌' : _this.scoreInfo.score === 10? '银牌' : _this.scoreInfo.score === 5? '铜牌' : '';
+            axios.get(`${host}/wechat/shareUrl`).then(function (response) {
             if (response.data.state === 0) {
                 console.log(1);
                 window.wx.onMenuShareTimeline({
-                    title: '我在中国共青团青少年学法用法知识竞赛获得了金牌，快来支持我并答题吧!',
+                    title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
                     link: response.data.data,
                     imgUrl: _this.state.scoreInfo.portrait,
                     success: function (res) {
