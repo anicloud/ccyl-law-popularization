@@ -18,6 +18,7 @@ class SharePrize extends Component {
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
+        this.handleShare = this.handleShare.bind(this);
     }
     componentDidMount() {
         let _this = this;
