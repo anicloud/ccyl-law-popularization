@@ -45,7 +45,7 @@ class SharePrize extends Component {
                 console.log(1);
                 window.wx.onMenuShareTimeline({
                     title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
-                    link: response.data.data,
+                    link: 'http://f83c75be.ngrok.io/leg/build/static/media/star_idol.png',
                     imgUrl: _this.state.scoreInfo.portrait,
                     trigger: function (res) {
                         console.log(res);
