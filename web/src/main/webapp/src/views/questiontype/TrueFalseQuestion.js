@@ -20,6 +20,11 @@ class TrueFalseQuestion extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    componentDidMount() {
+        this.setState({
+            question: this.props.question
+        });
+    }
     componentWillReceiveProps(nextProps) {
         if (!this.state.question || (nextProps.question.order !== this.state.question.order)) {
             this.setState({
