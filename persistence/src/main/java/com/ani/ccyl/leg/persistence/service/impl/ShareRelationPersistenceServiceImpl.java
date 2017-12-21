@@ -1,7 +1,8 @@
-package com.ani.ccyl.leg.persistence.service.facade;
+package com.ani.ccyl.leg.persistence.service.impl;
 
 import com.ani.ccyl.leg.persistence.mapper.ShareRelationMapper;
 import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
+import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

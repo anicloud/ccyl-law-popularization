@@ -9,7 +9,8 @@ import java.util.Map;
 public enum ScoreSrcTypeEnum implements BaseEnum<ScoreSrcTypeEnum, Integer> {
     QUESTION(1,"答题"),
     THUMB_UP(2,"点赞"),
-    SIGN_IN(3,"签到");
+    SIGN_IN(3,"签到"),
+    SHARE(4,"分享");
     private Integer code;
     private String value;
     private static Map<Integer,ScoreSrcTypeEnum> enumMap = new HashMap<>();
