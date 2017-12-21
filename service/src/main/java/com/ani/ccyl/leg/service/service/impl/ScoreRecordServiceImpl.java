@@ -110,6 +110,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
                 top20Dto.setName(accountPO.getNickName());
                 top20Dto.setPortrat(accountPO.getPortrait());
+                top20Dto.setUpdateTime(scoreRecordPO.getUpdateTime());
                 top20Dtos.add(top20Dto);
             }
         }

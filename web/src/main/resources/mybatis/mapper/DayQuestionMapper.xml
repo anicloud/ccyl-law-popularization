@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ani.ccyl.leg.persistence.mapper.DayQuestionMapper">
     <select id="findNewQuestion" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
-        SELECT q.* FROM t_question q LEFT JOIN t_day_question d ON q.id=d.id WHERE d.orderNum=#{orderNum} AND date_format(d.create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+        SELECT q.* FROM t_question q LEFT JOIN t_day_question d ON q.id=d.id WHERE d.order_num=#{orderNum} AND date_format(d.create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findMaxDayNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT max(dq.day_num) FROM t_day_question dq LEFT JOIN t_score_record sr ON dq.id=sr.src_question_id WHERE sr.account_id=#{accountId}
