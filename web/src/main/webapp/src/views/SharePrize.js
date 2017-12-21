@@ -44,9 +44,9 @@ class SharePrize extends Component {
             if (response.data.state === 0) {
                 console.log(1);
                 window.wx.onMenuShareTimeline({
-                    title: '我在中国共青团青少年学法用法知识竞赛获得了'+ prize +'，快来支持我并答题吧!',
-                    link: 'http://movie.douban.com/subject/25785114/',
-                    imgUrl: 'http://demo.open.weixin.qq.com/jssdk/images/p2166127561.jpg',
+                    title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
+                    link: response.data.data,
+                    imgUrl: _this.state.scoreInfo.portrait,
                     trigger: function (res) {
                         console.log(res);
                         console.log(6);
@@ -88,12 +88,10 @@ class SharePrize extends Component {
                         console.log(3);
                     }
                 });
-
-                window.wx.error(function (res) {
-                    console.log('错误信息')
-                    console.log(res.errMsg);
-                });
                 console.log(2);
+                window.wx.error(function (res) {
+                    console.log(res);
+                });
             }
         }).catch(function (errors) {
             console.log(errors);
