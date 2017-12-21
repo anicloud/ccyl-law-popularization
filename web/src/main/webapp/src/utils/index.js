@@ -23,7 +23,8 @@ export function jsSdkConfig(axios, host) {
                 nonceStr: response.data.data.nonceStr, // 必填，生成签名的随机串
                 signature: response.data.data.signature,// 必填，签名，见附录1
                 jsApiList: [
-                    'getLocation'
+                    'getLocation',
+                    'onMenuShareTimeline'
                 ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
         }
