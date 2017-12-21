@@ -17,18 +17,18 @@ public class DayQuestionPO implements Serializable {
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
-    private Integer order;
+    private Integer orderNum;
 
     public DayQuestionPO() {
     }
 
-    public DayQuestionPO(Integer id, Integer dayNum, Timestamp updateTime, Timestamp createTime, Boolean isDel, Integer order) {
+    public DayQuestionPO(Integer id, Integer dayNum, Timestamp updateTime, Timestamp createTime, Boolean isDel, Integer orderNum) {
         this.id = id;
         this.dayNum = dayNum;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
-        this.order = order;
+        this.orderNum = orderNum;
     }
 
     public Integer getDayNum() {
@@ -39,12 +39,12 @@ public class DayQuestionPO implements Serializable {
         this.dayNum = dayNum;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getOrderNum() {
+        return orderNum;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 
     public Integer getId() {
