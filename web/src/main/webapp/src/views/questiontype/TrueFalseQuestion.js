@@ -64,7 +64,7 @@ class TrueFalseQuestion extends Component {
                 {
                     question? (
                         <div>
-                            <h3 className="text-center question title">
+                            <h3 className="text-center title">
                                 <span>第{question.order}题</span>
                             </h3>
                             <p className='content'>{question.content}</p>

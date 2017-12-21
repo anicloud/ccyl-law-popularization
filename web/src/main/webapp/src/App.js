@@ -38,7 +38,7 @@ class App extends Component {
                 this.props.history.push('/tasks');
                 break;
             case 3:
-                this.props.history.push('/myscore');
+                this.props.history.push('/tasks');
                 break;
             case 5:
                 this.props.history.push('/score');

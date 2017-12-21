@@ -14,9 +14,14 @@ class MyScore extends Component{
             location: '/home'
         };
         this.handleShopping = this.handleShopping.bind(this);
+        this.handleInfo = this.handleInfo.bind(this);
     }
     handleShopping() {
         this.props.history.push('/scoreshopping');
+    }
+    handleInfo() {
+        const {history} = this.props;
+        history.push('/announce');
     }
     render() {
         return(
@@ -41,7 +46,7 @@ class MyScore extends Component{
                       </div>
                       <div className="scoreTask">
                          <span>积分任务</span>
-                          <i className='detail'/>
+                          <i onClick={this.handleInfo} className='detail'/>
                       </div>
                       <div className="task">
                           <span>签到</span>
