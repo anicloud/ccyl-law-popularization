@@ -64,7 +64,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionDto> findDayQuestions(Integer accountId) throws ParseException {
+    public List<QuestionDto> findDayQuestions() throws ParseException {
         List<QuestionPO> dayQuestions = questionMapper.findDayQuestions(new Timestamp(System.currentTimeMillis()));
         List<QuestionDto> resultDtos = new ArrayList<>();
         if(dayQuestions == null || dayQuestions.size()==0) {
@@ -75,10 +75,10 @@ public class QuestionServiceImpl implements QuestionService {
                 Date startTime = simpleDateFormat.parse(Constants.PROPERTIES.getProperty("start.time"));
                 Integer dayNum = DateUtil.differentDays(startTime,new Date())+1;
                 for(QuestionPO questionPO:dayQuestions) {
-                    DayQuestionPO dayQuestionPO = new DayQuestionPO(null,dayNum,null,new Timestamp(System.currentTimeMillis()),false, i);
+                    DayQuestionPO dayQuestionPO = new DayQuestionPO(questionPO.getId(),dayNum,null,new Timestamp(System.currentTimeMillis()),false, i);
                     QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
                     questionDto.setOrder(i);
-                    questionDto.setDayNum(dayQuestionPO.getDayNum());
+                    questionDto.setDayNum(dayNum);
                     resultDtos.add(questionDto);
                     dayQuestionMapper.insertSelective(dayQuestionPO);
                     i++;
@@ -100,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionDto updateNewQuestion(Integer accountId) throws ParseException {
         QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(accountId));
         if(questionDto == null) {
-            List<QuestionDto> questionDtos = findDayQuestions(accountId);
+            List<QuestionDto> questionDtos = findDayQuestions();
             if(questionDtos != null && questionDtos.size()>0)
                 questionDto = questionDtos.get(0);
         } else {
