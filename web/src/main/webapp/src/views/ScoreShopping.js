@@ -20,15 +20,14 @@ class ScoreShopping extends Component{
     }
     render(){
         return (
-          <div className="scoreshopping">
+          <div className="scoreshopping main-bg">
               <div className='clearfix'>
                   <Back location={this.state.location} history={this.props.history} />
               </div>
               <h2 className="text-center h2 title">
                   <span>积分商城</span>
               </h2>
-              <p>当前积分:{this.getCurrentScore()}</p>
-              <div className="fenge"></div>
+              <p className='text-center current-score'>当前积分:{this.getCurrentScore()}</p>
               <div className="listdiv">
                   <div className="largest">
                     <img className="largestImg"/>
