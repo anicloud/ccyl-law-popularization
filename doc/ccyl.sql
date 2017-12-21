@@ -91,6 +91,8 @@ CREATE TABLE `t_day_question` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `order_num` INT(4) COMMENT '排序',
   PRIMARY KEY (`id`),
-  KEY `t_file_is_del_key` (`is_del`)
+  KEY `t_day_question_is_del_key` (`is_del`),
+  KEY `t_day_question_order_num_key` (`order_num`)
 ) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='每日问题表';

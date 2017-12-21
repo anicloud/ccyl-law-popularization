@@ -2,7 +2,6 @@ package com.ani.ccyl.leg.service.service.impl;
 
 import com.ani.ccyl.leg.commons.dto.FileDto;
 import com.ani.ccyl.leg.commons.dto.QuestionDto;
-import com.ani.ccyl.leg.commons.enums.BusinessTypeEnum;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import com.ani.ccyl.leg.commons.utils.ExcelUtil;
 import com.ani.ccyl.leg.commons.utils.FileUtil;
@@ -82,7 +81,7 @@ public class QuestionServiceImpl implements QuestionService {
             for(QuestionPO questionPO:dayQuestions) {
                 QuestionDto questionDto = QuestionAdapter.fromPO(questionPO);
                 DayQuestionPO dayQuestionPO = dayQuestionMapper.selectByPrimaryKey(questionPO.getId());
-                questionDto.setOrder(dayQuestionPO.getOrder());
+                questionDto.setOrder(dayQuestionPO.getOrderNum());
                 questionDto.setDayNum(dayQuestionPO.getDayNum() == null?1:dayQuestionPO.getDayNum());
                 resultDtos.add(questionDto);
             }
@@ -91,14 +90,14 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionDto findNewQuestion(Integer accountId) {
+    public QuestionDto updateNewQuestion(Integer accountId) {
         QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(accountId));
         if(questionDto == null) {
             List<QuestionDto> questionDtos = findDayQuestions(accountId);
             if(questionDtos != null && questionDtos.size()>0)
                 questionDto = questionDtos.get(0);
         } else {
-            Integer order = dayQuestionMapper.selectByPrimaryKey(questionDto.getId()).getOrder();
+            Integer order = dayQuestionMapper.selectByPrimaryKey(questionDto.getId()).getOrderNum();
             if(order<3) {
                 questionDto = QuestionAdapter.fromPO(dayQuestionMapper.findNewQuestion(order+1));
                 questionDto.setOrder(order+1);

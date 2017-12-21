@@ -90,7 +90,7 @@ public class QuestionController {
         ResponseMessageDto message = new ResponseMessageDto();
         HttpSession session = request.getSession();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        QuestionDto currentQuestion = questionService.findNewQuestion(accountDto.getId());
+        QuestionDto currentQuestion = questionService.updateNewQuestion(accountDto.getId());
         message.setData(currentQuestion);
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
