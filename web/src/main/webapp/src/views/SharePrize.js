@@ -93,6 +93,7 @@ class SharePrize extends Component {
                         <div>
                             <div className={scoreInfo.score === 15? 'flower-gold' : scoreInfo.score === 10? 'flower-silver' : scoreInfo.score === 5 ? 'flower-copper' : 'flower'}>
                                 <img src={scoreInfo.portrait} alt=""/>
+                                <p className='text-center score-prize'>{scoreInfo.score === 15? '获得金牌' : scoreInfo.score === 10? '获得银牌' : scoreInfo.score === 5? '获得铜牌' : ''}</p>
                             </div>
                             <p className='text-center score-ques'>
                                 答题获得积分：<span>{scoreInfo.score} 积分</span>
