@@ -11,7 +11,7 @@ class SharePrize extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userInfo: null,
+            scoreInfo: null,
             showToast: false,
             toastText: '分享成功'
         };
@@ -21,11 +21,11 @@ class SharePrize extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/account/findById?id=${_this.userId}`).then(function (response) {
+        axios.get(`${host}/score/findDailyTotalScore?id=${_this.userId}`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
-                    userInfo: response.data.data
-                });
+                    scoreInfo: response.data.data
+                })
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -44,7 +44,7 @@ class SharePrize extends Component {
                     window.wx.onMenuShareTimeline({
                         title: '我正在参加中国共青团青少年学法用法知识竞赛，快来支持我并答题吧!',
                         link: response.data.data,
-                        imgUrl: _this.state.userInfo.portrait,
+                        imgUrl: _this.state.scoreInfo.portrait,
                         success: function (res) {
                             _this.setState({
                                 showToast: true,
@@ -80,23 +80,28 @@ class SharePrize extends Component {
         });
     }
     render() {
-        let userInfo = this.state.userInfo;
+        let scoreInfo = this.state.scoreInfo;
         return (
             <div className='share-prize main-bg'>
                 <div className='clearfix'>
                     <Back location='/answer' history={this.props.history} />
                 </div>
                 <h3 className='text-center'>荣誉奖状</h3>
-                <div className='flower'>
-                    {
-                        userInfo? (
-                            <img src={userInfo.portrait} alt=""/>
-                        ) : (null)
-                    }
-                </div>
-                <p className='text-center share'>
-                    <button className='btn btn-success' onClick={this.handleShare}>立即分享</button>
-                </p>
+                {
+                    scoreInfo? (
+                        <div>
+                            <div className='flower'>
+                                <img src={scoreInfo.portrait} alt=""/>
+                            </div>
+                            <p className='text-center score-ques'>
+                                答题获得积分：<span>{scoreInfo.score} 积分</span>
+                            </p>
+                            <p className='text-center share'>
+                                <button className='btn btn-success' onClick={this.handleShare}>立即分享</button>
+                            </p>
+                        </div>
+                    ) : (null)
+                }
                 <Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>
             </div>
         )

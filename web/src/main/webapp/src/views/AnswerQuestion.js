@@ -36,9 +36,11 @@ class AnswerQuestion extends Component {
         const {host} = _this.props;
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
-                _this.setState({
-                    question: Map(response.data.data)
-                });
+                if (response.data.data !== null) {
+                    _this.setState({
+                        question: Map(response.data.data)
+                    });
+                }
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -56,10 +58,12 @@ class AnswerQuestion extends Component {
         const {host} = _this.props;
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
-                _this.setState({
-                    question: Map(response.data.data)
-                });
-                _this.handleShowNext();
+                if (response.data.data !== null) {
+                    _this.setState({
+                        question: Map(response.data.data)
+                    });
+                    _this.handleShowNext();
+                }
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -86,7 +90,11 @@ class AnswerQuestion extends Component {
                     question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐', id: 1, optionOne: 'Y', optionTwo: 'N'}}
                 />*/}
                 {
-                    question === ''? (null) : (
+                    question === ''? (
+                        <div className='text-center complete'>
+                            今日答题已完成
+                        </div>
+                    ) : (
                         <div>
                             <h3 className="text-center h3 title">
                                 <span>第{question.dayNum}天</span>
@@ -105,7 +113,7 @@ class AnswerQuestion extends Component {
                             }
                             {
                                 (this.state.showNext && question.order === 3)? (
-                                    <Button className='questionButton' type="primary" plain onClick={this.handleShare}>分享荣誉</Button>
+                                    <Button className='share' type="primary" plain onClick={this.handleShare}>分享荣誉</Button>
                                 ) : (null)
                             }
                         </div>
