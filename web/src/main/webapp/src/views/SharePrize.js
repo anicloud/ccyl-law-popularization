@@ -41,40 +41,40 @@ class SharePrize extends Component {
         const {host} = _this.props;
         axios.get(`${host}/wechat/shareUrl`).then(function (response) {
             if (response.data.state === 0) {
-                window.wx.ready(function () {
-                    window.wx.onMenuShareTimeline({
-                        title: '我在中国共青团青少年学法用法知识竞赛获得了金牌，快来支持我并答题吧!',
-                        link: response.data.data,
-                        imgUrl: _this.state.scoreInfo.portrait,
-                        success: function (res) {
-                            _this.setState({
-                                showToast: true,
-                                toastText: '分享成功'
-                            });
-                            _this.toastTimer = setTimeout(()=> {
-                                _this.setState({showToast: false});
-                            }, 2000);
-                        },
-                        cancel: function (res) {
-                            _this.setState({
-                                showToast: true,
-                                toastText: '分享取消'
-                            });
-                            _this.toastTimer = setTimeout(()=> {
-                                _this.setState({showToast: false});
-                            }, 2000);
-                        },
-                        fail: function (res) {
-                            _this.setState({
-                                showToast: true,
-                                toastText: '分享失败'
-                            });
-                            _this.toastTimer = setTimeout(()=> {
-                                _this.setState({showToast: false});
-                            }, 2000);
-                        }
-                    });
+                console.log(1);
+                window.wx.onMenuShareTimeline({
+                    title: '我在中国共青团青少年学法用法知识竞赛获得了金牌，快来支持我并答题吧!',
+                    link: response.data.data,
+                    imgUrl: _this.state.scoreInfo.portrait,
+                    success: function (res) {
+                        _this.setState({
+                            showToast: true,
+                            toastText: '分享成功'
+                        });
+                        _this.toastTimer = setTimeout(()=> {
+                            _this.setState({showToast: false});
+                        }, 2000);
+                    },
+                    cancel: function (res) {
+                        _this.setState({
+                            showToast: true,
+                            toastText: '分享取消'
+                        });
+                        _this.toastTimer = setTimeout(()=> {
+                            _this.setState({showToast: false});
+                        }, 2000);
+                    },
+                    fail: function (res) {
+                        _this.setState({
+                            showToast: true,
+                            toastText: '分享失败'
+                        });
+                        _this.toastTimer = setTimeout(()=> {
+                            _this.setState({showToast: false});
+                        }, 2000);
+                    }
                 });
+                console.log(2);
             }
         }).catch(function (errors) {
             console.log(errors);
