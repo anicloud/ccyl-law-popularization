@@ -15,7 +15,7 @@ class App extends Component {
     componentWillMount() {
         const {host} = this.props;
         jsSdkConfig(axios, host);
-        window.wx.ready(function () {
+        /*window.wx.ready(function () {
             window.wx.getLocation({
                 success: function (res) {
                     console.log(res);
@@ -24,7 +24,7 @@ class App extends Component {
                     console.log('用户拒绝授权获取地理位置');
                 }
             })
-        });
+        });*/
     }
     handleTouch(num) {
         switch (num) {
