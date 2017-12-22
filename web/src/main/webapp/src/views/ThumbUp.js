@@ -10,7 +10,11 @@ class ThumbUp extends Component {
         super(props);
         console.log(this.props);
         this.state = {
-            scoreInfo: null,
+            scoreInfo: {
+                name: 'wxw',
+                score:15,
+                portrait: icon
+            },
             showToast: false,
             isThumbUp: false
         };
@@ -30,7 +34,16 @@ class ThumbUp extends Component {
             }
         }).catch(function (errors) {
             console.log(errors);
-        })
+        });
+        axios.get(`${host}/score/isThumbUp?toAccountId=${userId}`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    isThumbUp: response.data.data
+                });
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
@@ -75,7 +88,7 @@ class ThumbUp extends Component {
                             答题获得积分：<span>{scoreInfo.score} 积分</span>
                         </p>
                         <p className='text-center share'>
-                            <button className='btn btn-success' onClick={this.handleThumb}>
+                            <button className='btn btn-success' disabled={isThumbUp} onClick={this.handleThumb}>
                                 <i className='glyphicon glyphicon-thumbs-up' style={{color: isThumbUp? '#f60' : '#fff'}} />
                                 <span className='thumb-up' style={{color: isThumbUp? '#f60' : '#fff'}}>{isThumbUp? '已点赞' : '点赞'}</span>
                             </button>
