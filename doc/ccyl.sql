@@ -22,7 +22,7 @@ CREATE TABLE `t_account` (
   UNIQUE KEY `t_account_name` (`account_name`),
   KEY `t_account_province_key` (`province`),
   KEY `t_account_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='账户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户表';
 drop table if exists `t_question`;
 create table `t_question` (
 	`id` int(11) not null auto_increment comment '主键',
@@ -41,7 +41,7 @@ create table `t_question` (
 	`is_del` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '删除标志',
 	PRIMARY KEY (`id`),
 	KEY `t_question_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='题库表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='题库表';
 DROP TABLE IF EXISTS `t_score_record`;
 CREATE TABLE `t_score_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -57,7 +57,7 @@ CREATE TABLE `t_score_record` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_question_id`),
   KEY `t_score_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='积分表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
 DROP TABLE IF EXISTS `t_access_token`;
 CREATE TABLE `t_access_token` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -70,7 +70,7 @@ CREATE TABLE `t_access_token` (
   `jsapi_ticket` VARCHAR(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `t_access_token_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='token表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token表';
 DROP TABLE IF EXISTS `t_file`;
 CREATE TABLE `t_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -83,7 +83,7 @@ CREATE TABLE `t_file` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t_file_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=724 DEFAULT CHARSET=utf8 COMMENT='token表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token表';
 DROP TABLE IF EXISTS `t_day_question`;
 CREATE TABLE `t_day_question` (
   `id` int(11) NOT NULL COMMENT '主键，同question表主键保持一致，不自动生成',
@@ -109,6 +109,17 @@ CREATE TABLE `t_share_relation` (
   UNIQUE KEY `t_share_relation_unique_key` (`shared_id`),
   KEY `t_share_relation_share_id_key` (share_id)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='分享表';
+DROP TABLE IF EXISTS `t_award`;
+CREATE TABLE `t_award` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` INT(11) NOT NULL COMMENT '领奖人id',
+  `score` INT(4) NOT NULL COMMENT '消耗的分数',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  PRIMARY KEY (`id`),
+  KEY `t_award_account_id_key` (`account_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='奖品表';
 DROP PROCEDURE IF EXISTS proce_init_day_questions;
 DELIMITER $
 CREATE PROCEDURE proce_init_day_questions()
