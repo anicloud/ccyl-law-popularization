@@ -24,7 +24,8 @@ export function jsSdkConfig(axios, host) {
                 signature: response.data.data.signature,// 必填，签名，见附录1
                 jsApiList: [
                     'getLocation',
-                    'onMenuShareTimeline'
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage'
                 ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
         }
