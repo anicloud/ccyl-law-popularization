@@ -14,11 +14,10 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/share")
 public class ShareController {
-    private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
     @RequestMapping("/share")
     @ResponseBody
     public void share(String toAccountId, HttpServletResponse response) throws IOException {
-        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",String.valueOf(toAccountId));
+        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",Constants.PROPERTIES.getProperty("wechat.appid")).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",String.valueOf(toAccountId));
         response.sendRedirect(url);
     }
 }
