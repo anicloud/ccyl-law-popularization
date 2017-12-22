@@ -16,7 +16,8 @@ class ChoiceQuestion extends Component {
         this.state = {
             question: null,
             answer: null,
-            value: ''
+            value: '',
+            isValue: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -31,7 +32,8 @@ class ChoiceQuestion extends Component {
             this.setState({
                 question: nextProps.question,
                 answer: null,
-                value: ''
+                value: '',
+                isValue: false
             }, function () {
                 document.querySelector('.weui-check:checked').checked = false;
             });
@@ -60,12 +62,15 @@ class ChoiceQuestion extends Component {
                 console.log(errors);
             })
         } else {
-
+            _this.setState({
+                isValue: true
+            })
         }
     }
     render() {
         let question = this.state.question;
         let result = this.state.answer;
+        let isValue = this.state.isValue;
         return (
             <div className="question">
                 {
@@ -97,6 +102,11 @@ class ChoiceQuestion extends Component {
                                     <CellBody>{question.optionThree}</CellBody>
                                 </FormCell>
                             </Form>
+                            {
+                               isValue? (
+                                   <p className='text-danger result'>请选择答案</p>
+                               ) : (null)
+                            }
                             {
                                 result? (result.isCorrect? (
                                     <p className='text-danger result'>恭喜你答对了，积分+5</p>

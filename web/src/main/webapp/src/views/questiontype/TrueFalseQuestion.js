@@ -16,7 +16,8 @@ class TrueFalseQuestion extends Component {
         this.state = {
             question: null,
             answer: null,
-            value: ''
+            value: '',
+            isValue: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -30,7 +31,8 @@ class TrueFalseQuestion extends Component {
             this.setState({
                 question: nextProps.question,
                 answer: null,
-                value: ''
+                value: '',
+                isValue: false
             }, function () {
                 document.querySelector('.weui-check:checked').checked = false;
             });
@@ -61,6 +63,7 @@ class TrueFalseQuestion extends Component {
     render() {
         let question = this.state.question;
         let result = this.state.answer;
+        let isValue = this.state.isValue;
         return (
             <div className="question">
                 {
@@ -84,6 +87,11 @@ class TrueFalseQuestion extends Component {
                                     <CellBody>错</CellBody>
                                 </FormCell>
                             </Form>
+                            {
+                                isValue? (
+                                    <p className='text-danger result'>请选择答案</p>
+                                ) : (null)
+                            }
                             {
                                 result? (result.isCorrect? (
                                     <p className='text-danger result'>恭喜你答对了，积分+5</p>
