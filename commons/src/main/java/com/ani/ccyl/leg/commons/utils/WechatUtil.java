@@ -196,7 +196,7 @@ public class WechatUtil {
         btn32.setKey("callAdmin");
 
         ViewButton btn33 = new ViewButton();
-        btn33.setName("授权");
+        btn33.setName("我要答题");
         btn33.setType("view");
         btn33.setKey("suggestions");
 //        btn33.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+Constants.PROPERTIES.getProperty("wechat.appid")+"&redirect_uri="+Constants.PROPERTIES.getProperty("wechat.redirect.url")+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
@@ -219,7 +219,7 @@ public class WechatUtil {
          * menu.setButton(new Button[] { mainBtn1, mainBtn2, btn33 });
          */
         Menu menu = new Menu();
-        menu.setButton(new Button[] { mainBtn1, mainBtn2, mainBtn3 });
+        menu.setButton(new Button[] { btn33 });
 
         return menu;
     }
