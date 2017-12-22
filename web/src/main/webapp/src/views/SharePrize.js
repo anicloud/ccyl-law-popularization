@@ -31,7 +31,7 @@ class SharePrize extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        jsSdkConfig(axios, host);
+        /*jsSdkConfig(axios, host);*/
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
@@ -42,14 +42,11 @@ class SharePrize extends Component {
         let prize = _this.state.scoreInfo.score === 15? '金牌' : _this.state.scoreInfo.score === 10? '银牌' : _this.state.scoreInfo.score === 5? '铜牌' : '';
             axios.get(`${host}/wechat/shareUrl`).then(function (response) {
             if (response.data.state === 0) {
-                console.log(1);
                 window.wx.onMenuShareTimeline({
                     title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
                     link: 'http://f83c75be.ngrok.io/leg/build/static/media/star_idol.png',
                     imgUrl: _this.state.scoreInfo.portrait,
                     success: function (res) {
-                        console.log(res);
-                        console.log('success');
                         _this.setState({
                             showToast: true,
                             toastText: '分享成功'
@@ -57,11 +54,8 @@ class SharePrize extends Component {
                         _this.toastTimer = setTimeout(()=> {
                             _this.setState({showToast: false});
                         }, 2000);
-                        console.log(5);
                     },
                     fail: function (res) {
-                        console.log(res);
-                        console.log('fail');
                         _this.setState({
                             showToast: true,
                             toastText: '分享失败'
@@ -69,12 +63,7 @@ class SharePrize extends Component {
                         _this.toastTimer = setTimeout(()=> {
                             _this.setState({showToast: false});
                         }, 2000);
-                        console.log(3);
                     }
-                });
-                console.log(2);
-                window.wx.error(function (res) {
-                    console.log(res);
                 });
             }
         }).catch(function (errors) {

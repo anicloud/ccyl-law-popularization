@@ -74,19 +74,43 @@ class ChoiceQuestion extends Component {
                             <Form checkbox className='form'>
                                 <FormCell checkbox>
                                     <CellHeader>
-                                        <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
+                                        {
+                                            question.order === 1? (
+                                                <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 2? (
+                                                <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 3? (
+                                                <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : (null)
+                                        }
                                     </CellHeader>
                                     <CellBody>{question.optionOne}</CellBody>
                                 </FormCell>
                                 <FormCell checkbox>
                                     <CellHeader>
-                                        <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}} />
+                                        {
+                                            question.order === 1? (
+                                                <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 2? (
+                                                <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 3? (
+                                                <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : (null)
+                                        }
                                     </CellHeader>
                                     <CellBody>{question.optionTwo}</CellBody>
                                 </FormCell>
                                 <FormCell checkbox>
                                     <CellHeader>
-                                        <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
+                                        {
+                                            question.order === 1? (
+                                                <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 2? (
+                                                <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 3? (
+                                                <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : (null)
+                                        }
                                     </CellHeader>
                                     <CellBody>{question.optionThree}</CellBody>
                                 </FormCell>

@@ -71,13 +71,29 @@ class TrueFalseQuestion extends Component {
                             <Form checkbox className='form'>
                                 <FormCell checkbox>
                                     <CellHeader>
-                                        <Radio name="radio1" value={question.optionOne} onChange={(e) => {this.handleChange(e)}} />
+                                        {
+                                            question.order === 1? (
+                                                <Radio name="radio1" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 2? (
+                                                <Radio name="radio1" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 3? (
+                                                <Radio name="radio1" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : (null)
+                                        }
                                     </CellHeader>
                                     <CellBody>对</CellBody>
                                 </FormCell>
                                 <FormCell checkbox>
                                     <CellHeader>
-                                        <Radio name="radio1" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}} />
+                                        {
+                                            question.order === 1? (
+                                                <Radio name="radio1" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 2? (
+                                                <Radio name="radio1" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : question.order === 3? (
+                                                <Radio name="radio1" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
+                                            ) : (null)
+                                        }
                                     </CellHeader>
                                     <CellBody>错</CellBody>
                                 </FormCell>
