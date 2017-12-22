@@ -20,14 +20,15 @@ class Main extends Component {
        this.props.history.push('/home');
     }
     componentWillMount() {
-        const {host} = this.props;
+        let _this = this;
+        const {host} = _this.props;
         /*配置微信jssdk*/
-        this.setState({
+        _this.setState({
             showLoading: true
         });
         jsSdkConfig(axios, host);
         window.wx.ready(function () {
-            this.setState({
+            _this.setState({
                 showLoading: true
             })
         });
