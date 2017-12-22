@@ -151,4 +151,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     public Boolean findIsSignIn(Integer accountId) {
         return scoreRecordMapper.findIsSignIn(accountId);
     }
+
+    @Override
+    public TotalSignInDto findTotalSignIn(Integer accountId) {
+        return new TotalSignInDto(scoreRecordMapper.findTotalSignIn(accountId),scoreRecordMapper.findIsSignIn(accountId));
+    }
+
 }
