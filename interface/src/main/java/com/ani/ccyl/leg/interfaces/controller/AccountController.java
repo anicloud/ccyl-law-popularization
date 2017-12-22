@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,8 +30,10 @@ public class AccountController {
     private AccountService accountService;
     @RequestMapping(value = "/saveSelfInfo", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseMessageDto saveSelfInfo(@RequestBody AccountDto accountDto) {
+    public ResponseMessageDto saveSelfInfo(@RequestBody AccountDto accountDto, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto loginDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        accountDto.setId(loginDto.getId());
         accountService.saveSelfInfo(accountDto);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("保存成功");
@@ -50,12 +54,14 @@ public class AccountController {
     @ResponseBody
     public ResponseMessageDto findProvinces() {
         ResponseMessageDto message = new ResponseMessageDto();
-        Map<String,Object> resultMap = new HashMap<>();
+        List<Map> resultList = new ArrayList<>();
         for(ProvinceEnum province:ProvinceEnum.values()) {
-            resultMap.put("name",province.name());
-            resultMap.put("value",province.getValue());
+            Map<String,Object> provinceMap = new HashMap<>();
+            provinceMap.put("name",province.name());
+            provinceMap.put("value",province.getValue());
+            resultList.add(provinceMap);
         }
-        message.setData(resultMap);
+        message.setData(resultList);
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
         return message;

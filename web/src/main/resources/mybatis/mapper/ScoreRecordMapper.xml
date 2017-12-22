@@ -35,7 +35,7 @@
         SELECT * FROM t_score_record WHERE src_account_id=#{srcAccountId} AND account_id=#{accountId} AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findDailyTop20" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-        SELECT *,sum(score) AS total_score FROM t_score_record WHERE date_format(create_time,'%Y-%m-%d')=date_format(now(), '%Y-%m-%d') GROUP BY account_id ORDER BY total_score ASC,update_time DESC LIMIT 20
+        SELECT *,sum(score) AS total_score FROM t_score_record WHERE date_format(create_time,'%Y-%m-%d')=date_format(now(), '%Y-%m-%d') GROUP BY account_id ORDER BY total_score DESC,update_time DESC LIMIT 20
     </select>
     <select id="findIsThumbUp" parameterType="java.util.Map" resultType="java.lang.Boolean">
         SELECT CASE t.thumbUps
