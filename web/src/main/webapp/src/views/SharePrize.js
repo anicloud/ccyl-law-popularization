@@ -4,6 +4,10 @@ import {connect} from 'react-redux';
 import {jsSdkConfig, getCookie} from "../utils/index";
 import {Toast} from 'react-weui';
 import axios from 'axios';
+import first from '../media/images/first.png';
+import second from '../media/images/second.png';
+import arrow from '../media/images/arrow.png';
+import know from '../media/images/know.png';
 import '../media/styles/prize.less';
 
 class SharePrize extends Component {
@@ -13,7 +17,8 @@ class SharePrize extends Component {
             scoreInfo: null,
             showToast: false,
             toastText: '分享成功',
-            location: this.props.location.state? this.props.location.state : '/answer'
+            location: this.props.location.state? this.props.location.state : '/answer',
+            showPopup: false
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
@@ -91,9 +96,11 @@ class SharePrize extends Component {
         this.toastTimer && clearTimeout(this.toastTimer);
     }
     handleShare() {
-        let _this = this;
-        const {host} = _this.props;
-
+        this.setState(function (prevState) {
+            return {
+                showPopup: !prevState.showPopup
+            }
+        });
     }
     render() {
         let scoreInfo = this.state.scoreInfo;
@@ -119,6 +126,20 @@ class SharePrize extends Component {
                         </div>
                     ) : (null)
                 }
+                <div className='popup' style={{display: this.state.showPopup? 'block' : 'none'}}>
+                    <div className='arrow'>
+                        <img src={arrow} alt=""/>
+                    </div>
+                    <div className='first'>
+                        <img src={first} alt=""/>
+                    </div>
+                    <div className='second'>
+                        <img src={second} alt=""/>
+                    </div>
+                    <div className='text-center know'>
+                        <img src={know} onClick={this.handleShare} alt=""/>
+                    </div>
+                </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>
             </div>
         )
