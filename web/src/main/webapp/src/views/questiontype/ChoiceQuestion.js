@@ -78,9 +78,9 @@ class ChoiceQuestion extends Component {
                                             question.order === 1? (
                                                 <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 2? (
-                                                <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio2" value="A" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 3? (
-                                                <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio3" value="A" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : (null)
                                         }
                                     </CellHeader>
@@ -92,9 +92,9 @@ class ChoiceQuestion extends Component {
                                             question.order === 1? (
                                                 <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 2? (
-                                                <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio2" value="B" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 3? (
-                                                <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio3" value="B" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : (null)
                                         }
                                     </CellHeader>
@@ -106,9 +106,9 @@ class ChoiceQuestion extends Component {
                                             question.order === 1? (
                                                 <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 2? (
-                                                <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio2" value="C" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 3? (
-                                                <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio3" value="C" onChange={(e) => {this.handleChange(e)}}/>
                                             ) : (null)
                                         }
                                     </CellHeader>

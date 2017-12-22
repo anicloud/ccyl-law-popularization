@@ -75,9 +75,9 @@ class TrueFalseQuestion extends Component {
                                             question.order === 1? (
                                                 <Radio name="radio1" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 2? (
-                                                <Radio name="radio1" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio2" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 3? (
-                                                <Radio name="radio1" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio3" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
                                             ) : (null)
                                         }
                                     </CellHeader>
@@ -89,9 +89,9 @@ class TrueFalseQuestion extends Component {
                                             question.order === 1? (
                                                 <Radio name="radio1" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 2? (
-                                                <Radio name="radio1" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio2" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
                                             ) : question.order === 3? (
-                                                <Radio name="radio1" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
+                                                <Radio name="radio3" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
                                             ) : (null)
                                         }
                                     </CellHeader>
