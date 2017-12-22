@@ -9,6 +9,19 @@ import {jsSdkConfig} from "./utils/index";
 import axios from 'axios';
 /*配置微信jssdk*/
 jsSdkConfig(axios, '/leg');
+window.wx.error(function(res) {
+    console.log(res);
+});
+/*window.wx.ready(function () {
+    window.wx.getLocation({
+        success: function (res) {
+            console.log(res);
+        },
+        cancel: function (res) {
+            console.log('用户拒绝授权获取地理位置');
+        }
+    })
+});*/
 
 ReactDOM.render(
     <Root/>,
