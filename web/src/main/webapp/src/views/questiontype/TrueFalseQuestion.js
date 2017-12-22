@@ -31,6 +31,8 @@ class TrueFalseQuestion extends Component {
                 question: nextProps.question,
                 answer: null,
                 value: ''
+            }, function () {
+                document.querySelector('.weui-check:checked').checked = false;
             });
         }
     }
@@ -68,54 +70,20 @@ class TrueFalseQuestion extends Component {
                                 <span>第{question.order}题</span>
                             </h3>
                             <p className='content'>{question.content}</p>
-                            {
-                                question.order === 1? (
-                                    <Form checkbox className='form'>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio4" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>对</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio4" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>错</CellBody>
-                                        </FormCell>
-                                    </Form>
-                                ) : question.order === 2? (
-                                    <Form checkbox className='form'>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio5" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>对</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio5" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>错</CellBody>
-                                        </FormCell>
-                                    </Form>
-                                ) : question.order === 3? (
-                                    <Form checkbox className='form'>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio6" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>对</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio6" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>错</CellBody>
-                                        </FormCell>
-                                    </Form>
-                                ) : (null)
-                            }
+                            <Form checkbox className='form'>
+                                <FormCell checkbox>
+                                    <CellHeader>
+                                        <Radio name="radio2" value={question.optionOne} onChange={(e) => {this.handleChange(e)}}/>
+                                    </CellHeader>
+                                    <CellBody>对</CellBody>
+                                </FormCell>
+                                <FormCell checkbox>
+                                    <CellHeader>
+                                        <Radio name="radio2" value={question.optionTwo} onChange={(e) => {this.handleChange(e)}}/>
+                                    </CellHeader>
+                                    <CellBody>错</CellBody>
+                                </FormCell>
+                            </Form>
                             {
                                 result? (result.isCorrect? (
                                     <p className='text-danger result'>恭喜你答对了，积分+5</p>
