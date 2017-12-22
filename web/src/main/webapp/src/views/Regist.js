@@ -77,7 +77,7 @@ class Regist extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/account/getProvinces`).then(function (response) {
+        axios.get(`${host}/account/findProvinces`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     provinces: response.data.data
