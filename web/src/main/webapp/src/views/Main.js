@@ -29,7 +29,7 @@ class Main extends Component {
         jsSdkConfig(axios, host);
         window.wx.ready(function () {
             _this.setState({
-                showLoading: true
+                showLoading: false
             })
         });
         window.wx.error(function(res) {
