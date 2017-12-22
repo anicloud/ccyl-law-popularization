@@ -21,4 +21,5 @@ public interface ScoreRecordService {
     List<Top20Dto> findDailyTop20();
 
     Boolean findIsThumbUp(Integer accountId, Integer toAccountId);
+    Boolean findIsSignIn(Integer accountId);
 }

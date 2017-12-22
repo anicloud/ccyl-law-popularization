@@ -44,6 +44,13 @@
                END
         FROM (SELECT count(*) AS thumbUps FROM t_score_record WHERE account_id=#{accountId} AND src_account_id=#{srcAccountId} AND t_score_record.src_type=2 AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')) t
     </select>
+    <select id="findIsSignIn" parameterType="java.lang.Integer" resultType="java.lang.Boolean">
+        SELECT CASE t.signIns
+            WHEN 0 THEN FALSE
+            ELSE TRUE
+            END
+        FROM (SELECT count(*) AS signIns FROM t_score_record WHERE account_id=#{accountId} AND src_type=3 AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')) t
+    </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>
         <result property="score" column="score"/>
