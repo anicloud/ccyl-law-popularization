@@ -26,12 +26,66 @@ class SharePrize extends Component {
             if (response.data.state === 0) {
                 _this.setState({
                     scoreInfo: response.data.data
-                })
+                });
+                let scoreInfo = response.data.data;
+                let prize = scoreInfo.score === 15? '金牌' : scoreInfo.score === 10? '银牌' : scoreInfo.score === 5? '铜牌' : '鼓励';
+                axios.get(`${host}/wechat/shareUrl`).then(function (response) {
+                    if (response.data.state === 0) {
+                        window.wx.onMenuShareTimeline({
+                            title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
+                            link: response.data.data,
+                            imgUrl: scoreInfo.portrait,
+                            success: function (res) {
+                                _this.setState({
+                                    showToast: true,
+                                    toastText: '分享成功'
+                                });
+                                _this.toastTimer = setTimeout(()=> {
+                                    _this.setState({showToast: false});
+                                }, 2000);
+                            },
+                            fail: function (res) {
+                                _this.setState({
+                                    showToast: true,
+                                    toastText: '分享失败'
+                                });
+                                _this.toastTimer = setTimeout(()=> {
+                                    _this.setState({showToast: false});
+                                }, 2000);
+                            }
+                        });
+                        window.wx.onMenuShareAppMessage({
+                            title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
+                            link: response.data.data,
+                            imgUrl: scoreInfo.portrait,
+                            desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
+                            success: function(res) {
+                                _this.setState({
+                                    showToast: true,
+                                    toastText: '分享成功'
+                                });
+                                _this.toastTimer = setTimeout(()=> {
+                                    _this.setState({showToast: false});
+                                }, 2000);
+                            },
+                            fail: function(res) {
+                                _this.setState({
+                                    showToast: true,
+                                    toastText: '分享失败'
+                                });
+                                _this.toastTimer = setTimeout(()=> {
+                                    _this.setState({showToast: false});
+                                }, 2000);
+                            }
+                        });
+                    }
+                }).catch(function (errors) {
+                    console.log(errors);
+                });
             }
         }).catch(function (errors) {
             console.log(errors);
         });
-        /*jsSdkConfig(axios, host);*/
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
@@ -39,36 +93,7 @@ class SharePrize extends Component {
     handleShare() {
         let _this = this;
         const {host} = _this.props;
-        let prize = _this.state.scoreInfo.score === 15? '金牌' : _this.state.scoreInfo.score === 10? '银牌' : _this.state.scoreInfo.score === 5? '铜牌' : '';
-            axios.get(`${host}/wechat/shareUrl`).then(function (response) {
-            if (response.data.state === 0) {
-                window.wx.onMenuShareTimeline({
-                    title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
-                    link: response.data.data,
-                    imgUrl: _this.state.scoreInfo.portrait,
-                    success: function (res) {
-                        _this.setState({
-                            showToast: true,
-                            toastText: '分享成功'
-                        });
-                        _this.toastTimer = setTimeout(()=> {
-                            _this.setState({showToast: false});
-                        }, 2000);
-                    },
-                    fail: function (res) {
-                        _this.setState({
-                            showToast: true,
-                            toastText: '分享失败'
-                        });
-                        _this.toastTimer = setTimeout(()=> {
-                            _this.setState({showToast: false});
-                        }, 2000);
-                    }
-                });
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });
+
     }
     render() {
         let scoreInfo = this.state.scoreInfo;

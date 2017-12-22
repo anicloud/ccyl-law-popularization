@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import './App.less';
 import star from './media/images/star_idol.png';
-import axios from 'axios';
-import {connect} from 'react-redux';
-import {jsSdkConfig} from './utils/index';
 import Back from './views/Back';
 
 class App extends Component {
@@ -11,20 +8,6 @@ class App extends Component {
         super(props);
         this.handleTouch = this.handleTouch.bind(this);
         this.handleSign = this.handleSign.bind(this);
-    }
-    componentWillMount() {
-        const {host} = this.props;
-        jsSdkConfig(axios, host);
-        /*window.wx.ready(function () {
-            window.wx.getLocation({
-                success: function (res) {
-                    console.log(res);
-                },
-                cancel: function (res) {
-                    console.log('用户拒绝授权获取地理位置');
-                }
-            })
-        });*/
     }
     handleTouch(num) {
         switch (num) {
@@ -94,10 +77,4 @@ class App extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        host: state.host
-    };
-}
-
-export default connect(mapStateToProps)(App);
+export default App;
