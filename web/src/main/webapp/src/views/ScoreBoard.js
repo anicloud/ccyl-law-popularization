@@ -65,6 +65,7 @@ class ScoreBoard extends Component {
                     </p>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
             </div>
         )
     }
@@ -73,7 +74,8 @@ class ScoreBoard extends Component {
 function mapStateToProps(state) {
     return {
         host: state.host,
-        showLoading: state.showLoading
+        showLoading: state.showLoading,
+        showError: state.showError
     }
 }
 

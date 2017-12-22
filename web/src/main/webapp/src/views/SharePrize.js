@@ -141,6 +141,8 @@ class SharePrize extends Component {
                     </div>
                 </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
             </div>
         )
     }
@@ -148,7 +150,9 @@ class SharePrize extends Component {
 
 function mapStateToProps(state) {
     return {
-        host: state.host
+        host: state.host,
+        showLoading: state.showLoading,
+        showError: state.showError
     };
 }
 

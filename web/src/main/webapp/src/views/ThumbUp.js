@@ -99,6 +99,7 @@ class ThumbUp extends Component {
                 )}
                 <Toast icon="success-no-circle" show={this.state.showToast}>点赞成功</Toast>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
             </div>
         );
     }
@@ -107,7 +108,8 @@ class ThumbUp extends Component {
 function mapStateToProps(state) {
     return {
         host: state.host,
-        showLoading: state.showLoading
+        showLoading: state.showLoading,
+        showError: state.showError
     };
 }
 
