@@ -498,13 +498,17 @@ class Regist extends Component {
     submitForm() {
         let _this = this;
         if (_this.validateAll()) {
-            const {host} = _this.props;
+            const {host, history} = _this.props;
             let registInfo = this.state.registInfo.toJS();
             axios.post(`${host}/account/saveSelfInfo`, registInfo).then(function (response) {
                 if (response.data.state === 0) {
                     _this.setState({showToast: true});
                     _this.toastTimer = setTimeout(()=> {
-                        _this.setState({showToast: false});
+                        _this.setState({
+                            showToast: false
+                        }, function () {
+                            history.push('/home');
+                        });
                     }, 2000);
                 }
             }).catch(function (errors) {
@@ -622,7 +626,7 @@ class Regist extends Component {
                     <p className={errorInfo.code.status? 'text-danger' : 'hidden'}>{errorInfo.code.msg}</p>*/}
                     <Button className='reg-btn' onClick={this.submitForm}>领取奖品</Button>
                 </Form>
-                <Toast icon="success-no-circle" show={this.state.showToast}>Done</Toast>
+                <Toast icon="success-no-circle" show={this.state.showToast}>领取成功</Toast>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         )
