@@ -7,6 +7,7 @@ import com.ani.ccyl.leg.persistence.po.QuestionPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lihui on 17-12-15.
@@ -20,4 +21,6 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     List<ScoreRecordPO> findByConditions(ScoreRecordPO scoreRecordPO);
     List<ScoreRecordPO> findDailyTop20();
     Integer findDailyTotalScore(ScoreRecordPO scoreRecordPO);
+    Boolean findIsThumbUp(Map<String, Object> paramMap);
+    Boolean findIsSignIn(Integer accountId);
 }

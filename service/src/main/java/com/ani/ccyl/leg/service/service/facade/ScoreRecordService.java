@@ -19,4 +19,7 @@ public interface ScoreRecordService {
     TotalScoreDto findTotalScore(Integer accountId);
     DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType);
     List<Top20Dto> findDailyTop20();
+
+    Boolean findIsThumbUp(Integer accountId, Integer toAccountId);
+    Boolean findIsSignIn(Integer accountId);
 }

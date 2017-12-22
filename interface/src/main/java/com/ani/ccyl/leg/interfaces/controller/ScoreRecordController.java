@@ -89,4 +89,27 @@ public class ScoreRecordController {
         message.setState(ResponseStateEnum.OK);
         return message;
     }
+
+    @RequestMapping(value = "/isThumbUp", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto isThumbUp(Integer toAccountId, HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        Boolean isThumbUp = scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId);
+        message.setData(isThumbUp);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        return message;
+    }
+
+    @RequestMapping(value = "/isSignIn", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto isSignIn(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        message.setMsg("查询成功");
+        message.setState(ResponseStateEnum.OK);
+        message.setData(scoreRecordService.findIsSignIn(accountDto.getId()));
+        return message;
+    }
 }

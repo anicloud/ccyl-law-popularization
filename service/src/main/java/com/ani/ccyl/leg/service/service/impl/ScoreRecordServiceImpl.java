@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lihui on 17-12-15.
@@ -96,7 +98,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public TotalScoreDto findTotalScore(Integer accountId) {
-        return scoreRecordMapper.findTotalScore(accountId);
+        TotalScoreDto totalScoreDto = scoreRecordMapper.findTotalScore(accountId);
+        totalScoreDto.setIsSignIn(scoreRecordMapper.findIsSignIn(accountId));
+        return totalScoreDto;
     }
 
     @Override
@@ -133,5 +137,18 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             }
         }
         return top20Dtos;
+    }
+
+    @Override
+    public Boolean findIsThumbUp(Integer accountId, Integer toAccountId) {
+        Map<String,Object> paramMap = new HashMap<>();
+        paramMap.put("accountId", toAccountId);
+        paramMap.put("srcAccountId",accountId);
+        return scoreRecordMapper.findIsThumbUp(paramMap);
+    }
+
+    @Override
+    public Boolean findIsSignIn(Integer accountId) {
+        return scoreRecordMapper.findIsSignIn(accountId);
     }
 }
