@@ -32,6 +32,8 @@ class ChoiceQuestion extends Component {
                 question: nextProps.question,
                 answer: null,
                 value: ''
+            }, function () {
+                document.querySelector('.weui-check:checked').checked = false;
             });
         }
     }
@@ -43,19 +45,23 @@ class ChoiceQuestion extends Component {
     }
     handleSubmit() {
         let _this = this;
-        const {id} = _this.state.question;
-        const {host, handleShowNext} = _this.props;
-        axios.get(`${host}/question/verify?id=${id}&answer=${_this.state.value}`).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({
-                    answer: response.data.data
-                }, function () {
-                    handleShowNext();
-                });
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        })
+        if (_this.state.value) {
+            const {id} = _this.state.question;
+            const {host, handleShowNext} = _this.props;
+            axios.get(`${host}/question/verify?id=${id}&answer=${_this.state.value}`).then(function (response) {
+                if (response.data.state === 0) {
+                    _this.setState({
+                        answer: response.data.data
+                    }, function () {
+                        handleShowNext();
+                    });
+                }
+            }).catch(function (errors) {
+                console.log(errors);
+            })
+        } else {
+
+        }
     }
     render() {
         let question = this.state.question;
@@ -71,81 +77,26 @@ class ChoiceQuestion extends Component {
                             <p className='content'>
                                 {question.content}
                             </p>
-                            {
-                                question.order === 1? (
-                                    <Form checkbox className='form'>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionOne}</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionTwo}</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionThree}</CellBody>
-                                        </FormCell>
-                                    </Form>
-                                ) : question.order === 2? (
-                                    <Form checkbox className='form'>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio2" value="A" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionOne}</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio2" value="B" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionTwo}</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio2" value="C" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionThree}</CellBody>
-                                        </FormCell>
-                                    </Form>
-                                ) : question.order === 3? (
-                                    <Form checkbox className='form'>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio3" value="A" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionOne}</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio3" value="B" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionTwo}</CellBody>
-                                        </FormCell>
-                                        <FormCell checkbox>
-                                            <CellHeader>
-                                                <Radio name="radio3" value="C" onChange={(e) => {this.handleChange(e)}}/>
-                                            </CellHeader>
-                                            <CellBody>{question.optionThree}</CellBody>
-                                        </FormCell>
-                                    </Form>
-                                ) : (null)
-                            }
-                            {
-                                result? (result.isCorrect? (
-                                    <p className='text-danger result'>恭喜你答对了，积分+5</p>
-                                ) : (
-                                    <p className='text-danger result'>很遗憾，正确答案为： {result.answer}</p>
-                                )) : (
-                                    <Button className='question-button' type="primary" plain onClick={this.handleSubmit}>提交</Button>
-                                )
-                            }
+                            <Form checkbox className='form'>
+                                <FormCell checkbox>
+                                    <CellHeader>
+                                        <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
+                                    </CellHeader>
+                                    <CellBody>{question.optionOne}</CellBody>
+                                </FormCell>
+                                <FormCell checkbox>
+                                    <CellHeader>
+                                        <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
+                                    </CellHeader>
+                                    <CellBody>{question.optionTwo}</CellBody>
+                                </FormCell>
+                                <FormCell checkbox>
+                                    <CellHeader>
+                                        <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
+                                    </CellHeader>
+                                    <CellBody>{question.optionThree}</CellBody>
+                                </FormCell>
+                            </Form>
                         </div>
                     ) : (
                         <Toast icon="loading" show={true}>Loading...</Toast>
