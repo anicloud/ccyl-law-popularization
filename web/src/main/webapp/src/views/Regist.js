@@ -36,7 +36,7 @@ class Regist extends Component {
                     status: false,
                     msg: '请选择年龄'
                 }),
-                address: Map({
+                province: Map({
                     status: false,
                     msg: '请选择地区'
                 }),
@@ -57,7 +57,7 @@ class Regist extends Component {
                 name: '',
                 sex: '',
                 age: '',
-                address: '',
+                province: '',
                 orgName: '',
                 email: '',
                 phone: ''
@@ -200,8 +200,8 @@ class Regist extends Component {
         let descriptor = {};
         let source = this.state.registInfo.toJS();
         let message  = '';
-        if (key === 'name' || key === 'sex' || key === 'age' || key === 'address' || key === 'orgName') {
-            message = key === 'name'? '请输入姓名' : key === 'sex'? '请选择性别' : key === 'age'? '请选择年龄' : key === 'address'? '请选择地区' : key === 'orgName'? '请输入学校或单位' : '';
+        if (key === 'name' || key === 'sex' || key === 'age' || key === 'province' || key === 'orgName') {
+            message = key === 'name'? '请输入姓名' : key === 'sex'? '请选择性别' : key === 'age'? '请选择年龄' : key === 'province'? '请选择地区' : key === 'orgName'? '请输入学校或单位' : '';
             descriptor = {
                 type: 'object',
                 fields: {
@@ -385,12 +385,12 @@ class Regist extends Component {
                         cb();
                     }
                 },
-                address: function(cb) {
+                province: function(cb) {
                     if (this.value.trim() === '') {
-                        cb({key: 'address', message: '请选择地区'});
+                        cb({key: 'province', message: '请选择地区'});
                     } else {
                         _this.setState((prevState) => {
-                            let info = prevState.errorStatus.setIn(['address', 'status'], false);
+                            let info = prevState.errorStatus.setIn(['province', 'status'], false);
                             return {
                                 errorStatus: info
                             }
@@ -572,7 +572,7 @@ class Regist extends Component {
                             <Label>地区</Label>
                         </CellHeader>
                         <CellBody>
-                            <Select onChange={(e) => this.handleForm('address', e)} onBlur={(e) => this.handleBlur('address', e)}>
+                            <Select onChange={(e) => this.handleForm('province', e)} onBlur={(e) => this.handleBlur('province', e)}>
                                 <option value="">请选择地区</option>
                                 {
                                     this.state.provinces.map((item, index) => {
@@ -582,7 +582,7 @@ class Regist extends Component {
                             </Select>
                         </CellBody>
                     </FormCell>
-                    <p className={errorInfo.address.status? 'text-danger' : 'hidden'}>{errorInfo.address.msg}</p>
+                    <p className={errorInfo.province.status? 'text-danger' : 'hidden'}>{errorInfo.province.msg}</p>
                     <FormCell>
                         <CellHeader>
                             <Label>学校/单位</Label>
