@@ -9,23 +9,23 @@ import java.util.List;
  */
 public class TotalSignInDto implements Serializable {
     private static final long serialVersionUID = 6611997774907924597L;
-    private List<Timestamp> createTime;
+    private List<Timestamp> signInDays;
     private Boolean isSignIn;
 
     public TotalSignInDto() {
     }
 
-    public TotalSignInDto(List<Timestamp> createTime, Boolean isSignIn) {
-        this.createTime = createTime;
+    public TotalSignInDto(List<Timestamp> signInDays, Boolean isSignIn) {
+        this.signInDays = signInDays;
         this.isSignIn = isSignIn;
     }
 
-    public List<Timestamp> getCreateTime() {
-        return createTime;
+    public List<Timestamp> getSignInDays() {
+        return signInDays;
     }
 
-    public void setCreateTime(List<Timestamp> createTime) {
-        this.createTime = createTime;
+    public void setSignInDays(List<Timestamp> signInDays) {
+        this.signInDays = signInDays;
     }
 
     public Boolean getSignIn() {
