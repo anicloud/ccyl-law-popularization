@@ -4,10 +4,36 @@
 import React, {Component} from 'react';
 import '../media/styles/main.less';
 import star from '../media/images/star_idol.png';
+import {jsSdkConfig} from "../utils/index";
+import {connect} from 'react-redux';
+import {Toast} from 'react-weui';
+import axios from 'axios';
 
 class Main extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showLoading : false
+        }
+    }
     handleTouch() {
        this.props.history.push('/home');
+    }
+    componentWillMount() {
+        const {host} = this.props;
+        /*配置微信jssdk*/
+        this.setState({
+            showLoading: true
+        });
+        jsSdkConfig(axios, host);
+        window.wx.ready(function () {
+            this.setState({
+                showLoading: true
+            })
+        });
+        window.wx.error(function(res) {
+            console.log(res);
+        });
     }
     render() {
         return (
@@ -21,9 +47,16 @@ class Main extends Component {
                 <div className='text-center greate'>
                     <button className='btn btn-success' onClick={() => this.handleTouch()}>我行我上</button>
                 </div>
+                <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
             </div>
         )
     }
 }
 
-export default Main;
+function mapStateToProps(state) {
+    return {
+        host: state.host
+    }
+}
+
+export default connect(mapStateToProps)(Main);

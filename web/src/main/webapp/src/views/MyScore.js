@@ -32,6 +32,8 @@ class MyScore extends Component {
                     scoreInfo: response.data.data
                 })
             }
+        }).catch(function (errors) {
+            console.log(errors);
         })
     }
     handleTopList() {
