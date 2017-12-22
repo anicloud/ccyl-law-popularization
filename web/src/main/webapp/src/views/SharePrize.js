@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Back from './Back';
 import {connect} from 'react-redux';
-import {jsSdkConfig, getCookie} from "../utils/index";
+import {getCookie} from "../utils/index";
 import {Toast} from 'react-weui';
 import axios from 'axios';
 import first from '../media/images/first.png';

@@ -541,8 +541,8 @@ class Regist extends Component {
                         <CellBody>
                             <Select onChange={(e) => this.handleForm('sex', e)} onBlur={(e) => this.handleBlur('sex', e)}>
                                 <option value="">请选择性别</option>
-                                <option value="1">男</option>
-                                <option value="2">女</option>
+                                <option value="true">男</option>
+                                <option value="false">女</option>
                             </Select>
                         </CellBody>
                     </FormCell>

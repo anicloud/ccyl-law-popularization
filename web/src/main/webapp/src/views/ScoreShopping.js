@@ -30,7 +30,7 @@ class ScoreShopping extends Component{
               <p className='text-center current-score'>当前积分:{this.getCurrentScore()}</p>
               <div className="listdiv">
                   <div className="largest">
-                    <img className="largestImg"/>
+                    <img className="largestImg" alt='' />
                       <div className="largestDetail">
                         <span>20元充值劵</span>
                         <span>1000积分</span>
@@ -39,7 +39,7 @@ class ScoreShopping extends Component{
                   <hr className="line"/>
 
                   <div className="larger">
-                      <img className="largerImg"/>
+                      <img className="largerImg" alt=''/>
                       <div className="largerDetail">
                           <span>10元充值劵</span>
                           <span>500积分</span>
@@ -47,7 +47,7 @@ class ScoreShopping extends Component{
                   </div>
                   <hr className="line"/>
                   <div className="normal">
-                      <img className="normalImg"/>
+                      <img className="normalImg" alt='' />
                       <div className="normalDetail">
                           <span>5元充值劵</span>
                           <span>200积分</span>
@@ -55,7 +55,7 @@ class ScoreShopping extends Component{
                   </div>
                   <hr className="line"/>
                   <div className="smaller">
-                      <img className="smallerImg"/>
+                      <img className="smallerImg" alt='' />
                       <div className="smallerDetail">
                           <span>2元充值劵</span>\
                           <span>100积分</span>
