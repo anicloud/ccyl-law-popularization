@@ -98,7 +98,7 @@ CREATE TABLE `t_day_question` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日问题表';
 DROP TABLE IF EXISTS `t_share_relation`;
 CREATE TABLE `t_share_relation` (
-  `id` INT(11) NOT NULL COMMENT '主键',
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `share_id` INT(11) NOT NULL COMMENT '分享者id',
   `shared_id` INT(11) NOT NULL COMMENT '被分享者id',
   `is_part_in` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '被分享者是否参与',

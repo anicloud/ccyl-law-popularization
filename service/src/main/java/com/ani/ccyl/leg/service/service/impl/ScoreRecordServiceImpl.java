@@ -134,4 +134,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         }
         return top20Dtos;
     }
+
+    @Override
+    public Boolean findIsThumbUp(Integer accountId, Integer toAccountId) {
+        return scoreRecordMapper.findIsThumbUp(toAccountId,accountId);
+    }
 }

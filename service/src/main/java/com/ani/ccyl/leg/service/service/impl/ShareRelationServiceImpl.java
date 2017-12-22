@@ -21,6 +21,7 @@ public class ShareRelationServiceImpl implements ShareRelationService {
         relationPO.setSharedId(sharedId);
         List<ShareRelationPO> shareRelationPOs = shareRelationMapper.select(relationPO);
         if(shareRelationPOs.size()==0) {
+            relationPO.setShareId(shareId);
             relationPO.setPartIn(isPartIn);
             shareRelationMapper.insertSelective(relationPO);
         }

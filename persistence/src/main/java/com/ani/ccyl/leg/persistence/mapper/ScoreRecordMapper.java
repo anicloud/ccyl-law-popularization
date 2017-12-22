@@ -20,4 +20,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     List<ScoreRecordPO> findByConditions(ScoreRecordPO scoreRecordPO);
     List<ScoreRecordPO> findDailyTop20();
     Integer findDailyTotalScore(ScoreRecordPO scoreRecordPO);
+    Boolean findIsThumbUp(Integer accountId, Integer srcAccountId);
 }
