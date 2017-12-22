@@ -73,7 +73,7 @@ public class ScoreRecordController {
     public ResponseMessageDto signIn(HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        scoreRecordService.insertScore(accountDto.getId(),2,null, ScoreSrcTypeEnum.SIGN_IN,accountDto.getId());
+        scoreRecordService.insertScore(accountDto.getId(),Constants.Score.SIGN_IN_SCORE,null, ScoreSrcTypeEnum.SIGN_IN,accountDto.getId());
         message.setState(ResponseStateEnum.OK);
         message.setMsg("签到成功");
         return message;
@@ -84,7 +84,7 @@ public class ScoreRecordController {
     public ResponseMessageDto thumbUp(Integer toAccountId, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        scoreRecordService.insertScore(toAccountId,5,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
+        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
         message.setMsg("点赞成功");
         message.setState(ResponseStateEnum.OK);
         return message;
@@ -110,6 +110,17 @@ public class ScoreRecordController {
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
         message.setData(scoreRecordService.findIsSignIn(accountDto.getId()));
+        return message;
+    }
+
+    @RequestMapping(value = "/findTotalSignIn", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findTotalSignIn(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        message.setData(scoreRecordService.findTotalSignIn(accountDto.getId()));
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
         return message;
     }
 }

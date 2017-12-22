@@ -6,6 +6,7 @@ import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.QuestionPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +24,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     Integer findDailyTotalScore(ScoreRecordPO scoreRecordPO);
     Boolean findIsThumbUp(Map<String, Object> paramMap);
     Boolean findIsSignIn(Integer accountId);
+    List<Timestamp> findTotalSignIn(Integer accountId);
 }

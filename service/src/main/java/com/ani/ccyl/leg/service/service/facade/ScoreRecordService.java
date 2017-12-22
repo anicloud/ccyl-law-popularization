@@ -1,9 +1,6 @@
 package com.ani.ccyl.leg.service.service.facade;
 
-import com.ani.ccyl.leg.commons.dto.DailyTotalScoreDto;
-import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
-import com.ani.ccyl.leg.commons.dto.Top20Dto;
-import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
+import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 
@@ -22,4 +19,5 @@ public interface ScoreRecordService {
 
     Boolean findIsThumbUp(Integer accountId, Integer toAccountId);
     Boolean findIsSignIn(Integer accountId);
+    TotalSignInDto findTotalSignIn(Integer accountId);
 }

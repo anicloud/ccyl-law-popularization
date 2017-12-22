@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.service.service.impl;
 
+import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
@@ -48,8 +49,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             if(shareRelationPO != null&&!shareRelationPO.getPartIn()) {
                 ScoreRecordPO shareRecord = new ScoreRecordPO();
                 shareRecord.setAccountId(shareRelationPO.getShareId());
-                shareRecord.setScore(3);
+                shareRecord.setScore(Constants.Score.SHARE_SOCRE);
                 shareRecord.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                shareRecord.setSrcType(ScoreSrcTypeEnum.SHARE);
+                shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
                 shareRelationPO.setPartIn(true);
                 shareRelationMapper.updateByPrimaryKeySelective(shareRelationPO);
@@ -151,4 +154,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     public Boolean findIsSignIn(Integer accountId) {
         return scoreRecordMapper.findIsSignIn(accountId);
     }
+
+    @Override
+    public TotalSignInDto findTotalSignIn(Integer accountId) {
+        return new TotalSignInDto(scoreRecordMapper.findTotalSignIn(accountId),scoreRecordMapper.findIsSignIn(accountId));
+    }
+
 }
