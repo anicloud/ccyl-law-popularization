@@ -10,11 +10,7 @@ class ThumbUp extends Component {
         super(props);
         console.log(this.props);
         this.state = {
-            scoreInfo: {
-                name: 'wxw',
-                score:15,
-                portrait: icon
-            },
+            scoreInfo: null,
             showToast: false,
             isThumbUp: false
         };
