@@ -59,7 +59,7 @@ public class QuestionController {
         QuestionVerifyDto verifyDto = new QuestionVerifyDto();
         message.setState(ResponseStateEnum.OK);
         if(questionDto != null && questionDto.getAnswer().equalsIgnoreCase(answer)) {
-            scoreRecordService.insertScore(accountDto.getId(),5, answer, ScoreSrcTypeEnum.QUESTION,id);
+            scoreRecordService.insertScore(accountDto.getId(),Constants.Score.QUESTION_SCORE, answer, ScoreSrcTypeEnum.QUESTION,id);
             message.setMsg("正确");
             verifyDto.setIsCorrect(true);
         } else {

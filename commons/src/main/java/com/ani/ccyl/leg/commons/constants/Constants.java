@@ -66,4 +66,10 @@ public class Constants {
          */
         public static final String  EVENT_TYPE_VIEW= "VIEW";
     }
+    public static class Score {
+        public static final Integer QUESTION_SCORE=5;
+        public static final Integer THUMB_UP_SCORE=2;
+        public static final Integer SIGN_IN_SCORE=2;
+        public static final Integer SHARE_SOCRE=3;
+    }
 }
