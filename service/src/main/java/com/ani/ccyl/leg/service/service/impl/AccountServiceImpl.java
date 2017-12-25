@@ -54,7 +54,6 @@ public class AccountServiceImpl implements AccountService {
             accountDto.setOpenId(null);
             accountDto.setAccountName(null);
             accountDto.setAccountPwd(null);
-            accountDto.setIsReward(null);
             accountMapper.updateByPrimaryKeySelective(AccountAdapter.fromDto(accountDto));
         } else {
             throw new RuntimeException("用户id为null");

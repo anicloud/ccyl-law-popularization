@@ -1,5 +1,7 @@
 package com.ani.ccyl.leg.persistence.po;
 
+import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ public class AwardPO implements Serializable {
     private Integer id;
     private Integer accountId;
     private Integer score;
+    private AwardTypeEnum awardType;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
@@ -25,13 +28,22 @@ public class AwardPO implements Serializable {
     public AwardPO() {
     }
 
-    public AwardPO(Integer id, Integer accountId, Integer score, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public AwardPO(Integer id, Integer accountId, Integer score, AwardTypeEnum awardType, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
+        this.awardType = awardType;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public AwardTypeEnum getAwardType() {
+        return awardType;
+    }
+
+    public void setAwardType(AwardTypeEnum awardType) {
+        this.awardType = awardType;
     }
 
     public Integer getId() {
