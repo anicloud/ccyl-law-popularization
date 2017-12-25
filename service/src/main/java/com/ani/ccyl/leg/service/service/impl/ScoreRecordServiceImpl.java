@@ -19,10 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lihui on 17-12-15.
@@ -157,7 +155,16 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public TotalSignInDto findTotalSignIn(Integer accountId) {
-        return new TotalSignInDto(scoreRecordMapper.findTotalSignIn(accountId),scoreRecordMapper.findIsSignIn(accountId));
+        List<Integer> days = new ArrayList<>();
+        List<Timestamp> totalSignIn = scoreRecordMapper.findTotalSignIn(accountId);
+        if(totalSignIn != null) {
+            Calendar calendar = Calendar.getInstance();
+            for(Timestamp timestamp:totalSignIn) {
+                calendar.setTime(timestamp);
+                days.add(calendar.get(Calendar.DAY_OF_MONTH));
+            }
+        }
+        return new TotalSignInDto(days,scoreRecordMapper.findIsSignIn(accountId));
     }
 
 }
