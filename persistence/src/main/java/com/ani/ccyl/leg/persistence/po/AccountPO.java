@@ -27,7 +27,6 @@ public class AccountPO implements Serializable {
     private ProvinceEnum province;
     private String nickName;
     private String portrait;
-    private Boolean isReward;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
@@ -36,7 +35,7 @@ public class AccountPO implements Serializable {
     private Integer age;
     private String name;
 
-    public AccountPO(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean isReward, Timestamp updateTime, Timestamp createTime, Boolean isDel, Boolean sex, String orgName, Integer age, String name) {
+    public AccountPO(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Timestamp updateTime, Timestamp createTime, Boolean isDel, Boolean sex, String orgName, Integer age, String name) {
         this.id = id;
         this.openId = openId;
         this.accountName = accountName;
@@ -47,7 +46,6 @@ public class AccountPO implements Serializable {
         this.province = province;
         this.nickName = nickName;
         this.portrait = portrait;
-        this.isReward = isReward;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
@@ -170,14 +168,6 @@ public class AccountPO implements Serializable {
 
     public void setPortrait(String portrait) {
         this.portrait = portrait;
-    }
-
-    public Boolean getReward() {
-        return isReward;
-    }
-
-    public void setReward(Boolean reward) {
-        isReward = reward;
     }
 
     public Timestamp getUpdateTime() {

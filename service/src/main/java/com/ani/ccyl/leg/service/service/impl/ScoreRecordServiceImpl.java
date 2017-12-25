@@ -2,12 +2,11 @@ package com.ani.ccyl.leg.service.service.impl;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.*;
+import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
-import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
-import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
-import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
-import com.ani.ccyl.leg.persistence.mapper.ShareRelationMapper;
+import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
+import com.ani.ccyl.leg.persistence.po.AwardPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
 import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
@@ -19,10 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lihui on 17-12-15.
@@ -39,6 +36,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private ShareRelationPersistenceService shareRelationPersistenceService;
     @Autowired
     private ShareRelationMapper shareRelationMapper;
+    @Autowired
+    private AwardMapper awardMapper;
 
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
@@ -157,7 +156,27 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public TotalSignInDto findTotalSignIn(Integer accountId) {
-        return new TotalSignInDto(scoreRecordMapper.findTotalSignIn(accountId),scoreRecordMapper.findIsSignIn(accountId));
+        List<Integer> days = new ArrayList<>();
+        List<Timestamp> totalSignIn = scoreRecordMapper.findTotalSignIn(accountId);
+        if(totalSignIn != null) {
+            Calendar calendar = Calendar.getInstance();
+            for(Timestamp timestamp:totalSignIn) {
+                calendar.setTime(timestamp);
+                days.add(calendar.get(Calendar.DAY_OF_MONTH));
+            }
+        }
+        return new TotalSignInDto(days,scoreRecordMapper.findIsSignIn(accountId));
+    }
+
+    @Override
+    public void updateConvertAward(Integer accountId, AwardTypeEnum awardType) {
+        TotalScoreDto totalScoreDto = findTotalScore(accountId);
+        if(totalScoreDto.getScore()>=awardType.findScore() && !awardMapper.findIsAward(accountId)) {
+            AwardPO awardPO = new AwardPO(null,accountId,awardType.findScore(),awardType,null,new Timestamp(System.currentTimeMillis()),false);
+            awardMapper.insertSelective(awardPO);
+        } else {
+            throw new RuntimeException("积分不足或您已经领取过了～");
+        }
     }
 
 }

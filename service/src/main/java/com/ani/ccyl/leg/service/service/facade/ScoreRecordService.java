@@ -1,6 +1,7 @@
 package com.ani.ccyl.leg.service.service.facade;
 
 import com.ani.ccyl.leg.commons.dto.*;
+import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 
@@ -20,4 +21,6 @@ public interface ScoreRecordService {
     Boolean findIsThumbUp(Integer accountId, Integer toAccountId);
     Boolean findIsSignIn(Integer accountId);
     TotalSignInDto findTotalSignIn(Integer accountId);
+
+    void updateConvertAward(Integer accountId, AwardTypeEnum awardType);
 }
