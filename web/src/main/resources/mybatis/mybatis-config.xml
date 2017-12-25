@@ -24,6 +24,8 @@
 					 javaType="com.ani.ccyl.leg.commons.enums.BusinessTypeEnum"/>
 		<typeHandler handler="com.ani.ccyl.leg.service.infrastructure.mybatis.UniversalEnumHandler"
 					 javaType="com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum"/>
+		<typeHandler handler="com.ani.ccyl.leg.service.infrastructure.mybatis.UniversalEnumHandler"
+					 javaType="com.ani.ccyl.leg.commons.enums.AwardTypeEnum"/>
 	</typeHandlers>
 	<plugins>
 		<!-- 分页插件：com.github.pagehelper为PageHelper类所在包名 -->

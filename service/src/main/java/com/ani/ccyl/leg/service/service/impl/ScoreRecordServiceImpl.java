@@ -2,12 +2,11 @@ package com.ani.ccyl.leg.service.service.impl;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.*;
+import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
-import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
-import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
-import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
-import com.ani.ccyl.leg.persistence.mapper.ShareRelationMapper;
+import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
+import com.ani.ccyl.leg.persistence.po.AwardPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
 import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
@@ -37,6 +36,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private ShareRelationPersistenceService shareRelationPersistenceService;
     @Autowired
     private ShareRelationMapper shareRelationMapper;
+    @Autowired
+    private AwardMapper awardMapper;
 
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
@@ -165,6 +166,17 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             }
         }
         return new TotalSignInDto(days,scoreRecordMapper.findIsSignIn(accountId));
+    }
+
+    @Override
+    public void updateConvertAward(Integer accountId, AwardTypeEnum awardType) {
+        TotalScoreDto totalScoreDto = findTotalScore(accountId);
+        if(totalScoreDto.getScore()>=awardType.findScore() && !awardMapper.findIsAward(accountId)) {
+            AwardPO awardPO = new AwardPO(null,accountId,awardType.findScore(),awardType,null,new Timestamp(System.currentTimeMillis()),false);
+            awardMapper.insertSelective(awardPO);
+        } else {
+            throw new RuntimeException("积分不足或您已经领取过了～");
+        }
     }
 
 }

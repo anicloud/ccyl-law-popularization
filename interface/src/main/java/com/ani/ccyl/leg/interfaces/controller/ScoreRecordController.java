@@ -2,6 +2,7 @@ package com.ani.ccyl.leg.interfaces.controller;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.*;
+import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
@@ -121,6 +122,14 @@ public class ScoreRecordController {
         message.setData(scoreRecordService.findTotalSignIn(accountDto.getId()));
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
+        return message;
+    }
+    @RequestMapping(value = "/convertAward", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto convertAward(AwardTypeEnum awardType, HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        scoreRecordService.updateConvertAward(accountDto.getId(), awardType);
         return message;
     }
 }
