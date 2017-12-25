@@ -100,8 +100,8 @@ class MyScore extends Component {
                     </div>
                     <div className="task">
                         <span>分享答题</span>
-                        <Button onClick={this.handleShare}>查看</Button>
-                        <span className="desc">已分享答题{scoreInfo? scoreInfo.shareCount : 0}次</span>
+                        <Button onClick={this.handleShare}>分享</Button>
+                        <span className="desc">已成功邀请{scoreInfo? scoreInfo.shareCount : 0}次</span>
                     </div>
                     <div className="task">
                         <span>好友点赞</span>
