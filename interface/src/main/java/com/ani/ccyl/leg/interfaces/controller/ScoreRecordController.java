@@ -132,4 +132,16 @@ public class ScoreRecordController {
         scoreRecordService.updateConvertAward(accountDto.getId(), awardType);
         return message;
     }
+
+    @RequestMapping(value = "/findAward", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findAward(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        AwardDto awardDto = scoreRecordService.findAwardScore(accountDto.getId());
+        message.setData(awardDto);
+        message.setMsg("查询成功");
+        message.setState(ResponseStateEnum.OK);
+        return message;
+    }
 }

@@ -23,4 +23,6 @@ public interface ScoreRecordService {
     TotalSignInDto findTotalSignIn(Integer accountId);
 
     void updateConvertAward(Integer accountId, AwardTypeEnum awardType);
+
+    AwardDto findAwardScore(Integer accountId);
 }

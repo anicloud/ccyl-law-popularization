@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -177,6 +176,23 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         } else {
             throw new RuntimeException("积分不足或已经领取过了～");
         }
+    }
+
+    @Override
+    public AwardDto findAwardScore(Integer accountId) {
+        AwardPO awardParam = new AwardPO();
+        awardParam.setAccountId(accountId);
+        awardParam.setDel(false);
+        List<AwardPO> awardPOs = awardMapper.select(awardParam);
+        AwardDto awardDto = new AwardDto();
+        Integer totalScore = findTotalScore(accountId).getScore();
+        awardDto.setLastScore(totalScore);
+        if(awardPOs.size()>0) {
+            AwardPO awardPO = awardPOs.get(0);
+            awardDto.setAwardType(awardPO.getAwardType());
+            awardDto.setLastScore(totalScore-awardPO.getAwardType().findScore());
+        }
+        return awardDto;
     }
 
 }
