@@ -22,6 +22,9 @@ class Options extends Component {
                     state: getSearchString(search, 'id')
                 });
                 break;
+            case 'ACCESS_DENIED':
+                this.props.history.push('/');
+                break;
             default:
                 return;
         }
