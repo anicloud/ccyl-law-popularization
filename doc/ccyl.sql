@@ -118,7 +118,8 @@ CREATE TABLE `t_award` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  KEY `t_award_account_id_key` (`account_id`)
+  UNIQUE KEY `t_award_account_id_unique_key` (`account_id`),
+  KEY `t_award_is_del_key` (`is_del`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='奖品表';
 DROP PROCEDURE IF EXISTS proce_init_day_questions;
 DELIMITER $

@@ -175,7 +175,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             AwardPO awardPO = new AwardPO(null,accountId,awardType.findScore(),awardType,null,new Timestamp(System.currentTimeMillis()),false);
             awardMapper.insertSelective(awardPO);
         } else {
-            throw new RuntimeException("积分不足或您已经领取过了～");
+            throw new RuntimeException("积分不足或已经领取过了～");
         }
     }
 
