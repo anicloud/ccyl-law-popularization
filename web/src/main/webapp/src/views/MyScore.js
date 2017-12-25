@@ -80,7 +80,7 @@ class MyScore extends Component {
                             <span>我的积分</span>
                         </h2>
                         <h3 className="text-center h3 title">
-                            <span>{scoreInfo? scoreInfo.score : 0}</span>
+                            <span>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
                         </h3>
                     </div>
                 </div>
