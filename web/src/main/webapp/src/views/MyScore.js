@@ -70,7 +70,7 @@ class MyScore extends Component {
     render() {
         let scoreInfo = this.state.scoreInfo;
         return (
-            <div className="root main-bg">
+            <div className="root">
                 <div className="MyScore score-bg">
                     <div className='clearfix'>
                         <Back location='/home' history={this.props.history}/>
