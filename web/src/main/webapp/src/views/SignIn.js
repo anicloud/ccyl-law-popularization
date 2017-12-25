@@ -173,8 +173,8 @@ class SignIn extends Component {
                 </h2>
                 <div className="sign_main">
                     <div className="signdiv">
-                        <Button className="signbutton" size="small" disabled={signInfo? !!signInfo.isSignIn : false} onClick={this.handleSignIn}>
-                            {signInfo? signInfo.isSignIn? '已签到' : '签到' : '签到'}
+                        <Button className="signbutton" size="small" disabled={signInfo? !!signInfo.signIn : false} onClick={this.handleSignIn}>
+                            {signInfo? signInfo.signIn? '已签到' : '签到' : '签到'}
                         </Button>
                     </div>
                     {
