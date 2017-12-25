@@ -17,7 +17,7 @@ class ScoreShopping extends Component{
         };
     }
     getCurrentScore(){
-        return 1200;
+        return 800;
     }
     render(){
         return (
@@ -31,40 +31,40 @@ class ScoreShopping extends Component{
               <p className='text-center current-score'>当前积分:{this.getCurrentScore()}</p>
               <div className="listdiv">
                   <div className="largest">
-                    <img className="largestImg" alt='' />
+                    <span className="largestImg" />
                       <div className="largestDetail">
                         <span className="largestSpan">20元充值劵</span>
-                        <span>1000积分</span>
+                        <span className="scoreSpan">1000积分</span>
                       </div>
-                      <Button>立即兑换</Button>
+                      <Button disabled={this.getCurrentScore()>1000?false:true}>{this.getCurrentScore()>1000?"立即兑换":"积分不足"}</Button>
                   </div>
                   <hr className="line"/>
 
                   <div className="larger">
-                      <img className="largerImg" alt=''/>
+                      <span className="largerImg" />
                       <div className="largerDetail">
                           <span className="largerSpan">10元充值劵</span>
-                          <span>500积分</span>
+                          <span className="scoreSpan">500积分</span>
                       </div>
-                      <Button>立即兑换</Button>
+                      <Button disabled={this.getCurrentScore()>500?false:true}>{this.getCurrentScore()>500?"立即兑换":"积分不足"}</Button>
                   </div>
                   <hr className="line"/>
                   <div className="normal">
-                      <img className="normalImg" alt='' />
+                      <span className="normalImg" />
                       <div className="normalDetail">
                           <span className="normalSpan">5元充值劵</span>
-                          <span>200积分</span>
+                          <span className="scoreSpan">200积分</span>
                       </div>
-                      <Button>立即兑换</Button>
+                      <Button disabled={this.getCurrentScore()>200?false:true}>{this.getCurrentScore()>200?"立即兑换":"积分不足"}</Button>
                   </div>
                   <hr className="line"/>
                   <div className="smaller">
-                      <img className="smallerImg" alt='' />
+                      <span className="smallerImg" />
                       <div className="smallerDetail">
                           <span className="smallerSpan">2元充值劵</span>
-                          <span>100积分</span>
+                          <span className="scoreSpan">100积分</span>
                       </div>
-                      <Button>立即兑换</Button>
+                      <Button disabled={this.getCurrentScore()>100?false:true}>{this.getCurrentScore()>100?"立即兑换":"积分不足"}</Button>
                   </div>
               </div>
           </div>
