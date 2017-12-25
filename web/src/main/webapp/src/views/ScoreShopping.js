@@ -7,6 +7,7 @@
 import React,{Component} from "react";
 import Back from './Back';
 import "../media/styles/scoreshopping.less";
+import {Button} from 'react-weui';
 
 class ScoreShopping extends Component{
     constructor(props){
@@ -32,34 +33,38 @@ class ScoreShopping extends Component{
                   <div className="largest">
                     <img className="largestImg" alt='' />
                       <div className="largestDetail">
-                        <span>20元充值劵</span>
+                        <span className="largestSpan">20元充值劵</span>
                         <span>1000积分</span>
                       </div>
+                      <Button>立即兑换</Button>
                   </div>
                   <hr className="line"/>
 
                   <div className="larger">
                       <img className="largerImg" alt=''/>
                       <div className="largerDetail">
-                          <span>10元充值劵</span>
+                          <span className="largerSpan">10元充值劵</span>
                           <span>500积分</span>
                       </div>
+                      <Button>立即兑换</Button>
                   </div>
                   <hr className="line"/>
                   <div className="normal">
                       <img className="normalImg" alt='' />
                       <div className="normalDetail">
-                          <span>5元充值劵</span>
+                          <span className="normalSpan">5元充值劵</span>
                           <span>200积分</span>
                       </div>
+                      <Button>立即兑换</Button>
                   </div>
                   <hr className="line"/>
                   <div className="smaller">
                       <img className="smallerImg" alt='' />
                       <div className="smallerDetail">
-                          <span>2元充值劵</span>\
+                          <span className="smallerSpan">2元充值劵</span>
                           <span>100积分</span>
                       </div>
+                      <Button>立即兑换</Button>
                   </div>
               </div>
           </div>
