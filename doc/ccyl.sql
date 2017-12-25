@@ -151,7 +151,8 @@ CREATE PROCEDURE proce_init_day_questions()
     CLOSE cursor_day_question;
   END $
 DELIMITER ;
-CREATE EVENT IF NOT EXISTS event_init_day_question
+DROP EVENT event_init_day_question;
+CREATE EVENT event_init_day_question
   ON SCHEDULE EVERY 1 DAY STARTS '2017-12-22 00:00:00'
   ON COMPLETION  PRESERVE
   ENABLE
