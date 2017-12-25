@@ -51,7 +51,7 @@ class SignIn extends Component {
                         signInfo: response.data.data
                     });
                     _this.toastTimer = setTimeout(function () {
-                        _this.setState({
+                         _this.setState({
                             showToast: false
                         })
                     }, 2000);
@@ -82,7 +82,7 @@ class SignIn extends Component {
             htmlStr += "<tr>";
             for (let j = 0; j < 7; j++) {
                 if (i === 0 && j === weekDay) {
-                    if (this.state.signInfo.createTimes.indexOf(currentMouthDay)) {
+                    if (this.state.signInfo.signInDays.indexOf(currentMouthDay) > -1) {
                         htmlStr += "<td><span class='signIcon'>" + currentMouthDay + "</span></td>";
                         currentMouthDay++;
                     } else {
@@ -90,7 +90,7 @@ class SignIn extends Component {
                         currentMouthDay++;
                     }
                 } else if (i === 0 && j > weekDay) {
-                    if (this.state.signInfo.createTimes.indexOf(currentMouthDay)) {
+                    if (this.state.signInfo.signInDays.indexOf(currentMouthDay) > -1) {
                         htmlStr += "<td><span class='signIcon'>" + currentMouthDay + "</span></td>";
                         currentMouthDay++;
                     } else {
@@ -105,7 +105,7 @@ class SignIn extends Component {
                     htmlStr += "<td style='color:grey;'>" + nextMouthDay + "</td>";
                     nextMouthDay++;
                 } else {
-                    if (this.state.signInfo.createTimes.indexOf(currentMouthDay)) {
+                    if (this.state.signInfo.signInDays.indexOf(currentMouthDay) > -1) {
                         htmlStr += "<td><span class='signIcon'>" + currentMouthDay + "</span></td>";
                         currentMouthDay++;
                     } else {
