@@ -7,5 +7,6 @@ public enum HttpMessageEnum {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     NOT_FOUND,
-    THUMB_UP
+    THUMB_UP,
+    ACCESS_DENIED
 }

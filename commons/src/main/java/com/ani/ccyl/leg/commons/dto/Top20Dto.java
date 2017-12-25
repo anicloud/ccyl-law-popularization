@@ -14,7 +14,7 @@ public class Top20Dto implements Serializable {
     private String name;
     private String portrat;
     private Integer score;
-    @JsonFormat(pattern="HH:mm:ss")
+    @JsonFormat(pattern="HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
 
     public Top20Dto() {
@@ -28,7 +28,7 @@ public class Top20Dto implements Serializable {
         this.updateTime = updateTime;
     }
 
-    @JsonFormat(pattern="HH:mm:ss")
+    @JsonFormat(pattern="HH:mm:ss", timezone = "GMT+8")
     public Timestamp getUpdateTime() {
         return updateTime;
     }
