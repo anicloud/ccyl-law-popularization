@@ -52,9 +52,9 @@ public class WechatServiceImpl implements WechatService {
                     if("suggestions".equals(eventKey)) {//意见反馈
 
                     }
+                } else if(Constants.WechatMsgType.EVENT_TYPE_SUBSCRIBE.equals(eventType)) {//订阅类型的消息
+                    respContent = "中国共青团欢迎您的到来！";
                 }
-            } else if(Constants.WechatMsgType.EVENT_TYPE_SUBSCRIBE.equals(eventType)) {//订阅类型的消息
-                respContent = "中国共青团欢迎您的到来！";
             }
             if(fromContent!=null && fromContent.contains("用户名绑定")) {
                 //绑定微信用户到后台账户

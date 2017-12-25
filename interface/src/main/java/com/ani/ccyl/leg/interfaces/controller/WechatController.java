@@ -56,7 +56,8 @@ public class WechatController {
         } else {
             String respXml = wechatService.processRequest(request, response);
             ServletOutputStream outputStream = response.getOutputStream();
-            outputStream.write(respXml.getBytes("UTF-8"));
+            if (respXml!=null)
+                outputStream.write(respXml.getBytes("UTF-8"));
             outputStream.close();
         }
     }
