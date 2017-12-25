@@ -8,6 +8,7 @@ import React,{Component} from "react";
 import Back from './Back';
 import "../media/styles/scoreshopping.less";
 import {Button} from 'react-weui';
+import axios from 'axios';
 
 class ScoreShopping extends Component{
     constructor(props){
@@ -16,8 +17,23 @@ class ScoreShopping extends Component{
             location: this.props.location.state? this.props.location.state : '/home'
         };
     }
+    componentDidMount() {
+        let _this = this;
+        const {host} = _this.props;
+        axios.get(`${host}/score/findTotalScore`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    scoreInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        })
+    }
     getCurrentScore(){
-        return 800;
+        let scoreInfo = this.state.scoreInfo;
+        let score = scoreInfo?(scoreInfo.score? scoreInfo.score : 0):0;
+        return score;
     }
     render(){
         return (
