@@ -77,7 +77,8 @@ class AnswerQuestion extends Component {
     handleShare() {
         const {history} = this.props;
         history.push({
-            pathname: '/prize'
+            pathname: '/prize',
+            state: '/home'
         });
     }
     render() {

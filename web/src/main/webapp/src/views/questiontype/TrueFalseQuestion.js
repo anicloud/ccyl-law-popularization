@@ -94,7 +94,7 @@ class TrueFalseQuestion extends Component {
                             }
                             {
                                 result? (result.isCorrect? (
-                                    <p className='text-danger result'>恭喜你答对了，积分+5</p>
+                                    <p className='text-danger result'>恭喜你答对了，积分+2</p>
                                 ) : (
                                     <p className='text-danger result'>很遗憾，正确答案为： {result.answer}</p>
                                 )) : (
