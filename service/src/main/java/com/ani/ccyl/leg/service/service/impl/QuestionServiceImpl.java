@@ -117,7 +117,7 @@ public class QuestionServiceImpl implements QuestionService {
                 questionDto.setOrder(order+1);
             } else if(order == 5){
                 ScoreRecordPO scoreRecordPO = scoreRecordPOs.get(0);
-                if(scoreRecordPO.getQuestionTime() == 1) {
+                if(scoreRecordPO.getQuestionTime() == 1 && scoreRecordMapper.findDailyCorrectCount(accountId)<5) {
                     questionDto = QuestionAdapter.fromPO(dayQuestionMapper.findNewQuestion(1));
                     questionDto.setDayNum(dayQuestionPO.getDayNum());
                     questionDto.setOrder(1);

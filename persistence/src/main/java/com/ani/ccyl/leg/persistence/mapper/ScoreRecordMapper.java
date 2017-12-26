@@ -25,4 +25,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     Boolean findIsThumbUp(Map<String, Object> paramMap);
     Boolean findIsSignIn(Integer accountId);
     List<Timestamp> findTotalSignIn(Integer accountId);
+    Integer findDailyCorrectCount(Integer account);
 }

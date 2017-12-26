@@ -54,6 +54,9 @@
     <select id="findTotalSignIn" parameterType="java.lang.Integer" resultType="java.sql.Timestamp">
         SELECT create_time FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') AND src_type=3
     </select>
+    <select id="findDailyCorrectCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') AND src_type=1 AND score &gt; 0
+    </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>
         <result property="score" column="score"/>

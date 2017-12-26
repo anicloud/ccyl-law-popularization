@@ -73,6 +73,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             scoreRecordPO.setScore(score);
                             scoreRecordPO.setSrcType(srcType);
                             scoreRecordPO.setQuestionTime(2);
+                            scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
                         }
                     }
