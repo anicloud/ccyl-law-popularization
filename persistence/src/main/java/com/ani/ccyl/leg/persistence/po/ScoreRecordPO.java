@@ -24,11 +24,12 @@ public class ScoreRecordPO implements Serializable {
     private Integer srcQuestionId;
     private String selfAnswer;
     private Integer srcAccountId;
+    private Integer questionTime;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
 
-    public ScoreRecordPO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, String selfAnswer, Integer srcAccountId, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public ScoreRecordPO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, String selfAnswer, Integer srcAccountId, Integer questionTime, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
@@ -36,9 +37,18 @@ public class ScoreRecordPO implements Serializable {
         this.srcQuestionId = srcQuestionId;
         this.selfAnswer = selfAnswer;
         this.srcAccountId = srcAccountId;
+        this.questionTime = questionTime;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public Integer getQuestionTime() {
+        return questionTime;
+    }
+
+    public void setQuestionTime(Integer questionTime) {
+        this.questionTime = questionTime;
     }
 
     public String getSelfAnswer() {

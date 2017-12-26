@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper">
     <select id="findCurrentQuestion" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
-        SELECT q.* FROM t_question q LEFT JOIN t_score_record s ON q.id=s.src_question_id WHERE s.create_time=(SELECT max(create_time) FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d') AND src_type=1)
+        SELECT q.* FROM t_question q LEFT JOIN t_score_record s ON q.id=s.src_question_id WHERE s.update_time=(SELECT max(update_time) FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d') AND src_type=1)
     </select>
     <select id="findDailyScoreRecords" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
         SELECT * FROM t_score_record WHERE score>0 AND src_question_id IS NOT NULL AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d') AND account_id=#{accountId}
@@ -53,6 +53,9 @@
     </select>
     <select id="findTotalSignIn" parameterType="java.lang.Integer" resultType="java.sql.Timestamp">
         SELECT create_time FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') AND src_type=3
+    </select>
+    <select id="findDailyCorrectCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') AND src_type=1 AND score &gt; 0
     </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>

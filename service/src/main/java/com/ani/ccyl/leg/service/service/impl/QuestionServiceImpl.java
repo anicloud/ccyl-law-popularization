@@ -14,6 +14,7 @@ import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
 import com.ani.ccyl.leg.persistence.po.DayQuestionPO;
 import com.ani.ccyl.leg.persistence.po.FilePO;
 import com.ani.ccyl.leg.persistence.po.QuestionPO;
+import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.service.adapter.FileAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
@@ -68,7 +69,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<QuestionPO> dayQuestions = questionMapper.findDayQuestions(new Timestamp(System.currentTimeMillis()));
         List<QuestionDto> resultDtos = new ArrayList<>();
         if(dayQuestions == null || dayQuestions.size()==0) {
-            dayQuestions = questionMapper.findTopThree();
+            dayQuestions = questionMapper.findTopFive();
             if(dayQuestions != null) {
                 int i = 1;
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -105,13 +106,23 @@ public class QuestionServiceImpl implements QuestionService {
                 questionDto = questionDtos.get(0);
         } else {
             DayQuestionPO dayQuestionPO = dayQuestionMapper.selectByPrimaryKey(questionDto.getId());
+            ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
+            scoreRecordParam.setAccountId(accountId);
+            scoreRecordParam.setSrcQuestionId(questionDto.getId());
+            List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.select(scoreRecordParam);
             Integer order = dayQuestionPO.getOrderNum();
-            if(order<3) {
+            if(order<5) {
                 questionDto = QuestionAdapter.fromPO(dayQuestionMapper.findNewQuestion(order+1));
                 questionDto.setDayNum(dayQuestionPO.getDayNum());
                 questionDto.setOrder(order+1);
-            } else {
-                return null;
+            } else if(order == 5){
+                ScoreRecordPO scoreRecordPO = scoreRecordPOs.get(0);
+                if(scoreRecordPO.getQuestionTime() == 1 && scoreRecordMapper.findDailyCorrectCount(accountId)<5) {
+                    questionDto = QuestionAdapter.fromPO(dayQuestionMapper.findNewQuestion(1));
+                    questionDto.setDayNum(dayQuestionPO.getDayNum());
+                    questionDto.setOrder(1);
+                } else
+                    return null;
             }
         }
         return questionDto;

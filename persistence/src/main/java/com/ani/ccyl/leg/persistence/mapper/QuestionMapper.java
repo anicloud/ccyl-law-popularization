@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface QuestionMapper extends SysMapper<QuestionPO> {
     List<QuestionPO> findDayQuestions(Timestamp createTime);
-    List<QuestionPO> findTopThree();
+    List<QuestionPO> findTopFive();
 }

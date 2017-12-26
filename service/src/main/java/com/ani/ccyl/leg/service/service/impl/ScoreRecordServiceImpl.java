@@ -64,7 +64,18 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setScore(score);
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        scoreRecordPO.setQuestionTime(1);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
+                    } else {
+                        scoreRecordPO = scoreRecordPOs.get(0);
+                        if(scoreRecordPO.getQuestionTime() != null && scoreRecordPO.getQuestionTime()==1) {
+                            scoreRecordPO.setSelfAnswer(answer);
+                            scoreRecordPO.setScore(score);
+                            scoreRecordPO.setSrcType(srcType);
+                            scoreRecordPO.setQuestionTime(2);
+                            scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                            scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
+                        }
                     }
                     break;
                 case 2:
