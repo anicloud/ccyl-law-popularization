@@ -116,12 +116,12 @@ class AnswerQuestion extends Component {
                                 )
                             }
                             {
-                                (this.state.showNext && question.order !== 3 )? (
+                                (this.state.showNext && question.order !== 5 )? (
                                     <Button className='questionButton' type="primary" plain onClick={this.handleNext}>下一题</Button>
                                 ) : (null)
                             }
                             {
-                                (this.state.showNext && question.order === 3)? (
+                                (this.state.showNext && question.order === 5)? (
                                     <Button className='share' type="primary" plain onClick={this.handleShare}>分享荣誉</Button>
                                 ) : (null)
                             }
