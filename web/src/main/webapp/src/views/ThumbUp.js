@@ -76,7 +76,7 @@ class ThumbUp extends Component {
                         <h2 className="text-center title">
                             <span>{scoreInfo.name}的荣誉</span>
                         </h2>
-                        <div className={scoreInfo.score === 15? 'flower-gold' : scoreInfo.score === 10? 'flower-silver' : scoreInfo.score === 5 ? 'flower-copper' : 'flower'}>
+                        <div className={scoreInfo.score === 10? 'flower-gold' : scoreInfo.score === 8? 'flower-silver' : scoreInfo.score === 6 ? 'flower-copper' : 'flower'}>
                             <img src={scoreInfo.portrait} alt=""/>
                             <p className='text-center score-prize'>{scoreInfo.score === 15? '获得金牌' : scoreInfo.score === 10? '获得银牌' : scoreInfo.score === 5? '获得铜牌' : ''}</p>
                         </div>
