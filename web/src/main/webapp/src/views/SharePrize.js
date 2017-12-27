@@ -46,22 +46,22 @@ class SharePrize extends Component {
                                 }).catch(function (errors) {
                                     console.log(errors);
                                 });
-                                _this.setState({
+                                /*_this.setState({
                                     showToast: true,
                                     toastText: '分享成功'
                                 });
                                 _this.toastTimer = setTimeout(()=> {
                                     _this.setState({showToast: false});
-                                }, 2000);
+                                }, 2000);*/
                             },
                             fail: function (res) {
-                                _this.setState({
+                                /*_this.setState({
                                     showToast: true,
                                     toastText: '分享失败'
                                 });
                                 _this.toastTimer = setTimeout(()=> {
                                     _this.setState({showToast: false});
-                                }, 2000);
+                                }, 2000);*/
                             }
                         });
                         window.wx.onMenuShareAppMessage({
@@ -75,22 +75,22 @@ class SharePrize extends Component {
                                 }).catch(function (errors) {
                                     console.log(errors);
                                 });
-                                _this.setState({
+                                /*_this.setState({
                                     showToast: true,
                                     toastText: '分享成功'
                                 });
                                 _this.toastTimer = setTimeout(()=> {
                                     _this.setState({showToast: false});
-                                }, 2000);
+                                }, 2000);*/
                             },
                             fail: function(res) {
-                                _this.setState({
+                                /*_this.setState({
                                     showToast: true,
                                     toastText: '分享失败'
                                 });
                                 _this.toastTimer = setTimeout(()=> {
                                     _this.setState({showToast: false});
-                                }, 2000);
+                                }, 2000);*/
                             }
                         });
                     }
@@ -150,7 +150,7 @@ class SharePrize extends Component {
                         <img src={know} onClick={this.handleShare} alt=""/>
                     </div>
                 </div>
-                <Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>
+                {/*<Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>*/}
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
             </div>
