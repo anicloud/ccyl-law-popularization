@@ -41,6 +41,11 @@ class SharePrize extends Component {
                             link: response.data.data,
                             imgUrl: scoreInfo.portrait,
                             success: function (res) {
+                                axios.get(`${host}/wechat/add`).then(function (response) {
+                                    console.log(response);
+                                }).catch(function (errors) {
+                                    console.log(errors);
+                                });
                                 _this.setState({
                                     showToast: true,
                                     toastText: '分享成功'
