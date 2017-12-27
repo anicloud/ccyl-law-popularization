@@ -70,6 +70,7 @@ public class Constants {
         public static final Integer QUESTION_SCORE=2;
         public static final Integer THUMB_UP_SCORE=1;
         public static final Integer SIGN_IN_SCORE=5;
-        public static final Integer SHARE_SC0RE =5;
+        public static final Integer INVITE_SC0RE =5;
+        public static final Integer SHARE_SCORE = 5;
     }
 }

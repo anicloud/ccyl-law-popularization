@@ -47,9 +47,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             if(shareRelationPO != null&&!shareRelationPO.getPartIn()) {
                 ScoreRecordPO shareRecord = new ScoreRecordPO();
                 shareRecord.setAccountId(shareRelationPO.getShareId());
-                shareRecord.setScore(Constants.Score.SHARE_SC0RE);
+                shareRecord.setScore(Constants.Score.INVITE_SC0RE);
                 shareRecord.setCreateTime(new Timestamp(System.currentTimeMillis()));
-                shareRecord.setSrcType(ScoreSrcTypeEnum.SHARE);
+                shareRecord.setSrcType(ScoreSrcTypeEnum.INVITE);
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
                 shareRelationPO.setPartIn(true);
@@ -86,6 +86,14 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setScore(score);
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        scoreRecordMapper.insertSelective(scoreRecordPO);
+                    }
+                    break;
+                case 5:
+                    if(scoreRecordMapper.findDailyShareCount(accountId)<5) {
+                        scoreRecordPO.setSrcType(ScoreSrcTypeEnum.SHARE);
+                        scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        scoreRecordPO.setScore(score);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                     }
                     break;

@@ -35,6 +35,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                     dailyTop20PO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                     dailyTop20Mapper.insertSelective(dailyTop20PO);
                     index++;
+                    // TODO: 17-12-27 向用户推送中奖消息
+                    // TODO: 17-12-27 发送奖品
                 }
             }
         }
@@ -45,7 +47,7 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     public void initTimeTask() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
-        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         Date date=calendar.getTime(); //第一次执行定时任务的时间
         //如果第一次执行定时任务的时间 小于当前的时间
@@ -67,6 +69,7 @@ public class TimerTaskServiceImpl implements TimerTaskService {
         @Override
         public void run() {
             timerTaskService.updateDailyTop20();
+            // TODO: 17-12-27 从未入选前20的用户（即accountId不在t_daily_top20中）中 抽取20名幸运奖
         }
     }
     private Date addDay(Date date, int num) {
