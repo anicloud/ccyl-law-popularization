@@ -47,7 +47,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             if(shareRelationPO != null&&!shareRelationPO.getPartIn()) {
                 ScoreRecordPO shareRecord = new ScoreRecordPO();
                 shareRecord.setAccountId(shareRelationPO.getShareId());
-                shareRecord.setScore(Constants.Score.SHARE_SOCRE);
+                shareRecord.setScore(Constants.Score.SHARE_SC0RE);
                 shareRecord.setCreateTime(new Timestamp(System.currentTimeMillis()));
                 shareRecord.setSrcType(ScoreSrcTypeEnum.SHARE);
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());

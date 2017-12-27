@@ -122,7 +122,7 @@ public class QuestionServiceImpl implements QuestionService {
                     questionDto.setDayNum(dayQuestionPO.getDayNum());
                     questionDto.setOrder(1);
                 } else
-                    return null;
+                    questionDto = null;
             }
         }
         return questionDto;

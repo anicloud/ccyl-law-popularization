@@ -81,6 +81,7 @@ CREATE TABLE `t_award` (
   `account_id` int(11) NOT NULL COMMENT '领奖人id',
   `score` int(4) NOT NULL COMMENT '消耗的分数',
   `award_type` tinyint(2) NOT NULL COMMENT '奖品类型',
+  `is_success` BOOLEAN COMMENT '是否兑换成功',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
@@ -178,6 +179,22 @@ CREATE TABLE `t_score_record` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_question_id`),
+  KEY `t_score_is_del_key` (`is_del`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `t_daily_top20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_daily_top20` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL COMMENT '账户id',
+  `order_num` INT(2) NOT NULL COMMENT '账户当天排名',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `t_score_account_id_key` (`account_id`),
   KEY `t_score_is_del_key` (`is_del`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
