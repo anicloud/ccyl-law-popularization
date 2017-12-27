@@ -91,6 +91,15 @@ public class ScoreRecordController {
         return message;
     }
 
+    @RequestMapping(value = "share", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto share(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        scoreRecordService.insertScore(accountDto.getId(),Constants.Score.SHARE_SCORE,null,ScoreSrcTypeEnum.SHARE,accountDto.getId());
+        return message;
+    }
+
     @RequestMapping(value = "/isThumbUp", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto isThumbUp(Integer toAccountId, HttpSession session) {
