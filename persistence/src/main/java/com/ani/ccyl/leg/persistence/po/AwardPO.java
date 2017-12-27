@@ -21,6 +21,7 @@ public class AwardPO implements Serializable {
     private Integer accountId;
     private Integer score;
     private AwardTypeEnum awardType;
+    private Boolean isSuccess;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
@@ -28,14 +29,23 @@ public class AwardPO implements Serializable {
     public AwardPO() {
     }
 
-    public AwardPO(Integer id, Integer accountId, Integer score, AwardTypeEnum awardType, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public AwardPO(Integer id, Integer accountId, Integer score, AwardTypeEnum awardType, Boolean isSuccess, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
         this.awardType = awardType;
+        this.isSuccess = isSuccess;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public Boolean getSuccess() {
+        return isSuccess;
+    }
+
+    public void setSuccess(Boolean success) {
+        isSuccess = success;
     }
 
     public AwardTypeEnum getAwardType() {
