@@ -41,7 +41,7 @@ class SharePrize extends Component {
                             link: response.data.data,
                             imgUrl: scoreInfo.portrait,
                             success: function (res) {
-                                axios.get(`${host}/wechat/add`).then(function (response) {
+                                axios.get(`${host}/score/share`).then(function (response) {
                                     console.log(response);
                                 }).catch(function (errors) {
                                     console.log(errors);
@@ -70,6 +70,11 @@ class SharePrize extends Component {
                             imgUrl: scoreInfo.portrait,
                             desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
                             success: function(res) {
+                                axios.get(`${host}/score/share`).then(function (response) {
+                                    console.log(response);
+                                }).catch(function (errors) {
+                                    console.log(errors);
+                                });
                                 _this.setState({
                                     showToast: true,
                                     toastText: '分享成功'
