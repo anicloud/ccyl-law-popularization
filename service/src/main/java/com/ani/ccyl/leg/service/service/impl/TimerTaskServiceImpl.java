@@ -1,7 +1,11 @@
 package com.ani.ccyl.leg.service.service.impl;
 
+import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
+import com.ani.ccyl.leg.persistence.mapper.DailyLucky20Mapper;
 import com.ani.ccyl.leg.persistence.mapper.DailyTop20Mapper;
 import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
+import com.ani.ccyl.leg.persistence.po.AccountPO;
+import com.ani.ccyl.leg.persistence.po.DailyLucky20PO;
 import com.ani.ccyl.leg.persistence.po.DailyTop20PO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
@@ -22,6 +26,10 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     private ScoreRecordMapper scoreRecordMapper;
     @Autowired
     private DailyTop20Mapper dailyTop20Mapper;
+    @Autowired
+    private AccountMapper accountMapper;
+    @Autowired
+    private DailyLucky20Mapper dailyLucky20Mapper;
     @Override
     public void updateDailyTop20() {
         List<ScoreRecordPO> dailyTop20 = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()-24*60*60*1000L));
@@ -35,7 +43,6 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                     dailyTop20PO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                     dailyTop20Mapper.insertSelective(dailyTop20PO);
                     index++;
-                    // TODO: 17-12-27 向用户推送中奖消息
                     // TODO: 17-12-27 发送奖品
                 }
             }
@@ -60,6 +67,16 @@ public class TimerTaskServiceImpl implements TimerTaskService {
         //安排指定的任务在指定的时间开始进行重复的固定延迟执行。
         timer.schedule(task,date,PERIOD_DAY);
     }
+    @Override
+    public void insertLucky20(List<AccountPO> lucky20POs) {
+        for(AccountPO accountPO:lucky20POs) {
+            DailyLucky20PO dailyLucky20PO = new DailyLucky20PO();
+            dailyLucky20PO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            dailyLucky20PO.setAccountId(accountPO.getId());
+            dailyLucky20Mapper.insertSelective(dailyLucky20PO);
+        }
+    }
+
     private class MyTimerTask extends TimerTask {
         private TimerTaskService timerTaskService;
         MyTimerTask(TimerTaskService timerTaskService) {
@@ -69,7 +86,32 @@ public class TimerTaskServiceImpl implements TimerTaskService {
         @Override
         public void run() {
             timerTaskService.updateDailyTop20();
-            // TODO: 17-12-27 从未入选前20的用户（即accountId不在t_daily_top20中）中 抽取20名幸运奖
+            List<AccountPO> accountPOs = accountMapper.findNotInTop20();
+            List<AccountPO> luckyAccounts = new ArrayList<>();
+            if(accountPOs!=null && accountPOs.size()>20) {
+                HashSet<Integer> set = new HashSet<>();
+                randomSet(accountPOs.size(),20,set);
+                for(Integer index:set) {
+                    luckyAccounts.add(accountPOs.get(index));
+                }
+            } else if (accountPOs != null){
+                luckyAccounts = accountPOs;
+            }
+            timerTaskService.insertLucky20(luckyAccounts);
+            // TODO: 17-12-27 发送幸运奖品
+        }
+    }
+
+    public static void randomSet(int max, int n, HashSet<Integer> set) {
+        for (int i = 0; i < n; i++) {
+            Random random = new Random(max);
+            int num = random.nextInt();
+            set.add(num);
+        }
+        int setSize = set.size();
+        // 如果存入的数小于指定生成的个数，则调用递归再生成剩余个数的随机数，如此循环，直到达到指定大小
+        if (setSize < n) {
+            randomSet(max, n - setSize, set);// 递归
         }
     }
     private Date addDay(Date date, int num) {
