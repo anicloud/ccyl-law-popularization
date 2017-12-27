@@ -34,8 +34,8 @@
     <select id="findByConditions" parameterType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
         SELECT * FROM t_score_record WHERE src_account_id=#{srcAccountId} AND account_id=#{accountId} AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
     </select>
-    <select id="findDailyTop20" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-        SELECT *,sum(score) AS total_score FROM t_score_record WHERE account_id NOT IN (SELECT account_id FROM t_daily_top20) AND date_format(create_time,'%Y-%m-%d')=date_format(now(), '%Y-%m-%d') GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
+    <select id="findDailyTop20" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
+        SELECT *,sum(score) AS total_score FROM t_score_record WHERE account_id NOT IN (SELECT account_id FROM t_daily_top20) AND date_format(create_time,'%Y-%m-%d')=date_format(#{createTime}, '%Y-%m-%d') GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
     </select>
     <select id="findIsThumbUp" parameterType="java.util.Map" resultType="java.lang.Boolean">
         SELECT CASE t.thumbUps
@@ -55,7 +55,7 @@
         SELECT create_time FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') AND src_type=3
     </select>
     <select id="findDailyCorrectCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        SELECT count(*) FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') AND src_type=1 AND score &gt; 0
+        SELECT count(*) FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d') AND src_type=1 AND score &gt; 0
     </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>

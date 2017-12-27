@@ -132,7 +132,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public List<Top20Dto> findDailyTop20() {
-        List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.findDailyTop20();
+        List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()));
         List<Top20Dto> top20Dtos = new ArrayList<>();
         ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
         if(scoreRecordPOs != null && scoreRecordPOs.size()>0) {

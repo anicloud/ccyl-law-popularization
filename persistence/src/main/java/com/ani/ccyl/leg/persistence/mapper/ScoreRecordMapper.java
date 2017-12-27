@@ -20,7 +20,7 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     TotalScoreDto findTotalScore(Integer accountId);
 
     List<ScoreRecordPO> findByConditions(ScoreRecordPO scoreRecordPO);
-    List<ScoreRecordPO> findDailyTop20();
+    List<ScoreRecordPO> findDailyTop20(Timestamp createTime);
     Integer findDailyTotalScore(ScoreRecordPO scoreRecordPO);
     Boolean findIsThumbUp(Map<String, Object> paramMap);
     Boolean findIsSignIn(Integer accountId);
