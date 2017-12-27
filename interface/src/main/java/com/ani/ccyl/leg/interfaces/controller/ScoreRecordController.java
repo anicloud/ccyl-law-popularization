@@ -97,6 +97,8 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         scoreRecordService.insertScore(accountDto.getId(),Constants.Score.SHARE_SCORE,null,ScoreSrcTypeEnum.SHARE,accountDto.getId());
+        message.setMsg("分享成功");
+        message.setState(ResponseStateEnum.OK);
         return message;
     }
 
