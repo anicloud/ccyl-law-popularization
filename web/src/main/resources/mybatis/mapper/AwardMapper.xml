@@ -8,6 +8,6 @@
             WHEN 0 THEN FALSE
             ELSE TRUE
             END
-        FROM (SELECT count(*) as awardCounts FROM t_award WHERE account_id=#{accountId}) t
+        FROM (SELECT count(*) as awardCounts FROM t_award WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')) t
     </select>
 </mapper>

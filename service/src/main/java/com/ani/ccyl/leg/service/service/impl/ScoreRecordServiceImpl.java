@@ -189,13 +189,13 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Override
     public void updateConvertAward(Integer accountId, AwardTypeEnum awardType) {
         TotalScoreDto totalScoreDto = findTotalScore(accountId);
-        if(totalScoreDto.getScore()>=awardType.findScore() && !awardMapper.findIsAward(accountId)) {
-            // TODO: 17-12-27 兑换奖品,成功isSuccess=true,否则isSuccess=false
-            AwardPO awardPO = new AwardPO(null,accountId,awardType.findScore(),awardType,null,null,new Timestamp(System.currentTimeMillis()),false);
-            awardMapper.insertSelective(awardPO);
-        } else {
-            throw new RuntimeException("积分不足或已经领取过了～");
-        }
+        if(totalScoreDto.getScore()<awardType.findScore())
+            throw new RuntimeException("积分不足");
+        if(awardMapper.findIsAward(accountId))
+            throw new RuntimeException("今天已经领取过了");
+        // TODO: 17-12-27 兑换奖品,成功isSuccess=true,否则isSuccess=false
+        AwardPO awardPO = new AwardPO(null,accountId,awardType.findScore(),awardType,null,null,new Timestamp(System.currentTimeMillis()),false);
+        awardMapper.insertSelective(awardPO);
     }
 
     @Override
