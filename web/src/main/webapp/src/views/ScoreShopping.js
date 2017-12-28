@@ -16,25 +16,25 @@ class ScoreShopping extends Component{
         this.state = {
             location: this.props.location.state? this.props.location.state : '/home',
             awardInfo: [{
-                            AwardTypeEnum:"TENCENT_VIP",
+                            awardType:"TENCENT_VIP",
                             isUsedUp:false,
                             score:1000,
                             myScore:0
                         },
                         {
-                            AwardTypeEnum:"OFO_COUPON",
+                            awardType:"OFO_COUPON",
                             isUsedUp:false,
                             score:1000,
                             myScore:0
                         },
                         {
-                            AwardTypeEnum:"FIVE_COUPON",
+                            awardType:"FIVE_COUPON",
                             isUsedUp:false,
                             score:1000,
                             myScore:0
                         },
                         {
-                            AwardTypeEnum:"TEN_COUPON",
+                            awardType:"TEN_COUPON",
                             isUsedUp:false,
                             score:1000,
                             myScore:0
@@ -56,36 +56,14 @@ class ScoreShopping extends Component{
     }
     getCurrentAwardScore(type){
         let awardInfos = this.state.awardInfo;
-        if(type==="TENCENT_VIP"){
-            for(let i=0;i<4;i++){
-                let awardInfo = awardInfos[i];
-                if(awardInfo.awardType==="TENCENT_VIP"){
-                    return awardInfo;
-                }
-            }
-        }else if(type==="OFO_COUPON"){
-            for(let i=0;i<4;i++){
-                let awardInfo = awardInfos[i];
-                if(awardInfo.awardType==="OFO_COUPON"){
-                    return awardInfo;
-                }
-            }
-        }else if(type==="FIVE_COUPON"){
-            for(let i=0;i<4;i++){
-                let awardInfo = awardInfos[i];
-                if(awardInfo.awardType==="FIVE_COUPON"){
-                    return awardInfo;
-                }
-            }
-        }else if(type==="TEN_COUPON"){
-            for(let i=0;i<4;i++){
-                let awardInfo = awardInfos[i];
-                if(awardInfo.awardType==="TEN_COUPON"){
-                    return awardInfo;
-                }
+        console.log(awardInfos);
+        for(let i=0;i<4;i++){
+            let awardInfo = awardInfos[i];
+            console.log(awardInfo);
+            if(type===awardInfo.awardType) {
+                return awardInfo;
             }
         }
-        return null;
     }
     getCurrentScore(){
         let awardInfos = this.state.awardInfo;
