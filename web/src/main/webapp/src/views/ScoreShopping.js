@@ -14,7 +14,8 @@ class ScoreShopping extends Component{
     constructor(props){
        super(props);
         this.state = {
-            location: this.props.location.state? this.props.location.state : '/home'
+            location: this.props.location.state? this.props.location.state : '/home',
+            awardInfo: null
         };
     }
     componentDidMount() {
