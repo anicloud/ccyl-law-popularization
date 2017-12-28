@@ -18,7 +18,7 @@
     <select id="findById" parameterType="java.lang.Integer" resultMap="scoreResultMap">
         SELECT
             sr.id AS scoreId,sr.account_id AS scoreAccountId, sr.score AS score, sr.src_type AS scoreSrcType, sr.src_question_id AS scoreQuestionId, sr.self_answer AS scoreSelfAnswer, sr.src_account_id AS scoreAccountId,
-            acc.id AS accId, acc.open_id AS accOpenId, acc.account_name AS accAccountName, acc.account_pwd AS accAccountPwd, acc.phone AS accPhone, acc.email AS accEmail, acc.address AS accAddress, acc.province AS accProvince, acc.nick_name AS accNickName, acc.portrait AS accPortrait, acc.is_reward AS accIsReward, acc.sex AS accSex, acc.org_name AS accOrgName, acc.age AS accAge,acc.name AS accName,
+            acc.id AS accId, acc.open_id AS accOpenId, acc.account_name AS accAccountName, acc.account_pwd AS accAccountPwd, acc.phone AS accPhone, acc.email AS accEmail, acc.address AS accAddress, acc.province AS accProvince, acc.nick_name AS accNickName, acc.portrait AS accPortrait, acc.sex AS accSex, acc.org_name AS accOrgName, acc.age AS accAge,acc.name AS accName,
             q.id AS qId, q.title AS qTitle, q.category AS qCategory, q.content AS qContent, q.option_one AS qOptionOne, q.option_two AS qOptionTwo, q.option_three AS qOptionThree, q.type AS qType, q.answer AS qAnswer, q.question_no AS qQuestionNo, q.file_id AS qFileId
         FROM t_score_record sr, t_account acc, t_question q
         WHERE sr.account_id=acc.id AND sr.src_question_id=q.id AND sr.id=#{id}
