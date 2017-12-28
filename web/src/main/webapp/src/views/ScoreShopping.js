@@ -24,19 +24,19 @@ class ScoreShopping extends Component{
                         {
                             awardType:"OFO_COUPON",
                             isUsedUp:false,
-                            score:1000,
+                            score:500,
                             myScore:0
                         },
                         {
                             awardType:"FIVE_COUPON",
                             isUsedUp:false,
-                            score:1000,
+                            score:200,
                             myScore:0
                         },
                         {
                             awardType:"TEN_COUPON",
                             isUsedUp:false,
-                            score:1000,
+                            score:100,
                             myScore:0
                         }]
         };
@@ -94,7 +94,7 @@ class ScoreShopping extends Component{
                   <div className="larger">
                       <span className="largerImg" />
                       <div className="largerDetail">
-                          <span className="largerSpan">ofo共享单车用车券10张1元券</span>
+                          <span className="largerSpan">ofo用车券</span>
                           <span className="scoreSpan">{this.getCurrentAwardScore("OFO_COUPON").score}积分</span>
                       </div>
                       <Button disabled={this.getCurrentAwardScore("OFO_COUPON").isUsedUp===false?false:true}>{this.getCurrentAwardScore("OFO_COUPON").isUsedUp===false?"兑换上限":this.getCurrentScore()>this.getCurrentAwardScore("OFO_COUPON").score?"立即兑换":"积分不足"}</Button>
@@ -103,7 +103,7 @@ class ScoreShopping extends Component{
                   <div className="normal">
                       <span className="normalImg" />
                       <div className="normalDetail">
-                          <span className="normalSpan">5元优惠券（购物券49元减5元）</span>
+                          <span className="normalSpan">购物优惠券</span>
                           <span className="scoreSpan">{this.getCurrentAwardScore("FIVE_COUPON").score}积分</span>
                       </div>
                       <Button disabled={this.getCurrentAwardScore("FIVE_COUPON").isUsedUp===false?false:true}>{this.getCurrentAwardScore("FIVE_COUPON").isUsedUp===false?"兑换上限":this.getCurrentScore()>this.getCurrentAwardScore("FIVE_COUPON").score?"立即兑换":"积分不足"}</Button>
@@ -112,7 +112,7 @@ class ScoreShopping extends Component{
                   <div className="smaller">
                       <span className="smallerImg" />
                       <div className="smallerDetail">
-                          <span className="smallerSpan">10元优惠券（购物券99元减10元）</span>
+                          <span className="smallerSpan">购物优惠券</span>
                           <span className="scoreSpan">{this.getCurrentAwardScore("TEN_COUPON").score}积分</span>
                       </div>
                       <Button disabled={this.getCurrentAwardScore("TEN_COUPON").isUsedUp===false?false:true}>{this.getCurrentAwardScore("TEN_COUPON").isUsedUp===false?"兑换上限":this.getCurrentScore()>this.getCurrentAwardScore("TEN_COUPON").score?"立即兑换":"积分不足"}</Button>
@@ -120,6 +120,14 @@ class ScoreShopping extends Component{
               </div>
           </div>
         );
+    }
+}
+
+function mapStateToProps(state) {
+    return {
+        host: state.host,
+        showLoading: state.showLoading,
+        showError: state.showError
     }
 }
 
