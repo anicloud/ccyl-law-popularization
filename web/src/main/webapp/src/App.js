@@ -65,9 +65,9 @@ class App extends Component {
                     <li className="text-center" onClick={() => {this.handleTouch(5)}}>
                         <span>荣耀榜</span>
                     </li>
-                    <li className="text-center" onClick={() => {this.handleTouch(6)}}>
+                    {/*<li className="text-center" onClick={() => {this.handleTouch(6)}}>
                         <span>补填信息</span>
-                    </li>
+                    </li>*/}
                 </ul>
                 <div className="star">
                     <img src={star} alt=""/>

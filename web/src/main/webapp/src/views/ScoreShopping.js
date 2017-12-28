@@ -66,11 +66,7 @@ class ScoreShopping extends Component{
             }
         }
     }
-    getCurrentScore(){
-        let awardInfos = this.state.awardInfo;
-        let score = awardInfos[0]?0:awardInfos[0].myScore?0:awardInfos[0].myScore;
-        return score;
-    }
+
     render(){
         return (
           <div className="scoreshopping main-bg">
@@ -80,7 +76,7 @@ class ScoreShopping extends Component{
               <h2 className="text-center h2 title">
                   <span>积分商城</span>
               </h2>
-              <p className='text-center current-score'>当前积分:{this.getCurrentScore()}</p>
+              <p className='text-center current-score'>剩积分:{this.state.awardInfo[0].myScore}</p>
               <div className="listdiv">
                   <div className="largest">
                     <span className="largestImg" />
