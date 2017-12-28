@@ -9,6 +9,7 @@ import Back from './Back';
 import "../media/styles/scoreshopping.less";
 import {Button} from 'react-weui';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 class ScoreShopping extends Component{
     constructor(props){
@@ -131,4 +132,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default ScoreShopping;
+export default connect(mapStateToProps)(ScoreShopping);
