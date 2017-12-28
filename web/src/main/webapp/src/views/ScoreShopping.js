@@ -83,9 +83,9 @@ class ScoreShopping extends Component{
                     <span className="largestImg" />
                       <div className="largestDetail">
                         <span className="largestSpan">腾讯视频会员月卡</span>
-                        <span className="scoreSpan">{getCurrentAwardScore("TENCENT_VIP").score}积分</span>
+                        <span className="scoreSpan">{this.getCurrentAwardScore("TENCENT_VIP").score}积分</span>
                       </div>
-                      <Button disabled={getCurrentAwardScore("TENCENT_VIP").isUsedUp==false?false:true}>{getCurrentAwardScore("TENCENT_VIP").isUsedUp==false?"兑换上限":this.getCurrentScore()>getCurrentAwardScore("TENCENT_VIP").score?"立即兑换":"积分不足"}</Button>
+                      <Button disabled={this.getCurrentAwardScore("TENCENT_VIP").isUsedUp==false?false:true}>{this.getCurrentAwardScore("TENCENT_VIP").isUsedUp==false?"兑换上限":this.getCurrentScore()>this.getCurrentAwardScore("TENCENT_VIP").score?"立即兑换":"积分不足"}</Button>
                   </div>
                   <hr className="line"/>
 
@@ -93,27 +93,27 @@ class ScoreShopping extends Component{
                       <span className="largerImg" />
                       <div className="largerDetail">
                           <span className="largerSpan">ofo共享单车用车券10张1元券</span>
-                          <span className="scoreSpan">{getCurrentAwardScore("OFO_COUPON").score}积分</span>
+                          <span className="scoreSpan">{this.getCurrentAwardScore("OFO_COUPON").score}积分</span>
                       </div>
-                      <Button disabled={getCurrentAwardScore("OFO_COUPON").isUsedUp==false?false:true}>{getCurrentAwardScore("OFO_COUPON").isUsedUp==false?"兑换上限":this.getCurrentScore()>getCurrentAwardScore("OFO_COUPON").score?"立即兑换":"积分不足"}</Button>
+                      <Button disabled={this.getCurrentAwardScore("OFO_COUPON").isUsedUp==false?false:true}>{this.getCurrentAwardScore("OFO_COUPON").isUsedUp==false?"兑换上限":this.getCurrentScore()>this.getCurrentAwardScore("OFO_COUPON").score?"立即兑换":"积分不足"}</Button>
                   </div>
                   <hr className="line"/>
                   <div className="normal">
                       <span className="normalImg" />
                       <div className="normalDetail">
                           <span className="normalSpan">5元优惠券（购物券49元减5元）</span>
-                          <span className="scoreSpan">{getCurrentAwardScore("FIVE_COUPON").score}积分</span>
+                          <span className="scoreSpan">{this.getCurrentAwardScore("FIVE_COUPON").score}积分</span>
                       </div>
-                      <Button disabled={getCurrentAwardScore("FIVE_COUPON").isUsedUp==false?false:true}>{getCurrentAwardScore("FIVE_COUPON").isUsedUp==false?"兑换上限":this.getCurrentScore()>getCurrentAwardScore("FIVE_COUPON").score?"立即兑换":"积分不足"}</Button>
+                      <Button disabled={this.getCurrentAwardScore("FIVE_COUPON").isUsedUp==false?false:true}>{this.getCurrentAwardScore("FIVE_COUPON").isUsedUp==false?"兑换上限":this.getCurrentScore()>this.getCurrentAwardScore("FIVE_COUPON").score?"立即兑换":"积分不足"}</Button>
                   </div>
                   <hr className="line"/>
                   <div className="smaller">
                       <span className="smallerImg" />
                       <div className="smallerDetail">
                           <span className="smallerSpan">10元优惠券（购物券99元减10元）</span>
-                          <span className="scoreSpan">{getCurrentAwardScore("TEN_COUPON").score}积分</span>
+                          <span className="scoreSpan">{this.getCurrentAwardScore("TEN_COUPON").score}积分</span>
                       </div>
-                      <Button disabled={getCurrentAwardScore("TEN_COUPON").isUsedUp==false?false:true}>{getCurrentAwardScore("TEN_COUPON").isUsedUp==false?"兑换上限":this.getCurrentScore()>getCurrentAwardScore("TEN_COUPON").score?"立即兑换":"积分不足"}</Button>
+                      <Button disabled={this.getCurrentAwardScore("TEN_COUPON").isUsedUp==false?false:true}>{this.getCurrentAwardScore("TEN_COUPON").isUsedUp==false?"兑换上限":this.getCurrentScore()>this.getCurrentAwardScore("TEN_COUPON").score?"立即兑换":"积分不足"}</Button>
                   </div>
               </div>
           </div>
