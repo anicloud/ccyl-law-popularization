@@ -40,8 +40,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Autowired
     private DailyTop20Mapper dailyTop20Mapper;
     @Autowired
-    private AccountPersistenceService accountPersistenceService;
-
+    private DailyLucky20Mapper dailyLucky20Mapper;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -239,6 +238,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             DailyTop20PO dailyTop20PO = dailyTop20POs.get(0);
             Boolean isExpired = (System.currentTimeMillis()-dailyTop20PO.getCreateTime().getTime()) >= 6*24*60*60*1000;
             MyAwardDto myAwardDto = new MyAwardDto(lastScore,AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()),isExpired?null:dailyTop20PO.getCodeSecret(),isExpired,dailyTop20PO.getReceiveAward(),dailyTop20PO.getCreateTime());
+            myAwardDtos.add(myAwardDto);
+        }
+        DailyLucky20PO dailyLucky20Param = new DailyLucky20PO();
+        dailyLucky20Param.setAccountId(accountId);
+        List<DailyLucky20PO> dailyLucky20POs = dailyLucky20Mapper.select(dailyLucky20Param);
+        if(dailyLucky20POs.size()>0) {
+            DailyLucky20PO dailyLucky20PO = dailyLucky20POs.get(0);
+            Boolean isExpired = (System.currentTimeMillis()-dailyLucky20PO.getCreateTime().getTime()) >= 6*24*60*60*1000;
+            MyAwardDto myAwardDto = new MyAwardDto(lastScore,AwardTypeEnum.LUCKY,isExpired?null:dailyLucky20PO.getCodeSecret(),isExpired,dailyLucky20PO.getReceiveAward(),dailyLucky20PO.getCreateTime());
             myAwardDtos.add(myAwardDto);
         }
         return myAwardDtos;

@@ -14,7 +14,8 @@ public enum AwardTypeEnum implements BaseEnum<AwardTypeEnum, Integer> {
     TOP_1(5,"第一名"),
     TOP_2(6,"第二名"),
     TOP_3(7,"第三名"),
-    TOP_4S(8,"第四名以上");
+    TOP_4S(8,"第四名以上"),
+    LUCKY(9,"幸运奖");
     private Integer code;
     private String value;
     private static Map<Integer,AwardTypeEnum> enumMap = new HashMap<>();
