@@ -160,6 +160,9 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         List<AwardDto> awardDtos = scoreRecordService.findAllAwards(accountDto.getId());
+        message.setData(awardDtos);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
         return message;
     }
 }
