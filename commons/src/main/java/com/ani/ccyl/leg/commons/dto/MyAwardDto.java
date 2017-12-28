@@ -14,15 +14,26 @@ public class MyAwardDto implements Serializable {
     private AwardTypeEnum awardType;
     private String codeSecret;
     private Boolean isExpired;
+    private Boolean isReceivedAward;
     private Timestamp createTime;
 
-    public MyAwardDto(Integer lastScore, AwardTypeEnum awardType, String codeSecret, Boolean isExpired, Timestamp createTime) {
+    public MyAwardDto(Integer lastScore, AwardTypeEnum awardType, String codeSecret, Boolean isExpired, Boolean isReceivedAward, Timestamp createTime) {
         this.lastScore = lastScore;
         this.awardType = awardType;
         this.codeSecret = codeSecret;
         this.isExpired = isExpired;
+        this.isReceivedAward = isReceivedAward;
         this.createTime = createTime;
     }
+
+    public Boolean getIsReceivedAward() {
+        return isReceivedAward;
+    }
+
+    public void setIsReceivedAward(Boolean receivedAward) {
+        isReceivedAward = receivedAward;
+    }
+
     public MyAwardDto() {
     }
 

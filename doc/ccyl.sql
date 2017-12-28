@@ -174,12 +174,14 @@ CREATE TABLE `t_score_record` (
   `src_question_id` int(11) DEFAULT NULL COMMENT '来源题目id',
   `self_answer` varchar(4) DEFAULT NULL COMMENT '所选题目选项',
   `src_account_id` int(11) DEFAULT NULL COMMENT '来源账户id',
+  `log_date` CHAR(16) AS (date_format(now(),'%Y-%m-%d')) STORED ,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_question_id`),
-  KEY `t_score_is_del_key` (`is_del`)
+  KEY `t_score_is_del_key` (`is_del`),
+  KEY `t_score_log_date` (`log_date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 

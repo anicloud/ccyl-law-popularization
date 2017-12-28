@@ -7,6 +7,7 @@ import com.ani.ccyl.leg.commons.utils.Encrypt;
 import com.ani.ccyl.leg.commons.utils.ExcelUtil;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
+import com.ani.ccyl.leg.persistence.service.facade.AccountPersistenceService;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import net.sf.json.JSONObject;
@@ -23,6 +24,8 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private AccountPersistenceService accountPersistenceService;
     @Override
     public AccountDto insertAccount(JSONObject wechatObj) {
         String openId = wechatObj.getString("openid");
@@ -83,5 +86,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto findById(Integer id) {
         return AccountAdapter.fromPO(accountMapper.selectByPrimaryKey(id));
+    }
+
+    @Override
+    public Boolean findIsInfoCompleted(Integer id) {
+        return accountPersistenceService.findIsInfoComplete(id);
     }
 }

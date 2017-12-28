@@ -6,6 +6,7 @@ import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.po.*;
+import com.ani.ccyl.leg.persistence.service.facade.AccountPersistenceService;
 import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
@@ -36,6 +37,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private AwardMapper awardMapper;
     @Autowired
     private DailyAwardsMapper dailyAwardsMapper;
+    @Autowired
+    private DailyTop20Mapper dailyTop20Mapper;
+    @Autowired
+    private AccountPersistenceService accountPersistenceService;
 
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
@@ -219,12 +224,22 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                     myAwardDto.setCodeSecret(awardPO.getCodeSecret());
                     myAwardDto.setIsExpired(false);
                 }
+                myAwardDto.setIsReceivedAward(true);
                 lastScore = lastScore - awardPO.getAwardType().findScore();
                 myAwardDtos.add(myAwardDto);
             }
         }
         for(MyAwardDto myAwardDto : myAwardDtos) {
             myAwardDto.setLastScore(lastScore);
+        }
+        DailyTop20PO dailyTop20Param = new DailyTop20PO();
+        dailyTop20Param.setAccountId(accountId);
+        List<DailyTop20PO> dailyTop20POs = dailyTop20Mapper.select(dailyTop20Param);
+        if(dailyTop20POs.size()>0) {
+            DailyTop20PO dailyTop20PO = dailyTop20POs.get(0);
+            Boolean isExpired = (System.currentTimeMillis()-dailyTop20PO.getCreateTime().getTime()) >= 6*24*60*60*1000;
+            MyAwardDto myAwardDto = new MyAwardDto(lastScore,AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()),isExpired?null:dailyTop20PO.getCodeSecret(),isExpired,dailyTop20PO.getReceiveAward(),dailyTop20PO.getCreateTime());
+            myAwardDtos.add(myAwardDto);
         }
         return myAwardDtos;
     }

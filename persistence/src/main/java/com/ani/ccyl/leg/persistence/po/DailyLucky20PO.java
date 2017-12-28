@@ -18,17 +18,27 @@ public class DailyLucky20PO implements Serializable {
     private Integer id;
     private Integer accountId;
     private Boolean isReceiveAward;
+    private String codeSecret;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
 
-    public DailyLucky20PO(Integer id, Integer accountId, Boolean isReceiveAward, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public DailyLucky20PO(Integer id, Integer accountId, Boolean isReceiveAward, String codeSecret, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
         this.accountId = accountId;
         this.isReceiveAward = isReceiveAward;
+        this.codeSecret = codeSecret;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public String getCodeSecret() {
+        return codeSecret;
+    }
+
+    public void setCodeSecret(String codeSecret) {
+        this.codeSecret = codeSecret;
     }
 
     public DailyLucky20PO() {

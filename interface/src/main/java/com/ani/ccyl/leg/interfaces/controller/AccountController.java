@@ -93,4 +93,15 @@ public class AccountController {
         message.setState(ResponseStateEnum.OK);
         return message;
     }
+
+    @RequestMapping(value = "/findInfoIsCompleted", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findInfoIsCompleted(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        message.setMsg("查询成功");
+        message.setData(accountService.findIsInfoCompleted(accountDto.getId()));
+        message.setState(ResponseStateEnum.OK);
+        return message;
+    }
 }

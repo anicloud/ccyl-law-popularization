@@ -14,4 +14,6 @@ public interface AccountService {
     AccountDto findByOpenId(String openId);
 
     AccountDto findById(Integer id);
+
+    Boolean findIsInfoCompleted(Integer id);
 }
