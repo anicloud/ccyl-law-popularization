@@ -3,7 +3,6 @@ package com.ani.ccyl.leg.service.service.facade;
 import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
-import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 
 import java.util.List;
 
@@ -24,5 +23,7 @@ public interface ScoreRecordService {
 
     void updateConvertAward(Integer accountId, AwardTypeEnum awardType);
 
-    AwardDto findAwardScore(Integer accountId);
+    List<MyAwardDto> findMyAward(Integer accountId);
+
+    List<AwardDto> findAllAwards(Integer accountId);
 }

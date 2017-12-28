@@ -144,15 +144,22 @@ public class ScoreRecordController {
         return message;
     }
 
-    @RequestMapping(value = "/findAward", method = RequestMethod.GET)
+    @RequestMapping(value = "/findMyAwards", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findAward(HttpSession session) {
+    public ResponseMessageDto findMyAwards(HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        AwardDto awardDto = scoreRecordService.findAwardScore(accountDto.getId());
-        message.setData(awardDto);
+        message.setData(scoreRecordService.findMyAward(accountDto.getId()));
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
+        return message;
+    }
+    @RequestMapping(value = "/findAllAwards", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findAllAwards(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        List<AwardDto> awardDtos = scoreRecordService.findAllAwards(accountDto.getId());
         return message;
     }
 }

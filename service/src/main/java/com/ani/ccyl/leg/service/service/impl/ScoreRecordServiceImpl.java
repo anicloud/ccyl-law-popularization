@@ -5,10 +5,7 @@ import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
-import com.ani.ccyl.leg.persistence.po.AccountPO;
-import com.ani.ccyl.leg.persistence.po.AwardPO;
-import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
-import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
+import com.ani.ccyl.leg.persistence.po.*;
 import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
@@ -37,6 +34,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private ShareRelationMapper shareRelationMapper;
     @Autowired
     private AwardMapper awardMapper;
+    @Autowired
+    private DailyAwardsMapper dailyAwardsMapper;
 
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
@@ -193,26 +192,66 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             throw new RuntimeException("积分不足");
         if(awardMapper.findIsAward(accountId))
             throw new RuntimeException("今天已经领取过了");
-        // TODO: 17-12-27 兑换奖品,成功isSuccess=true,否则isSuccess=false
-        AwardPO awardPO = new AwardPO(null,accountId,awardType.findScore(),awardType,null,null,new Timestamp(System.currentTimeMillis()),false);
+        DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(awardType.getCode());
+        if(dailyAwardsPO == null)
+            throw new RuntimeException("今天奖品已经领取完了～");
+        AwardPO awardPO = new AwardPO(null,accountId,dailyAwardsPO.getCodeSecret(),awardType,true,null,new Timestamp(System.currentTimeMillis()),false);
         awardMapper.insertSelective(awardPO);
+        dailyAwardsMapper.deleteByPrimaryKey(dailyAwardsPO.getId());
     }
 
     @Override
-    public AwardDto findAwardScore(Integer accountId) {
+    public List<MyAwardDto> findMyAward(Integer accountId) {
         AwardPO awardParam = new AwardPO();
         awardParam.setAccountId(accountId);
         awardParam.setDel(false);
         List<AwardPO> awardPOs = awardMapper.select(awardParam);
-        AwardDto awardDto = new AwardDto();
-        Integer totalScore = findTotalScore(accountId).getScore();
-        awardDto.setLastScore(totalScore);
-        if(awardPOs.size()>0) {
-            AwardPO awardPO = awardPOs.get(0);
-            awardDto.setAwardType(awardPO.getAwardType());
-            awardDto.setLastScore(totalScore-awardPO.getAwardType().findScore());
+        List<MyAwardDto> myAwardDtos = new ArrayList<>();
+        Integer lastScore = findTotalScore(accountId).getScore();
+        if(awardPOs!=null) {
+            for(AwardPO awardPO:awardPOs) {
+                MyAwardDto myAwardDto = new MyAwardDto();
+                myAwardDto.setAwardType(awardPO.getAwardType());
+                myAwardDto.setCreateTime(awardPO.getCreateTime());
+                if(!awardPO.getSuccess() && (System.currentTimeMillis()-awardPO.getCreateTime().getTime()) >= 6*24*60*60*1000) {
+                    myAwardDto.setIsExpired(true);
+                } else {
+                    myAwardDto.setCodeSecret(awardPO.getCodeSecret());
+                    myAwardDto.setIsExpired(false);
+                }
+                lastScore = lastScore - awardPO.getAwardType().findScore();
+                myAwardDtos.add(myAwardDto);
+            }
         }
-        return awardDto;
+        for(MyAwardDto myAwardDto : myAwardDtos) {
+            myAwardDto.setLastScore(lastScore);
+        }
+        return myAwardDtos;
+    }
+
+    @Override
+    public List<AwardDto> findAllAwards(Integer accountId) {
+        AwardPO awardParam = new AwardPO();
+        awardParam.setAccountId(accountId);
+        awardParam.setDel(false);
+        List<AwardPO> awardPOs = awardMapper.select(awardParam);
+        Integer lastScore = findTotalScore(accountId).getScore();
+        if(awardPOs!=null) {
+            for(AwardPO awardPO:awardPOs) {
+                lastScore = lastScore - awardPO.getAwardType().findScore();
+            }
+        }
+        List<AwardDto> awardDtos = new ArrayList<>();
+        AwardDto tencentAward = new AwardDto(AwardTypeEnum.TENCENT_VIP, dailyAwardsMapper.findByType(AwardTypeEnum.TENCENT_VIP.getCode())==null,AwardTypeEnum.TENCENT_VIP.findScore(),lastScore);
+        AwardDto ofoAward = new AwardDto(AwardTypeEnum.OFO_COUPON,dailyAwardsMapper.findByType(AwardTypeEnum.OFO_COUPON.getCode())==null,AwardTypeEnum.OFO_COUPON.findScore(),lastScore);
+        AwardDto fiveAward = new AwardDto(AwardTypeEnum.FIVE_COUPON,dailyAwardsMapper.findByType(AwardTypeEnum.FIVE_COUPON.getCode())==null,AwardTypeEnum.FIVE_COUPON.findScore(),lastScore);
+        AwardDto tenAward = new AwardDto(AwardTypeEnum.TEN_COUPON,dailyAwardsMapper.findByType(AwardTypeEnum.TEN_COUPON.getCode())==null,AwardTypeEnum.TEN_COUPON.findScore(),lastScore);
+        awardDtos.add(tencentAward);
+        awardDtos.add(ofoAward);
+        awardDtos.add(fiveAward);
+        awardDtos.add(tenAward);
+
+        return awardDtos;
     }
 
 }

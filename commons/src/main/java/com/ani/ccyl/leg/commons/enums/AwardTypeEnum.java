@@ -7,7 +7,10 @@ import java.util.Map;
  * Created by lihui on 17-12-12.
  */
 public enum AwardTypeEnum implements BaseEnum<AwardTypeEnum, Integer> {
-    DEFAULT(1,"默认");
+    TENCENT_VIP(1,"腾讯视频会员月卡"),
+    OFO_COUPON(2,"ofo10元代金券"),
+    FIVE_COUPON(3,"满49减5元"),
+    TEN_COUPON(4,"满99减10元");
     private Integer code;
     private String value;
     private static Map<Integer,AwardTypeEnum> enumMap = new HashMap<>();
@@ -52,7 +55,31 @@ public enum AwardTypeEnum implements BaseEnum<AwardTypeEnum, Integer> {
             case 2:
                 score = 500;
                 break;
+            case 3:
+                score = 200;
+                break;
+            case 4:
+                score = 100;
+                break;
         }
         return score;
+    }
+    public Integer findNum() {
+        Integer num = 0;
+        switch (code) {
+            case 1:
+                num = 100;
+                break;
+            case 2:
+                num = 200;
+                break;
+            case 3:
+                num = 500;
+                break;
+            case 4:
+                num = 1000;
+                break;
+        }
+        return num;
     }
 }

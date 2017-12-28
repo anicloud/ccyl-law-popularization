@@ -10,50 +10,32 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- * Created by lihui on 17-12-22.
+ * Created by lihui on 17-12-28.
  */
-@Table(name = "t_award")
-public class AwardPO implements Serializable {
-    private static final long serialVersionUID = -447829874719813690L;
+@Table(name = "t_daily_awards")
+public class DailyAwardsPO implements Serializable {
+    private static final long serialVersionUID = 2373235413065666238L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Mysql")
     private Integer id;
-    private Integer accountId;
+    private String prodId;
     private String codeSecret;
-    private AwardTypeEnum awardType;
-    private Boolean isSuccess;
+    private AwardTypeEnum type;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
 
-    public AwardPO() {
+    public DailyAwardsPO() {
     }
 
-    public AwardPO(Integer id, Integer accountId, String codeSecret, AwardTypeEnum awardType, Boolean isSuccess, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public DailyAwardsPO(Integer id, String prodId, String codeSecret, AwardTypeEnum type, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
         this.id = id;
-        this.accountId = accountId;
+        this.prodId = prodId;
         this.codeSecret = codeSecret;
-        this.awardType = awardType;
-        this.isSuccess = isSuccess;
+        this.type = type;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
-    }
-
-    public Boolean getSuccess() {
-        return isSuccess;
-    }
-
-    public void setSuccess(Boolean success) {
-        isSuccess = success;
-    }
-
-    public AwardTypeEnum getAwardType() {
-        return awardType;
-    }
-
-    public void setAwardType(AwardTypeEnum awardType) {
-        this.awardType = awardType;
     }
 
     public Integer getId() {
@@ -64,12 +46,12 @@ public class AwardPO implements Serializable {
         this.id = id;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public String getProdId() {
+        return prodId;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setProdId(String prodId) {
+        this.prodId = prodId;
     }
 
     public String getCodeSecret() {
@@ -78,6 +60,14 @@ public class AwardPO implements Serializable {
 
     public void setCodeSecret(String codeSecret) {
         this.codeSecret = codeSecret;
+    }
+
+    public AwardTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(AwardTypeEnum type) {
+        this.type = type;
     }
 
     public Timestamp getUpdateTime() {
