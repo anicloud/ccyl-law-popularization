@@ -33,7 +33,7 @@ class SharePrize extends Component {
                     scoreInfo: response.data.data
                 });
                 let scoreInfo = response.data.data;
-                let prize = scoreInfo.score === 15? '金牌' : scoreInfo.score === 10? '银牌' : scoreInfo.score === 5? '铜牌' : '鼓励';
+                let prize = scoreInfo.score === 10? '金牌' : scoreInfo.score === 8? '银牌' : scoreInfo.score === 6? '铜牌' : '鼓励';
                 axios.get(`${host}/wechat/shareUrl`).then(function (response) {
                     if (response.data.state === 0) {
                         window.wx.onMenuShareTimeline({

@@ -75,7 +75,7 @@ class ScoreShopping extends Component{
               <h2 className="text-center h2 title">
                   <span>积分商城</span>
               </h2>
-              <p className='text-center current-score'>剩积分:{this.state.awardInfo[0].myScore}</p>
+              <p className='text-center current-score'>剩余积分:{this.state.awardInfo[0].myScore}</p>
               <div className="listdiv">
                   <div className="largest">
                     <span className="largestImg" />
