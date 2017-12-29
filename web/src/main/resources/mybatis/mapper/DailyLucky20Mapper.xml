@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ani.ccyl.leg.persistence.mapper.DailyLucky20Mapper">
+    <select id="findByAccountId" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.DailyLucky20PO">
+        SELECT * FROM t_daily_lucky20 WHERE account_id=#{accountId} LIMIT 1
+    </select>
+</mapper>
