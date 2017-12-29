@@ -16,10 +16,27 @@ class MyPrize extends Component{
         super(props);
         this.state = {
             location: this.props.location.state? this.props.location.state : '/home',
-            myAwardInfo:[]
+            myAwardInfo:[{
+                lastScore:1,
+                awardType:"TENCENT_VIP",
+                codeSecret:"aaaa",
+                isExpired:false,
+                isReceivedAward:false,
+                createTime:"2017-11-12"
+            },{
+                lastScore:1,
+                awardType:"OFO_COUPON",
+                codeSecret:"aaaa",
+                isExpired:false,
+                isReceivedAward:true,
+                createTime:"2017-11-12"
+            }]
         };
+        this.getPrizeDetail = this.getPrizeDetail.bind(this);
+        this.getConditionFromEnum = this.getConditionFromEnum.bind(this);
+        this.getNameFromEnum = this.getNameFromEnum.bind(this);
     }
-    componentDidMount() {
+    /* componentDidMount() {
         let _this = this;
         const {host} = _this.props;
         axios.get(`${host}/score/findMyAwards`).then(function (response) {
@@ -31,33 +48,7 @@ class MyPrize extends Component{
         }).catch(function (errors) {
             console.log(errors);
         })
-    }
-    changePager(){
-        let myAwards = this.state.myAwardInfo;
-        let divStr = "";
-        if(myAwards.length==0){
-            divStr = "暂无奖品";
-        }
-        for(let i=0;i<myAwards.length;i++){
-            divStr = divStr+"<div className=\"prizediv\">" +
-                                "<div className=\"topDiv\">" +
-                                    "<span className=\"timeSpan\">获奖时间:"+myAwards[i].createTime+"</span>"+
-                                    "<span className=\"typeSpan\">状态:"+myAwards[i].isReceivedAward===true?"已领取":myAwards[i].isExpired===false?"待领取":"已过期"+"</span>" +
-                                "</div>"+
-                                "<span className=\"prizeImg\" />"+
-                                "<div className=\"prizeDetail\">"+
-                                    "<p className=\"nameSpan\">"+this.getNameFromEnum(myAwards[i].awardType)+"</p>"+
-                                    "<p className=\"scoreSpan\">"+this.getConditionFromEnum(myAwards[i].awardType)+"</p>"+
-                                    "<p className=\"trueSpan\">有效期:6天</p>"+
-                                "</div>";
-            divStr = divStr + myAwards[i].isReceivedAward===true?"<Button disabled={false}>立即兑换</Button>":"<span>></span>";
-            divStr = divStr + "</div>";
-            if(i!=myAwards.length-1){
-                divStr = divStr + "<hr className=\"line\"/>";
-            }
-        }
-        return divStr;
-    }
+    }*/
 
    getConditionFromEnum(type){
         let result = "";
@@ -127,7 +118,19 @@ class MyPrize extends Component{
         return result;
     }
 
+    getPrizeDetail(myAward){
+        alert("a");
+        this.props.history.push({
+            pathname:"/prizedetail",
+            state:{
+                path:"/myprize",
+                myAward:myAward
+            }
+        });
+    }
+
     render(){
+        let _this = this;
         return (
             <div className="myprize main-bg">
                 <div className='clearfix'>
@@ -137,34 +140,23 @@ class MyPrize extends Component{
                     <span>积分商城</span>
                 </h2>
                 <div className="listdiv">
-                    /*<div className="prizediv">
-                        <div className="topDiv">
-                            <span className="timeSpan">获奖时间:2017/12/28 18:28</span>
-                            <span className="typeSpan">状态:已领取</span>
-                        </div>
-                        <span className="prizeImg" />
-                        <div className="prizeDetail">
-                            <p className="nameSpan">腾讯视频会员月卡</p>
-                            <p className="scoreSpan">1000积分</p>
-                            <p className="trueSpan">有效期至:2017/12/28</p>
-                        </div>
-                        <Button disabled={false}>立即兑换</Button>
-                    </div>
-                    <hr className="line"/>
-                    <div className="prizediv">
-                        <div className="topDiv">
-                            <span className="timeSpan">获奖时间:2017/12/28 18:28</span>
-                            <span className="typeSpan">状态:已领取</span>
-                        </div>
-                        <span className="prizeImg" />
-                        <div className="prizeDetail">
-                            <p className="nameSpan">腾讯视频会员月卡</p>
-                            <p className="scoreSpan">500积分</p>
-                            <p className="trueSpan">有效期至:2017/12/29</p>
-                        </div>
-                        <span>></span>
-                    </div>
-                    <hr className="line"/>*/
+                    {this.state.myAwardInfo.map(function(item,index){
+                      return (
+                          <div className='prizediv' key={index}>
+                              <div className='topDiv'>
+                                  <span className='timeSpan'>获奖时间:{item.createTime}</span>
+                                  <span className='typeSpan'>状态:{item.isReceivedAward===true?"已领取":item.isExpired===false?"待领取":"已过期"}</span>
+                              </div>
+                              <span className='prizeImg'></span>
+                              <div className='prizeDetail'>
+                                  <p className='nameSpan'>{_this.getNameFromEnum(item.awardType)}</p>
+                                  <p className='scoreSpan'>{_this.getConditionFromEnum(item.awardType)}</p>
+                                  <p className='trueSpan'>有效期:6天</p>
+                              </div>
+                              {item.isReceivedAward===true?<Button >立即兑换</Button>:<Button onClick={ () => _this.getPrizeDetail(item)}>查看奖品</Button>}
+                          </div>
+                      );
+                    })}
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
