@@ -6,7 +6,7 @@
  **/
 import React,{Component} from "react";
 import Back from './Back';
-import "../media/styles/MyPrize.less";
+import "../media/styles/myprize.less";
 import {Button} from 'react-weui';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -58,6 +58,7 @@ class MyPrize extends Component{
                     </div>
                     <hr className="line"/>
                 </div>
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
     }
