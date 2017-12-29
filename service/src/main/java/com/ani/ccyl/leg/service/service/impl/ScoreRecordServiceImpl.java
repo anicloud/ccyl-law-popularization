@@ -15,6 +15,9 @@ import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -142,7 +145,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public List<Top20Dto> findDailyTop20() {
+    public List<Top20Dto> findDailyTop20() throws UnsupportedEncodingException {
         List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()));
         List<Top20Dto> top20Dtos = new ArrayList<>();
         ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
@@ -153,7 +156,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 scoreRecordParam.setAccountId(scoreRecordPO.getAccountId());
                 top20Dto.setScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
                 AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
-                top20Dto.setName(accountPO.getNickName());
+                top20Dto.setName(URLDecoder.decode(accountPO.getNickName(),"utf-8"));
                 top20Dto.setPortrat(accountPO.getPortrait());
                 top20Dto.setUpdateTime(scoreRecordPO.getUpdateTime());
                 top20Dtos.add(top20Dto);

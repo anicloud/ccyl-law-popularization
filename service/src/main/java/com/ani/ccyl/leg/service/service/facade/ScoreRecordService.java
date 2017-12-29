@@ -4,6 +4,7 @@ import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public interface ScoreRecordService {
 
     TotalScoreDto findTotalScore(Integer accountId);
     DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType);
-    List<Top20Dto> findDailyTop20();
+    List<Top20Dto> findDailyTop20() throws UnsupportedEncodingException;
 
     Boolean findIsThumbUp(Integer accountId, Integer toAccountId);
     Boolean findIsSignIn(Integer accountId);
