@@ -171,7 +171,7 @@ public class ScoreRecordController {
     public ResponseMessageDto findTop20Award(HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        String codeSecret = scoreRecordService.findTop20Award(accountDto.getId());
+        String codeSecret = scoreRecordService.updateFindTop20Award(accountDto.getId());
         message.setData(codeSecret);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");

@@ -283,10 +283,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public String findTop20Award(Integer accountId) {
+    public String updateFindTop20Award(Integer accountId) {
         DailyTop20PO dailyTop20PO = dailyTop20Mapper.findByAccountId(accountId);
         String secret = "";
-        if(dailyTop20PO != null) {
+        if(dailyTop20PO != null && accountPersistenceService.findIsInfoComplete(accountId)) {
             DailyAwardsPO awardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()).getCode());
             awardsPO.setDel(true);
             secret = awardsPO.getCodeSecret();
@@ -294,6 +294,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             dailyTop20PO.setCodeSecret(awardsPO.getCodeSecret());
             dailyTop20PO.setReceiveAward(true);
             dailyTop20Mapper.updateByPrimaryKeySelective(dailyTop20PO);
+        } else {
+            throw new RuntimeException("信息不完整，请先补填个人信息");
         }
         return secret;
     }
