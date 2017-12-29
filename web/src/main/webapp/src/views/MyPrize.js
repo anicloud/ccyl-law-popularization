@@ -16,27 +16,13 @@ class MyPrize extends Component{
         super(props);
         this.state = {
             location: this.props.location.state? this.props.location.state : '/home',
-            myAwardInfo:[{
-                lastScore:1,
-                awardType:"TENCENT_VIP",
-                codeSecret:"aaaa",
-                isExpired:false,
-                isReceivedAward:false,
-                createTime:"2017-11-12"
-            },{
-                lastScore:1,
-                awardType:"OFO_COUPON",
-                codeSecret:"aaaa",
-                isExpired:false,
-                isReceivedAward:true,
-                createTime:"2017-11-12"
-            }]
+            myAwardInfo:[]
         };
         this.getPrizeDetail = this.getPrizeDetail.bind(this);
         this.getConditionFromEnum = this.getConditionFromEnum.bind(this);
         this.getNameFromEnum = this.getNameFromEnum.bind(this);
     }
-    /* componentDidMount() {
+     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
         axios.get(`${host}/score/findMyAwards`).then(function (response) {
@@ -48,7 +34,7 @@ class MyPrize extends Component{
         }).catch(function (errors) {
             console.log(errors);
         })
-    }*/
+    }
 
    getConditionFromEnum(type){
         let result = "";
