@@ -17,6 +17,9 @@ class App extends Component {
             case 1:
                 this.props.history.push('/answer');
                 break;
+            case 2:
+                this.props.history.push('/myprize');
+                break;
             case 3:
                 this.props.history.push('/tasks');
                 break;
@@ -56,6 +59,9 @@ class App extends Component {
                     {/*<li className="text-center" onClick={() => {this.handleTouch(2)}}>
                         <span>我的任务</span>
                     </li>*/}
+                    <li className="text-center" onClick={() => {this.handleTouch(2)}}>
+                        <span>我的奖品</span>
+                    </li>
                     <li className="text-center" onClick={() => {this.handleTouch(3)}}>
                         <span>我的积分</span>
                     </li>
