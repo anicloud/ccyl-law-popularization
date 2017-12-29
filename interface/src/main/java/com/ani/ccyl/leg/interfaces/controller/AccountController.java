@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.dto.AccountDto;
 import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
 import com.ani.ccyl.leg.commons.enums.ProvinceEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
+import com.ani.ccyl.leg.commons.utils.LocationUtil;
 import com.ani.ccyl.leg.commons.utils.SMSUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,20 @@ public class AccountController {
         message.setMsg("查询成功");
         message.setData(accountService.findIsInfoCompleted(accountDto.getId()));
         message.setState(ResponseStateEnum.OK);
+        return message;
+    }
+
+    @RequestMapping(value = "/updateProvince", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto updateProvince(String log, String lat, HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        ProvinceEnum add = LocationUtil.getAdd(log, lat);
+        accountDto.setProvince(add);
+        accountService.saveSelfInfo(accountDto);
+        message.setMsg("更新成功");
+        message.setState(ResponseStateEnum.OK);
+        message.setData(add);
         return message;
     }
 }
