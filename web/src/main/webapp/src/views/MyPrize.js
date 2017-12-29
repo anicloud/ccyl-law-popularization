@@ -35,6 +35,9 @@ class MyPrize extends Component{
     changePager(){
         let myAwards = this.state.myAwardInfo;
         let divStr = "";
+        if(myAwards.length==0){
+            divStr = "暂无奖品";
+        }
         for(let i=0;i<myAwards.length;i++){
             divStr = divStr+"<div className=\"prizediv\">" +
                                 "<div className=\"topDiv\">" +
@@ -134,7 +137,7 @@ class MyPrize extends Component{
                     <span>积分商城</span>
                 </h2>
                 <div className="listdiv">
-                    <div className="prizediv">
+                    /*<div className="prizediv">
                         <div className="topDiv">
                             <span className="timeSpan">获奖时间:2017/12/28 18:28</span>
                             <span className="typeSpan">状态:已领取</span>
@@ -161,9 +164,9 @@ class MyPrize extends Component{
                         </div>
                         <span>></span>
                     </div>
-                    <hr className="line"/>}
+                    <hr className="line"/>*/
                 </div>
-                /*<Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>*/
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
     }
