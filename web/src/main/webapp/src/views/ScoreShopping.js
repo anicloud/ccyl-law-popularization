@@ -8,7 +8,6 @@ import React,{Component} from "react";
 import Back from './Back';
 import "../media/styles/scoreshopping.less";
 import {Button,Toast} from 'react-weui';
-import {Button, Toast} from 'react-weui';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
