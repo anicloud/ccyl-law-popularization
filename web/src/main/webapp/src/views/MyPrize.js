@@ -6,7 +6,7 @@
  **/
 import React,{Component} from "react";
 import Back from './Back';
-import "../media/styles/myprize1.less";
+import "../media/styles/MyPrize.less";
 import {Button} from 'react-weui';
 import axios from 'axios';
 import {connect} from 'react-redux';
