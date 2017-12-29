@@ -114,6 +114,7 @@ class ScoreShopping extends Component{
                       <Button disabled={this.getCurrentAwardScore("TEN_COUPON").isUsedUp===false?false:true}>{this.getCurrentAwardScore("TEN_COUPON").isUsedUp===false?"兑换上限":this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TEN_COUPON").score?"立即兑换":"积分不足"}</Button>
                   </div>
               </div>
+              <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
           </div>
         );
     }

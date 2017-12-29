@@ -58,6 +58,7 @@ class MyPrize extends Component{
                     </div>
                     <hr className="line"/>
                 </div>
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
     }
