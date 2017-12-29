@@ -159,11 +159,11 @@ class MyPrize extends Component{
                             <p className="scoreSpan">500积分</p>
                             <p className="trueSpan">有效期至:2017/12/29</p>
                         </div>
-                        <span>></span>
+                        <span></span>
                     </div>
-                    <hr className="line"/>}
+                    <hr className="line"/>
                 </div>
-                /*<Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>*/
+                {/*<Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>*/}
             </div>
         );
     }
