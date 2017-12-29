@@ -50,7 +50,7 @@ class Root extends Component {
     }
     componentDidMount() {
         store.dispatch(showLoading(true));
-        jsSdkConfig(axios, '/leg');
+        jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             store.dispatch(showLoading(false));
             axios.get(`${store.getState().host}/account/findById`).then(function (response) {

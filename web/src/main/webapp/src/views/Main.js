@@ -21,7 +21,7 @@ class Main extends Component {
     }
     componentWillMount() {
         let _this = this;
-        const {host} = _this.props;
+        /*const {host} = _this.props;*/
         /*配置微信jssdk*/
         /*_this.setState({
             showLoading: true
@@ -72,7 +72,7 @@ class Main extends Component {
                 <div className='text-center greate'>
                     <button className='btn btn-success' onClick={() => this.handleTouch()}>我行我上</button>
                 </div>
-                <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         )
     }
@@ -80,7 +80,8 @@ class Main extends Component {
 
 function mapStateToProps(state) {
     return {
-        host: state.host
+        host: state.host,
+        showLoading: state.showLoading
     }
 }
 
