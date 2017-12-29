@@ -5,6 +5,7 @@ import store from './redux/index';
 import Routes from './routes/index';
 import axios from 'axios';
 import {showLoading, showError} from './redux/actions';
+import {jsSdkConfig} from "./utils/index";
 
 class Root extends Component {
     componentWillMount() {
@@ -45,6 +46,38 @@ class Root extends Component {
             }, 2000);
 
             return Promise.reject(error);
+        });
+    }
+    componentDidMount() {
+        store.dispatch(showLoading(true));
+        jsSdkConfig(axios, '/leg');
+        window.wx.ready(function () {
+            store.dispatch(showLoading(false));
+            axios.get(`${store.getState().host}/account/findById`).then(function (response) {
+                if (response.data.state === 0) {
+                    let userInfo = response.data.data;
+                    axios.get(`${store.getState().host}/wechat/shareUrl`).then(function (response) {
+                        if (response.data.state === 0) {
+                            window.wx.onMenuShareTimeline({
+                                title: `我正在中国共青团青少年学法用法知识答题，快来参加吧`,
+                                link: response.data.data,
+                                imgUrl: userInfo.portrait
+                            });
+                            window.wx.onMenuShareAppMessage({
+                                title: `我正在中国共青团青少年学法用法知识答题，快来参加吧`,
+                                link: response.data.data,
+                                imgUrl: userInfo.portrait,
+                                desc: '共青团中央2018年第十四届青少年学法用法知识竞赛'
+                            });
+                        }
+                    }).catch(function (errors) {
+                        console.log(errors);
+                    });
+                }
+            }).catch(function (errors) {
+                console.log(errors);
+            });
+
         });
     }
     render() {
