@@ -43,10 +43,10 @@ public class AccountController {
 
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findById(Integer id) {
+    public ResponseMessageDto findById(HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = accountService.findById(id);
-        message.setData(accountDto);
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        message.setData(accountService.findById(accountDto.getId()));
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
         return message;

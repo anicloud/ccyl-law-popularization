@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -44,6 +43,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private DailyTop20Mapper dailyTop20Mapper;
     @Autowired
     private DailyLucky20Mapper dailyLucky20Mapper;
+    @Autowired
+    private AccountPersistenceService accountPersistenceService;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -204,7 +205,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             throw new RuntimeException("今天奖品已经领取完了～");
         AwardPO awardPO = new AwardPO(null,accountId,dailyAwardsPO.getCodeSecret(),awardType,true,null,new Timestamp(System.currentTimeMillis()),false);
         awardMapper.insertSelective(awardPO);
-        dailyAwardsMapper.deleteByPrimaryKey(dailyAwardsPO.getId());
+        dailyAwardsPO.setDel(true);
+        dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
     }
 
     @Override
@@ -278,6 +280,22 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         awardDtos.add(tenAward);
 
         return awardDtos;
+    }
+
+    @Override
+    public String findTop20Award(Integer accountId) {
+        DailyTop20PO dailyTop20PO = dailyTop20Mapper.findByAccountId(accountId);
+        String secret = "";
+        if(dailyTop20PO != null) {
+            DailyAwardsPO awardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()).getCode());
+            awardsPO.setDel(true);
+            secret = awardsPO.getCodeSecret();
+            dailyAwardsMapper.updateByPrimaryKeySelective(awardsPO);
+            dailyTop20PO.setCodeSecret(awardsPO.getCodeSecret());
+            dailyTop20PO.setReceiveAward(true);
+            dailyTop20Mapper.updateByPrimaryKeySelective(dailyTop20PO);
+        }
+        return secret;
     }
 
 }
