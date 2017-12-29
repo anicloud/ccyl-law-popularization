@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './App.less';
 import star from './media/images/star_idol.png';
 import Back from './views/Back';
+import {connect} from 'react-redux';
+import {Toast} from 'react-weui';
 
 class App extends Component {
     constructor(props) {
@@ -78,9 +80,16 @@ class App extends Component {
                 <div className="star">
                     <img src={star} alt=""/>
                 </div>
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
     }
 }
 
-export default App;
+function mapStateToProps (state) {
+    return {
+        showLoading: state.showLoading
+    }
+}
+
+export default connect(mapStateToProps)(App);
