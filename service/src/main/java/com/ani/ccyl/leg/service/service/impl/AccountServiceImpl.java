@@ -14,6 +14,8 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountPersistenceService accountPersistenceService;
     @Override
-    public AccountDto insertAccount(JSONObject wechatObj) {
+    public AccountDto insertAccount(JSONObject wechatObj) throws UnsupportedEncodingException {
         String openId = wechatObj.getString("openid");
         String nickName = wechatObj.getString("nickname");
         String sex = wechatObj.getString("sex");
@@ -36,17 +38,19 @@ public class AccountServiceImpl implements AccountService {
         AccountPO accountPO = new AccountPO();
         accountPO.setOpenId(openId);
         List<AccountPO> accountPOs = accountMapper.select(accountPO);
+        accountPO.setSex(sex.equals("1"));
+        accountPO.setNickName(URLEncoder.encode(nickName,"utf-8"));
+        accountPO.setPortrait(portrait);
         if(accountPOs.size()==0) {
-            accountPO.setNickName(nickName);
             accountPO.setAccountName(openId);
             accountPO.setAccountPwd(Encrypt.md5hash(Constants.DEFAULT_PWD,openId));
             accountPO.setDel(false);
             accountPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            accountPO.setPortrait(portrait);
-            accountPO.setSex(sex.equals("1"));
             accountMapper.insertSelective(accountPO);
         } else {
-            accountPO = accountPOs.get(0);
+            accountPO.setId(accountPOs.get(0).getId());
+            accountPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            accountMapper.updateByPrimaryKeySelective(accountPO);
         }
         return AccountAdapter.fromPO(accountPO);
     }

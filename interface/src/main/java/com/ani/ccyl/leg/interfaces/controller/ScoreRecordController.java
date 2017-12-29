@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public class ScoreRecordController {
 
     @RequestMapping(value = "/findTop20", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findDailyTop20() {
+    public ResponseMessageDto findDailyTop20() throws UnsupportedEncodingException {
         ResponseMessageDto message = new ResponseMessageDto();
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
