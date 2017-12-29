@@ -23,7 +23,7 @@ class Main extends Component {
         let _this = this;
         const {host} = _this.props;
         /*配置微信jssdk*/
-        _this.setState({
+        /*_this.setState({
             showLoading: true
         });
         jsSdkConfig(axios, host);
@@ -49,6 +49,11 @@ class Main extends Component {
                 console.log(errors);
             });
         });
+        window.wx.error(function(res) {
+            if (res.errMsg === 'config:require subscribe') {
+                _this.props.history.push('/error');
+            }
+        });*/
         window.wx.error(function(res) {
             if (res.errMsg === 'config:require subscribe') {
                 _this.props.history.push('/error');
