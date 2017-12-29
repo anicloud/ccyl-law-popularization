@@ -36,8 +36,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Autowired
     private ShareRelationMapper shareRelationMapper;
     @Autowired
-    private AwardMapper awardMapper;
-    @Autowired
     private DailyAwardsMapper dailyAwardsMapper;
     @Autowired
     private DailyTop20Mapper dailyTop20Mapper;
@@ -198,75 +196,71 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         TotalScoreDto totalScoreDto = findTotalScore(accountId);
         if(totalScoreDto.getScore()<awardType.findScore())
             throw new RuntimeException("积分不足");
-        if(awardMapper.findIsAward(accountId))
+        if(dailyAwardsMapper.findIsAwardToday(accountId))
             throw new RuntimeException("今天已经领取过了");
         DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(awardType.getCode());
         if(dailyAwardsPO == null)
             throw new RuntimeException("今天奖品已经领取完了～");
-        AwardPO awardPO = new AwardPO(null,accountId,dailyAwardsPO.getCodeSecret(),awardType,true,null,new Timestamp(System.currentTimeMillis()),false);
-        awardMapper.insertSelective(awardPO);
         dailyAwardsPO.setDel(true);
+        dailyAwardsPO.setAccountId(accountId);
+        dailyAwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
     }
 
     @Override
     public List<MyAwardDto> findMyAward(Integer accountId) {
-        AwardPO awardParam = new AwardPO();
-        awardParam.setAccountId(accountId);
-        awardParam.setDel(false);
-        List<AwardPO> awardPOs = awardMapper.select(awardParam);
+        DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
+        dailyAwardsParam.setAccountId(accountId);
+        dailyAwardsParam.setDel(false);
+        List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
         List<MyAwardDto> myAwardDtos = new ArrayList<>();
         Integer lastScore = findTotalScore(accountId).getScore();
-        if(awardPOs!=null) {
-            for(AwardPO awardPO:awardPOs) {
+        if(dailyAwardsPOs!=null) {
+            for(DailyAwardsPO dailyAwardsPO:dailyAwardsPOs) {
                 MyAwardDto myAwardDto = new MyAwardDto();
-                myAwardDto.setAwardType(awardPO.getAwardType());
-                myAwardDto.setCreateTime(awardPO.getCreateTime());
-                if(!awardPO.getSuccess() && (System.currentTimeMillis()-awardPO.getCreateTime().getTime()) >= 6*24*60*60*1000) {
+                myAwardDto.setAwardType(dailyAwardsPO.getType());
+                myAwardDto.setCreateTime(dailyAwardsPO.getUpdateTime());
+                if((System.currentTimeMillis()-dailyAwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
                     myAwardDto.setIsExpired(true);
                 } else {
-                    myAwardDto.setCodeSecret(awardPO.getCodeSecret());
+                    myAwardDto.setCodeSecret(dailyAwardsPO.getCodeSecret());
                     myAwardDto.setIsExpired(false);
                 }
                 myAwardDto.setIsReceivedAward(true);
-                lastScore = lastScore - awardPO.getAwardType().findScore();
+                lastScore = lastScore - dailyAwardsPO.getType().findScore();
                 myAwardDtos.add(myAwardDto);
             }
         }
         for(MyAwardDto myAwardDto : myAwardDtos) {
             myAwardDto.setLastScore(lastScore);
         }
-        DailyTop20PO dailyTop20Param = new DailyTop20PO();
-        dailyTop20Param.setAccountId(accountId);
-        List<DailyTop20PO> dailyTop20POs = dailyTop20Mapper.select(dailyTop20Param);
-        if(dailyTop20POs.size()>0) {
-            DailyTop20PO dailyTop20PO = dailyTop20POs.get(0);
-            Boolean isExpired = (System.currentTimeMillis()-dailyTop20PO.getCreateTime().getTime()) >= 6*24*60*60*1000;
-            MyAwardDto myAwardDto = new MyAwardDto(lastScore,AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()),isExpired?null:dailyTop20PO.getCodeSecret(),isExpired,dailyTop20PO.getReceiveAward(),dailyTop20PO.getCreateTime());
-            myAwardDtos.add(myAwardDto);
-        }
-        DailyLucky20PO dailyLucky20Param = new DailyLucky20PO();
-        dailyLucky20Param.setAccountId(accountId);
-        List<DailyLucky20PO> dailyLucky20POs = dailyLucky20Mapper.select(dailyLucky20Param);
-        if(dailyLucky20POs.size()>0) {
-            DailyLucky20PO dailyLucky20PO = dailyLucky20POs.get(0);
-            Boolean isExpired = (System.currentTimeMillis()-dailyLucky20PO.getCreateTime().getTime()) >= 6*24*60*60*1000;
-            MyAwardDto myAwardDto = new MyAwardDto(lastScore,AwardTypeEnum.LUCKY,isExpired?null:dailyLucky20PO.getCodeSecret(),isExpired,dailyLucky20PO.getReceiveAward(),dailyLucky20PO.getCreateTime());
-            myAwardDtos.add(myAwardDto);
+        DailyTop20PO dailyTop20PO = dailyTop20Mapper.findByAccountId(accountId);
+        if(dailyTop20PO!=null) {
+            if(!dailyTop20PO.getReceiveAward()) {
+                MyAwardDto myAwardDto = new MyAwardDto(lastScore, AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()), null, false, dailyTop20PO.getReceiveAward(), dailyTop20PO.getCreateTime());
+                myAwardDtos.add(myAwardDto);
+            }
+        } else {
+            DailyLucky20PO dailyLucky20PO = dailyLucky20Mapper.findByAccountId(accountId);
+            if (dailyLucky20PO!=null) {
+                if (!dailyLucky20PO.getReceiveAward()) {
+                    MyAwardDto myAwardDto = new MyAwardDto(lastScore, AwardTypeEnum.LUCKY, null, false, dailyLucky20PO.getReceiveAward(), dailyLucky20PO.getCreateTime());
+                    myAwardDtos.add(myAwardDto);
+                }
+            }
         }
         return myAwardDtos;
     }
 
     @Override
     public List<AwardDto> findAllAwards(Integer accountId) {
-        AwardPO awardParam = new AwardPO();
-        awardParam.setAccountId(accountId);
-        awardParam.setDel(false);
-        List<AwardPO> awardPOs = awardMapper.select(awardParam);
+        DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
+        dailyAwardsParam.setAccountId(accountId);
+        List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
         Integer lastScore = findTotalScore(accountId).getScore();
-        if(awardPOs!=null) {
-            for(AwardPO awardPO:awardPOs) {
-                lastScore = lastScore - awardPO.getAwardType().findScore();
+        if(dailyAwardsPOs!=null) {
+            for(DailyAwardsPO dailyAwardsPO:dailyAwardsPOs) {
+                lastScore = lastScore - dailyAwardsPO.getType().findScore();
             }
         }
         List<AwardDto> awardDtos = new ArrayList<>();
@@ -283,19 +277,34 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public String updateFindTop20Award(Integer accountId) {
+    public String updateFindTop20OrLuckyAward(Integer accountId) {
         DailyTop20PO dailyTop20PO = dailyTop20Mapper.findByAccountId(accountId);
         String secret = "";
-        if(dailyTop20PO != null && accountPersistenceService.findIsInfoComplete(accountId)) {
+        if(dailyTop20PO != null && !dailyTop20PO.getReceiveAward()&&dailyAwardsMapper.findTopOrLuckyByAccountId(accountId) == null) {
+            if(accountPersistenceService.findIsInfoComplete(accountId))
+                throw new RuntimeException("个人信息不完整");
             DailyAwardsPO awardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()).getCode());
-            awardsPO.setDel(true);
-            secret = awardsPO.getCodeSecret();
-            dailyAwardsMapper.updateByPrimaryKeySelective(awardsPO);
-            dailyTop20PO.setCodeSecret(awardsPO.getCodeSecret());
-            dailyTop20PO.setReceiveAward(true);
-            dailyTop20Mapper.updateByPrimaryKeySelective(dailyTop20PO);
+            if(awardsPO != null) {
+                awardsPO.setDel(true);
+                awardsPO.setAccountId(accountId);
+                awardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                dailyAwardsMapper.updateByPrimaryKeySelective(awardsPO);
+                dailyTop20PO.setReceiveAward(true);
+                dailyTop20Mapper.updateByPrimaryKeySelective(dailyTop20PO);
+            }
         } else {
-            throw new RuntimeException("信息不完整，请先补填个人信息");
+            DailyLucky20PO dailyLucky20PO = dailyLucky20Mapper.findByAccountId(accountId);
+            if(dailyLucky20PO!=null&&!dailyLucky20PO.getReceiveAward() && dailyAwardsMapper.findTopOrLuckyByAccountId(accountId) == null) {
+                DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.LUCKY.getCode());
+                if(dailyAwardsPO != null) {
+                    dailyAwardsPO.setDel(true);
+                    dailyAwardsPO.setAccountId(accountId);
+                    dailyAwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                    dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
+                    dailyLucky20PO.setReceiveAward(true);
+                    dailyLucky20Mapper.updateByPrimaryKeySelective(dailyLucky20PO);
+                }
+            }
         }
         return secret;
     }

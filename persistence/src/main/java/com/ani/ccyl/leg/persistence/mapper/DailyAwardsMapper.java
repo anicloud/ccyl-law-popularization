@@ -8,4 +8,6 @@ import com.ani.ccyl.leg.persistence.po.DailyAwardsPO;
  */
 public interface DailyAwardsMapper extends SysMapper<DailyAwardsPO>{
     DailyAwardsPO findByType(Integer type);
+    Boolean findIsAwardToday(Integer accountId);
+    DailyAwardsPO findTopOrLuckyByAccountId(Integer accountId);
 }

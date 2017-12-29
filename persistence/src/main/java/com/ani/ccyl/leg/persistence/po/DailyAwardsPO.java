@@ -24,11 +24,12 @@ public class DailyAwardsPO implements Serializable {
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
+    private Integer accountId;
 
     public DailyAwardsPO() {
     }
 
-    public DailyAwardsPO(Integer id, String prodId, String codeSecret, AwardTypeEnum type, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public DailyAwardsPO(Integer id, String prodId, String codeSecret, AwardTypeEnum type, Timestamp updateTime, Timestamp createTime, Boolean isDel, Integer accountId) {
         this.id = id;
         this.prodId = prodId;
         this.codeSecret = codeSecret;
@@ -36,6 +37,14 @@ public class DailyAwardsPO implements Serializable {
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public Integer getId() {

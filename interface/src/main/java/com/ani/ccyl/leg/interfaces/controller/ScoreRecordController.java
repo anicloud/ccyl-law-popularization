@@ -166,12 +166,12 @@ public class ScoreRecordController {
         message.setMsg("查询成功");
         return message;
     }
-    @RequestMapping(value = "/findTop20Award", method = RequestMethod.GET)
+    @RequestMapping(value = "/findTopOrLuckyAward", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findTop20Award(HttpSession session) {
+    public ResponseMessageDto findTopOrLuckyAward(HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        String codeSecret = scoreRecordService.updateFindTop20Award(accountDto.getId());
+        String codeSecret = scoreRecordService.updateFindTop20OrLuckyAward(accountDto.getId());
         message.setData(codeSecret);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
