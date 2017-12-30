@@ -129,7 +129,7 @@ CREATE TABLE `t_daily_top20` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_account_id_key` (`account_id`),
   KEY `t_score_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='积分表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +258,7 @@ CREATE TABLE `t_share_relation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-29 14:56:08
+-- Dump completed on 2017-12-30 14:03:18
 DROP PROCEDURE IF EXISTS proce_init_day_questions;
 DELIMITER $
 CREATE PROCEDURE proce_init_day_questions()
