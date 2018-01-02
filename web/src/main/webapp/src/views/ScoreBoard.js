@@ -99,7 +99,17 @@ class ScoreBoard extends Component {
                     </div>
                     <div className='pull-right third'>4</div>
                 </div>
-                {
+                <div className='top-ranking clearfix'>
+                    <div className='pull-left first'>
+                        <img src={icon} alt=""/>
+                    </div>
+                    <div className='pull-left second'>
+                        <div>1,080</div>
+                        <div>Alex Nelson</div>
+                    </div>
+                    <div className='pull-right third'>5</div>
+                </div>
+                {/*{
                     rankingInfo? (
                         rankingInfo.map((item, index) => {
                             return (
@@ -118,7 +128,7 @@ class ScoreBoard extends Component {
                     ) : (
                         <div className='text-center ranking'>暂无排行榜信息</div>
                     )
-                }
+                }*/}
                 {/*<div className='score-info'>
                     <p>
                         <span>排行榜说明:</span>
