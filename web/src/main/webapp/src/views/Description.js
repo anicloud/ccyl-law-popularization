@@ -16,7 +16,7 @@ class Description extends Component {
     }
     render() {
         return (
-            <div className="description main-bg">
+            <div className="description common-bg">
                 <div className='clearfix'>
                     <Back location='/home' history={this.props.history} />
                 </div>
@@ -62,7 +62,7 @@ class Description extends Component {
                                 </Article>
                                 <Article style={{display: this.state.tab == 2 ? null : 'none'}}>
                                     <ul>
-                                        <li>参赛者每天可通过多种方式增涨积分，获取的积分可累计。</li>
+                                        <li>参赛者每天可通过多种方式增涨积分，获取的积分可累计:</li>
                                         <li>1.答题积分：每答对一题增加2个积分</li>
                                         <li>2.打卡积分：每天打卡一次，增加5个积分</li>
                                         <li>3.分享积分：答题后每分享一次朋友圈或者微信群，增加5个积分，每天最多分享5次</li>
