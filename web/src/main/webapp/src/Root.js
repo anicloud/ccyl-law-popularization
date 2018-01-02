@@ -6,9 +6,19 @@ import Routes from './routes/index';
 import axios from 'axios';
 import {showLoading, showError} from './redux/actions';
 import {jsSdkConfig} from "./utils/index";
+import {Toast} from 'react-weui';
 
 class Root extends Component {
+    constructor() {
+        super();
+        this.state = {
+            showLoading: false
+        }
+    }
     componentWillMount() {
+        this.setState({
+            showLoading: true
+        });
         // 添加请求拦截器
         let timer = null;
         axios.interceptors.request.use(function (config) {
@@ -49,10 +59,12 @@ class Root extends Component {
         });
     }
     componentDidMount() {
-        store.dispatch(showLoading(true));
+        // 测试使用
+        this.setState({
+            showLoading: false
+        });
         jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
-            store.dispatch(showLoading(false));
             axios.get(`${store.getState().host}/account/findById`).then(function (response) {
                 if (response.data.state === 0) {
                     let userInfo = response.data.data;
@@ -69,6 +81,9 @@ class Root extends Component {
                                 imgUrl: userInfo.portrait,
                                 desc: '共青团中央2018年第十四届青少年学法用法知识竞赛'
                             });
+                            this.setState({
+                                showLoading: false
+                            });
                         }
                     }).catch(function (errors) {
                         console.log(errors);
@@ -81,13 +96,18 @@ class Root extends Component {
         });
     }
     render() {
-        return (
-            <Provider store={store}>
-                <BrowserRouter basename='/leg'>
-                    <Routes></Routes>
-                </BrowserRouter>
-            </Provider>
-        )
+        let showLoading = this.state.showLoading;
+        if (showLoading) {
+            return (<Toast icon="loading" show={showLoading}>Loading...</Toast>)
+        } else {
+            return (
+                <Provider store={store}>
+                    <BrowserRouter basename='/leg'>
+                        <Routes></Routes>
+                    </BrowserRouter>
+                </Provider>
+            )
+        }
     }
 }
 
