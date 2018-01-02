@@ -38,11 +38,11 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Autowired
     private DailyAwardsMapper dailyAwardsMapper;
     @Autowired
-    private DailyTop20Mapper dailyTop20Mapper;
-    @Autowired
-    private DailyLucky20Mapper dailyLucky20Mapper;
-    @Autowired
     private AccountPersistenceService accountPersistenceService;
+    @Autowired
+    private Top20AwardsMapper top20AwardsMapper;
+    @Autowired
+    private Lucky20AwardsMapper lucky20AwardsMapper;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -231,23 +231,30 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 myAwardDtos.add(myAwardDto);
             }
         }
+        Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
+        if(top20AwardsPO != null) {
+            MyAwardDto myAwardDto = new MyAwardDto();
+            myAwardDto.setAwardType(top20AwardsPO.getType());
+            myAwardDto.setCreateTime(top20AwardsPO.getUpdateTime());
+            myAwardDto.setIsReceivedAward(top20AwardsPO.getReceivedAward());
+            if((System.currentTimeMillis()-top20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
+                myAwardDto.setIsExpired(true);
+            }
+            myAwardDtos.add(myAwardDto);
+        }
+        Lucky20AwardsPO lucky20AwardsPO = lucky20AwardsMapper.findByAccountId(accountId);
+        if(lucky20AwardsPO != null) {
+            MyAwardDto myAwardDto = new MyAwardDto();
+            myAwardDto.setAwardType(lucky20AwardsPO.getType());
+            myAwardDto.setCreateTime(lucky20AwardsPO.getUpdateTime());
+            myAwardDto.setIsReceivedAward(lucky20AwardsPO.getReceivedAward());
+            if((System.currentTimeMillis()-lucky20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
+                myAwardDto.setIsExpired(true);
+            }
+            myAwardDtos.add(myAwardDto);
+        }
         for(MyAwardDto myAwardDto : myAwardDtos) {
             myAwardDto.setLastScore(lastScore);
-        }
-        DailyTop20PO dailyTop20PO = dailyTop20Mapper.findByAccountId(accountId);
-        if(dailyTop20PO!=null) {
-            if(!dailyTop20PO.getReceiveAward()) {
-                MyAwardDto myAwardDto = new MyAwardDto(lastScore, AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()), null, false, dailyTop20PO.getReceiveAward(), dailyTop20PO.getCreateTime());
-                myAwardDtos.add(myAwardDto);
-            }
-        } else {
-            DailyLucky20PO dailyLucky20PO = dailyLucky20Mapper.findByAccountId(accountId);
-            if (dailyLucky20PO!=null) {
-                if (!dailyLucky20PO.getReceiveAward()) {
-                    MyAwardDto myAwardDto = new MyAwardDto(lastScore, AwardTypeEnum.LUCKY, null, false, dailyLucky20PO.getReceiveAward(), dailyLucky20PO.getCreateTime());
-                    myAwardDtos.add(myAwardDto);
-                }
-            }
         }
         return myAwardDtos;
     }
@@ -277,36 +284,24 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public String updateFindTop20OrLuckyAward(Integer accountId) {
-        DailyTop20PO dailyTop20PO = dailyTop20Mapper.findByAccountId(accountId);
-        String secret = "";
-        if(dailyTop20PO != null && !dailyTop20PO.getReceiveAward()&&dailyAwardsMapper.findTopOrLuckyByAccountId(accountId) == null) {
-            if(accountPersistenceService.findIsInfoComplete(accountId))
-                throw new RuntimeException("个人信息不完整");
-            DailyAwardsPO awardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.getTopEnum(dailyTop20PO.getOrderNum()).getCode());
-            if(awardsPO != null) {
-                awardsPO.setDel(true);
-                awardsPO.setAccountId(accountId);
-                awardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-                dailyAwardsMapper.updateByPrimaryKeySelective(awardsPO);
-                dailyTop20PO.setReceiveAward(true);
-                dailyTop20Mapper.updateByPrimaryKeySelective(dailyTop20PO);
-            }
-        } else {
-            DailyLucky20PO dailyLucky20PO = dailyLucky20Mapper.findByAccountId(accountId);
-            if(dailyLucky20PO!=null&&!dailyLucky20PO.getReceiveAward() && dailyAwardsMapper.findTopOrLuckyByAccountId(accountId) == null) {
-                DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.LUCKY.getCode());
-                if(dailyAwardsPO != null) {
-                    dailyAwardsPO.setDel(true);
-                    dailyAwardsPO.setAccountId(accountId);
-                    dailyAwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-                    dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
-                    dailyLucky20PO.setReceiveAward(true);
-                    dailyLucky20Mapper.updateByPrimaryKeySelective(dailyLucky20PO);
-                }
-            }
+    public String updateTop20AwardByAccountId(Integer accountId) {
+        Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
+        if(top20AwardsPO != null) {
+            top20AwardsPO.setReceivedAward(true);
+            top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
         }
-        return secret;
+        return top20AwardsPO == null?null:top20AwardsPO.getCodeSecret();
     }
 
+    @Override
+    public String updateLucky20AwardByAccountId(Integer accountId) {
+        Lucky20AwardsPO lucky20AwardsPO = lucky20AwardsMapper.findByAccountId(accountId);
+        if(lucky20AwardsPO != null) {
+            lucky20AwardsPO.setReceivedAward(true);
+            lucky20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            lucky20AwardsMapper.updateByPrimaryKeySelective(lucky20AwardsPO);
+        }
+        return lucky20AwardsPO == null?null:lucky20AwardsPO.getCodeSecret();
+    }
 }
