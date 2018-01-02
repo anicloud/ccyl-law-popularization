@@ -59,6 +59,10 @@ class Root extends Component {
         });
     }
     componentDidMount() {
+        // 测试使用
+        this.setState({
+            showLoading: false
+        });
         jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             axios.get(`${store.getState().host}/account/findById`).then(function (response) {
