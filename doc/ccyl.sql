@@ -33,7 +33,7 @@ CREATE TABLE `t_access_token` (
   `jsapi_ticket` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `t_access_token_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=726 DEFAULT CHARSET=utf8 COMMENT='token表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `t_account` (
   UNIQUE KEY `t_account_open_id_key` (`open_id`),
   KEY `t_account_province_key` (`province`),
   KEY `t_account_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=737 DEFAULT CHARSET=utf8 COMMENT='账户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `t_daily_awards` (
   KEY `t_daily_awards_is_del_key` (`is_del`),
   KEY `t_daily_awards_type_key` (`type`),
   KEY `t_daily_awards_log_date_key` (`log_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='每日奖品表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日奖品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `t_top20_awards`;
@@ -178,7 +178,7 @@ CREATE TABLE `t_file` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t_file_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='token表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `t_question` (
   PRIMARY KEY (`id`),
   KEY `t_question_is_del_key` (`is_del`),
   KEY `t_question_log_date_key` (`log_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=1901 DEFAULT CHARSET=utf8 COMMENT='题库表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='题库表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +238,7 @@ CREATE TABLE `t_score_record` (
   KEY `t_score_record_src_account_id_index` (`src_account_id`),
   KEY `t_score_record_log_date_key` (`log_date`),
   KEY `t_score_record_update_time_key` (`update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8 COMMENT='积分表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,7 +259,7 @@ CREATE TABLE `t_share_relation` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_share_relation_unique_key` (`shared_id`),
   KEY `t_share_relation_share_id_key` (`share_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='分享表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='分享表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -1,6 +1,7 @@
 package com.ani.ccyl.leg.service.service.facade;
 
 import com.ani.ccyl.leg.commons.dto.*;
+import com.ani.ccyl.leg.commons.dto.MySelfRankDto;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 
@@ -30,4 +31,6 @@ public interface ScoreRecordService {
 
     String updateTop20AwardByAccountId(Integer accountId);
     String updateLucky20AwardByAccountId(Integer accountId);
+
+    MySelfRankDto findSelfRank(Integer accountId);
 }

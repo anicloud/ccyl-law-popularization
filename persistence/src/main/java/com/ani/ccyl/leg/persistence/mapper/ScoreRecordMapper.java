@@ -2,6 +2,7 @@ package com.ani.ccyl.leg.persistence.mapper;
 
 import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
 import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
+import com.ani.ccyl.leg.commons.dto.MySelfRankDto;
 import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.QuestionPO;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
@@ -27,4 +28,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     List<Timestamp> findTotalSignIn(Integer accountId);
     Integer findDailyCorrectCount(Integer accountId);
     Integer findDailyShareCount(Integer accountId);
+    MySelfRankDto findSelfRank(Integer accountId);
 }

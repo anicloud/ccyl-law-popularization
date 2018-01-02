@@ -2,6 +2,7 @@ package com.ani.ccyl.leg.service.service.impl;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.*;
+import com.ani.ccyl.leg.commons.dto.MySelfRankDto;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
@@ -303,5 +304,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             lucky20AwardsMapper.updateByPrimaryKeySelective(lucky20AwardsPO);
         }
         return lucky20AwardsPO == null?null:lucky20AwardsPO.getCodeSecret();
+    }
+
+    @Override
+    public MySelfRankDto findSelfRank(Integer accountId) {
+        return scoreRecordMapper.findSelfRank(accountId);
     }
 }
