@@ -2,8 +2,8 @@ import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 /*首页*/
 import App from '../App';
-/*引导页*/
-import Main from '../views/Main'
+/*/!*引导页*!/
+import Main from '../views/Main'*/
 /*注册信息*/
 import Regist from '../views/Regist';
 /*每日答题*/
@@ -36,7 +36,7 @@ import MyPrize from '../views/MyPrize';
 import PrizeDetail from '../views/PrizeDetail';
 const Routes = () => (
     <Switch>
-        <Route exact path='/' component={Main} />
+        <Route exact path='/' component={App} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
         <Route path='/prizedetail' component={PrizeDetail} />
