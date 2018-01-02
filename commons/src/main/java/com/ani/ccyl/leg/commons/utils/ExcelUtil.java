@@ -34,16 +34,14 @@ public class ExcelUtil {
             Sheet sheet = workbook.getSheetAt(0);
             if(QuestionTypeEnum.CHOICE.getCode().equals(type.getCode())) {
                 Iterator<Row> iterator = sheet.iterator();
-                iterator.next();
                 while (iterator.hasNext()) {
                     Row row = iterator.next();
                     QuestionDto questionDto = new QuestionDto();
-                    questionDto.setQuestionNo((int)row.getCell(0).getNumericCellValue());
-                    questionDto.setContent(row.getCell(1).getStringCellValue());
-                    questionDto.setOptionOne(row.getCell(2).getStringCellValue());
-                    questionDto.setOptionTwo(row.getCell(3).getStringCellValue());
-                    questionDto.setOptionThree(row.getCell(4).getStringCellValue());
-                    questionDto.setAnswer(row.getCell(5).getStringCellValue().trim());
+                    questionDto.setContent(row.getCell(0).getStringCellValue());
+                    questionDto.setOptionOne(row.getCell(1).getStringCellValue());
+                    questionDto.setOptionTwo(row.getCell(2).getStringCellValue());
+                    questionDto.setOptionThree(row.getCell(3).getStringCellValue());
+                    questionDto.setAnswer(row.getCell(4).getStringCellValue().trim());
                     questionDto.setType(type);
                     questionDto.setFileId(fileId);
                     questions.add(questionDto);

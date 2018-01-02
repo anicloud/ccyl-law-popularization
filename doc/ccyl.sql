@@ -94,51 +94,6 @@ CREATE TABLE `t_daily_awards` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `t_daily_lucky20`
---
-
-DROP TABLE IF EXISTS `t_daily_lucky20`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_daily_lucky20` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `account_id` int(11) NOT NULL COMMENT '账户id',
-  `is_receive_award` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已领取奖励',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
-  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
-  `log_date` DATE AS (DATE(update_time)) STORED,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `t_daily_lucky20_account_id_key` (`account_id`),
-  KEY `t_daily_lucky20_is_del_key` (`is_del`),
-  KEY `t_daily_lucky20_log_date_key` (`log_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `t_daily_top20`
---
-
-DROP TABLE IF EXISTS `t_daily_top20`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_daily_top20` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `account_id` int(11) NOT NULL COMMENT '账户id',
-  `order_num` int(2) NOT NULL COMMENT '账户当天排名',
-  `is_receive_award` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已领取奖励',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
-  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
-  `log_date` DATE AS (DATE(update_time)) STORED,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `t_score_account_id_key` (`account_id`),
-  KEY `t_score_is_del_key` (`is_del`),
-  KEY `t_score_log_date_key` (`log_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `t_day_question`
 --
 
@@ -236,7 +191,8 @@ CREATE TABLE `t_score_record` (
   KEY `t_score_record_account_id_index` (`account_id`),
   KEY `t_score_record_src_question_id_index` (`src_question_id`),
   KEY `t_score_record_src_account_id_index` (`src_account_id`),
-  KEY `t_score_record_log_date_key` (`log_date`)
+  KEY `t_score_record_log_date_key` (`log_date`),
+  KEY `t_score_record_update_time_key` (`update_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 

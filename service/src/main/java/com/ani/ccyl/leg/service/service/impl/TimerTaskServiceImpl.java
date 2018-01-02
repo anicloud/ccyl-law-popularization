@@ -1,13 +1,8 @@
 package com.ani.ccyl.leg.service.service.impl;
 
-import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
-import com.ani.ccyl.leg.persistence.mapper.DailyLucky20Mapper;
-import com.ani.ccyl.leg.persistence.mapper.DailyTop20Mapper;
-import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
-import com.ani.ccyl.leg.persistence.po.AccountPO;
-import com.ani.ccyl.leg.persistence.po.DailyLucky20PO;
-import com.ani.ccyl.leg.persistence.po.DailyTop20PO;
-import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
+import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
+import com.ani.ccyl.leg.persistence.mapper.*;
+import com.ani.ccyl.leg.persistence.po.*;
 import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,26 +20,20 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
     @Autowired
-    private DailyTop20Mapper dailyTop20Mapper;
+    private DailyAwardsMapper dailyAwardsMapper;
     @Autowired
     private AccountMapper accountMapper;
-    @Autowired
-    private DailyLucky20Mapper dailyLucky20Mapper;
     @Override
     public void updateDailyTop20() {
         List<ScoreRecordPO> dailyTop20 = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()-24*60*60*1000L));
         if(dailyTop20 != null) {
             int index = 1;
             for(ScoreRecordPO scoreRecordPO:dailyTop20) {
-                DailyTop20PO dailyTop20PO = new DailyTop20PO();
-                dailyTop20PO.setAccountId(scoreRecordPO.getAccountId());
-                if(dailyTop20Mapper.selectCount(dailyTop20PO)==0) {
-                    dailyTop20PO.setOrderNum(index);
-                    dailyTop20PO.setCreateTime(new Timestamp(System.currentTimeMillis()));
-                    dailyTop20Mapper.insertSelective(dailyTop20PO);
-                    index++;
-                    // TODO: 17-12-27 发送奖品
-                }
+                DailyAwardsPO dailyAward = dailyAwardsMapper.findByType(AwardTypeEnum.getTopEnum(index).getCode());
+                dailyAward.setAccountId(scoreRecordPO.getAccountId());
+                dailyAward.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                dailyAwardsMapper.updateByPrimaryKeySelective(dailyAward);
+                index++;
             }
         }
     }
@@ -70,10 +59,10 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     @Override
     public void insertLucky20(List<AccountPO> lucky20POs) {
         for(AccountPO accountPO:lucky20POs) {
-            DailyLucky20PO dailyLucky20PO = new DailyLucky20PO();
-            dailyLucky20PO.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            dailyLucky20PO.setAccountId(accountPO.getId());
-            dailyLucky20Mapper.insertSelective(dailyLucky20PO);
+            DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.LUCKY.getCode());
+            dailyAwardsPO.setAccountId(accountPO.getId());
+            dailyAwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
         }
     }
 
@@ -98,7 +87,6 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                 luckyAccounts = accountPOs;
             }
             timerTaskService.insertLucky20(luckyAccounts);
-            // TODO: 17-12-27 发送幸运奖品
         }
     }
 
