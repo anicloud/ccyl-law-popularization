@@ -2,6 +2,7 @@ package com.ani.ccyl.leg.service.service.impl;
 
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
+import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.*;
 import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +21,25 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
     @Autowired
-    private DailyAwardsMapper dailyAwardsMapper;
+    private Top20AwardsMapper top20AwardsMapper;
+    @Autowired
+    private Lucky20AwardsMapper lucky20AwardsMapper;
     @Autowired
     private AccountMapper accountMapper;
     @Override
     public void updateDailyTop20() {
         List<ScoreRecordPO> dailyTop20 = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()-24*60*60*1000L));
         if(dailyTop20 != null) {
-            int index = 1;
+            int order = 1;
             for(ScoreRecordPO scoreRecordPO:dailyTop20) {
-                DailyAwardsPO dailyAward = dailyAwardsMapper.findByType(AwardTypeEnum.getTopEnum(index).getCode());
-                dailyAward.setAccountId(scoreRecordPO.getAccountId());
-                dailyAward.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-                dailyAwardsMapper.updateByPrimaryKeySelective(dailyAward);
-                index++;
+                Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByType(AwardTypeEnum.getTopEnum(order).getCode());
+                top20AwardsPO.setAccountId(scoreRecordPO.getAccountId());
+                top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                top20AwardsPO.setDel(true);
+                top20AwardsPO.setType(AwardTypeEnum.getTopEnum(order));
+                top20AwardsPO.setReceivedAward(false);
+                top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
+                order++;
             }
         }
     }
@@ -59,10 +65,13 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     @Override
     public void insertLucky20(List<AccountPO> lucky20POs) {
         for(AccountPO accountPO:lucky20POs) {
-            DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(AwardTypeEnum.LUCKY.getCode());
-            dailyAwardsPO.setAccountId(accountPO.getId());
-            dailyAwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-            dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
+            Lucky20AwardsPO lucky20AwardsPO = lucky20AwardsMapper.findNewOne();
+            lucky20AwardsPO.setAccountId(accountPO.getId());
+            lucky20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            lucky20AwardsPO.setDel(true);
+            lucky20AwardsPO.setType(AwardTypeEnum.LUCKY);
+            lucky20AwardsPO.setReceivedAward(false);
+            lucky20AwardsMapper.updateByPrimaryKeySelective(lucky20AwardsPO);
         }
     }
 

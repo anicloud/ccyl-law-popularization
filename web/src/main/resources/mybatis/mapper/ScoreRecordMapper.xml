@@ -36,30 +36,30 @@
         SELECT * FROM t_score_record WHERE src_account_id=#{srcAccountId} AND account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findDailyTop20" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-        SELECT *,sum(score) AS total_score FROM t_score_record WHERE account_id NOT IN (SELECT account_id FROM t_daily_top20) AND log_date=date_format(#{createTime}, '%Y-%m-%d') GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
+        SELECT *,sum(score) AS total_score FROM t_score_record WHERE account_id NOT IN (SELECT account_id FROM t_top20_awards) GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
     </select>
     <select id="findIsThumbUp" parameterType="java.util.Map" resultType="java.lang.Boolean">
         SELECT CASE t.thumbUps
                 WHEN 0 THEN FALSE
                 ELSE TRUE
                END
-        FROM (SELECT count(*) AS thumbUps FROM t_score_record WHERE account_id=#{accountId} AND src_account_id=#{srcAccountId} AND t_score_record.src_type=2 AND log_date=date_format(now(),'%Y-%m-%d')) t
+        FROM (SELECT count(account_id) AS thumbUps FROM t_score_record WHERE account_id=#{accountId} AND src_account_id=#{srcAccountId} AND t_score_record.src_type=2 AND log_date=date_format(now(),'%Y-%m-%d') LIMIT 1) t
     </select>
     <select id="findIsSignIn" parameterType="java.lang.Integer" resultType="java.lang.Boolean">
         SELECT CASE t.signIns
             WHEN 0 THEN FALSE
             ELSE TRUE
             END
-        FROM (SELECT count(*) AS signIns FROM t_score_record WHERE account_id=#{accountId} AND src_type=3 AND log_date=date_format(now(),'%Y-%m-%d')) t
+        FROM (SELECT count(account_id) AS signIns FROM t_score_record WHERE account_id=#{accountId} AND src_type=3 AND log_date=date_format(now(),'%Y-%m-%d') LIMIT 1) t
     </select>
     <select id="findTotalSignIn" parameterType="java.lang.Integer" resultType="java.sql.Timestamp">
         SELECT create_time FROM t_score_record WHERE account_id=#{accountId} AND date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') AND src_type=3
     </select>
     <select id="findDailyCorrectCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        SELECT count(*) FROM t_score_record WHERE account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d') AND src_type=1 AND score &gt; 0
+        SELECT count(DISTINCT src_question_id) FROM t_score_record WHERE account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d') AND src_type=1 AND score &gt; 0
     </select>
     <select id="findDailyShareCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        SELECT count(*) FROM t_score_record WHERE account_id=#{accountId} AND src_type=5 AND log_date=date_format(now(),'%Y-%m-%d')
+        SELECT count(account_id) FROM t_score_record WHERE account_id=#{accountId} AND src_type=5 AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>

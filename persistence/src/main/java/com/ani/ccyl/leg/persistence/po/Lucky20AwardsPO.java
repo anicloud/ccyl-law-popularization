@@ -9,51 +9,42 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * Created by lihui on 17-12-22.
- */
-@Table(name = "t_award")
-public class AwardPO implements Serializable {
-    private static final long serialVersionUID = -447829874719813690L;
+@Table(name = "t_lucky20_awards")
+public class Lucky20AwardsPO implements Serializable {
+    private static final long serialVersionUID = 4176635725930024439L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "Mysql")
     private Integer id;
-    private Integer accountId;
+    private String prodId;
     private String codeSecret;
-    private AwardTypeEnum awardType;
-    private Boolean isSuccess;
+    private AwardTypeEnum type;
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
+    private Integer accountId;
+    private Boolean isReceivedAward;
 
-    public AwardPO() {
-    }
-
-    public AwardPO(Integer id, Integer accountId, String codeSecret, AwardTypeEnum awardType, Boolean isSuccess, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public Lucky20AwardsPO(Integer id, String prodId, String codeSecret, AwardTypeEnum type, Timestamp updateTime, Timestamp createTime, Boolean isDel, Integer accountId, Boolean isReceivedAward) {
         this.id = id;
-        this.accountId = accountId;
+        this.prodId = prodId;
         this.codeSecret = codeSecret;
-        this.awardType = awardType;
-        this.isSuccess = isSuccess;
+        this.type = type;
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+        this.accountId = accountId;
+        this.isReceivedAward = isReceivedAward;
     }
 
-    public Boolean getSuccess() {
-        return isSuccess;
+    public Boolean getReceivedAward() {
+        return isReceivedAward;
     }
 
-    public void setSuccess(Boolean success) {
-        isSuccess = success;
+    public void setReceivedAward(Boolean receivedAward) {
+        isReceivedAward = receivedAward;
     }
 
-    public AwardTypeEnum getAwardType() {
-        return awardType;
-    }
-
-    public void setAwardType(AwardTypeEnum awardType) {
-        this.awardType = awardType;
+    public Lucky20AwardsPO() {
     }
 
     public Integer getId() {
@@ -64,12 +55,12 @@ public class AwardPO implements Serializable {
         this.id = id;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public String getProdId() {
+        return prodId;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setProdId(String prodId) {
+        this.prodId = prodId;
     }
 
     public String getCodeSecret() {
@@ -78,6 +69,14 @@ public class AwardPO implements Serializable {
 
     public void setCodeSecret(String codeSecret) {
         this.codeSecret = codeSecret;
+    }
+
+    public AwardTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(AwardTypeEnum type) {
+        this.type = type;
     }
 
     public Timestamp getUpdateTime() {
@@ -102,5 +101,13 @@ public class AwardPO implements Serializable {
 
     public void setDel(Boolean del) {
         isDel = del;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 }
