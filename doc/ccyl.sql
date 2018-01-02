@@ -33,7 +33,7 @@ CREATE TABLE `t_access_token` (
   `jsapi_ticket` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `t_access_token_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token表';
+) ENGINE=InnoDB AUTO_INCREMENT=726 DEFAULT CHARSET=utf8 COMMENT='token表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,29 +66,76 @@ CREATE TABLE `t_account` (
   UNIQUE KEY `t_account_open_id_key` (`open_id`),
   KEY `t_account_province_key` (`province`),
   KEY `t_account_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户表';
+) ENGINE=InnoDB AUTO_INCREMENT=737 DEFAULT CHARSET=utf8 COMMENT='账户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `t_award`
+-- Table structure for table `t_daily_awards`
 --
 
-DROP TABLE IF EXISTS `t_award`;
+DROP TABLE IF EXISTS `t_daily_awards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_award` (
+CREATE TABLE `t_daily_awards` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `account_id` int(11) NOT NULL COMMENT '领奖人id',
-  `code_secret` CHAR(64) NOT NULL COMMENT '卡密',
-  `award_type` tinyint(2) NOT NULL COMMENT '奖品类型',
-  `is_success` BOOLEAN COMMENT '是否兑换成功',
+  `prod_id` char(32) NOT NULL COMMENT '产品id',
+  `code_secret` char(64) NOT NULL COMMENT '卡密',
+  `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `account_id` int(11) DEFAULT NULL,
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `t_award_account_id_unique_key` (`account_id`),
-  KEY `t_award_is_del_key` (`is_del`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='奖品表';
+  KEY `t_daily_awards_is_del_key` (`is_del`),
+  KEY `t_daily_awards_type_key` (`type`),
+  KEY `t_daily_awards_log_date_key` (`log_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='积分表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `t_daily_lucky20`
+--
+
+DROP TABLE IF EXISTS `t_daily_lucky20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_daily_lucky20` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL COMMENT '账户id',
+  `is_receive_award` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已领取奖励',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `log_date` DATE AS (DATE(update_time)) STORED,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `t_daily_lucky20_account_id_key` (`account_id`),
+  KEY `t_daily_lucky20_is_del_key` (`is_del`),
+  KEY `t_daily_lucky20_log_date_key` (`log_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `t_daily_top20`
+--
+
+DROP TABLE IF EXISTS `t_daily_top20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_daily_top20` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL COMMENT '账户id',
+  `order_num` int(2) NOT NULL COMMENT '账户当天排名',
+  `is_receive_award` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已领取奖励',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `log_date` DATE AS (DATE(update_time)) STORED,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `t_score_account_id_key` (`account_id`),
+  KEY `t_score_is_del_key` (`is_del`),
+  KEY `t_score_log_date_key` (`log_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,9 +152,11 @@ CREATE TABLE `t_day_question` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `order_num` int(4) DEFAULT NULL COMMENT '排序',
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_day_question_is_del_key` (`is_del`),
-  KEY `t_day_question_order_num_key` (`order_num`)
+  KEY `t_day_question_order_num_key` (`order_num`),
+  KEY `t_day_question_log_date_key` (`log_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='每日问题表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,7 +178,7 @@ CREATE TABLE `t_file` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t_file_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='token表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='token表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,16 +196,18 @@ CREATE TABLE `t_question` (
   `option_one` varchar(1024) DEFAULT NULL COMMENT '选项一',
   `option_two` varchar(1024) DEFAULT NULL COMMENT '选项二',
   `option_three` varchar(1024) DEFAULT NULL COMMENT '选项三',
-  `type` tinyint(2) DEFAULT NULL COMMENT '题目类型',
+  `type` tinyint(2) DEFAULT NULL COMMENT '选项四',
   `answer` char(4) DEFAULT NULL COMMENT '答案',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `question_no` int(11) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
-  KEY `t_question_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='题库表';
+  KEY `t_question_is_del_key` (`is_del`),
+  KEY `t_question_log_date_key` (`log_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1901 DEFAULT CHARSET=utf8 COMMENT='题库表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,65 +225,19 @@ CREATE TABLE `t_score_record` (
   `src_question_id` int(11) DEFAULT NULL COMMENT '来源题目id',
   `self_answer` varchar(4) DEFAULT NULL COMMENT '所选题目选项',
   `src_account_id` int(11) DEFAULT NULL COMMENT '来源账户id',
-  `log_date` CHAR(16) AS (date_format(now(),'%Y-%m-%d')) STORED ,
+  `question_time` int(1) DEFAULT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `t_score_account_id_key` (`account_id`,`src_question_id`),
-  KEY `t_score_is_del_key` (`is_del`),
-  KEY `t_score_log_date` (`log_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `t_daily_top20`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_daily_top20` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `account_id` int(11) NOT NULL COMMENT '账户id',
-  `order_num` INT(2) NOT NULL COMMENT '账户当天排名',
-  `is_receive_award` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否已领取奖励',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
-  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `t_daily_top20_account_id_key` (`account_id`),
-  KEY `t_daily_top20_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `t_daily_lucky20`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_daily_lucky20` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `account_id` int(11) NOT NULL COMMENT '账户id',
-  `is_receive_award` BOOLEAN NOT NULL DEFAULT FALSE COMMENT '是否已领取奖励',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
-  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `t_daily_lucky20_account_id_key` (`account_id`),
-  KEY `t_daily_lucky20_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-DROP TABLE IF EXISTS `t_daily_awards`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_daily_awards` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `prod_id` CHAR(32) NOT NULL COMMENT '产品id',
-  `code_secret` CHAR(64) NOT NULL COMMENT '卡密',
-  `type` TINYINT(2) NOT NULL COMMENT '产品类型',
-  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
-  `is_del` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
-  PRIMARY KEY (`id`),
-  KEY `t_daily_awards_is_del_key` (`is_del`),
-  KEY `t_daily_awards_type_key` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
+  UNIQUE KEY `t_score_record_id_key` (`account_id`,`src_question_id`),
+  KEY `t_score_record_src_type_index` (`src_type`),
+  KEY `t_score_record_account_id_index` (`account_id`),
+  KEY `t_score_record_src_question_id_index` (`src_question_id`),
+  KEY `t_score_record_src_account_id_index` (`src_account_id`),
+  KEY `t_score_record_log_date_key` (`log_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +258,7 @@ CREATE TABLE `t_share_relation` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_share_relation_unique_key` (`shared_id`),
   KEY `t_share_relation_share_id_key` (`share_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='分享表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='分享表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -265,7 +270,7 @@ CREATE TABLE `t_share_relation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-25 15:19:40
+-- Dump completed on 2017-12-30 14:03:18
 DROP PROCEDURE IF EXISTS proce_init_day_questions;
 DELIMITER $
 CREATE PROCEDURE proce_init_day_questions()

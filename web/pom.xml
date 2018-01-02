@@ -18,6 +18,12 @@
                 <build.profile.id>development</build.profile.id>
             </properties>
         </profile>
+        <profile>
+            <id>sandbox</id>
+            <properties>
+                <build.profile.id>sandbox</build.profile.id>
+            </properties>
+        </profile>
     </profiles>
     <name>leg-web Maven Webapp</name>
     <url>http://maven.apache.org</url>

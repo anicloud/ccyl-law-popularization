@@ -32,12 +32,14 @@ import ThumbUp from '../views/ThumbUp';
 import UploadQuestion from '../views/UploadQuestion';
 /*我的奖品*/
 import MyPrize from '../views/MyPrize';
-
+/*奖品详情*/
+import PrizeDetail from '../views/PrizeDetail';
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={Main} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
+        <Route path='/prizedetail' component={PrizeDetail} />
         <Route path='/myprize' component={MyPrize} />
         <Route path='/scoreshopping' component={ScoreShopping}/>
         <Route path='/tasks' component={MyScore} />
@@ -51,7 +53,6 @@ const Routes = () => (
         <Route path='/description' component={Description} />
         <Route path='/error' component={Error} />
         <Route path='/upload' component={UploadQuestion} />
-
 
         <Redirect from='*' to='/' />
     </Switch>

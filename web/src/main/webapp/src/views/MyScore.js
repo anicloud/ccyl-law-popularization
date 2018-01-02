@@ -87,7 +87,7 @@ class MyScore extends Component {
                 <div className="bottomDiv">
                     <div className="buttonDiv">
                         <span onClick={this.handleShopping}><i className='scoreshopping'/>积分商城</span>
-                        <span onClick={this.handleTopList}><i className='scoredetail'/>积分榜</span>
+                        <span onClick={this.handleTopList}><i className='myprize'/>我的奖品</span>
                     </div>
                     <div className="scoreTask">
                         <span>积分任务</span>

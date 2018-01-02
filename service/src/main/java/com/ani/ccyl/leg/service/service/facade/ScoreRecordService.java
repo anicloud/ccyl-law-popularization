@@ -28,5 +28,5 @@ public interface ScoreRecordService {
 
     List<AwardDto> findAllAwards(Integer accountId);
 
-    String updateFindTop20Award(Integer accountId);
+    String updateFindTop20OrLuckyAward(Integer accountId);
 }
