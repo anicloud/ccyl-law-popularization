@@ -1,7 +1,6 @@
 package com.ani.ccyl.leg.service.service.facade;
 
 import com.ani.ccyl.leg.persistence.po.AccountPO;
-import com.ani.ccyl.leg.persistence.po.DailyLucky20PO;
 
 import java.util.List;
 

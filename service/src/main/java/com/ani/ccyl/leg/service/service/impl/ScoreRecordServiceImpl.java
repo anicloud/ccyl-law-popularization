@@ -39,6 +39,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private DailyAwardsMapper dailyAwardsMapper;
     @Autowired
     private AccountPersistenceService accountPersistenceService;
+    @Autowired
+    private Top20AwardsMapper top20AwardsMapper;
+    @Autowired
+    private Lucky20AwardsMapper lucky20AwardsMapper;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -218,12 +222,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 myAwardDto.setCreateTime(dailyAwardsPO.getUpdateTime());
                 if((System.currentTimeMillis()-dailyAwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
                     myAwardDto.setIsExpired(true);
-                } else if(dailyAwardsPO.getType().getCode().equals(AwardTypeEnum.TOP_1.getCode())
-                        || dailyAwardsPO.getType().getCode().equals(AwardTypeEnum.TOP_2.getCode())
-                        || dailyAwardsPO.getType().getCode().equals(AwardTypeEnum.TOP_3.getCode())
-                        || dailyAwardsPO.getType().getCode().equals(AwardTypeEnum.TOP_4S.getCode())
-                        || dailyAwardsPO.getType().getCode().equals(AwardTypeEnum.LUCKY.getCode())) {
-                    myAwardDto.setIsExpired(false);
                 } else {
                     myAwardDto.setCodeSecret(dailyAwardsPO.getCodeSecret());
                     myAwardDto.setIsExpired(false);
@@ -232,6 +230,28 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 lastScore = lastScore - dailyAwardsPO.getType().findScore();
                 myAwardDtos.add(myAwardDto);
             }
+        }
+        Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
+        if(top20AwardsPO != null) {
+            MyAwardDto myAwardDto = new MyAwardDto();
+            myAwardDto.setAwardType(top20AwardsPO.getType());
+            myAwardDto.setCreateTime(top20AwardsPO.getUpdateTime());
+            myAwardDto.setIsReceivedAward(top20AwardsPO.getReceivedAward());
+            if((System.currentTimeMillis()-top20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
+                myAwardDto.setIsExpired(true);
+            }
+            myAwardDtos.add(myAwardDto);
+        }
+        Lucky20AwardsPO lucky20AwardsPO = lucky20AwardsMapper.findByAccountId(accountId);
+        if(lucky20AwardsPO != null) {
+            MyAwardDto myAwardDto = new MyAwardDto();
+            myAwardDto.setAwardType(lucky20AwardsPO.getType());
+            myAwardDto.setCreateTime(lucky20AwardsPO.getUpdateTime());
+            myAwardDto.setIsReceivedAward(lucky20AwardsPO.getReceivedAward());
+            if((System.currentTimeMillis()-lucky20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
+                myAwardDto.setIsExpired(true);
+            }
+            myAwardDtos.add(myAwardDto);
         }
         for(MyAwardDto myAwardDto : myAwardDtos) {
             myAwardDto.setLastScore(lastScore);
@@ -264,8 +284,14 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public String findTop20LuckyAward(Integer accountId) {
-        DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findTopOrLuckyByAccountId(accountId);
-        return dailyAwardsPO == null? null:dailyAwardsPO.getCodeSecret();
+    public String findTop20AwardByAccountId(Integer accountId) {
+        Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
+        return top20AwardsPO == null?null:top20AwardsPO.getCodeSecret();
+    }
+
+    @Override
+    public String findLucky20AwardByAccountId(Integer accountId) {
+        Lucky20AwardsPO lucky20AwardsPO = lucky20AwardsMapper.findByAccountId(accountId);
+        return lucky20AwardsPO == null?null:lucky20AwardsPO.getCodeSecret();
     }
 }

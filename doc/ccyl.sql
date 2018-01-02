@@ -90,7 +90,52 @@ CREATE TABLE `t_daily_awards` (
   KEY `t_daily_awards_is_del_key` (`is_del`),
   KEY `t_daily_awards_type_key` (`type`),
   KEY `t_daily_awards_log_date_key` (`log_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='积分表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='每日奖品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `t_top20_awards`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_top20_awards` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `prod_id` char(32) NOT NULL COMMENT '产品id',
+  `code_secret` char(64) NOT NULL COMMENT '卡密',
+  `type` tinyint(2) NOT NULL COMMENT '产品类型',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `account_id` int(11) DEFAULT NULL,
+  `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
+  `log_date` DATE AS (DATE(update_time)) STORED,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `t_top20_awards_account_id_uk` (`account_id`),
+  KEY `t_top20_awards_is_del_key` (`is_del`),
+  KEY `t_top20_awards_type_key` (`type`),
+  KEY `t_top20_awards_log_date_key` (`log_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日前20奖品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+DROP TABLE IF EXISTS `t_lucky20_awards`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_lucky20_awards` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `prod_id` char(32) NOT NULL COMMENT '产品id',
+  `code_secret` char(64) NOT NULL COMMENT '卡密',
+  `type` tinyint(2) NOT NULL COMMENT '产品类型',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
+  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `account_id` int(11) DEFAULT NULL,
+  `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
+  `log_date` DATE AS (DATE(update_time)) STORED,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `t_lucky20_awards_account_id_uk` (`account_id`),
+  KEY `t_lucky20_awards_is_del_key` (`is_del`),
+  KEY `t_lucky20_awards_type_key` (`type`),
+  KEY `t_lucky20_awards_log_date_key` (`log_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日20幸运奖品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
