@@ -284,14 +284,24 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public String findTop20AwardByAccountId(Integer accountId) {
+    public String updateTop20AwardByAccountId(Integer accountId) {
         Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
+        if(top20AwardsPO != null) {
+            top20AwardsPO.setReceivedAward(true);
+            top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
+        }
         return top20AwardsPO == null?null:top20AwardsPO.getCodeSecret();
     }
 
     @Override
-    public String findLucky20AwardByAccountId(Integer accountId) {
+    public String updateLucky20AwardByAccountId(Integer accountId) {
         Lucky20AwardsPO lucky20AwardsPO = lucky20AwardsMapper.findByAccountId(accountId);
+        if(lucky20AwardsPO != null) {
+            lucky20AwardsPO.setReceivedAward(true);
+            lucky20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            lucky20AwardsMapper.updateByPrimaryKeySelective(lucky20AwardsPO);
+        }
         return lucky20AwardsPO == null?null:lucky20AwardsPO.getCodeSecret();
     }
 }
