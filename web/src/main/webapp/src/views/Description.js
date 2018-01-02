@@ -59,7 +59,6 @@ class Description extends Component {
                                         <li>200个积分：兑换10元优惠券（购物券99元减10元）</li>
                                         <li>100个积分：兑换5元购物优惠券（购物券49元减5元）</li>
                                     </ul>
-
                                 </Article>
                                 <Article style={{display: this.state.tab == 2 ? null : 'none'}}>
                                     <ul>
