@@ -11,7 +11,7 @@
             WHEN 0 THEN FALSE
             ELSE TRUE
             END
-        FROM (SELECT count(account_id) AS awardCount FROM t_daily_awards WHERE account_id=#{accountId} AND date_format(update_time,'%Y-%m%-%d')=date_format(now(),'%Y-%m%-%d') AND type IN (1,2,3,4))t
+        FROM (SELECT count(account_id) AS awardCount FROM t_daily_awards WHERE account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d') AND type IN (1,2,3,4))t
     </select>
     <select id="findTopOrLuckyByAccountId" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.DailyAwardsPO">
         SELECT * FROM t_daily_awards WHERE type IN (5,6,7,8,9) AND t_daily_awards.account_id=#{accountId} LIMIT 1

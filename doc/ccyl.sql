@@ -85,9 +85,11 @@ CREATE TABLE `t_daily_awards` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_daily_awards_is_del_key` (`is_del`),
-  KEY `t_daily_awards_type_key` (`type`)
+  KEY `t_daily_awards_type_key` (`type`),
+  KEY `t_daily_awards_log_date_key` (`log_date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -105,9 +107,11 @@ CREATE TABLE `t_daily_lucky20` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_daily_lucky20_account_id_key` (`account_id`),
-  KEY `t_daily_lucky20_is_del_key` (`is_del`)
+  KEY `t_daily_lucky20_is_del_key` (`is_del`),
+  KEY `t_daily_lucky20_log_date_key` (`log_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -126,10 +130,12 @@ CREATE TABLE `t_daily_top20` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_account_id_key` (`account_id`),
-  KEY `t_score_is_del_key` (`is_del`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='积分表';
+  KEY `t_score_is_del_key` (`is_del`),
+  KEY `t_score_log_date_key` (`log_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,9 +152,11 @@ CREATE TABLE `t_day_question` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `order_num` int(4) DEFAULT NULL COMMENT '排序',
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_day_question_is_del_key` (`is_del`),
-  KEY `t_day_question_order_num_key` (`order_num`)
+  KEY `t_day_question_order_num_key` (`order_num`),
+  KEY `t_day_question_log_date_key` (`log_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='每日问题表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -195,8 +203,10 @@ CREATE TABLE `t_question` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `question_no` int(11) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
-  KEY `t_question_is_del_key` (`is_del`)
+  KEY `t_question_is_del_key` (`is_del`),
+  KEY `t_question_log_date_key` (`log_date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1901 DEFAULT CHARSET=utf8 COMMENT='题库表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -219,12 +229,14 @@ CREATE TABLE `t_score_record` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `log_date` DATE AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_record_id_key` (`account_id`,`src_question_id`),
   KEY `t_score_record_src_type_index` (`src_type`),
   KEY `t_score_record_account_id_index` (`account_id`),
   KEY `t_score_record_src_question_id_index` (`src_question_id`),
-  KEY `t_score_record_src_account_id_index` (`src_account_id`)
+  KEY `t_score_record_src_account_id_index` (`src_account_id`),
+  KEY `t_score_record_log_date_key` (`log_date`)
 ) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -258,7 +270,7 @@ CREATE TABLE `t_share_relation` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-29 14:56:08
+-- Dump completed on 2017-12-30 14:03:18
 DROP PROCEDURE IF EXISTS proce_init_day_questions;
 DELIMITER $
 CREATE PROCEDURE proce_init_day_questions()
