@@ -59,7 +59,7 @@ class Root extends Component {
         });
     }
     componentDidMount() {
-        // 测试使用
+        // TODO: 测试使用
         this.setState({
             showLoading: false
         });

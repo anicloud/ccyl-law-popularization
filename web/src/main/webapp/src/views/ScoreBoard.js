@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {Toast} from 'react-weui';
 import {getPartName} from "../utils/index";
 import icon from '../media/images/signin_icon.png';
+import header from '../media/imgs/header_glory.png';
 import '../media/styles/score.less';
 
 class ScoreBoard extends Component {
@@ -33,12 +34,82 @@ class ScoreBoard extends Component {
     render() {
         let rankingInfo = this.state.rankingInfo;
         return (
-            <div className='score main-bg'>
+            <div className='score common-bg'>
                 <div className='clearfix'>
                     <Back location={this.state.location} history={this.props.history} />
                 </div>
-                <h2 className="text-center title">荣耀排行榜</h2>
-                {
+                <div className='text-right header'>
+                    <img src={header} alt=""/>
+                </div>
+                <div className='clearfix info'>
+                   <div className='pull-left first'>
+                       得分
+                   </div>
+                   <div className='pull-right second'>
+                       全国排名
+                   </div>
+                </div>
+                <div className='my-ranking clearfix'>
+                    <div className='pull-left first'>
+                        <img src={icon} alt=""/>
+                    </div>
+                    <div className='pull-left second'>
+                        <div>1,080</div>
+                        <div>Alex Nelson</div>
+                    </div>
+                    <div className='pull-right third'>320</div>
+                </div>
+                <div className='top-ranking clearfix'>
+                    <div className='pull-left first'>
+                        <img src={icon} alt=""/>
+                    </div>
+                    <div className='pull-left second'>
+                        <div>1,080</div>
+                        <div>Alex Nelson</div>
+                    </div>
+                    <div className='pull-right third'>1</div>
+                </div>
+                <div className='top-ranking clearfix'>
+                    <div className='pull-left first'>
+                        <img src={icon} alt=""/>
+                    </div>
+                    <div className='pull-left second'>
+                        <div>1,080</div>
+                        <div>Alex Nelson</div>
+                    </div>
+                    <div className='pull-right third'>2</div>
+                </div>
+                <div className='top-ranking clearfix'>
+                    <div className='pull-left first'>
+                        <img src={icon} alt=""/>
+                    </div>
+                    <div className='pull-left second'>
+                        <div>1,080</div>
+                        <div>Alex Nelson</div>
+                    </div>
+                    <div className='pull-right third'>3</div>
+                </div>
+                <div className='top-ranking clearfix'>
+                    <div className='pull-left first'>
+                        <img src={icon} alt=""/>
+                    </div>
+                    <div className='pull-left second'>
+                        <div>1,080</div>
+                        <div>Alex Nelson</div>
+                    </div>
+                    <div className='pull-right third'>4</div>
+                </div>
+                <div className='top-ranking clearfix'>
+                    <div className='pull-left first'>
+                        <img src={icon} alt=""/>
+                    </div>
+                    <div className='pull-left second'>
+                        <div>1,080</div>
+                        <div>Alex Nelson</div>
+                    </div>
+                    <div className='pull-right third'>5</div>
+                </div>
+                {/*{
                     rankingInfo? (
                         rankingInfo.map((item, index) => {
                             return (
@@ -57,13 +128,13 @@ class ScoreBoard extends Component {
                     ) : (
                         <div className='text-center ranking'>暂无排行榜信息</div>
                     )
-                }
-                <div className='score-info'>
+                }*/}
+                {/*<div className='score-info'>
                     <p>
                         <span>排行榜说明:</span>
                         活动以天为单位，进行当日积分累计排行，显示前TOP20。共计6周。前20名将获得现金红包奖励。
                     </p>
-                </div>
+                </div>*/}
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
             </div>

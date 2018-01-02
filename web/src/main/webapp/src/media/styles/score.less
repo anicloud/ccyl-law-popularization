@@ -4,10 +4,64 @@
   padding: .4rem .3rem 0;
   position: relative;
   overflow: auto;
-  .title {
-    margin: 0 0 1rem;
-    font-size: .6rem;
+  .header {
+    img {
+      width: 6rem;
+      height: 2.6rem;
+    }
   }
+  .info {
+    background-color: #fff;
+    color: #000000;
+    line-height: .64rem;
+    margin-top: .3rem;
+    letter-spacing: .02rem;
+    font-size: .26rem;
+    border-radius: .08rem;
+    .first {
+      padding-left: 1.4rem;
+    }
+    .second {
+      padding-right: .4rem;
+    }
+  }
+  .my-ranking, .top-ranking {
+    margin-top: .2rem;
+    margin-bottom: .2rem;
+    padding: .24rem .16rem;
+    font-size: .28rem;
+    background-color: #aee644;
+    height: 1.28rem;
+    border-radius: .08rem;
+    box-shadow: .02rem .02rem .1rem rgba(0, 0, 0, .5);
+    .first {
+      img {
+        width: .84rem;
+        height:.84rem;
+      }
+    }
+    .second {
+      padding-left: .4rem;
+    }
+    .third {
+      font-size: .5rem;
+      padding-right: .42rem;
+      font-weight: bold;
+    }
+  }
+  .top-ranking {
+    background-color: #fff;
+    .second {
+      color: #212121;
+      div:last-child {
+        color: #757575;
+      }
+    }
+    .third {
+      color: #ee2a7b;
+    }
+  }
+
   .score-list.row {
     margin: 0 0 .5rem;
     div.col-xs-3 {
@@ -22,7 +76,7 @@
       height: .8rem;
     }
   }
-  .score-info {
+  /*.score-info {
     margin-top: 1rem;
     p {
       text-indent: 2em;
@@ -31,9 +85,9 @@
     p span {
       font-size: .34rem;
     }
-  }
+  }*/
   .ranking {
-    font-size: .4rem;
+    font-size: .36rem;
     color: #ff6600;
   }
 }

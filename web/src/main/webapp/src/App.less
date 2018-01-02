@@ -3,35 +3,57 @@
   height: 100%;
   padding: .4rem .3rem 0;
   position: relative;
-  .sign {
-    margin-bottom: 1rem;
-    span {
-      font-size: .36rem;
+  .right-now {
+    div {
+      position: absolute;
+      width: 3.2rem;
+      border: .06rem solid #fff;
+      line-height: .95rem;
+      text-align: center;
+      border-radius: .2rem;
+      font-size: .46rem;
+      box-sizing: border-box;
+      bottom: 4.2rem;
+      left: 50%;
+      margin-left: -1.6rem;
+      background-color: #6173b7;
+      font-weight: bold;
     }
   }
-  .title {
-    margin: 0;
-    font-size: .6rem;
-  }
-
-  .lists {
-    display: inline-block;
-    margin-top: 1.3rem;
-    list-style-type: none;
-    width: 3rem;
-    li {
-      font-size: .36rem;
-      margin-bottom: .35rem;
-    }
-  }
-
-  .star {
+  .list {
     position: absolute;
-    right: .5rem;
-    bottom: 2rem;
-    img {
-      width: 4.5rem;
-      height: 4.8rem;
+    bottom: 1rem;
+    left: 50%;
+    width: 6.4rem;
+    margin-left: -3.2rem;
+    div {
+      display: inline-block;
+      width: 3rem;
+      line-height: .72rem;
+      border-radius: .2rem;
+      box-sizing: border-box;
+      text-align: center;
+      border: .06rem solid #fff;
+      margin-bottom: .4rem;
+      margin-right: .4rem;
+      font-size: .3rem;
+      letter-spacing: .02rem;
+      font-weight: bold;
+    }
+    div.list-second, div.list-four {
+      margin-right: 0;
+    }
+    div.list-third, div.list-four {
+      margin-bottom: 0;
+    }
+    div.list-first, div.list-second {
+      background-color: #8fc440;
+    }
+    div.list-third {
+      background-color: #e4d562;
+    }
+    div.list-four {
+      background-color: #ec6380;
     }
   }
 }

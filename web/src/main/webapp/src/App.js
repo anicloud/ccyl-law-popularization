@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import './App.less';
-import star from './media/images/star_idol.png';
-import Back from './views/Back';
 import {connect} from 'react-redux';
 import {Toast} from 'react-weui';
 
@@ -44,41 +42,14 @@ class App extends Component {
     render() {
         return (
             <div className="app main-bg">
-                <div className="sign text-right clearfix">
-                    <Back location={'/main'} history={this.props.history} />
-                    <span className='pull-right' onClick={this.handleSign}>每日签到</span>
+                <div className='text-center right-now'>
+                    <div onClick={() => {this.handleTouch(1)}}>马上答题</div>
                 </div>
-                <h2 className="text-center title">
-                    <span>法律PK赛</span>
-                </h2>
-                <ul className="lists">
-                    <li className="text-center" onClick={() => {this.handleTouch(0)}}>
-                        <span>赛事说明</span>
-                    </li>
-                    <li className="text-center" onClick={() => {this.handleTouch(1)}}>
-                        <span>每日必答</span>
-                    </li>
-                    {/*<li className="text-center" onClick={() => {this.handleTouch(2)}}>
-                        <span>我的任务</span>
-                    </li>*/}
-                    <li className="text-center" onClick={() => {this.handleTouch(2)}}>
-                        <span>我的奖品</span>
-                    </li>
-                    <li className="text-center" onClick={() => {this.handleTouch(3)}}>
-                        <span>我的积分</span>
-                    </li>
-                    <li className="text-center" onClick={() => {this.handleTouch(4)}}>
-                        <span>积分兑奖</span>
-                    </li>
-                    <li className="text-center" onClick={() => {this.handleTouch(5)}}>
-                        <span>荣耀榜</span>
-                    </li>
-                    {/*<li className="text-center" onClick={() => {this.handleTouch(6)}}>
-                        <span>补填信息</span>
-                    </li>*/}
-                </ul>
-                <div className="star">
-                    <img src={star} alt=""/>
+                <div className='list'>
+                    <div className='list-first' onClick={() => {this.handleTouch(5)}}>荣耀榜</div>
+                    <div className='list-second' onClick={() => {this.handleTouch(0)}}>竞赛介绍</div>
+                    <div className='list-third' onClick={() => {this.handleTouch(3)}}>我的积分</div>
+                    <div className='list-four' onClick={this.handleSign}>每日签到</div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
