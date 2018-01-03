@@ -66,10 +66,11 @@ class MyScore extends Component {
                 _this.setState({
                     myAwardInfo: response.data.data
                 });
-                this.setState({ showMyPrize: true});
+                _this.setState({ showMyPrize: true});
             }
         }).catch(function (errors) {
             console.log(errors);
+            _this.setState({ showMyPrize: true});
         })
     }
 
@@ -84,7 +85,9 @@ class MyScore extends Component {
         const {host} = _this.props;
         axios.get(`${host}/score/signIn`).then(function (response) {
             if (response.data.state === 0) {
-                response.data.data
+                _this.setState({
+                    scoreInfo:response.data.data
+                });
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -267,22 +270,30 @@ class MyScore extends Component {
                     </div>
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
-                    <div className="listdiv">
-                        {this.state.myAwardInfo.map(function(item,index){
-                            return (
+                    {this.state.myAwardInfo.length===0?(
+                        <div>
+                            <span className="noAward">暂无奖品</span>
+                        </div>
+                    ):(
+                        <div className="listdiv">
+                            {this.state.myAwardInfo.map(function(item,index){
+                                return (
 
-                            <div className="task" key={index}>
-                                <div className="leftDiv">
-                                    <span>{_this.getNameFromEnum(item.awardType)}</span>
-                                    <span className="desc">获奖时间:{item.createTime}</span>
-                                    <span className="desc">状态:{item.isReceivedAward===true?"已领取":item.isExpired===false?"待领取":"已过期"}</span>
-                                    <span className="desc">有效期:6天</span>
-                                </div>
-                                {item.isReceivedAward===false&&item.isExpired===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={() => _this.getPrizeDetail(item)}><i className="plus"/></div>}
-                            </div>
-                            );
-                        })}
-                    </div>
+                                    <div className="task" key={index}>
+                                        <div className="leftDiv">
+                                            <span>{_this.getNameFromEnum(item.awardType)}</span>
+                                            <span className="desc">获奖时间:{item.createTime}</span>
+                                            <span className="desc">状态:{item.isReceivedAward===true?"已领取":item.isExpired===false?"待领取":"已过期"}</span>
+                                            <span className="desc">有效期:6天</span>
+                                        </div>
+                                        {item.isReceivedAward===false&&item.isExpired===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={() => _this.getPrizeDetail(item)}><i className="plus"/></div>}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+
+
                 </Dialog>
                 <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)} buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
                     {/*this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret}></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>*/}
