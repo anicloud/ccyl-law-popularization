@@ -52,7 +52,7 @@ class ScoreBoard extends Component {
                 </div>
                 <div className='clearfix info'>
                    <div className='pull-left first'>
-                       得分
+                       今日得分
                    </div>
                    <div className='pull-right second'>
                        全国排名
