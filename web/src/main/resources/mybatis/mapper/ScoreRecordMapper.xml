@@ -36,7 +36,7 @@
         SELECT * FROM t_score_record WHERE src_account_id=#{srcAccountId} AND account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findDailyTop20" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-        SELECT *,sum(score) AS total_score FROM t_score_record WHERE account_id NOT IN (SELECT account_id FROM t_top20_awards) GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
+        SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT ifnull(account_id,-1) FROM t_top20_awards) GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
     </select>
     <select id="findIsThumbUp" parameterType="java.util.Map" resultType="java.lang.Boolean">
         SELECT CASE t.thumbUps
