@@ -59,8 +59,9 @@ class Root extends Component {
         });
     }
     componentDidMount() {
+        let _this = this;
         // TODO: 测试使用
-        /*this.setState({
+        /*_this.setState({
             showLoading: false
         });*/
         jsSdkConfig(axios, store.getState().host);
@@ -81,7 +82,7 @@ class Root extends Component {
                                 imgUrl: userInfo.portrait,
                                 desc: '共青团中央2018年第十四届青少年学法用法知识竞赛'
                             });
-                            this.setState({
+                            _this.setState({
                                 showLoading: false
                             });
                         }
