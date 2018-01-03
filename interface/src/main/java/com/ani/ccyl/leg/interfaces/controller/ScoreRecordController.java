@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class ScoreRecordController {
 
     @RequestMapping(value = "/findTotalScore", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findTotalScore(HttpSession session) {
+    public ResponseMessageDto findTotalScore(HttpSession session) throws UnsupportedEncodingException {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
