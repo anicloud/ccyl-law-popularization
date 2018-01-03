@@ -116,6 +116,15 @@ class AnswerQuestion extends Component {
                     ) : (
                         <div className='wrapper'>
                             <h2 className='wrapper-title'>今日必答 - 第<span>{question.dayNum}</span>日</h2>
+                            <div className='wrapper-body'>
+                                <h4>
+                                    第<span>{question.order}</span>题 <i>共5题</i>
+                                </h4>
+                                <TrueFalseQuestion
+                                    handleShowNext={this.handleShowNext}
+                                    question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐', id: 1, optionOne: 'Y', optionTwo: 'N'}}
+                                />
+                            </div>
                             {
                                 question.type === 'CHOICE'? (
                                     <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
