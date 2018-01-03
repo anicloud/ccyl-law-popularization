@@ -61,9 +61,9 @@ class Root extends Component {
     componentDidMount() {
         let _this = this;
         // TODO: 测试使用
-        /*_this.setState({
+        _this.setState({
             showLoading: false
-        });*/
+        });
         jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             axios.get(`${store.getState().host}/account/findById`).then(function (response) {
