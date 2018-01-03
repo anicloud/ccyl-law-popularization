@@ -11,6 +11,7 @@ import "../media/styles/scoreshopping.less";
 import axios from 'axios';
 import {connect} from 'react-redux';
 import touxiang from "../media/images/scoredetail.png";
+import disPlus from "../media/imgs/displus.png";
 
 class ScoreShopping extends Component{
     constructor(props){
@@ -19,9 +20,9 @@ class ScoreShopping extends Component{
             location: this.props.location.state? this.props.location.state : '/home',
             awardInfo: [{
                             awardType:"TENCENT_VIP",
-                            isUsedUp:false,
+                            isUsedUp:true,
                             score:1000,
-                            myScore:0
+                            myScore:10000
                         },
                         {
                             awardType:"OFO_COUPON",
@@ -67,6 +68,10 @@ class ScoreShopping extends Component{
             }
         }
     }
+
+    exchangePrizes(type){
+
+    }
     render(){
         let _this = this;
         return (
@@ -89,81 +94,30 @@ class ScoreShopping extends Component{
                             <span>腾讯视频会员月卡</span>
                             <span className="desc">{this.getCurrentAwardScore("TENCENT_VIP").score}积分</span>
                         </div>
-                        <div className="rightDiv"><i className="plus"/></div>
-                        { /*{this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TENCENT_VIP").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>*/}
+                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TENCENT_VIP").score&&this.getCurrentAwardScore("TENCENT_VIP").isUsedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TENCENT_VIP")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
                             <span>ofo用车券</span>
                             <span className="desc">{this.getCurrentAwardScore("OFO_COUPON").score}积分</span>
                         </div>
-                        <div className="rightDiv"><i className="disPlus"/></div>
-                        {/* {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("OFO_COUPON").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>*/}
+                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("OFO_COUPON").score&&this.getCurrentAwardScore("OFO_COUPON").isUsedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("OFO_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
                             <span>购物优惠券(满49减5)</span>
                             <span className="desc">{this.getCurrentAwardScore("FIVE_COUPON").score}积分</span>
                         </div>
-                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("FIVE_COUPON").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>
+                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("FIVE_COUPON").score&&this.getCurrentAwardScore("FIVE_COUPON").isUsedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("FIVE_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
                             <span>购物优惠券(满99减10)</span>
                             <span className="desc">{this.getCurrentAwardScore("TEN_COUPON").score}积分</span>
                         </div>
-                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TEN_COUPON").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>
+                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TEN_COUPON").score&&this.getCurrentAwardScore("TEN_COUPON").isUsedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TEN_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                 </div>
-
-                {/*<div className="scoreshopping main-bg">
-              <div className='clearfix'>
-                  <Back location={this.state.location} history={this.props.history} />
-              </div>
-              <h2 className="text-center h2 title">
-                  <span>积分商城</span>
-              </h2>
-              <p className='text-center current-score'>剩余积分:{this.state.awardInfo[0].myScore}</p>
-              <div className="listdiv">
-                  <div className="largest">
-                    <span className="largestImg" />
-                      <div className="largestDetail">
-                        <span className="largestSpan">腾讯视频会员月卡</span>
-                        <span className="scoreSpan">{this.getCurrentAwardScore("TENCENT_VIP").score}积分</span>
-                      </div>
-                      <Button disabled={this.getCurrentAwardScore("TENCENT_VIP").isUsedUp===false?false:true}>{this.getCurrentAwardScore("TENCENT_VIP").isUsedUp===false?"兑换上限":this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TENCENT_VIP").score?"立即兑换":"积分不足"}</Button>
-                  </div>
-                  <hr className="line"/>
-
-                  <div className="larger">
-                      <span className="largerImg" />
-                      <div className="largerDetail">
-                          <span className="largerSpan">ofo用车券</span>
-                          <span className="scoreSpan">{this.getCurrentAwardScore("OFO_COUPON").score}积分</span>
-                      </div>
-                      <Button disabled={this.getCurrentAwardScore("OFO_COUPON").isUsedUp===false?false:true}>{this.getCurrentAwardScore("OFO_COUPON").isUsedUp===false?"兑换上限":this.state.awardInfo[0].myScore>this.getCurrentAwardScore("OFO_COUPON").score?"立即兑换":"积分不足"}</Button>
-                  </div>
-                  <hr className="line"/>
-                  <div className="normal">
-                      <span className="normalImg" />
-                      <div className="normalDetail">
-                          <span className="normalSpan">购物优惠券</span>
-                          <span className="scoreSpan">{this.getCurrentAwardScore("FIVE_COUPON").score}积分</span>
-                      </div>
-                      <Button disabled={this.getCurrentAwardScore("FIVE_COUPON").isUsedUp===false?false:true}>{this.getCurrentAwardScore("FIVE_COUPON").isUsedUp===false?"兑换上限":this.state.awardInfo[0].myScore>this.getCurrentAwardScore("FIVE_COUPON").score?"立即兑换":"积分不足"}</Button>
-                  </div>
-                  <hr className="line"/>
-                  <div className="smaller">
-                      <span className="smallerImg" />
-                      <div className="smallerDetail">
-                          <span className="smallerSpan">购物优惠券</span>
-                          <span className="scoreSpan">{this.getCurrentAwardScore("TEN_COUPON").score}积分</span>
-                      </div>
-                      <Button disabled={this.getCurrentAwardScore("TEN_COUPON").isUsedUp===false?false:true}>{this.getCurrentAwardScore("TEN_COUPON").isUsedUp===false?"兑换上限":this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TEN_COUPON").score?"立即兑换":"积分不足"}</Button>
-                  </div>
-              </div>
-              <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-          </div>*/}
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
