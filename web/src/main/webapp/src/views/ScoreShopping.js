@@ -17,30 +17,7 @@ class ScoreShopping extends Component{
        super(props);
         this.state = {
             location: this.props.location.state? this.props.location.state : '/home',
-            awardInfo: [{
-                awardType:"TENCENT_VIP",
-                isUsedUp:false,
-                score:1000,
-                myScore:10000
-            },
-                {
-                    awardType:"OFO_COUPON",
-                    isUsedUp:false,
-                    score:500,
-                    myScore:0
-                },
-                {
-                    awardType:"FIVE_COUPON",
-                    isUsedUp:false,
-                    score:200,
-                    myScore:0
-                },
-                {
-                    awardType:"TEN_COUPON",
-                    isUsedUp:false,
-                    score:100,
-                    myScore:0
-                }],
+            awardInfo: [],
             userInfo:[]
         };
     }
