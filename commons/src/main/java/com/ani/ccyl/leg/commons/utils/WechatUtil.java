@@ -199,7 +199,6 @@ public class WechatUtil {
         btn33.setName("我要答题");
         btn33.setType("view");
         btn33.setKey("suggestions");
-//        btn33.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+Constants.PROPERTIES.getProperty("wechat.appid")+"&redirect_uri="+Constants.PROPERTIES.getProperty("wechat.redirect.url")+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
         btn33.setUrl(Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",Constants.PROPERTIES.getProperty("wechat.appid")).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")));
         ComplexButton mainBtn1 = new ComplexButton();
         mainBtn1.setName("个人信息");
