@@ -8,6 +8,8 @@ import first from '../media/images/first.png';
 import second from '../media/images/second.png';
 import arrow from '../media/images/arrow.png';
 import know from '../media/images/know.png';
+import Achievement from '../media/imgs/Achievement.png';
+import reback from '../media/imgs/reback.png';
 import '../media/styles/prize.less';
 
 class SharePrize extends Component {
@@ -115,12 +117,25 @@ class SharePrize extends Component {
     render() {
         let scoreInfo = this.state.scoreInfo;
         return (
-            <div className='share-prize main-bg'>
+            <div className='share-prize common-bg'>
                 <div className='clearfix'>
                     <Back location={this.state.location} history={this.props.history} />
                 </div>
-                <h3 className='text-center'>荣誉奖状</h3>
-                {
+                <div className='text-center header'>
+                    <img src={Achievement} alt=""/>
+                </div>
+                <div className='wrapper'>
+                    <h2 className='wrapper-title'>
+                        重答 <img src={reback} alt=""/>
+                    </h2>
+                    <div className='sum-score'>
+                        <div>+6</div>
+                        <p className='first'>当前积分：<span>2018</span></p>
+                        <p className='second'>答对<span>5</span>题，答错<span>0</span>题</p>
+                    </div>
+                    <div className='thumb-up' onClick={this.handleShare}>拉好友点赞</div>
+                </div>
+                {/*{
                     scoreInfo? (
                         <div>
                             <div className={scoreInfo.score === 10? 'flower-gold' : scoreInfo.score === 8? 'flower-silver' : scoreInfo.score === 6 ? 'flower-copper' : 'flower'}>
@@ -135,7 +150,7 @@ class SharePrize extends Component {
                             </p>
                         </div>
                     ) : (null)
-                }
+                }*/}
                 <div className='popup' style={{display: this.state.showPopup? 'block' : 'none'}}>
                     <div className='arrow'>
                         <img src={arrow} alt=""/>
