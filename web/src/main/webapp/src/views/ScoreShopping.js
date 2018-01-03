@@ -46,8 +46,6 @@ class ScoreShopping extends Component{
     }
     getCurrentAwardScore(type){
         let awardInfos = this.state.awardInfo;
-        console.log(awardInfos);
-        console.log(awardInfos.length);
         for(let i=0;i<awardInfos.length;i++){
             let awardInfo = awardInfos[i];
             console.log(awardInfo);
@@ -60,7 +58,7 @@ class ScoreShopping extends Component{
     exchangePrizes(type){
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/score/convertAward?awardType=`+type).then(function (response) {
+        axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
             if (response.data.state === 0) {
                 const {history} = _this.props;
                 history.push({
