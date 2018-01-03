@@ -69,9 +69,6 @@ class TrueFalseQuestion extends Component {
                 {
                     question? (
                         <div>
-                            <h3 className="text-center title">
-                                <span>第{question.order}题</span>
-                            </h3>
                             <p className='content'>{question.content}</p>
                             <Form checkbox className='form'>
                                 <FormCell checkbox>
@@ -98,7 +95,7 @@ class TrueFalseQuestion extends Component {
                                 ) : (
                                     <p className='text-danger result'>很遗憾，正确答案为： {result.answer}</p>
                                 )) : (
-                                    <Button className='question-button' type="primary" plain onClick={this.handleSubmit}>提交</Button>
+                                    <div className='question-button' onClick={this.handleSubmit}>提交</div>
                                 )
                             }
                         </div>
