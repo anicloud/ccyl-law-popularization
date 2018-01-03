@@ -64,6 +64,10 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
+        if(totalScoreDto != null) {
+            totalScoreDto.setNickName(accountDto.getNickName());
+            totalScoreDto.setPortrait(accountDto.getPortrait());
+        }
         message.setData(totalScoreDto);
         message.setMsg("查询成功");
         message.setState(ResponseStateEnum.OK);
