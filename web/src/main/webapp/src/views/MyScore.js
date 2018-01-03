@@ -10,7 +10,6 @@ import {connect} from 'react-redux';
 import "../media/styles/myscore.less";
 import touxiang from "../media/images/scoredetail.png";
 import disPlus from "../media/imgs/displus.png";
-import testPng from "../media/images/test.jpg";
 
 class MyScore extends Component {
     constructor(props) {
@@ -34,35 +33,7 @@ class MyScore extends Component {
                     onClick: this.hidePrizeDetailDialog.bind(this)
                 }
             ],
-            myAwardInfo:[{
-                lastScore:1,
-                awardType:"TENCENT_VIP",
-                codeSecret:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                isExpired:false,
-                isReceivedAward:false,
-                createTime:"2017-11-12"
-            },{
-                lastScore:1,
-                awardType:"OFO_COUPON",
-                codeSecret:"aaaa",
-                isExpired:false,
-                isReceivedAward:true,
-                createTime:"2017-11-12"
-            },{
-                lastScore:1,
-                awardType:"TENCENT_VIP",
-                codeSecret:"aaaa",
-                isExpired:false,
-                isReceivedAward:false,
-                createTime:"2017-11-12"
-            },{
-                lastScore:1,
-                awardType:"FIVE_COUPON",
-                codeSecret:"aaaa",
-                isExpired:false,
-                isReceivedAward:true,
-                createTime:"2017-11-12"
-            }]
+            myAwardInfo:[]
         };
         this.handleShopping = this.handleShopping.bind(this);
         this.handleInfo = this.handleInfo.bind(this);
@@ -307,7 +278,7 @@ class MyScore extends Component {
                 </Dialog>
                 <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)} buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
                     {/*this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret}></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>*/}
-                    {this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={testPng} className="srcImg"></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
+                    {this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret} className="srcImg"></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
                 </Dialog>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
