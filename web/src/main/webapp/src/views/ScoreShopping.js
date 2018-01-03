@@ -57,7 +57,17 @@ class ScoreShopping extends Component{
     }
 
     exchangePrizes(type){
-
+        let _this = this;
+        const {host} = _this.props;
+        axios.get(`${host}/score/convertAward?awardType=`+type).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    awardInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
     }
     render(){
         let _this = this;
