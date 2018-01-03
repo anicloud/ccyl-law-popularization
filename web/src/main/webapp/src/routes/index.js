@@ -35,7 +35,7 @@ import MyPrize from '../views/MyPrize';
 /*奖品详情*/
 import PrizeDetail from '../views/PrizeDetail';
 /*兑换成功页面*/
-import ExchangeSuccess from "../views/exchangeSuccess";
+import ExchangeSuccess from "../views/ExchangeSuccess";
 
 const Routes = () => (
     <Switch>
