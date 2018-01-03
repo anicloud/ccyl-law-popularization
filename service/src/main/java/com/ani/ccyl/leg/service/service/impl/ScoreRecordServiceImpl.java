@@ -287,10 +287,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Override
     public String updateTop20AwardByAccountId(Integer accountId) {
         Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
-        if(top20AwardsPO != null) {
-            top20AwardsPO.setReceivedAward(true);
-            top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        if(!accountPersistenceService.findIsInfoComplete(accountId))
+            throw new RuntimeException("个人信息不完整");
+        if(top20AwardsPO != null ) {
+            if((System.currentTimeMillis()-top20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000L)
+                throw new RuntimeException("已过期");
             top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
+            top20AwardsPO.setReceivedAward(true);
+            top20AwardsPO.setDel(true);
+            top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         }
         return top20AwardsPO == null?null:top20AwardsPO.getCodeSecret();
     }
@@ -298,8 +303,13 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Override
     public String updateLucky20AwardByAccountId(Integer accountId) {
         Lucky20AwardsPO lucky20AwardsPO = lucky20AwardsMapper.findByAccountId(accountId);
+        if(!accountPersistenceService.findIsInfoComplete(accountId))
+            throw new RuntimeException("个人信息不完整");
         if(lucky20AwardsPO != null) {
+            if((System.currentTimeMillis()-lucky20AwardsPO.getUpdateTime().getTime())>=6*24*60*60*1000L)
+                throw new RuntimeException("已过期");
             lucky20AwardsPO.setReceivedAward(true);
+            lucky20AwardsPO.setDel(true);
             lucky20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             lucky20AwardsMapper.updateByPrimaryKeySelective(lucky20AwardsPO);
         }
