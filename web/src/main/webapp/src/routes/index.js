@@ -34,6 +34,9 @@ import UploadQuestion from '../views/UploadQuestion';
 import MyPrize from '../views/MyPrize';
 /*奖品详情*/
 import PrizeDetail from '../views/PrizeDetail';
+/*兑换成功页面*/
+import ExchangeSuccess from "../views/ExchangeSuccess";
+
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={App} />
@@ -42,6 +45,7 @@ const Routes = () => (
         <Route path='/prizedetail' component={PrizeDetail} />
         <Route path='/myprize' component={MyPrize} />
         <Route path='/scoreshopping' component={ScoreShopping}/>
+        <Route path='/exsuccess' component={ExchangeSuccess}/>
         <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/announce' component={Tasks} />

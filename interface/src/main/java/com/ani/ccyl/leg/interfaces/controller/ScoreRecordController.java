@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class ScoreRecordController {
 
     @RequestMapping(value = "/findTotalScore", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findTotalScore(HttpSession session) {
+    public ResponseMessageDto findTotalScore(HttpSession session) throws UnsupportedEncodingException {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
@@ -80,8 +81,13 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         scoreRecordService.insertScore(accountDto.getId(),Constants.Score.SIGN_IN_SCORE,null, ScoreSrcTypeEnum.SIGN_IN,accountDto.getId());
+        TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountDto.getId());
+        if(totalScore != null) {
+            totalScore.setPortrait(accountDto.getPortrait());
+            totalScore.setNickName(accountDto.getNickName());
+        }
         message.setState(ResponseStateEnum.OK);
-        message.setData(scoreRecordService.findTotalScore(accountDto.getId()));
+        message.setData(totalScore);
         message.setMsg("签到成功");
         return message;
     }
@@ -147,6 +153,8 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         scoreRecordService.updateConvertAward(accountDto.getId(), awardType);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("兑换成功");
         return message;
     }
 

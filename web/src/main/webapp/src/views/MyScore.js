@@ -8,7 +8,6 @@ import Back from './Back';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import "../media/styles/myscore.less";
-import touxiang from "../media/images/scoredetail.png";
 import disPlus from "../media/imgs/displus.png";
 
 class MyScore extends Component {
@@ -16,7 +15,7 @@ class MyScore extends Component {
         super(props);
         this.state = {
             location: '/home',
-            scoreInfo: null,
+            scoreInfo: {},
             myPrizeTitle:"我的奖品",
             showMyPrize:false,
             showPrizeDetail:false,
@@ -56,19 +55,23 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
+
+    }
+    changeMyPrize() {
         //我的奖品获取
+        let _this = this;
+        const {host} = _this.props;
         axios.get(`${host}/score/findMyAwards`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     myAwardInfo: response.data.data
-                })
+                });
+                _this.setState({ showMyPrize: true});
             }
         }).catch(function (errors) {
             console.log(errors);
+            _this.setState({ showMyPrize: true});
         })
-    }
-    changeMyPrize() {
-        this.setState({ showMyPrize: true});
     }
 
     handleShopping() {
@@ -78,10 +81,21 @@ class MyScore extends Component {
         });
     }
     handleSignIn() {
-        this.props.history.push({
-            pathname: '/signin',
-            state: '/tasks'
+        let _this = this;
+        const {host} = _this.props;
+        axios.get(`${host}/score/signIn`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    scoreInfo:response.data.data
+                });
+            }
+        }).catch(function (errors) {
+            console.log(errors);
         });
+        //this.props.history.push({
+        //    pathname: '/signin',
+        //    state: '/tasks'
+        //});
     }
     handleShare() {
         const {history} = this.props;
@@ -198,9 +212,9 @@ class MyScore extends Component {
                         <Back location='/home' history={this.props.history}/>
                     </div>
                     <div className="detail">
-                        <img src={touxiang}></img>
+                        <img src={scoreInfo.portrait} className="touxiang"></img>
                         <br/>
-                        <span>时刻都爱上</span>
+                        <span>{scoreInfo.nickName}</span>
                         <br/>
                         <span>当前积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
                     </div>
@@ -220,12 +234,9 @@ class MyScore extends Component {
                     <div className="task">
                         <div className="leftDiv">
                             <span>签到</span>
-                            <span className="desc">已签{scoreInfo? scoreInfo.signInCount : 0}次</span>
+                            <span className="desc">已签{scoreInfo?scoreInfo.signInCount : 0}次</span>
                         </div>
-                        <div className="rightDiv" onClick={this.handleSignIn}>
-                            <i className="plus"/>
-
-                        </div>
+                        {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={this.handleSignIn}> <i className="plus"/></div>}
                     </div>
                     <div className="task">
                         <div className="leftDiv">
@@ -259,22 +270,30 @@ class MyScore extends Component {
                     </div>
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
-                    <div className="listdiv">
-                        {this.state.myAwardInfo.map(function(item,index){
-                            return (
+                    {this.state.myAwardInfo.length===0?(
+                        <div>
+                            <span className="noAward">暂无奖品</span>
+                        </div>
+                    ):(
+                        <div className="listdiv">
+                            {this.state.myAwardInfo.map(function(item,index){
+                                return (
 
-                            <div className="task" key={index}>
-                                <div className="leftDiv">
-                                    <span>{_this.getNameFromEnum(item.awardType)}</span>
-                                    <span className="desc">获奖时间:{item.createTime}</span>
-                                    <span className="desc">状态:{item.isReceivedAward===true?"已领取":item.isExpired===false?"待领取":"已过期"}</span>
-                                    <span className="desc">有效期:6天</span>
-                                </div>
-                                {item.isReceivedAward===false&&item.isExpired===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={() => _this.getPrizeDetail(item)}><i className="plus"/></div>}
-                            </div>
-                            );
-                        })}
-                    </div>
+                                    <div className="task" key={index}>
+                                        <div className="leftDiv">
+                                            <span>{_this.getNameFromEnum(item.awardType)}</span>
+                                            <span className="desc">获奖时间:{item.createTime}</span>
+                                            <span className="desc">状态:{item.isReceivedAward===true?"已领取":item.isExpired===false?"待领取":"已过期"}</span>
+                                            <span className="desc">有效期:6天</span>
+                                        </div>
+                                        {item.isReceivedAward===false&&item.isExpired===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={() => _this.getPrizeDetail(item)}><i className="plus"/></div>}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+
+
                 </Dialog>
                 <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)} buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
                     {/*this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret}></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>*/}
