@@ -120,28 +120,24 @@ class AnswerQuestion extends Component {
                                 <h4>
                                     第<span>{question.order}</span>题 <i>共5题</i>
                                 </h4>
-                                <TrueFalseQuestion
-                                    handleShowNext={this.handleShowNext}
-                                    question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐', id: 1, optionOne: 'Y', optionTwo: 'N'}}
-                                />
+                                {
+                                    question.type === 'CHOICE'? (
+                                        <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
+                                    ) : (
+                                        <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
+                                    )
+                                }
+                                {
+                                    (this.state.showNext && question.order !== 5 )? (
+                                        <div className='questionButton' onClick={this.handleNext}>下一题</div>
+                                    ) : (null)
+                                }
+                                {
+                                    (this.state.showNext && question.order === 5)? (
+                                        <div className='share' onClick={this.handleShare}>分享荣誉</div>
+                                    ) : (null)
+                                }
                             </div>
-                            {
-                                question.type === 'CHOICE'? (
-                                    <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
-                                ) : (
-                                    <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
-                                )
-                            }
-                            {
-                                (this.state.showNext && question.order !== 5 )? (
-                                    <div className='questionButton' onClick={this.handleNext}>下一题</div>
-                                ) : (null)
-                            }
-                            {
-                                (this.state.showNext && question.order === 5)? (
-                                    <div className='share' onClick={this.handleShare}>分享荣誉</div>
-                                ) : (null)
-                            }
                         </div>
                     )
                 }
