@@ -17,7 +17,30 @@ class ScoreShopping extends Component{
        super(props);
         this.state = {
             location: this.props.location.state? this.props.location.state : '/home',
-            awardInfo: [],
+            awardInfo: [{
+                awardType:"TENCENT_VIP",
+                isUsedUp:false,
+                score:1000,
+                myScore:10000
+            },
+                {
+                    awardType:"OFO_COUPON",
+                    isUsedUp:false,
+                    score:500,
+                    myScore:0
+                },
+                {
+                    awardType:"FIVE_COUPON",
+                    isUsedUp:false,
+                    score:200,
+                    myScore:0
+                },
+                {
+                    awardType:"TEN_COUPON",
+                    isUsedUp:false,
+                    score:100,
+                    myScore:0
+                }],
             userInfo:[]
         };
     }
@@ -61,9 +84,10 @@ class ScoreShopping extends Component{
         const {host} = _this.props;
         axios.get(`${host}/score/convertAward?awardType=`+type).then(function (response) {
             if (response.data.state === 0) {
-                _this.setState({
-                    awardInfo: response.data.data
-                })
+                const {history} = _this.props;
+                history.push({
+                    pathname: '/exsuccess'
+                });
             }
         }).catch(function (errors) {
             console.log(errors);
