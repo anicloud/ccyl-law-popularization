@@ -44,6 +44,7 @@ class ScoreShopping extends Component{
                         }]
         };
     }
+
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;

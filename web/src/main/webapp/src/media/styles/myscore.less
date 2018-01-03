@@ -1,6 +1,82 @@
 .root{
   background-color: white;
   height: 100%;
+  .weui-dialog{
+    border-radius:0px;
+  }
+  .weui-dialog__hd{
+    background-color: #8fc440;
+  }
+  .weui-dialog__bd{
+    padding:0;
+  }
+
+  .codeLable{
+    display:inline-block;
+    margin-top:.1rem;
+    height:1rem;
+    width:1rem;
+    vertical-align: middle;
+  }
+  .codeSecret{
+    margin-top: .2rem;
+    height:1rem;
+    width:2.8rem;
+    display:inline-block;
+  }
+  .copyCode{
+    height:.8rem;
+    width:3rem;
+    margin-bottom: .2rem;
+  }
+  .srcImg{
+    height:3rem;
+  }
+  .listdiv{
+    width:100%;
+    height:5rem;
+    overflow-y: scroll;
+    .task{
+      width:98%;
+      height:1.3rem;
+      margin:0 auto;
+      display: inline-block;
+      margin-top:.2rem;
+      .leftDiv{
+        float:left;
+        width:50%;
+        heigth:1.3rem;
+        display:inline-block;
+        color:black;
+        margin-left:0rem;
+        span{
+          margin-left: .2rem;
+          display:block;
+          text-align: left;
+        }
+        .desc{
+          font-size:.2rem;
+          color:grey;
+        }
+      }
+      .rightDiv{
+        width:.7rem;
+        height:.7rem;
+        background-color: white;
+        float:right;
+        border-radius:50%;
+        margin-top:.2rem;
+        margin-right:.2rem;
+        .plus{
+          display:block;
+          width:.7rem;
+          height:.7rem;
+          background: url("../imgs/Plus.png") center center;
+          background-size: 100% 100%;
+        }
+      }
+    }
+  }
 }
 .MyScore {
   margin:0 auto;
