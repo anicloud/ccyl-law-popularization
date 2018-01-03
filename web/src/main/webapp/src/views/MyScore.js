@@ -8,6 +8,7 @@ import Back from './Back';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import "../media/styles/myscore.less";
+import touxiang from "../media/images/scoredetail.png";
 
 class MyScore extends Component {
     constructor(props) {
@@ -75,43 +76,65 @@ class MyScore extends Component {
                     <div className='clearfix'>
                         <Back location='/home' history={this.props.history}/>
                     </div>
-                    <div className="cloud">
-                        <h2 className="text-center h2 title">
-                            <span>我的积分</span>
-                        </h2>
-                        <h3 className="text-center h3 title">
-                            <span>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
-                        </h3>
+                    <div className="detail">
+                        <img src={touxiang}></img>
+                        <br/>
+                        <span>时刻都爱上</span>
+                        <br/>
+                        <span>当前积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
                     </div>
                 </div>
                 <div className="bottomDiv">
                     <div className="buttonDiv">
-                        <span onClick={this.handleShopping}><i className='scoreshopping'/>积分商城</span>
-                        <span onClick={this.handleTopList}><i className='myprize'/>我的奖品</span>
+                        <div className="iconDiv">
+                            <i className='scoreshopping'/>
+                            <i className='myprize'/>
+                        </div>
+                        <div className="spanDiv">
+                            <span className="shoppingSpan" onClick={this.handleShopping}>积分商城</span>
+                            <span className="prizeSpan" onClick={this.handleTopList}>我的奖品</span>
+                        </div>
                     </div>
-                    <div className="scoreTask">
-                        <span>积分任务</span>
-                        <i onClick={this.handleInfo} className='detail'/>
+
+                    <div className="task">
+                        <div className="leftDiv">
+                            <span>签到</span>
+                            <span className="desc">已签{scoreInfo? scoreInfo.signInCount : 0}次</span>
+                        </div>
+                        <div className="rightDiv" onClick={this.handleSignIn}>
+                            <i className="plus"/>
+
+                        </div>
                     </div>
                     <div className="task">
-                        <span>签到</span>
-                        <Button onClick={this.handleSignIn}>{scoreInfo? scoreInfo.isSignIn? '已签' : '签到' : '签到'}</Button>
-                        <span className="desc">已签{scoreInfo? scoreInfo.signInCount : 0}次</span>
+                        <div className="leftDiv">
+                            <span>分享答题</span>
+                            <span className="desc">已成功分享{scoreInfo? scoreInfo.shareCount : 0}次</span>
+                        </div>
+                        <div className="rightDiv" onClick={this.handleShare}>
+                            <i className="plus"/>
+
+                        </div>
                     </div>
                     <div className="task">
-                        <span>分享答题</span>
-                        <Button onClick={this.handleShare}>分享</Button>
-                        <span className="desc">已成功分享{scoreInfo? scoreInfo.shareCount : 0}次</span>
-                    </div>
-                    <div className='task'>
-                        <span>邀请答题</span>
-                        <Button onClick={this.handleShare}>邀请</Button>
-                        <span className="desc">已成功邀请{scoreInfo? scoreInfo.inviteCount : 0}次</span>
+                        <div className="leftDiv">
+                            <span>邀请答题</span>
+                            <span className="desc">已成功邀请{scoreInfo? scoreInfo.inviteCount : 0}次</span>
+                        </div>
+                        <div className="rightDiv" onClick={this.handleShare}>
+                            <i className="plus"/>
+
+                        </div>
                     </div>
                     <div className="task">
-                        <span>好友点赞</span>
-                        <Button onClick={this.handleShare}>分享</Button>
-                        <span className="desc">已被点赞{scoreInfo? scoreInfo.thumbUpCount : 0}次</span>
+                        <div className="leftDiv">
+                            <span>好友点赞</span>
+                            <span className="desc">已被点赞{scoreInfo? scoreInfo.thumbUpCount : 0}次</span>
+                        </div>
+                        <div className="rightDiv" onClick={this.handleShare}>
+                            <i className="plus"/>
+
+                        </div>
                     </div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>

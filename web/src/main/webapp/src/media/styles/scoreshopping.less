@@ -1,186 +1,66 @@
-.scoreshopping {
+.root{
   background-color: white;
-  width: 100%;
   height: 100%;
-  .clearfix {
-    padding: .4rem .3rem 0;
-    color: #fff;
-  }
-  h2 {
-    margin-top: .1rem;
-    margin-bottom: 0rem;
-    color: #fff;
-  }
-  p {
-    margin-left: .1rem;
-    color: #fff;
-  }
-  .current-score {
-    margin-top: .1rem;
-    margin-bottom:.1rem;
-    font-size: .4rem;
-    color:indianred;
-  }
-  .largest {
-    width: 90%;
-    height: 2rem;
-    margin: 0 auto;
-    background-color: white;
-    .largestImg {
-      display: inline-block;
-      height: 1.3rem;
-      vertical-align: top;
-      margin-top: .4rem;
-      width: 1.8rem;
-      margin-left: .4rem;
-      background: url("../images/twentymoney.png") center center;
-      background-size: 100% 100%;
+  .scoreshopping {
+    margin:0 auto;
+    width: 100%;
+    height: 4.5rem;
+    overflow: auto;
+    .clearfix{
+      padding: .4rem .3rem 0;
     }
-    .largestDetail {
+    .detail{
+      margin-top: 1.2rem;
+      margin-left:.4rem;
+    }
+    .bottomDiv {
+      background-color: white;
+      width: 100%;
+      position: absolute;
+    }
+    .task{
+      width:98%;
+      height:1rem;
+      margin:0 auto;
       display: inline-block;
-      height: 1.3rem;
-      width: 2.7rem;
-      margin-top: .35rem;
-      margin-left: .1rem;
-      color: black;
-      .largestSpan{
-        display: block;
-        margin-top: .2rem;
+      margin-top:.2rem;
+      .leftDiv{
+        width:50%;
+        heigth:1rem;
+        display:inline-block;
+        color:black;
+        margin-left: .2rem;
+        span{
+          display:block;
+        }
+        .desc{
+          font-size:.2rem;
+          color:grey;
+        }
       }
-    }
-    Button{
-      display: inline;
-      width:1.5rem;
-      height:.7rem;
-      font-size: .2rem;
-      padding:0rem;
-      vertical-align: middle;
-      float:right;
-      margin-top:.7rem;
-      margin-right: .2rem;
-    }
-  }
-  .larger {
-    width: 90%;
-    height: 2rem;
-    margin: 0 auto;
-    background-color: white;
-    .largerImg {
-      display: inline-block;
-      vertical-align: top;
-      margin-top: .4rem;
-      height: 1.3rem;
-      width: 1.8rem;
-      margin-left: .4rem;
-      background: url("../images/tenmoney.png") center center;
-      background-size: 100% 100%;
-    }
-    .largerDetail {
-      display: inline-block;
-      height: 1.3rem;
-      width: 2.7rem;
-      margin-top: .35rem;
-      margin-left: .1rem;
-      color: black;
-      .largerSpan{
-        display: block;
-        margin-top: .2rem;
+      .rightDiv{
+        width:.7rem;
+        height:.7rem;
+        background-color: white;
+        float:right;
+        border-radius:50%;
+        margin-top:.1rem;
+        .plus{
+          display:block;
+          width:.7rem;
+          height:.7rem;
+          background: url("../imgs/Plus.png") center center;
+          background-size: 100% 100%;
+        }
+        i.disPlus{
+          display:block;
+          width:.7rem;
+          height:.7rem;
+          background: url("../imgs/displus.png") center center;
+          background-size: 100% 100%;
+        }
       }
+
     }
-    Button{
-      display: inline;
-      width:1.5rem;
-      height:.7rem;
-      font-size: .2rem;
-      padding:0rem;
-      vertical-align: middle;
-      float:right;
-      margin-top:.7rem;
-      margin-right: .2rem;
-    }
-  }
-  .normal {
-    width: 90%;
-    height: 2rem;
-    margin: 0 auto;
-    background-color: white;
-    .normalImg {
-      display: inline-block;
-      vertical-align: top;
-      margin-top: .4rem;
-      height: 1.3rem;
-      width: 1.8rem;
-      margin-left: .4rem;
-      background: url("../images/fivemoney.png") center center;
-      background-size: 100% 100%;
-    }
-    .normalDetail {
-      display: inline-block;
-      height: 1.3rem;
-      width: 2.7rem;
-      margin-top: .35rem;
-      margin-left: .1rem;
-      color: black;
-      .normalSpan{
-        display: block;
-        margin-top: .2rem;
-      }
-    }
-    Button{
-      display: inline;
-      width:1.5rem;
-      height:.7rem;
-      font-size: .2rem;
-      padding:0rem;
-      vertical-align: middle;
-      float:right;
-      margin-top:.7rem;
-      margin-right: .2rem;
-    }
-  }
-  .smaller {
-    width: 90%;
-    height: 2rem;
-    margin: 0 auto;
-    background-color: white;
-    .smallerImg {
-      display: inline-block;
-      vertical-align: top;
-      margin-top: .4rem;
-      height: 1.3rem;
-      width: 1.8rem;
-      margin-left: .4rem;
-      background: url("../images/two_money.png") center center;
-      background-size: 100% 100%;
-    }
-    .smallerDetail {
-      display: inline-block;
-      height: 1.3rem;
-      width: 2.7rem;
-      margin-top: .35rem;
-      margin-left: .1rem;
-      color: black;
-      .smallerSpan{
-        display: block;
-        margin-top: .2em;
-      }
-    }
-    Button{
-      display: inline;
-      width:1.5rem;
-      height:.7rem;
-      font-size: .2rem;
-      padding:0rem;
-      vertical-align: middle;
-      float:right;
-      margin-top:.7rem;
-      margin-right: .2rem;
-    }
-  }
-  .line {
-    margin: .1rem;
-  }
-  .scoreSpan{
-    color:indianred;
   }
 }

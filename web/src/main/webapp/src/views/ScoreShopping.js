@@ -6,10 +6,11 @@
  */
 import React,{Component} from "react";
 import Back from './Back';
-import "../media/styles/scoreshopping.less";
 import {Button,Toast} from 'react-weui';
+import "../media/styles/scoreshopping.less";
 import axios from 'axios';
 import {connect} from 'react-redux';
+import touxiang from "../media/images/scoredetail.png";
 
 class ScoreShopping extends Component{
     constructor(props){
@@ -67,8 +68,55 @@ class ScoreShopping extends Component{
         }
     }
     render(){
+        let _this = this;
         return (
-          <div className="scoreshopping main-bg">
+            <div className="root">
+                <div className="scoreshopping score-bg">
+                    <div className='clearfix'>
+                        <Back location='/home' history={this.props.history}/>
+                    </div>
+                    <div className="detail">
+                        <img src={touxiang}></img>
+                        <br/>
+                        <span>时刻都爱上</span>
+                        <br/>
+                        <span>剩余积分:{this.state.awardInfo[0].myScore}</span>
+                    </div>
+                </div>
+                <div className="bottomDiv">
+                    <div className="task">
+                        <div className="leftDiv">
+                            <span>腾讯视频会员月卡</span>
+                            <span className="desc">{this.getCurrentAwardScore("TENCENT_VIP").score}积分</span>
+                        </div>
+                        <div className="rightDiv"><i className="plus"/></div>
+                        { /*{this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TENCENT_VIP").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>*/}
+                    </div>
+                    <div className="task">
+                        <div className="leftDiv">
+                            <span>ofo用车券</span>
+                            <span className="desc">{this.getCurrentAwardScore("OFO_COUPON").score}积分</span>
+                        </div>
+                        <div className="rightDiv"><i className="disPlus"/></div>
+                        {/* {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("OFO_COUPON").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>*/}
+                    </div>
+                    <div className="task">
+                        <div className="leftDiv">
+                            <span>购物优惠券(满49减5)</span>
+                            <span className="desc">{this.getCurrentAwardScore("FIVE_COUPON").score}积分</span>
+                        </div>
+                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("FIVE_COUPON").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>
+                    </div>
+                    <div className="task">
+                        <div className="leftDiv">
+                            <span>购物优惠券(满99减10)</span>
+                            <span className="desc">{this.getCurrentAwardScore("TEN_COUPON").score}积分</span>
+                        </div>
+                        {this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TEN_COUPON").score?<div className="rightDiv" onClick={() =>_this.handleShare}><i className="plus"/></div>:<div className="rightDiv"><i className="disPlus"/></div>}>
+                    </div>
+                </div>
+
+                {/*<div className="scoreshopping main-bg">
               <div className='clearfix'>
                   <Back location={this.state.location} history={this.props.history} />
               </div>
@@ -115,7 +163,9 @@ class ScoreShopping extends Component{
                   </div>
               </div>
               <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-          </div>
+          </div>*/}
+                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+            </div>
         );
     }
 }
