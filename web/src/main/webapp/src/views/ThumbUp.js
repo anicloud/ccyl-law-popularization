@@ -4,6 +4,8 @@ import axios from 'axios';
 import {Toast} from 'react-weui';
 import '../media/styles/thumb.less';
 import icon from '../media/images/signin_icon.png';
+import header from '../media/imgs/header_thumbup.png';
+import btn_thumbup from '../media/imgs/btn_thumbup.png';
 
 class ThumbUp extends Component {
     constructor(props) {
@@ -70,8 +72,47 @@ class ThumbUp extends Component {
         let isThumbUp = this.state.isThumbUp;
         let scoreInfo = this.state.scoreInfo;
         return (
-            <div className='thumb main-bg'>
-                {scoreInfo? (
+            <div className='thumb common-bg'>
+                <div className='text-center header'>
+                    <img src={header} alt=""/>
+                </div>
+                {
+                    isThumbUp? (
+                        <div className='wrapper'>
+                            <div className='wrapper-thumb'>
+                                <div className='third'>
+                                    <p>恭喜你已为好友</p>
+                                    <p>Olivia Heldens</p>
+                                    <p>点赞成功</p>
+                                </div>
+                                <div className='four'>
+                                    <p>我也要争做普法小先锋与好友PK赢奖品</p>
+                                </div>
+                            </div>
+                            <div className='text-center thumb-btn'>
+                                <div className='right-now' onClick={this.handleAnswer}>马上答题</div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className='wrapper'>
+                            <div className='clearfix wrapper-thumb'>
+                                <div className='pull-left first'>
+                                    <img src={icon} alt=""/>
+                                    <p>Olivia Olivia</p>
+                                </div>
+                                <div className='pull-right second'>
+                                    <div>
+                                        <p>我正在争当普法小先锋，目前积分<span>2048</span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='text-center thumb-btn'>
+                                <img src={btn_thumbup} onClick={this.handleThumb} alt=""/>
+                            </div>
+                        </div>
+                    )
+                }
+                {/*{scoreInfo? (
                     <div>
                         <h2 className="text-center title">
                             <span>{scoreInfo.name}的荣誉</span>
@@ -96,7 +137,7 @@ class ThumbUp extends Component {
                     </div>
                 ) : (
                     <Toast icon="loading" show={true}>Loading...</Toast>
-                )}
+                )}*/}
                 <Toast icon="success-no-circle" show={this.state.showToast}>点赞成功</Toast>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
