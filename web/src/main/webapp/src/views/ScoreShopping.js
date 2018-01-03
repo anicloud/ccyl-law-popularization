@@ -10,7 +10,6 @@ import {Button,Toast} from 'react-weui';
 import "../media/styles/scoreshopping.less";
 import axios from 'axios';
 import {connect} from 'react-redux';
-import touxiang from "../media/images/scoredetail.png";
 import disPlus from "../media/imgs/displus.png";
 
 class ScoreShopping extends Component{
