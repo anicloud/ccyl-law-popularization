@@ -3,8 +3,6 @@ import Back from './Back';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {Toast} from 'react-weui';
-import {getPartName} from "../utils/index";
-import icon from '../media/images/signin_icon.png';
 import header from '../media/imgs/header_glory.png';
 import '../media/styles/score.less';
 
@@ -13,12 +11,22 @@ class ScoreBoard extends Component {
         super(props);
         this.state = {
             rankingInfo: null,
-            location: this.props.location.state? this.props.location.state : '/home'
+            location: this.props.location.state? this.props.location.state : '/home',
+            myRankInfo: null
         }
     }
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+            if (response.data.data !== null) {
+                _this.setState({
+                    myRankInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
         axios.get(`${host}/score/findTop20`).then(function (response) {
             if (response.data.state === 0) {
                 if (response.data.data !== null) {
@@ -33,6 +41,7 @@ class ScoreBoard extends Component {
     }
     render() {
         let rankingInfo = this.state.rankingInfo;
+        let myRankInfo = this.state.myRankInfo;
         return (
             <div className='score common-bg'>
                 <div className='clearfix'>
@@ -49,17 +58,41 @@ class ScoreBoard extends Component {
                        全国排名
                    </div>
                 </div>
-                <div className='my-ranking clearfix'>
-                    <div className='pull-left first'>
-                        <img src={icon} alt=""/>
-                    </div>
-                    <div className='pull-left second'>
-                        <div>1,080</div>
-                        <div>Alex Nelson</div>
-                    </div>
-                    <div className='pull-right third'>320</div>
-                </div>
-                <div className='top-ranking clearfix'>
+                {
+                    myRankInfo? (
+                        <div className='my-ranking clearfix'>
+                            <div className='pull-left first'>
+                                <img src={myRankInfo.portrait} alt=""/>
+                            </div>
+                            <div className='pull-left second'>
+                                <div>{myRankInfo.totalScore}</div>
+                                <div>{myRankInfo.nickName}</div>
+                            </div>
+                            <div className='pull-right third'>{myRankInfo.ranking}</div>
+                        </div>
+                    ) : (null)
+                }
+                {
+                    rankingInfo? (
+                        rankingInfo.map(function (item, index) {
+                            return (
+                                <div className='top-ranking clearfix'>
+                                    <div className='pull-left first'>
+                                        <img src={item.portrat} alt=""/>
+                                    </div>
+                                    <div className='pull-left second'>
+                                        <div>{item.score}</div>
+                                        <div>{item.name}</div>
+                                    </div>
+                                    <div className='pull-right third'>{index + 1}</div>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <div className='text-center ranking'>暂无荣耀榜相关信息</div>
+                    )
+                }
+                {/*<div className='top-ranking clearfix'>
                     <div className='pull-left first'>
                         <img src={icon} alt=""/>
                     </div>
@@ -108,7 +141,7 @@ class ScoreBoard extends Component {
                         <div>Alex Nelson</div>
                     </div>
                     <div className='pull-right third'>5</div>
-                </div>
+                </div>*/}
                 {/*{
                     rankingInfo? (
                         rankingInfo.map((item, index) => {

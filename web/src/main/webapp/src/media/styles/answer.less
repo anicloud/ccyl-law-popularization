@@ -5,19 +5,22 @@
   padding: .4rem .3rem 0;
   position: relative;
   overflow: auto;
-  .h2.title {
-    margin: 0;
-    font-size: .6rem;
-  }
   .h3.title {
     margin: 0.4rem auto 0;
     font-size: .4rem;
   }
   .questionButton, .share {
-    margin: 1rem auto;
-    width: 2rem;
+    margin: 1rem auto .2rem;
+    width: 2.6rem;
+    line-height: .7rem;
     text-align: center;
-    font-size: .36rem;
+    font-size: .3rem;
+    background-color: #8fc440;
+    border: .06rem solid #fff;
+    border-radius: .2rem;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: .02rem;
   }
   .share {
     width: 4rem;
@@ -26,6 +29,44 @@
     margin-top: 2rem;
     font-size: .4rem;
     color: #f60;
+  }
+  .wrapper {
+    position: absolute;
+    top: 1.5rem;
+    bottom: 0;
+    left: .4rem;
+    right: .4rem;
+    overflow: auto;
+    background-color: rgba(255, 255, 255, .8);
+    border-top-left-radius: .1rem;
+    border-top-right-radius: .1rem;
+    .wrapper-title {
+      margin: 0;
+      line-height: 1.12rem;
+      font-size: .4rem;
+      background-color: #8fc440;
+      padding-left: .48rem;
+      letter-spacing: .03rem;
+    }
+    .wrapper-body {
+      color: #000;
+      font-weight: bold;
+      padding-left: .48rem;
+      padding-right: .48rem;
+      h4 {
+        margin: 0;
+        letter-spacing: .02rem;
+        line-height: 1.4rem;
+        font-size: .34rem;
+        font-weight: bold;
+        color: #555;
+        i {
+          color: #7e7e7e;
+          font-style: normal;
+          font-weight: normal;
+        }
+      }
+    }
   }
 }
 

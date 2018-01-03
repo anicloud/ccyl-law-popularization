@@ -25,6 +25,8 @@ public class MyAwardDto implements Serializable {
         this.isReceivedAward = isReceivedAward;
         this.createTime = createTime;
     }
+    public MyAwardDto() {
+    }
 
     public Boolean getIsReceivedAward() {
         return isReceivedAward;
@@ -32,9 +34,6 @@ public class MyAwardDto implements Serializable {
 
     public void setIsReceivedAward(Boolean receivedAward) {
         isReceivedAward = receivedAward;
-    }
-
-    public MyAwardDto() {
     }
 
     public Timestamp getCreateTime() {
