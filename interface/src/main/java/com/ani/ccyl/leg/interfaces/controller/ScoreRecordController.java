@@ -81,8 +81,13 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         scoreRecordService.insertScore(accountDto.getId(),Constants.Score.SIGN_IN_SCORE,null, ScoreSrcTypeEnum.SIGN_IN,accountDto.getId());
+        TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountDto.getId());
+        if(totalScore != null) {
+            totalScore.setPortrait(accountDto.getPortrait());
+            totalScore.setNickName(accountDto.getNickName());
+        }
         message.setState(ResponseStateEnum.OK);
-        message.setData(scoreRecordService.findTotalScore(accountDto.getId()));
+        message.setData(totalScore);
         message.setMsg("签到成功");
         return message;
     }
