@@ -56,19 +56,21 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
+
+    }
+    changeMyPrize() {
         //我的奖品获取
+        let _this = this;
         axios.get(`${host}/score/findMyAwards`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     myAwardInfo: response.data.data
-                })
+                });
+                this.setState({ showMyPrize: true});
             }
         }).catch(function (errors) {
             console.log(errors);
         })
-    }
-    changeMyPrize() {
-        this.setState({ showMyPrize: true});
     }
 
     handleShopping() {
@@ -207,7 +209,7 @@ class MyScore extends Component {
                         <Back location='/home' history={this.props.history}/>
                     </div>
                     <div className="detail">
-                        <img src={scoreInfo.portrait}></img>
+                        <img src={scoreInfo.portrait} className="touxiang"></img>
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>

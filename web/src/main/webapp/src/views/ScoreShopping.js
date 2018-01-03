@@ -70,7 +70,7 @@ class ScoreShopping extends Component{
                         <Back location='/home' history={this.props.history}/>
                     </div>
                     <div className="detail">
-                        <img src={userInfo.portrait}></img>
+                        <img src={userInfo.portrait} className="touxiang"></img>
                         <br/>
                         <span>{userInfo.nickName}</span>
                         <br/>
