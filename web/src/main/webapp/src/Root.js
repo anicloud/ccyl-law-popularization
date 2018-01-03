@@ -60,9 +60,9 @@ class Root extends Component {
     }
     componentDidMount() {
         // TODO: 测试使用
-        this.setState({
+        /*this.setState({
             showLoading: false
-        });
+        });*/
         jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             axios.get(`${store.getState().host}/account/findById`).then(function (response) {
