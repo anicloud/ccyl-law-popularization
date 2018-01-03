@@ -153,6 +153,8 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         scoreRecordService.updateConvertAward(accountDto.getId(), awardType);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("兑换成功");
         return message;
     }
 
