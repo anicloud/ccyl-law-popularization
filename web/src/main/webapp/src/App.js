@@ -49,7 +49,7 @@ class App extends Component {
                     <div className='list-first' onClick={() => {this.handleTouch(5)}}>荣耀榜</div>
                     <div className='list-second' onClick={() => {this.handleTouch(0)}}>竞赛介绍</div>
                     <div className='list-third' onClick={() => {this.handleTouch(3)}}>我的积分</div>
-                    <div className='list-four' onClick={this.handleSign}>每日签到</div>
+                    <div className='list-four' onClick={() => {this.handleTouch(3)}}>每日签到</div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>

@@ -42,7 +42,7 @@ public class AccountAdapter {
         if(accountDto != null)
             try {
                 return new AccountPO(
-                        accountDto.getId()==null?null:accountDto.getId(),
+                        accountDto.getId(),
                         accountDto.getOpenId(),
                         accountDto.getAccountName(),
                         accountDto.getAccountPwd(),
