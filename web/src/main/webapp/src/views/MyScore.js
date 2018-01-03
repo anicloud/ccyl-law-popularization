@@ -8,7 +8,6 @@ import Back from './Back';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import "../media/styles/myscore.less";
-import touxiang from "../media/images/scoredetail.png";
 import disPlus from "../media/imgs/displus.png";
 
 class MyScore extends Component {
@@ -61,6 +60,7 @@ class MyScore extends Component {
     changeMyPrize() {
         //我的奖品获取
         let _this = this;
+        const {host} = _this.props;
         axios.get(`${host}/score/findMyAwards`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
