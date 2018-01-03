@@ -18,7 +18,8 @@ class ScoreShopping extends Component{
        super(props);
         this.state = {
             location: this.props.location.state? this.props.location.state : '/home',
-            awardInfo: []
+            awardInfo: [],
+            userInfo:[]
         };
     }
 
@@ -29,6 +30,15 @@ class ScoreShopping extends Component{
             if (response.data.state === 0) {
                 _this.setState({
                     awardInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
+        axios.get(`${host}/account/findById`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    userInfo: response.data.data
                 })
             }
         }).catch(function (errors) {
@@ -52,6 +62,7 @@ class ScoreShopping extends Component{
     }
     render(){
         let _this = this;
+        let userInfo = this.state.userInfo;
         return (
             <div className="root">
                 <div className="scoreshopping score-bg">
@@ -59,9 +70,9 @@ class ScoreShopping extends Component{
                         <Back location='/home' history={this.props.history}/>
                     </div>
                     <div className="detail">
-                        <img src={touxiang}></img>
+                        <img src={userInfo.portrait}></img>
                         <br/>
-                        <span>时刻都爱上</span>
+                        <span>{userInfo.nickName}</span>
                         <br/>
                         <span>剩余积分:{this.state.awardInfo[0].myScore}</span>
                     </div>

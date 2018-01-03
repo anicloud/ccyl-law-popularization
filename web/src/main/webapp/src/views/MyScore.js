@@ -16,7 +16,7 @@ class MyScore extends Component {
         super(props);
         this.state = {
             location: '/home',
-            scoreInfo: null,
+            scoreInfo: {},
             myPrizeTitle:"我的奖品",
             showMyPrize:false,
             showPrizeDetail:false,
@@ -78,10 +78,19 @@ class MyScore extends Component {
         });
     }
     handleSignIn() {
-        this.props.history.push({
-            pathname: '/signin',
-            state: '/tasks'
+        let _this = this;
+        const {host} = _this.props;
+        axios.get(`${host}/score/signIn`).then(function (response) {
+            if (response.data.state === 0) {
+                response.data.data
+            }
+        }).catch(function (errors) {
+            console.log(errors);
         });
+        //this.props.history.push({
+        //    pathname: '/signin',
+        //    state: '/tasks'
+        //});
     }
     handleShare() {
         const {history} = this.props;
@@ -198,9 +207,9 @@ class MyScore extends Component {
                         <Back location='/home' history={this.props.history}/>
                     </div>
                     <div className="detail">
-                        <img src={touxiang}></img>
+                        <img src={scoreInfo.portrait}></img>
                         <br/>
-                        <span>时刻都爱上</span>
+                        <span>{scoreInfo.nickName}</span>
                         <br/>
                         <span>当前积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
                     </div>
@@ -220,12 +229,9 @@ class MyScore extends Component {
                     <div className="task">
                         <div className="leftDiv">
                             <span>签到</span>
-                            <span className="desc">已签{scoreInfo? scoreInfo.signInCount : 0}次</span>
+                            <span className="desc">已签{scoreInfo?scoreInfo.signInCount : 0}次</span>
                         </div>
-                        <div className="rightDiv" onClick={this.handleSignIn}>
-                            <i className="plus"/>
-
-                        </div>
+                        {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={this.handleSignIn}> <i className="plus"/></div>}
                     </div>
                     <div className="task">
                         <div className="leftDiv">
