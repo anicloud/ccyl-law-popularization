@@ -24,6 +24,8 @@ class ThumbUp extends Component {
         let _this = this;
         const {host} = _this.props;
         const userId = _this.props.location.state;
+        alert(_this.props.location.state);
+        alert(userId);
         axios.get(`${host}/share/findThumbUpInfo?id=${userId}`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
