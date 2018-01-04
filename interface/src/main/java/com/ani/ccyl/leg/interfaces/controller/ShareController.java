@@ -75,7 +75,7 @@ public class ShareController {
     public ModelAndView toThumbUp(Integer accountId) throws IOException {
 //        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId);
 //        response.sendRedirect(url);
-        ModelAndView modelAndView = new ModelAndView("");
+        ModelAndView modelAndView = new ModelAndView("thumbUp");
         AccountDto toAccountDto = accountService.findById(accountId);
         if(toAccountDto != null) {
             ThumbUpDto thumbUpDto = new ThumbUpDto();
