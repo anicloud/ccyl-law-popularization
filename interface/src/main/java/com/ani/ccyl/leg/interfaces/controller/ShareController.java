@@ -50,6 +50,7 @@ public class ShareController {
         shareDto.setUrl(Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",String.valueOf(accountDto.getId())));
         shareDto.setPortrait(accountDto.getPortrait());
         message.setMsg("查询成功");
+        message.setData(shareDto);
         message.setState(ResponseStateEnum.OK);
         return message;
     }
