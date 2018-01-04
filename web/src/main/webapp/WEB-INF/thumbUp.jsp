@@ -67,7 +67,7 @@
     }
     .thumb .wrapper .wrapper-thumb .first {
       padding-top: .6rem;
-      padding-left: 1.2rem;
+      padding-left: 1rem;
     }
     .thumb .wrapper .wrapper-thumb .first img {
       width: 1.58rem;
@@ -77,10 +77,10 @@
     .thumb .wrapper .wrapper-thumb .first p {
       line-height: 1rem;
       color: #4a4b4c;
-      font-size: .58rem;
+      font-size: .48rem;
     }
     .thumb .wrapper .wrapper-thumb .second {
-      padding-right: 1.2rem;
+      padding-right: 1rem;
     }
     .thumb .wrapper .wrapper-thumb .second div {
       width: 4.4rem;
@@ -90,7 +90,7 @@
       padding: .4rem;
     }
     .thumb .wrapper .wrapper-thumb .second div p {
-      font-size: .54rem;
+      font-size: .4rem;
       color: #823c25;
       font-weight: bold;
     }
@@ -165,7 +165,7 @@
           type: "GET",
           cache:false,
           success: function (response) {
-            alert(response.data.state);
+            alert(response);
             if(response.data.state===0){
               alert("点赞成功!");
             }
