@@ -79,7 +79,7 @@
     }
     .thumb .wrapper .wrapper-thumb .first {
       padding-top: .6rem;
-      padding-left: .4rem;
+      padding-left: .8rem;
     }
     .thumb .wrapper .wrapper-thumb .first img {
       width: 1.28rem;
@@ -92,7 +92,7 @@
       font-size: .38rem;
     }
     .thumb .wrapper .wrapper-thumb .second {
-      padding-right: .4rem;
+      padding-right: .8rem;
     }
     .thumb .wrapper .wrapper-thumb .second div {
       width: 3.4rem;
