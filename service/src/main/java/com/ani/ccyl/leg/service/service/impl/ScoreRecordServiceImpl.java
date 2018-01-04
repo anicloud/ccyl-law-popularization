@@ -320,12 +320,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         List<ScoreRecordPO> selfRanks = scoreRecordMapper.findSelfRank(new Timestamp(System.currentTimeMillis()));
         MySelfRankDto mySelfRankDto = new MySelfRankDto();
         if(selfRanks != null) {
-            int order = 0;
+            int order = -1;
+            int temp = 0;
             for(ScoreRecordPO scoreRecordPO:selfRanks) {
-                order ++;
+                temp ++;
                 if(scoreRecordPO.getAccountId().equals(accountId)) {
+                    order = temp;
                     break;
                 }
+                mySelfRankDto.setRanking(order);
             }
             AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
             ScoreRecordPO scoreRecordParam = new ScoreRecordPO();

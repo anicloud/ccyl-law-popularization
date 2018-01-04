@@ -5,6 +5,8 @@ import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
+import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
+import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
@@ -15,11 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 @Controller
 @RequestMapping("/share")
@@ -30,6 +34,8 @@ public class ShareController {
     private QuestionService questionService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private ScoreRecordMapper scoreRecordMapper;
     private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
 
     @RequestMapping(value = "/share", method = RequestMethod.GET)
@@ -66,24 +72,49 @@ public class ShareController {
         return message;
     }
     @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto toThumbUp(String accountId, HttpServletResponse response) throws IOException {
-        ResponseMessageDto message = new ResponseMessageDto();
-        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId);
-        response.sendRedirect(url);
-        message.setMsg("success");
-        message.setState(ResponseStateEnum.OK);
-        return message;
+    public ModelAndView toThumbUp(Integer accountId) throws IOException {
+//        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId);
+//        response.sendRedirect(url);
+        ModelAndView modelAndView = new ModelAndView("thumbUp");
+        AccountDto toAccountDto = accountService.findById(accountId);
+        if(toAccountDto != null) {
+            ThumbUpDto thumbUpDto = new ThumbUpDto();
+            thumbUpDto.setToNickName(toAccountDto.getNickName());
+            thumbUpDto.setToPortrait(toAccountDto.getPortrait());
+            TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountId);
+            thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
+            thumbUpDto.setAccountId(accountId);
+            modelAndView.addObject("thumbUpDto",thumbUpDto);
+        }
+        return modelAndView;
     }
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto thumbUp(Integer toAccountId, HttpSession session) {
+    public ResponseMessageDto thumbUp(Integer toAccountId) {
         ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
-        message.setMsg("点赞成功");
-        message.setState(ResponseStateEnum.OK);
+//        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+//        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
+        Integer thumbUpCount = scoreRecordMapper.findDailyThumbUpCount(toAccountId);
+        if(thumbUpCount<5) {
+            ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
+            scoreRecordPO.setAccountId(toAccountId);
+            scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
+            scoreRecordPO.setScore(Constants.Score.THUMB_UP_SCORE);
+            scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            scoreRecordPO.setDel(false);
+            scoreRecordMapper.insertSelective(scoreRecordPO);
+            message.setMsg("点赞成功");
+            message.setState(ResponseStateEnum.OK);
+        } else {
+            message.setMsg("点赞次数达到上限");
+            message.setState(ResponseStateEnum.ERROR);
+        }
         return message;
+    }
+
+    @RequestMapping(value = "/goToAnswerQuestion")
+    public String goToAnswerQuestion() {
+        return "subscribe";
     }
 
     @RequestMapping(value = "/findThumbUpInfo", method = RequestMethod.GET)
