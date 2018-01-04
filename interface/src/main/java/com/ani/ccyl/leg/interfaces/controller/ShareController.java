@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/share")
@@ -39,8 +42,9 @@ public class ShareController {
 
     @RequestMapping(value = "/findShareInfo", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findShareInfo(HttpSession session) {
+    public ResponseMessageDto findShareInfo(HttpServletRequest request) {
         ResponseMessageDto message = new ResponseMessageDto();
+        HttpSession session = request.getSession();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountDto.getId());
         Integer correctCount = questionService.findDailyCorrectCount(accountDto.getId());
@@ -51,10 +55,20 @@ public class ShareController {
         } catch (NullPointerException e) {
             shareDto.setTotalScore(0);
         }
-        shareDto.setUrl(Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",String.valueOf(accountDto.getId())));
+        shareDto.setUrl(Constants.PROPERTIES.getProperty("http.host")+"/share/toThumbUp?accountId="+accountDto.getId());
         shareDto.setPortrait(accountDto.getPortrait());
         message.setMsg("查询成功");
         message.setData(shareDto);
+        message.setState(ResponseStateEnum.OK);
+        return message;
+    }
+    @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto toThumbUp(String accountId, HttpServletResponse response) throws IOException {
+        ResponseMessageDto message = new ResponseMessageDto();
+        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId);
+        response.sendRedirect(url);
+        message.setMsg("success");
         message.setState(ResponseStateEnum.OK);
         return message;
     }
