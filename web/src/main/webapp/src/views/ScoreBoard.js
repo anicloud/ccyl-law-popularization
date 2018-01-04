@@ -65,7 +65,7 @@ class ScoreBoard extends Component {
                                 <img src={myRankInfo.portrait} alt=""/>
                             </div>
                             <div className='pull-left second'>
-                                <div>{myRankInfo.totalScore}</div>
+                                <div>{myRankInfo.totalScore? myRankInfo.totalScore : 0}</div>
                                 <div>{myRankInfo.nickName}</div>
                             </div>
                             <div className='pull-right third'>{myRankInfo.ranking}</div>
