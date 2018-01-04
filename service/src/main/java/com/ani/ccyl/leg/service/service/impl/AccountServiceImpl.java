@@ -41,6 +41,7 @@ public class AccountServiceImpl implements AccountService {
         accountPO.setSex(sex.equals("1"));
         accountPO.setNickName(URLEncoder.encode(nickName,"utf-8"));
         accountPO.setPortrait(portrait);
+        boolean isNew = true;
         if(accountPOs.size()==0) {
             accountPO.setAccountName(openId);
             accountPO.setAccountPwd(Encrypt.md5hash(Constants.DEFAULT_PWD,openId));
@@ -51,8 +52,11 @@ public class AccountServiceImpl implements AccountService {
             accountPO.setId(accountPOs.get(0).getId());
             accountPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             accountMapper.updateByPrimaryKeySelective(accountPO);
+            isNew = false;
         }
-        return AccountAdapter.fromPO(accountPO);
+        AccountDto accountDto = AccountAdapter.fromPO(accountPO);
+        accountDto.setNew(isNew);
+        return accountDto;
     }
 
     @Override
