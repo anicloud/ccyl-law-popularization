@@ -2,6 +2,7 @@ package com.ani.ccyl.leg.service.adapter;
 
 import com.ani.ccyl.leg.commons.dto.AccountDto;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
+import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -50,7 +51,7 @@ public class AccountAdapter {
                         accountDto.getEmail(),
                         accountDto.getAddress(),
                         accountDto.getProvince(),
-                        URLEncoder.encode(accountDto.getNickName(),"utf-8"),
+                        StringUtils.isEmpty(accountDto.getNickName())?URLEncoder.encode("","utf-8"):URLEncoder.encode(accountDto.getNickName(),"utf-8"),
                         accountDto.getPortrait(),
                         null,
                         new Timestamp(System.currentTimeMillis()),

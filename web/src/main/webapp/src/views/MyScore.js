@@ -18,7 +18,7 @@ class MyScore extends Component {
             location: '/home',
             scoreInfo: {},
             myPrizeTitle:"我的奖品",
-            showMyPrize:this.props.location?false:this.props.location.state?false:this.props.location.state.ifFromRegist?false:this.props.location.state.ifFromRegist===true?true:false,
+            showMyPrize:false,
             showPrizeDetail:false,
             showSuccess:false,
             successInfo:"",
@@ -61,8 +61,8 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        console.log(_this.props.location.state.ifFromRegist);
-        if(_this.props.location!=null&&_this.props.location.state!=null&&_this.props.location.state.ifFromRegist!=null){
+        if(_this.props.location!==undefined&&_this.props.location!==null&&_this.props.location.state!==undefined&&_this.props.location.state!==null&&_this.props.location.state.ifFromRegist!==undefined&&_this.props.location.state.ifFromRegist!==null){
+            console.log(_this.props.location.state.ifFromRegist);
             this.changeMyPrize();
         }
     }
