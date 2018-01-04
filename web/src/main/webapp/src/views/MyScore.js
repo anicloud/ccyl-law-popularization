@@ -61,9 +61,6 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-console.log(_this.props);
-console.log(_this.props.location);
-console.log(_this.props.location.state);
         if(_this.props.location!==undefined&&_this.props.location!==null&&_this.props.location.state!==undefined&&_this.props.location.state!==null&&_this.props.location.state.ifFromRegist!==undefined&&_this.props.location.state.ifFromRegist!==null){
             console.log(_this.props.location.state.ifFromRegist);
             this.changeMyPrize();
