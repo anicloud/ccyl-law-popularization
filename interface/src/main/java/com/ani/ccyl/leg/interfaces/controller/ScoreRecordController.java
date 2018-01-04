@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+import com.ani.ccyl.leg.service.service.facade.QuestionService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ import java.util.List;
 public class ScoreRecordController {
     @Autowired
     private ScoreRecordService scoreRecordService;
+    @Autowired
+    private QuestionService questionService;
     @RequestMapping(value = "/findDailyRecord", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findDailyRecord(HttpSession session) {
@@ -89,40 +92,6 @@ public class ScoreRecordController {
         message.setState(ResponseStateEnum.OK);
         message.setData(totalScore);
         message.setMsg("签到成功");
-        return message;
-    }
-
-    @RequestMapping(value = "thumbUp", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto thumbUp(Integer toAccountId, HttpSession session) {
-        ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
-        message.setMsg("点赞成功");
-        message.setState(ResponseStateEnum.OK);
-        return message;
-    }
-
-    @RequestMapping(value = "share", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto share(HttpSession session) {
-        ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        scoreRecordService.insertScore(accountDto.getId(),Constants.Score.SHARE_SCORE,null,ScoreSrcTypeEnum.SHARE,accountDto.getId());
-        message.setMsg("分享成功");
-        message.setState(ResponseStateEnum.OK);
-        return message;
-    }
-
-    @RequestMapping(value = "/isThumbUp", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto isThumbUp(Integer toAccountId, HttpSession session) {
-        ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        Boolean isThumbUp = scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId);
-        message.setData(isThumbUp);
-        message.setState(ResponseStateEnum.OK);
-        message.setMsg("查询成功");
         return message;
     }
 
