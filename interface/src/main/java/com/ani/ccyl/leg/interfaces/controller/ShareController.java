@@ -112,7 +112,7 @@ public class ShareController {
         return message;
     }
 
-    @RequestMapping(value = "goToAnswerQuestion")
+    @RequestMapping(value = "/goToAnswerQuestion")
     public String goToAnswerQuestion() {
         return "subscribe";
     }

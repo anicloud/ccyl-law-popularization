@@ -74,6 +74,7 @@
 				/share/toThumbUp = anon
 				/ = anon
 				/share/thumbUp = anon
+				/share/goToAnswerQuestion = anon
 				/** = authc
 			</value>
 		</property>
