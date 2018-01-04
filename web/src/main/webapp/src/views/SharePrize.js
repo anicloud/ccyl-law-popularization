@@ -126,7 +126,7 @@ class SharePrize extends Component {
                 </div>
                 <div className='wrapper'>
                     <h2 className='wrapper-title'>
-                        重答 <img src={reback} alt=""/>
+                        <span>重答 <img src={reback} alt=""/></span>
                     </h2>
                     <div className='sum-score'>
                         <div>+6</div>
