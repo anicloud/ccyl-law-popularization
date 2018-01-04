@@ -25,6 +25,7 @@ public class AccountDto implements Serializable {
     private String orgName;
     private Integer age;
     private String name;
+    private Boolean isNew;
 
     public AccountDto(Integer id, String openId, String accountName, String accountPwd, String phone, String email, String address, ProvinceEnum province, String nickName, String portrait, Boolean sex, String orgName, Integer age, String name) {
         this.id = id;
@@ -41,6 +42,14 @@ public class AccountDto implements Serializable {
         this.orgName = orgName;
         this.age = age;
         this.name = name;
+    }
+
+    public Boolean getNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
     }
 
     public String getName() {
