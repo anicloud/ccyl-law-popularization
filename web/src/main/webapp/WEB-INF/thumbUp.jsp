@@ -143,6 +143,8 @@
       line-height: 1rem;
       text-align: center;
       font-size: .4rem;
+      margin-top: .4rem;
+      display:block;
     }
 
   </style>
