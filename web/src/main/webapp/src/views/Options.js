@@ -9,6 +9,7 @@ class Options extends Component {
     componentWillMount() {
         let search = this.props.location.search;
         let opt = getSearchString(search, 'op');
+        alert(search);
         switch (opt) {
             case 'LOGIN_SUCCESS':
                 this.props.history.push('/');
