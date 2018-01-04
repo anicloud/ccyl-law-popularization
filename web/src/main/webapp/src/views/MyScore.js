@@ -369,6 +369,7 @@ class MyScore extends Component {
                     {this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret} className="srcImg"></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
                 </Dialog>
                 <Dialog type="ios" title="提示" buttons={this.state.tishiButtons} show={this.state.showTishi}>
+                    <br/>
                     兑换奖品前需补全信息，是否跳转
                 </Dialog>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
