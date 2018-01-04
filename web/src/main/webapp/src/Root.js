@@ -70,8 +70,11 @@ class Root extends Component {
         window.wx.ready(function () {
             window.wx.getLocation({
                 success: function (res) {
-                    console.log(JSON.stringify(res));
-                    console.log(res);
+                    axios.get(`${store.getState().host}/account/updateProvince?log=${res.longitude}&lat=${res.latitude}`).then(function (response) {
+
+                    }).catch(function (errors) {
+                        console.log(errors);
+                    })
                 }
             });
             axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
