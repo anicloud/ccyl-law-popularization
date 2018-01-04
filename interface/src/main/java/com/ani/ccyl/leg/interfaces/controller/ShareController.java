@@ -46,7 +46,11 @@ public class ShareController {
         Integer correctCount = questionService.findDailyCorrectCount(accountDto.getId());
         ShareDto shareDto = new ShareDto();
         shareDto.setCorrectCount(correctCount);
-        shareDto.setTotalScore(totalScore==null?0:totalScore.getScore());
+        try {
+            shareDto.setTotalScore(totalScore==null?0:totalScore.getScore());
+        } catch (NullPointerException e) {
+            shareDto.setTotalScore(0);
+        }
         shareDto.setUrl(Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",String.valueOf(accountDto.getId())));
         shareDto.setPortrait(accountDto.getPortrait());
         message.setMsg("查询成功");
