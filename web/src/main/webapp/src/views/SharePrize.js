@@ -25,79 +25,47 @@ class SharePrize extends Component {
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
         this.handleShare = this.handleShare.bind(this);
+        this.backAnswer = this.backAnswer.bind(this);
     }
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/score/findDailyTotalScore?id=${_this.userId}`).then(function (response) {
+        axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     scoreInfo: response.data.data
                 });
                 let scoreInfo = response.data.data;
-                let prize = scoreInfo.score === 10? '金牌' : scoreInfo.score === 8? '银牌' : scoreInfo.score === 6? '铜牌' : '鼓励';
-                axios.get(`${host}/wechat/shareUrl`).then(function (response) {
-                    if (response.data.state === 0) {
-                        window.wx.onMenuShareTimeline({
-                            title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
-                            link: response.data.data,
-                            imgUrl: scoreInfo.portrait,
-                            success: function (res) {
-                                axios.get(`${host}/score/share`).then(function (response) {
-                                    console.log(response);
-                                }).catch(function (errors) {
-                                    console.log(errors);
-                                });
-                                /*_this.setState({
-                                    showToast: true,
-                                    toastText: '分享成功'
-                                });
-                                _this.toastTimer = setTimeout(()=> {
-                                    _this.setState({showToast: false});
-                                }, 2000);*/
-                            },
-                            fail: function (res) {
-                                /*_this.setState({
-                                    showToast: true,
-                                    toastText: '分享失败'
-                                });
-                                _this.toastTimer = setTimeout(()=> {
-                                    _this.setState({showToast: false});
-                                }, 2000);*/
-                            }
+                window.wx.onMenuShareTimeline({
+                    title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
+                    link: scoreInfo.url,
+                    imgUrl: scoreInfo.portrait,
+                    success: function (res) {
+                        axios.get(`${host}/share/share`).then(function (response) {
+                            console.log(response);
+                        }).catch(function (errors) {
+                            console.log(errors);
                         });
-                        window.wx.onMenuShareAppMessage({
-                            title: `我在中国共青团青少年学法用法知识竞赛获得了${prize}，快来支持我并答题吧!`,
-                            link: response.data.data,
-                            imgUrl: scoreInfo.portrait,
-                            desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
-                            success: function(res) {
-                                axios.get(`${host}/score/share`).then(function (response) {
-                                    console.log(response);
-                                }).catch(function (errors) {
-                                    console.log(errors);
-                                });
-                                /*_this.setState({
-                                    showToast: true,
-                                    toastText: '分享成功'
-                                });
-                                _this.toastTimer = setTimeout(()=> {
-                                    _this.setState({showToast: false});
-                                }, 2000);*/
-                            },
-                            fail: function(res) {
-                                /*_this.setState({
-                                    showToast: true,
-                                    toastText: '分享失败'
-                                });
-                                _this.toastTimer = setTimeout(()=> {
-                                    _this.setState({showToast: false});
-                                }, 2000);*/
-                            }
-                        });
+                    },
+                    fail: function (res) {
+
                     }
-                }).catch(function (errors) {
-                    console.log(errors);
+                });
+                window.wx.onMenuShareAppMessage({
+                    title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
+                    link: scoreInfo.url,
+                    imgUrl: scoreInfo.portrait,
+                    desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
+                    success: function(res) {
+                        axios.get(`${host}/score/share`).then(function (response) {
+                            console.log(response);
+                        }).catch(function (errors) {
+                            console.log(errors);
+                        });
+                    },
+                    fail: function(res) {
+
+                    }
                 });
             }
         }).catch(function (errors) {
@@ -114,6 +82,10 @@ class SharePrize extends Component {
             }
         });
     }
+    backAnswer() {
+        const {history} = this.props;
+        history.push('/answer');
+    }
     render() {
         let scoreInfo = this.state.scoreInfo;
         return (
@@ -124,33 +96,27 @@ class SharePrize extends Component {
                 <div className='text-center header'>
                     <img src={Achievement} alt=""/>
                 </div>
-                <div className='wrapper'>
-                    <h2 className='wrapper-title'>
-                        <span>重答 <img src={reback} alt=""/></span>
-                    </h2>
-                    <div className='sum-score'>
-                        <div>+6</div>
-                        <p className='first'>当前积分：<span>2018</span></p>
-                        <p className='second'>答对<span>5</span>题，答错<span>0</span>题</p>
-                    </div>
-                    <div className='thumb-up' onClick={this.handleShare}>拉好友点赞</div>
-                </div>
-                {/*{
+                {
                     scoreInfo? (
-                        <div>
-                            <div className={scoreInfo.score === 10? 'flower-gold' : scoreInfo.score === 8? 'flower-silver' : scoreInfo.score === 6 ? 'flower-copper' : 'flower'}>
-                                <img src={scoreInfo.portrait} alt=""/>
-                                <p className='text-center score-prize'>{scoreInfo.score === 15? '获得金牌' : scoreInfo.score === 10? '获得银牌' : scoreInfo.score === 5? '获得铜牌' : ''}</p>
+                        <div className='wrapper'>
+                            <h2 className='wrapper-title'>
+                                {
+                                    scoreInfo.correctCount === 5? (
+                                        <span>已答完</span>
+                                    ) : (
+                                        <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
+                                    )
+                                }
+                            </h2>
+                            <div className='sum-score'>
+                                <div>+{scoreInfo.correctCount * 2}</div>
+                                <p className='first'>当前积分：<span>{scoreInfo.totalScore}</span></p>
+                                <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
                             </div>
-                            <p className='text-center score-ques'>
-                                答题获得积分：<span>{scoreInfo.score} 积分</span>
-                            </p>
-                            <p className='text-center share'>
-                                <button className='btn btn-success' onClick={this.handleShare}>立即分享</button>
-                            </p>
+                            <div className='thumb-up' onClick={this.handleShare}>拉好友点赞</div>
                         </div>
                     ) : (null)
-                }*/}
+                }
                 <div className='popup' style={{display: this.state.showPopup? 'block' : 'none'}}>
                     <div className='arrow'>
                         <img src={arrow} alt=""/>
