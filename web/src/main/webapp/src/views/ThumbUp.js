@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {Toast} from 'react-weui';
+import {jsSdkConfig} from "../utils/index";
 import '../media/styles/thumb.less';
 import header from '../media/imgs/header_thumbup.png';
 import btn_thumbup from '../media/imgs/btn_thumbup.png';
@@ -13,7 +14,8 @@ class ThumbUp extends Component {
         this.state = {
             scoreInfo: null,
             showToast: false,
-            isThumbUp: false
+            isThumbUp: false,
+            isReady: false
         };
         this.handleAnswer = this.handleAnswer.bind(this);
         this.handleThumb = this.handleThumb.bind(this);
@@ -23,15 +25,21 @@ class ThumbUp extends Component {
         let _this = this;
         const {host} = _this.props;
         const userId = _this.props.location.state;
-        axios.get(`${host}/share/findThumbUpInfo?toAccountId=${userId}`).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({
-                    scoreInfo: response.data.data,
-                    isThumbUp: response.data.data.isThumbUp
-                })
-            }
-        }).catch(function (errors) {
-            console.log(errors);
+        jsSdkConfig(axios, host);
+        window.wx.ready(function () {
+            _this.setState({
+                isReady: true
+            });
+            axios.get(`${host}/share/findThumbUpInfo?toAccountId=${userId}`).then(function (response) {
+                if (response.data.state === 0) {
+                    _this.setState({
+                        scoreInfo: response.data.data,
+                        isThumbUp: response.data.data.isThumbUp
+                    })
+                }
+            }).catch(function (errors) {
+                console.log(errors);
+            });
         });
     }
     componentWillUnmount() {
@@ -62,13 +70,14 @@ class ThumbUp extends Component {
     render() {
         let isThumbUp = this.state.isThumbUp;
         let scoreInfo = this.state.scoreInfo;
+        let isReady = this.state.isReady;
         return (
             <div className='thumb common-bg'>
                 <div className='text-center header'>
                     <img src={header} alt=""/>
                 </div>
                 {
-                    isThumbUp? (
+                    isReady && isThumbUp? (
                         scoreInfo? (
                             <div className='wrapper'>
                                 <div className='wrapper-thumb'>
@@ -107,32 +116,6 @@ class ThumbUp extends Component {
                         ) : (null)
                     )
                 }
-                {/*{scoreInfo? (
-                    <div>
-                        <h2 className="text-center title">
-                            <span>{scoreInfo.name}的荣誉</span>
-                        </h2>
-                        <div className={scoreInfo.score === 10? 'flower-gold' : scoreInfo.score === 8? 'flower-silver' : scoreInfo.score === 6 ? 'flower-copper' : 'flower'}>
-                            <img src={scoreInfo.portrait} alt=""/>
-                            <p className='text-center score-prize'>{scoreInfo.score === 15? '获得金牌' : scoreInfo.score === 10? '获得银牌' : scoreInfo.score === 5? '获得铜牌' : ''}</p>
-                        </div>
-                        <p className='text-center score-ques'>
-                            答题获得积分：<span>{scoreInfo.score} 积分</span>
-                        </p>
-                        <p className='text-center share'>
-                            <button className='btn btn-success' disabled={isThumbUp} onClick={this.handleThumb}>
-                                <i className='glyphicon glyphicon-thumbs-up' style={{color: isThumbUp? '#f60' : '#fff'}} />
-                                <span className='thumb-up' style={{color: isThumbUp? '#f60' : '#fff'}}>{isThumbUp? '已点赞' : '点赞'}</span>
-                            </button>
-                            <button className='btn btn-success' onClick={this.handleAnswer}>
-                                <i className='glyphicon glyphicon-share-alt'/>
-                                <span className='thumb-up'>去答题</span>
-                            </button>
-                        </p>
-                    </div>
-                ) : (
-                    <Toast icon="loading" show={true}>Loading...</Toast>
-                )}*/}
                 <Toast icon="success-no-circle" show={this.state.showToast}>点赞成功</Toast>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
