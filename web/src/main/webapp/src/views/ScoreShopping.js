@@ -21,6 +21,7 @@ class ScoreShopping extends Component{
             location: this.props.location.state? this.props.location.state : '/home',
             warningInfo:"",
             successInfo:"",
+            timer:null,
             awardInfo: [],
             userInfo:[]
         };
@@ -36,10 +37,16 @@ class ScoreShopping extends Component{
                 })
             }
         }).catch(function (errors) {
+            _this.state.timer && clearTimeout(_this.state.timer);
             _this.setState({
                 warningInfo:"请求失败",
                 showWarning:true
             });
+            _this.state.timer = setTimeout(function () {
+                _this.setState({
+                    showWarning:false
+                });
+            }, 2000);
             console.log(errors);
         });
         axios.get(`${host}/account/findById`).then(function (response) {
@@ -49,10 +56,16 @@ class ScoreShopping extends Component{
                 })
             }
         }).catch(function (errors) {
+            _this.state.timer && clearTimeout(_this.state.timer);
             _this.setState({
                 warningInfo:"请求失败",
                 showWarning:true
             });
+            _this.state.timer = setTimeout(function () {
+                _this.setState({
+                    showWarning:false
+                });
+            }, 2000);
             console.log(errors);
         })
     }
@@ -72,16 +85,40 @@ class ScoreShopping extends Component{
         const {host} = _this.props;
         axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
             if (response.data.state === 0) {
+                _this.state.timer && clearTimeout(_this.state.timer);
                 _this.setState({
                     successInfo:"兑换成功",
                     showSuccess:true,
-                })
+                });
+                _this.state.timer = setTimeout(function () {
+                    _this.setState({
+                        showSuccess:false
+                    });
+                }, 2000);
+            }
+            if(response.data.state !== 0){
+                _this.state.timer && clearTimeout(_this.state.timer);
+                _this.setState({
+                    warningInfo:response.date.msg,
+                    showWarning:true
+                });
+                _this.state.timer = setTimeout(function () {
+                    _this.setState({
+                        showWarning:false
+                    });
+                }, 2000);
             }
         }).catch(function (errors) {
+            _this.state.timer && clearTimeout(_this.state.timer);
             _this.setState({
-                warningInfo:errors.data.msg,
+                warningInfo:"请求失败",
                 showWarning:true
             });
+            _this.state.timer = setTimeout(function () {
+                _this.setState({
+                    showWarning:false
+                });
+            }, 2000);
             console.log(errors);
         });
     }
@@ -133,7 +170,7 @@ class ScoreShopping extends Component{
                     </div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-                <Toast icon="warn" show={this.props.showWarning}></Toast>
+                <Toast icon="warn" show={this.state.showWarning}>{this.state.warningInfo}</Toast>
                 <Toast icon="success-no-circle" show={this.state.showSuccess}>{this.state.successInfo}</Toast>
             </div>
         );
