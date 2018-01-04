@@ -173,7 +173,7 @@ class MyScore extends Component {
         axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
             if (response.data.state === 0) {
                 if(response.data.data===false){
-                    this.setState({
+                    _this.setState({
                         showTishi:true,
                     });
                 }else{
