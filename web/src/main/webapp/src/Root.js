@@ -99,9 +99,6 @@ class Root extends Component {
             });
         });
         window.wx.error(function(res) {
-            alert(111);
-            alert(JSON.stringify(res));
-            console.log(res);
             if (res.errMsg === 'config:require subscribe') {
                 _this.setState({
                     isError: true
