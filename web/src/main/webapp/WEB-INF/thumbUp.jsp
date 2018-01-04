@@ -166,10 +166,10 @@
           cache:false,
           success: function (response) {
             alert(response);
-            if(response.data.state===0){
+            if(response.state===0){
               alert("点赞成功!");
             }
-            if(response.data.state===2){
+            if(response.state===2){
               alert("好友点赞次数已满");
             }
           },
