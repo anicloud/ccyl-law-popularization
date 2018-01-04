@@ -14,8 +14,9 @@ import {Map} from 'immutable';
 import Back from './Back';
 
 class Regist extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        console.log(this.props);
         this.state = {
             location: this.props.location.state? this.props.location.state : '/home',
             smsCodeInfo: {
