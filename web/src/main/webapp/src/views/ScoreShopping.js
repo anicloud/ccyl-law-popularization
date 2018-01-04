@@ -170,7 +170,7 @@ class ScoreShopping extends Component{
                     </div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-                <Toast icon="warn" show={this.props.showWarning}></Toast>
+                <Toast icon="warn" show={this.state.showWarning}>{this.state.warningInfo}</Toast>
                 <Toast icon="success-no-circle" show={this.state.showSuccess}>{this.state.successInfo}</Toast>
             </div>
         );
