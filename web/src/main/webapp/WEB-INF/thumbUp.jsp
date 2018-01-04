@@ -165,6 +165,7 @@
           type: "GET",
           cache:false,
           success: function (response) {
+            alert(response.data.state);
             if(response.data.state===0){
               alert("点赞成功!");
             }
