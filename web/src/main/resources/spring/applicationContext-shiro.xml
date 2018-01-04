@@ -73,6 +73,7 @@
 				/build/** = anon
 				/share/toThumbUp = anon
 				/ = anon
+				/share/thumbUp = anon
 				/** = authc
 			</value>
 		</property>
