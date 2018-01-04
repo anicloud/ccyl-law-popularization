@@ -212,7 +212,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     public List<MyAwardDto> findMyAward(Integer accountId) {
         DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
         dailyAwardsParam.setAccountId(accountId);
-        dailyAwardsParam.setDel(false);
         List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
         List<MyAwardDto> myAwardDtos = new ArrayList<>();
         Integer lastScore = findTotalScore(accountId).getScore();
