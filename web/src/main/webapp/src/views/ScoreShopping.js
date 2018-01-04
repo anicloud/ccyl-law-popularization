@@ -23,7 +23,18 @@ class ScoreShopping extends Component{
             successInfo:"",
             timer:null,
             awardInfo: [],
-            userInfo:[]
+            userInfo:[],
+            showTishi:false,
+            tishiButtons: [
+                {
+                    label: '补全信息',
+                    onClick: this.goToRegist.bind(this)
+                },
+                {
+                    label: '返回',
+                    onClick: this.hideTiShiDialog.bind(this)
+                }
+            ]
         };
     }
 
@@ -79,6 +90,19 @@ class ScoreShopping extends Component{
         }
     }
 
+    goToRegist(){
+        history.push({
+            pathname:'/regist',
+            state:'/scoreshopping'
+        });
+    }
+
+    hideTiShiDialog(){
+        this.setState({
+            showTishi: false,
+        });
+    }
+
     exchangePrizes(type){
         let _this = this;
         const {host} = _this.props;
@@ -87,9 +111,8 @@ class ScoreShopping extends Component{
         axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
             if (response.data.state === 0) {
                 if(response.data.data===false){
-                    history.push({
-                        pathname:'/regist',
-                        state:'/scoreshopping'
+                    this.setState({
+                        showTishi: true,
                     });
                 }else{
                     axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
@@ -186,6 +209,9 @@ class ScoreShopping extends Component{
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.state.showWarning}>{this.state.warningInfo}</Toast>
                 <Toast icon="success-no-circle" show={this.state.showSuccess}>{this.state.successInfo}</Toast>
+                <Dialog type="ios" title="提示" buttons={this.state.tishiButtons} show={this.state.showTishi}>
+                    兑换奖品前需补全信息，是否跳转
+                </Dialog>
             </div>
         );
     }

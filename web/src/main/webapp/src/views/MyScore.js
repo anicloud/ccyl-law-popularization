@@ -24,6 +24,17 @@ class MyScore extends Component {
             successInfo:"",
             currentAward:{},
             timer:null,
+            showTishi:false,
+            tishiButtons: [
+                {
+                    label: '补全信息',
+                    onClick: this.goToRegist.bind(this)
+                },
+                {
+                    label: '返回',
+                    onClick: this.hideTiShiDialog.bind(this)
+                }
+            ],
             myPrizeButtons: [
             {
                 label: '返回我的积分',
@@ -127,6 +138,19 @@ class MyScore extends Component {
         history.push('/announce');
     }
 
+    goToRegist(){
+        history.push({
+            pathname:'/regist',
+            state:'/tasks'
+        });
+    }
+
+    hideTiShiDialog(){
+        this.setState({
+            showTishi: false,
+        });
+    }
+
     hideMyPrizeDialog() {
         this.setState({
             showMyPrize: false,
@@ -148,9 +172,8 @@ class MyScore extends Component {
         axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
             if (response.data.state === 0) {
                 if(response.data.data===false){
-                    history.push({
-                        pathname:'/regist',
-                        state:'/tasks'
+                    this.setState({
+                        showTishi:true,
                     });
                 }else{
                     this.setState({
@@ -343,6 +366,9 @@ class MyScore extends Component {
                 <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)} buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
                     {/*this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret}></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>*/}
                     {this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret} className="srcImg"></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
+                </Dialog>
+                <Dialog type="ios" title="提示" buttons={this.state.tishiButtons} show={this.state.showTishi}>
+                    兑换奖品前需补全信息，是否跳转
                 </Dialog>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
