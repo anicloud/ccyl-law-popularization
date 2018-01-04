@@ -9,6 +9,7 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import "../media/styles/myscore.less";
 import disPlus from "../media/imgs/displus.png";
+import copy from "copy-to-clipboard";
 
 class MyScore extends Component {
     constructor(props) {
@@ -143,7 +144,7 @@ class MyScore extends Component {
 
     copyCode(code){
         let _this = this;
-        window.clipboardData.setData('text',code);
+        copy(code);
         console.log(code);
         _this.state.timer && clearTimeout(_this.state.timer);
         _this.setState({
