@@ -7,12 +7,14 @@ import axios from 'axios';
 import {showLoading, showError} from './redux/actions';
 import {jsSdkConfig} from "./utils/index";
 import {Toast} from 'react-weui';
+import Error from './views/Error';
 
 class Root extends Component {
     constructor() {
         super();
         this.state = {
-            showLoading: false
+            showLoading: false,
+            isError: false
         }
     }
     componentWillMount() {
@@ -87,9 +89,20 @@ class Root extends Component {
                 console.log(errors);
             });
         });
+        window.wx.error(function(res) {
+            if (res.errMsg === 'config:require subscribe') {
+                _this.setState({
+                    isError: true
+                })
+            }
+        });
     }
     render() {
         let showLoading = this.state.showLoading;
+        let isError = this.state.isError;
+        if (isError) {
+            return (<Error/>)
+        }
         if (showLoading) {
             return (<Toast icon="loading" show={showLoading}>Loading...</Toast>)
         } else {

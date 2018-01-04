@@ -54,11 +54,11 @@ class Main extends Component {
                 _this.props.history.push('/error');
             }
         });*/
-        window.wx.error(function(res) {
+        /*window.wx.error(function(res) {
             if (res.errMsg === 'config:require subscribe') {
                 _this.props.history.push('/error');
             }
-        });
+        });*/
     }
     render() {
         return (
