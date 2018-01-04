@@ -19,6 +19,8 @@ class MyScore extends Component {
             myPrizeTitle:"我的奖品",
             showMyPrize:false,
             showPrizeDetail:false,
+            showSuccess:false,
+            successInfo:"",
             currentAward:{},
             myPrizeButtons: [
             {
@@ -86,7 +88,9 @@ class MyScore extends Component {
         axios.get(`${host}/score/signIn`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
-                    scoreInfo:response.data.data
+                    scoreInfo:response.data.data,
+                    successInfo:"签到成功",
+                    showSuccess:true
                 });
             }
         }).catch(function (errors) {
@@ -301,6 +305,7 @@ class MyScore extends Component {
                 </Dialog>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
+                <Toast icon="success-no-circle" show={this.state.showSuccess}>{this.state.successInfo}</Toast>
             </div>
         );
     }
