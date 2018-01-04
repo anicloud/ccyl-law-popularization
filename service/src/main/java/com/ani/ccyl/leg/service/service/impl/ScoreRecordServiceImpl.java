@@ -328,7 +328,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 }
             }
             AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+            ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
+            scoreRecordParam.setAccountId(accountId);
             mySelfRankDto.setRanking(order);
+            mySelfRankDto.setTotalScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
             mySelfRankDto.setNickName(accountPO.getNickName());
             mySelfRankDto.setPortrait(accountPO.getPortrait());
         }
