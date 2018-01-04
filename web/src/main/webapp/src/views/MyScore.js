@@ -139,6 +139,8 @@ class MyScore extends Component {
     }
 
     goToRegist(){
+        let _this = this;
+        const {history} = _this.props;
         history.push({
             pathname:'/regist',
             state:'/tasks'
@@ -168,7 +170,6 @@ class MyScore extends Component {
         //发请求
         let _this = this;
         const {host} = _this.props;
-        const {history} = _this.props;
         axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
             if (response.data.state === 0) {
                 if(response.data.data===false){
