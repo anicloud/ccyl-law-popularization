@@ -22,8 +22,10 @@ import Tasks from '../views/Tasks';
 import ScoreBoard from '../views/ScoreBoard';
 /*我的积分*/
 import MyScore from '../views/MyScore';
-/*分享奖状*/
+/*分享答题*/
 import SharePrize from '../views/SharePrize';
+import SharePrizeTwo from '../views/SharePrizeTwo';
+import SharePrizeThree from '../views/SharePrizeThree';
 /*积分商城*/
 import ScoreShopping from '../views/ScoreShopping';
 /*通过连接点赞*/
@@ -40,7 +42,9 @@ const Routes = () => (
         <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/announce' component={Tasks} />
-        <Route path='/prize' component={SharePrize} />
+        <Route exact path='/prize' component={SharePrize} />
+        <Route exact path='/prize2' component={SharePrizeTwo} />
+        <Route exact path='/prize3' component={SharePrizeThree} />
         <Route path='/thumb' component={ThumbUp} />
         <Route path='/home/index' component={Options} />
         <Route path='/signin' component={SignIn}/>
