@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import {Toast} from 'react-weui';
 import '../media/styles/thumb.less';
-import icon from '../media/images/signin_icon.png';
 import header from '../media/imgs/header_thumbup.png';
 import btn_thumbup from '../media/imgs/btn_thumbup.png';
 
@@ -24,9 +23,7 @@ class ThumbUp extends Component {
         let _this = this;
         const {host} = _this.props;
         const userId = _this.props.location.state;
-        alert(_this.props.location.state);
-        alert(userId);
-        axios.get(`${host}/share/findThumbUpInfo?id=${userId}`).then(function (response) {
+        axios.get(`${host}/share/findThumbUpInfo?toAccountId=${userId}`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     scoreInfo: response.data.data,
