@@ -33,6 +33,7 @@ class SharePrize extends Component {
         const {host} = _this.props;
         jsSdkConfig(axios, host);
         window.wx.ready(function () {
+            console.log(1);
             _this.setState({
                 isReady: true
             });
