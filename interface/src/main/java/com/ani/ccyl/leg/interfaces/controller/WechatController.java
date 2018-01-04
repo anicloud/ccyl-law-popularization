@@ -106,7 +106,7 @@ public class WechatController {
                 String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
                 if(userObj != null && userObj.containsKey("subscribe") && userObj.getInt("subscribe")==0) {
-                    return "";
+                    return "subscribe";
                 }
                 AccountDto accountDto = accountService.insertAccount(userObj);
                 Subject subject = SecurityUtils.getSubject();
