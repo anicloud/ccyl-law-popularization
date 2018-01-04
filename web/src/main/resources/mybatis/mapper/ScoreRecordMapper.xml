@@ -61,9 +61,8 @@
     <select id="findDailyShareCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT count(account_id) FROM t_score_record WHERE account_id=#{accountId} AND src_type=5 AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
-    <select id="findSelfRank" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.commons.dto.MySelfRankDto">
-        SELECT t4.portrait as portrait, t4.nick_name as nickName, t3.totalScore as totalScore, t3.ranking as ranking FROM (SELECT t1.account_id,t1.update_time,t1.log_date,t1.score,sum(t1.score) AS totalScore,@s:=@s+1 as ranking FROM t_score_record t1,(SELECT @s:=0)t2 WHERE t1.log_date=date_format(now(),'%Y-%m-%d') AND t1.account_id NOT IN
-                        (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL) GROUP BY t1.account_id ORDER BY totalScore DESC,t1.update_time ASC) t3,t_account t4 WHERE t3.account_id=#{accountId} AND t3.account_id=t4.id LIMIT 1
+    <select id="findSelfRank" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
+        SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id ORDER BY total_score DESC,update_time ASC
     </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>

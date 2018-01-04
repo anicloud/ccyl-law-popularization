@@ -28,5 +28,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     List<Timestamp> findTotalSignIn(Integer accountId);
     Integer findDailyCorrectCount(Integer accountId);
     Integer findDailyShareCount(Integer accountId);
-    MySelfRankDto findSelfRank(Integer accountId);
+    List<ScoreRecordPO> findSelfRank(Timestamp createTime);
 }
