@@ -127,4 +127,9 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return questionDto;
     }
+
+    @Override
+    public Integer findDailyCorrectCount(Integer accountId) {
+        return scoreRecordMapper.findDailyCorrectCount(accountId);
+    }
 }
