@@ -18,7 +18,7 @@ class MyScore extends Component {
             location: '/home',
             scoreInfo: {},
             myPrizeTitle:"我的奖品",
-            showMyPrize:this.props.location.state.ifFromRegist?false:this.props.location.state.ifFromRegist===true?true:false,
+            showMyPrize:this.props.location?false:this.props.location.state?false:this.props.location.state.ifFromRegist?false:this.props.location.state.ifFromRegist===true?true:false,
             showPrizeDetail:false,
             showSuccess:false,
             successInfo:"",
@@ -84,6 +84,7 @@ class MyScore extends Component {
             state: '/tasks'
         });
     }
+
     handleSignIn() {
         let _this = this;
         const {host} = _this.props;
@@ -333,8 +334,6 @@ class MyScore extends Component {
                             })}
                         </div>
                     )}
-
-
                 </Dialog>
                 <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)} buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
                     {/*this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret}></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>*/}
