@@ -99,7 +99,6 @@ class MyScore extends Component {
                         showSuccess:false
                     });
                 }, 2000);
-
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -143,7 +142,19 @@ class MyScore extends Component {
     }
 
     copyCode(code){
+        let _this = this;
         window.clipboardData.setData('text',code);
+        console.log(code);
+        _this.state.timer && clearTimeout(_this.state.timer);
+        _this.setState({
+            successInfo:"复制成功",
+            showSuccess:true
+        });
+        _this.state.timer = setTimeout(function () {
+            _this.setState({
+                showSuccess:false
+            });
+        }, 2000);
     }
 
     getConditionFromEnum(type){
