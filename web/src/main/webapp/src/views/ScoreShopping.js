@@ -7,10 +7,10 @@
 import React,{Component} from "react";
 import Back from './Back';
 import {Button,Toast} from 'react-weui';
-import "../media/styles/scoreshopping.less";
 import axios from 'axios';
 import {connect} from 'react-redux';
 import disPlus from "../media/imgs/displus.png";
+import "../media/styles/scoreshopping.less";
 
 class ScoreShopping extends Component{
     constructor(props){
