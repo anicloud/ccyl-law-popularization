@@ -12,7 +12,7 @@ import Achievement from '../media/imgs/Achievement.png';
 import reback from '../media/imgs/reback.png';
 import '../media/styles/prize.less';
 
-class SharePrize extends Component {
+class SharePrizeTwo extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -59,7 +59,7 @@ class SharePrize extends Component {
                         }
                     });
                     window.wx.onMenuShareAppMessage({
-                        title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
+                        title: `我正在中国共青团青少年学法用法知识竞赛中答题，快来和我一起吧!`,
                         link: scoreInfo.url,
                         imgUrl: scoreInfo.portrait,
                         desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
@@ -122,7 +122,7 @@ class SharePrize extends Component {
                                 <p className='first'>当前积分：<span>{scoreInfo.totalScore}</span></p>
                                 <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
                             </div>
-                            <div className='thumb-up' onClick={this.handleShare}>分享答题</div>
+                            <div className='thumb-up' onClick={this.handleShare}>邀请答题</div>
                         </div>
                     ) : (null)
                 }
@@ -156,4 +156,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(SharePrize);
+export default connect(mapStateToProps)(SharePrizeTwo);

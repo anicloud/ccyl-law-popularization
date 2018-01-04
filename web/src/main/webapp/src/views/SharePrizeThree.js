@@ -12,7 +12,7 @@ import Achievement from '../media/imgs/Achievement.png';
 import reback from '../media/imgs/reback.png';
 import '../media/styles/prize.less';
 
-class SharePrize extends Component {
+class SharePrizeThree extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -122,7 +122,7 @@ class SharePrize extends Component {
                                 <p className='first'>当前积分：<span>{scoreInfo.totalScore}</span></p>
                                 <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
                             </div>
-                            <div className='thumb-up' onClick={this.handleShare}>分享答题</div>
+                            <div className='thumb-up' onClick={this.handleShare}>拉好友点赞</div>
                         </div>
                     ) : (null)
                 }
@@ -156,4 +156,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(SharePrize);
+export default connect(mapStateToProps)(SharePrizeThree);

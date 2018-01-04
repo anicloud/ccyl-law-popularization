@@ -55,8 +55,8 @@ class MyScore extends Component {
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleShare = this.handleShare.bind(this);
         this.getPrizeDetail = this.getPrizeDetail.bind(this);
-
-
+        this.handleInvitation = this.handleInvitation.bind(this);
+        this.handleThumbUp = this.handleThumbUp.bind(this);
     }
 
     componentDidMount() {
@@ -129,7 +129,21 @@ class MyScore extends Component {
     handleShare() {
         const {history} = this.props;
         history.push({
-            pathname: '/prize',
+            pathname: '/answer',
+            state: '/tasks'
+        });
+    }
+    handleInvitation() {
+        const {history} = this.props;
+        history.push({
+            pathname: '/prize2',
+            state: '/tasks'
+        });
+    }
+    handleThumbUp() {
+        const {history} = this.props;
+        history.push({
+            pathname: '/prize3',
             state: '/tasks'
         });
     }
@@ -324,7 +338,7 @@ class MyScore extends Component {
                             <span>邀请答题</span>
                             <span className="desc">已成功邀请{scoreInfo? scoreInfo.inviteCount : 0}次</span>
                         </div>
-                        <div className="rightDiv" onClick={this.handleShare}>
+                        <div className="rightDiv" onClick={this.handleInvitation}>
                             <i className="plus"/>
 
                         </div>
@@ -334,7 +348,7 @@ class MyScore extends Component {
                             <span>好友点赞</span>
                             <span className="desc">已被点赞{scoreInfo? scoreInfo.thumbUpCount : 0}次</span>
                         </div>
-                        <div className="rightDiv" onClick={this.handleShare}>
+                        <div className="rightDiv" onClick={this.handleThumbUp}>
                             <i className="plus"/>
 
                         </div>
