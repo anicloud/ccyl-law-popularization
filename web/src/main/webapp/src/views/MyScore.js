@@ -18,7 +18,7 @@ class MyScore extends Component {
             location: '/home',
             scoreInfo: {},
             myPrizeTitle:"我的奖品",
-            showMyPrize:false,
+            showMyPrize:this.props.location.state.ifFromRegist?false:this.props.location.state.ifFromRegist===true?true:false,
             showPrizeDetail:false,
             showSuccess:false,
             successInfo:"",
@@ -135,10 +135,27 @@ class MyScore extends Component {
     }
 
     getPrizeDetail(award){
-        this.setState({
-            currentAward:award,
-            showPrizeDetail: true,
-            showMyPrize: false,
+        //发请求
+        let _this = this;
+        const {host} = _this.props;
+        const {history} = _this.props;
+        axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
+            if (response.data.state === 0) {
+                if(response.data.data===false){
+                    history.push({
+                        pathname:'/regist',
+                        state:'/tasks'
+                    });
+                }else{
+                    this.setState({
+                        currentAward:award,
+                        showPrizeDetail: true,
+                        showMyPrize: false,
+                    });
+                }
+            }
+        }).catch(function (errors) {
+            console.log(errors);
         });
     }
 

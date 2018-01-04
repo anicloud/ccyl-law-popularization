@@ -17,6 +17,7 @@ class Regist extends Component {
     constructor() {
         super();
         this.state = {
+            location: this.props.location.state? this.props.location.state : '/home',
             smsCodeInfo: {
                 second: 60,
                 disabled: false,
@@ -332,7 +333,7 @@ class Regist extends Component {
                 console.log(err);
                 this.setState((prevState) => {
                     let info = prevState.errorStatus.setIn([err.key, 'status'], true);
-                    info = info.setIn([err.key, 'msg'], err.message)
+                    info = info.setIn([err.key, 'msg'], err.message);
                     return {
                         errorStatus: info
                     }
@@ -483,7 +484,7 @@ class Regist extends Component {
                 console.log(err);
                 this.setState((prevState) => {
                     let info = prevState.errorStatus.setIn([err.key, 'status'], true);
-                    info = info.setIn([err.key, 'msg'], err.message)
+                    info = info.setIn([err.key, 'msg'], err.message);
                     return {
                         errorStatus: info
                     }
@@ -497,6 +498,7 @@ class Regist extends Component {
     }
     submitForm() {
         let _this = this;
+        let url = _this.state.location;
         if (_this.validateAll()) {
             const {host, history} = _this.props;
             let registInfo = this.state.registInfo.toJS();
@@ -507,7 +509,12 @@ class Regist extends Component {
                         _this.setState({
                             showToast: false
                         }, function () {
-                            history.push('/home');
+                            history.push({
+                                pathname:url,
+                                state:{
+                                    ifFromRegist:true
+                                }
+                            });
                         });
                     }, 2000);
                 }
@@ -525,9 +532,9 @@ class Regist extends Component {
                 <div className='clearfix'>
                     <Back location='/home' history={this.props.history} />
                 </div>
-                <h2 className="text-center title">
-                    <span>知识竞赛选手注册</span>
-                </h2>
+                <div className="title">
+                    <span>补全信息</span>
+                </div>
                 <Form className='regist-info'>
                     <FormCell>
                         <CellHeader>
@@ -624,9 +631,9 @@ class Regist extends Component {
                         </CellBody>
                     </FormCell>
                     <p className={errorInfo.code.status? 'text-danger' : 'hidden'}>{errorInfo.code.msg}</p>*/}
-                    <Button className='reg-btn' onClick={this.submitForm}>领取奖品</Button>
+                    <Button className='reg-btn' onClick={this.submitForm}>提交</Button>
                 </Form>
-                <Toast icon="success-no-circle" show={this.state.showToast}>领取成功</Toast>
+                <Toast icon="success-no-circle" show={this.state.showToast}>提交成功</Toast>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
             </div>
