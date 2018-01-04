@@ -317,6 +317,24 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public MySelfRankDto findSelfRank(Integer accountId) {
-        return scoreRecordMapper.findSelfRank(accountId);
+        List<ScoreRecordPO> selfRanks = scoreRecordMapper.findSelfRank(new Timestamp(System.currentTimeMillis()));
+        MySelfRankDto mySelfRankDto = new MySelfRankDto();
+        if(selfRanks != null) {
+            int order = 0;
+            for(ScoreRecordPO scoreRecordPO:selfRanks) {
+                order ++;
+                if(scoreRecordPO.getAccountId().equals(accountId)) {
+                    break;
+                }
+            }
+            AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+            ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
+            scoreRecordParam.setAccountId(accountId);
+            mySelfRankDto.setRanking(order);
+            mySelfRankDto.setTotalScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
+            mySelfRankDto.setNickName(accountPO.getNickName());
+            mySelfRankDto.setPortrait(accountPO.getPortrait());
+        }
+        return mySelfRankDto;
     }
 }

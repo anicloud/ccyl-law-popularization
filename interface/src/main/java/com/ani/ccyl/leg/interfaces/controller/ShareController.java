@@ -4,9 +4,12 @@ import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
+import com.ani.ccyl.leg.service.service.facade.WechatService;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +24,13 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/share")
 public class ShareController {
-    private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
     @Autowired
     private ScoreRecordService scoreRecordService;
     @Autowired
     private QuestionService questionService;
     @Autowired
     private AccountService accountService;
+    private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
 
     @RequestMapping(value = "/share", method = RequestMethod.GET)
     @ResponseBody
