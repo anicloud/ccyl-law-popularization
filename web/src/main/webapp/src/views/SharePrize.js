@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Back from './Back';
 import {connect} from 'react-redux';
-import {getCookie} from "../utils/index";
+import {getCookie, jsSdkConfig} from "../utils/index";
 import {Toast} from 'react-weui';
 import axios from 'axios';
 import first from '../media/images/first.png';
@@ -20,7 +20,8 @@ class SharePrize extends Component {
             showToast: false,
             toastText: '分享成功',
             location: this.props.location.state? this.props.location.state : '/answer',
-            showPopup: false
+            showPopup: false,
+            isReady: false
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
@@ -30,47 +31,54 @@ class SharePrize extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({
-                    scoreInfo: response.data.data
-                });
-                let scoreInfo = response.data.data;
-                window.wx.onMenuShareTimeline({
-                    title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
-                    link: scoreInfo.url,
-                    imgUrl: 'https://8c1abed8.ngrok.io/leg/build/static/media/silver.png',
-                    success: function (res) {
-                        axios.get(`${host}/share/share`).then(function (response) {
-                            console.log(response);
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
-                    },
-                    fail: function (res) {
+        jsSdkConfig(axios, host);
+        window.wx.ready(function () {
+            console.log(1);
+            _this.setState({
+                isReady: true
+            });
+            axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
+                if (response.data.state === 0) {
+                    _this.setState({
+                        scoreInfo: response.data.data
+                    });
+                    let scoreInfo = response.data.data;
+                    window.wx.onMenuShareTimeline({
+                        title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
+                        link: scoreInfo.url,
+                        imgUrl: 'https://8c1abed8.ngrok.io/leg/build/static/media/silver.png',
+                        success: function (res) {
+                            axios.get(`${host}/share/share`).then(function (response) {
+                                console.log(response);
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                        },
+                        fail: function (res) {
 
-                    }
-                });
-                window.wx.onMenuShareAppMessage({
-                    title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
-                    link: scoreInfo.url,
-                    imgUrl: scoreInfo.portrait,
-                    desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
-                    success: function(res) {
-                        axios.get(`${host}/share/share`).then(function (response) {
-                            console.log(response);
-                        }).catch(function (errors) {
-                            console.log(errors);
-                        });
-                    },
-                    fail: function(res) {
+                        }
+                    });
+                    window.wx.onMenuShareAppMessage({
+                        title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
+                        link: scoreInfo.url,
+                        imgUrl: scoreInfo.portrait,
+                        desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
+                        success: function(res) {
+                            axios.get(`${host}/share/share`).then(function (response) {
+                                console.log(response);
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                        },
+                        fail: function(res) {
 
-                    }
-                });
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });
+                        }
+                    });
+                }
+            }).catch(function (errors) {
+                console.log(errors);
+            });
+        })
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
@@ -88,6 +96,7 @@ class SharePrize extends Component {
     }
     render() {
         let scoreInfo = this.state.scoreInfo;
+        let isReady = this.state.isReady;
         return (
             <div className='share-prize common-bg'>
                 <div className='clearfix'>
@@ -97,7 +106,7 @@ class SharePrize extends Component {
                     <img src={Achievement} alt=""/>
                 </div>
                 {
-                    scoreInfo? (
+                    (isReady && scoreInfo)? (
                         <div className='wrapper'>
                             <h2 className='wrapper-title'>
                                 {
