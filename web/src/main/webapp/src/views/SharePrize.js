@@ -46,7 +46,7 @@ class SharePrize extends Component {
                     window.wx.onMenuShareTimeline({
                         title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
                         link: scoreInfo.url,
-                        imgUrl: 'https://8c1abed8.ngrok.io/leg/build/static/media/silver.png',
+                        imgUrl: scoreInfo.portrait,
                         success: function (res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);

@@ -68,6 +68,12 @@ class Root extends Component {
         });*/
         jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
+            window.wx.getLocation({
+                success: function (res) {
+                    console.log(JSON.stringify(res));
+                    console.log(res);
+                }
+            });
             axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     window.wx.onMenuShareTimeline({
