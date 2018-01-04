@@ -96,10 +96,22 @@ class ScoreShopping extends Component{
                     });
                 }, 2000);
             }
+            if(response.data.state !== 0){
+                _this.state.timer && clearTimeout(_this.state.timer);
+                _this.setState({
+                    warningInfo:response.date.msg,
+                    showWarning:true
+                });
+                _this.state.timer = setTimeout(function () {
+                    _this.setState({
+                        showWarning:false
+                    });
+                }, 2000);
+            }
         }).catch(function (errors) {
             _this.state.timer && clearTimeout(_this.state.timer);
             _this.setState({
-                warningInfo:errors.data.msg,
+                warningInfo:"请求失败",
                 showWarning:true
             });
             _this.state.timer = setTimeout(function () {
