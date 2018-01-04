@@ -6,7 +6,7 @@
  */
 import React,{Component} from "react";
 import Back from './Back';
-import {Button,Toast} from 'react-weui';
+import {Button,Toast,Dialog} from 'react-weui';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import disPlus from "../media/imgs/displus.png";
@@ -91,6 +91,8 @@ class ScoreShopping extends Component{
     }
 
     goToRegist(){
+        let _this = this;
+        const {history} = _this.props;
         history.push({
             pathname:'/regist',
             state:'/scoreshopping'
@@ -107,7 +109,6 @@ class ScoreShopping extends Component{
         let _this = this;
         const {host} = _this.props;
         //发请求
-        const {history} = _this.props;
         axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
             if (response.data.state === 0) {
                 if(response.data.data===false){
