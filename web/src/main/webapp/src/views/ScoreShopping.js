@@ -84,6 +84,7 @@ class ScoreShopping extends Component{
         let _this = this;
         const {host} = _this.props;
         axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
+            console.log(response);
             if (response.data.state === 0) {
                 _this.state.timer && clearTimeout(_this.state.timer);
                 _this.setState({
@@ -109,6 +110,7 @@ class ScoreShopping extends Component{
                 }, 2000);
             }
         }).catch(function (errors) {
+            console.log(errors);
             _this.state.timer && clearTimeout(_this.state.timer);
             _this.setState({
                 warningInfo:"请求失败",
