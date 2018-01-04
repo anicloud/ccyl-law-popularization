@@ -82,42 +82,57 @@ class ScoreShopping extends Component{
     exchangePrizes(type){
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
+        //发请求
+        const {history} = _this.props;
+        axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
             if (response.data.state === 0) {
-                _this.state.timer && clearTimeout(_this.state.timer);
-                _this.setState({
-                    successInfo:"兑换成功",
-                    showSuccess:true,
-                });
-                _this.state.timer = setTimeout(function () {
-                    _this.setState({
-                        showSuccess:false
+                if(response.data.data===false){
+                    history.push({
+                        pathname:'/regist',
+                        state:'/scoreshopping'
                     });
-                }, 2000);
-            }
-            if(response.data.state !== 0){
-                _this.state.timer && clearTimeout(_this.state.timer);
-                _this.setState({
-                    warningInfo:response.data.msg,
-                    showWarning:true
-                });
-                _this.state.timer = setTimeout(function () {
-                    _this.setState({
-                        showWarning:false
+                }else{
+                    axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
+                        if (response.data.state === 0) {
+                            _this.state.timer && clearTimeout(_this.state.timer);
+                            _this.setState({
+                                successInfo:"兑换成功",
+                                showSuccess:true,
+                            });
+                            _this.state.timer = setTimeout(function () {
+                                _this.setState({
+                                    showSuccess:false
+                                });
+                            }, 2000);
+                        }
+                        if(response.data.state !== 0){
+                            _this.state.timer && clearTimeout(_this.state.timer);
+                            _this.setState({
+                                warningInfo:response.data.msg,
+                                showWarning:true
+                            });
+                            _this.state.timer = setTimeout(function () {
+                                _this.setState({
+                                    showWarning:false
+                                });
+                            }, 2000);
+                        }
+                    }).catch(function (errors) {
+                        _this.state.timer && clearTimeout(_this.state.timer);
+                        _this.setState({
+                            warningInfo:"请求失败",
+                            showWarning:true
+                        });
+                        _this.state.timer = setTimeout(function () {
+                            _this.setState({
+                                showWarning:false
+                            });
+                        }, 2000);
+                        console.log(errors);
                     });
-                }, 2000);
+                }
             }
         }).catch(function (errors) {
-            _this.state.timer && clearTimeout(_this.state.timer);
-            _this.setState({
-                warningInfo:"请求失败",
-                showWarning:true
-            });
-            _this.state.timer = setTimeout(function () {
-                _this.setState({
-                    showWarning:false
-                });
-            }, 2000);
             console.log(errors);
         });
     }

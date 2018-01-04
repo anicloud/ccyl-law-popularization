@@ -30,22 +30,13 @@ import ScoreShopping from '../views/ScoreShopping';
 import ThumbUp from '../views/ThumbUp';
 /*上传题库*/
 import UploadQuestion from '../views/UploadQuestion';
-/*我的奖品*/
-import MyPrize from '../views/MyPrize';
-/*奖品详情*/
-import PrizeDetail from '../views/PrizeDetail';
-/*兑换成功页面*/
-import ExchangeSuccess from "../views/ExchangeSuccess";
 
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={App} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
-        <Route path='/prizedetail' component={PrizeDetail} />
-        <Route path='/myprize' component={MyPrize} />
         <Route path='/scoreshopping' component={ScoreShopping}/>
-        <Route path='/exsuccess' component={ExchangeSuccess}/>
         <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/announce' component={Tasks} />
