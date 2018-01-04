@@ -44,6 +44,8 @@ class MyScore extends Component {
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleShare = this.handleShare.bind(this);
         this.getPrizeDetail = this.getPrizeDetail.bind(this);
+
+
     }
 
     componentDidMount() {
@@ -59,7 +61,10 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-
+        console.log(_this.props.location.state.ifFromRegist);
+        if(_this.props.location!=null&&_this.props.location.state!=null&&_this.props.location.state.ifFromRegist!=null){
+            this.changeMyPrize();
+        }
     }
     changeMyPrize() {
         //我的奖品获取
