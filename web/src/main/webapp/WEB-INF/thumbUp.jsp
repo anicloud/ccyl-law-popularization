@@ -44,20 +44,8 @@
     .thumb .share button.btn:first-child {
       margin-right: .8rem;
     }
-    .thumb .score-ques {
-      font-size: .4rem;
-    }
     .thumb .score-ques span {
       color: #f60;
-    }
-    .thumb .thumb-up {
-      display: inline-block;
-      margin-left: .1rem;
-    }
-    .thumb .score-prize {
-      margin-top: .2rem;
-      letter-spacing: .02rem;
-      font-size: .30rem;
     }
     .thumb .header img {
       width: 6rem;
@@ -79,30 +67,30 @@
     }
     .thumb .wrapper .wrapper-thumb .first {
       padding-top: .6rem;
-      padding-left: .8rem;
+      padding-left: 1.2rem;
     }
     .thumb .wrapper .wrapper-thumb .first img {
-      width: 1.28rem;
-      height: 1.28rem;
+      width: 1.58rem;
+      height: 1.58rem;
       border-radius: 50%;
     }
     .thumb .wrapper .wrapper-thumb .first p {
       line-height: 1rem;
       color: #4a4b4c;
-      font-size: .38rem;
+      font-size: .58rem;
     }
     .thumb .wrapper .wrapper-thumb .second {
-      padding-right: .8rem;
+      padding-right: 1.2rem;
     }
     .thumb .wrapper .wrapper-thumb .second div {
-      width: 3.4rem;
-      height: 3.4rem;
+      width: 4.4rem;
+      height: 4.4rem;
       background-color: #fdf5a2;
       border-radius: .7rem;
-      padding: .3rem;
+      padding: .4rem;
     }
     .thumb .wrapper .wrapper-thumb .second div p {
-      font-size: .34rem;
+      font-size: .54rem;
       color: #823c25;
       font-weight: bold;
     }
@@ -115,13 +103,6 @@
       font-weight: bold;
       font-size: .4rem;
       letter-spacing: .02rem;
-    }
-    .thumb .wrapper .wrapper-thumb .four {
-      margin: .4rem auto;
-      text-align: center;
-      color: #303030;
-      font-size: .4rem;
-      width: 5rem;
     }
     .thumb .wrapper .thumb-btn .right-now {
       margin: 0 auto;
@@ -139,8 +120,7 @@
 
     .thumb .wrapper .thumb-btn img {
       margin: 0 auto;
-      width: 3.2rem;
-      line-height: 1rem;
+      width: 2.2rem;
       text-align: center;
       font-size: .4rem;
       margin-top: .4rem;
@@ -170,10 +150,10 @@
           </div>
         </div>
         <div class='text-center thumb-btn'>
-          <div class='right-now' onclick="handleAnswer()">马上答题</div>
+          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
         </div>
         <div class='text-center thumb-btn'>
-          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
+          <div class='right-now' onclick="handleAnswer()">马上答题</div>
         </div>
       </div>
     </div>
@@ -185,13 +165,15 @@
           type: "GET",
           cache:false,
           success: function (response) {
+            alert(response.data.state);
             if(response.data.state===0){
               alert("点赞成功!");
             }
             if(response.data.state===2){
               alert("好友点赞次数已满");
             }
-          },error:function(e){
+          },
+          error:function(e){
             console.log(e);
           }
         });
