@@ -143,8 +143,8 @@
   <script src="<%=request.getContextPath() %>/build/assets/js/rem.js"></script>
 </head>
 <body>
-    <div className='thumb common-bg'>
-      <div className='text-center header'>
+    <div class='thumb common-bg'>
+      <div class='text-center header'>
         <img src="${pageContext.request.contextPath}/build/assets/images/header_thumbup.png" alt=""/>
       </div>
       <div class='wrapper'>
