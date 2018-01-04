@@ -137,6 +137,14 @@
       box-shadow: 0.02rem 0.02rem 0.2rem rgba(0, 0, 0, 0.3);
     }
 
+    .thumb .wrapper .thumb-btn img {
+      margin: 0 auto;
+      width: 3.2rem;
+      line-height: 1rem;
+      text-align: center;
+      font-size: .4rem;
+    }
+
   </style>
   <script src="<%=request.getContextPath() %>/build/assets/js/bootstrap.min.js" ></script>
   <script src="<%=request.getContextPath() %>/build/assets/js/jquery-3.1.0.min.js" ></script>
@@ -160,10 +168,10 @@
           </div>
         </div>
         <div class='text-center thumb-btn'>
-          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
+          <div class='right-now' onclick="handleAnswer()">马上答题</div>
         </div>
         <div class='text-center thumb-btn'>
-          <div class='right-now' onclick="handleAnswer()">马上答题</div>
+          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
         </div>
       </div>
     </div>
@@ -174,8 +182,15 @@
           url: _CTX + "/share/thumbUp?toAccountId=<%=accountId%>",
           type: "GET",
           cache:false,
-          success: function () {
-            alert("分享成功!");
+          success: function (response) {
+            if(response.data.state===0){
+              alert("点赞成功!");
+            }
+            if(response.data.state===2){
+              alert("好友点赞次数已满");
+            }
+          },error:function(e){
+            console.log(e);
           }
         });
       }
