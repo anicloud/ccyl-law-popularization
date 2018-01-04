@@ -73,7 +73,6 @@ class ScoreShopping extends Component{
         let awardInfos = this.state.awardInfo;
         for(let i=0;i<awardInfos.length;i++){
             let awardInfo = awardInfos[i];
-            console.log(awardInfo);
             if(type===awardInfo.awardType) {
                 return awardInfo;
             }
@@ -84,7 +83,6 @@ class ScoreShopping extends Component{
         let _this = this;
         const {host} = _this.props;
         axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
-            console.log(response);
             if (response.data.state === 0) {
                 _this.state.timer && clearTimeout(_this.state.timer);
                 _this.setState({
@@ -100,7 +98,7 @@ class ScoreShopping extends Component{
             if(response.data.state !== 0){
                 _this.state.timer && clearTimeout(_this.state.timer);
                 _this.setState({
-                    warningInfo:response.date.msg,
+                    warningInfo:response.data.msg,
                     showWarning:true
                 });
                 _this.state.timer = setTimeout(function () {
@@ -110,7 +108,6 @@ class ScoreShopping extends Component{
                 }, 2000);
             }
         }).catch(function (errors) {
-            console.log(errors);
             _this.state.timer && clearTimeout(_this.state.timer);
             _this.setState({
                 warningInfo:"请求失败",
