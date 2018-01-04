@@ -57,7 +57,7 @@ class SharePrize extends Component {
                     imgUrl: scoreInfo.portrait,
                     desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
                     success: function(res) {
-                        axios.get(`${host}/score/share`).then(function (response) {
+                        axios.get(`${host}/share/share`).then(function (response) {
                             console.log(response);
                         }).catch(function (errors) {
                             console.log(errors);
