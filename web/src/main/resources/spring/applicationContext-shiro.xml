@@ -71,6 +71,7 @@
 				/question/upload = anon
 				/wechat/getJsSDKConfig = anon
 				/build/** = anon
+				/share/toThumbUp = anon
 				/ = anon
 				/** = authc
 			</value>
