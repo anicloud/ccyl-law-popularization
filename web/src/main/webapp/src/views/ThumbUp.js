@@ -24,20 +24,12 @@ class ThumbUp extends Component {
         let _this = this;
         const {host} = _this.props;
         const userId = _this.props.location.state;
-        axios.get(`${host}/score/findDailyTotalScore?id=${userId}`).then(function (response) {
+        axios.get(`${host}/share/findThumbUpInfo?id=${userId}`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
-                    scoreInfo: response.data.data
+                    scoreInfo: response.data.data,
+                    isThumbUp: response.data.data.isThumbUp
                 })
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });
-        axios.get(`${host}/score/isThumbUp?toAccountId=${userId}`).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({
-                    isThumbUp: response.data.data
-                });
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -54,7 +46,7 @@ class ThumbUp extends Component {
         let _this = this;
         const {host} = _this.props;
         const userId = _this.props.location.state;
-        axios.get(`${host}/score/thumbUp?toAccountId=${userId}`).then(function (response) {
+        axios.get(`${host}/share/thumbUp?toAccountId=${userId}`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     showToast: true,
@@ -78,38 +70,42 @@ class ThumbUp extends Component {
                 </div>
                 {
                     isThumbUp? (
-                        <div className='wrapper'>
-                            <div className='wrapper-thumb'>
-                                <div className='third'>
-                                    <p>恭喜你已为好友</p>
-                                    <p>Olivia Heldens</p>
-                                    <p>点赞成功</p>
-                                </div>
-                                <div className='four'>
-                                    <p>我也要争做普法小先锋与好友PK赢奖品</p>
-                                </div>
-                            </div>
-                            <div className='text-center thumb-btn'>
-                                <div className='right-now' onClick={this.handleAnswer}>马上答题</div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className='wrapper'>
-                            <div className='clearfix wrapper-thumb'>
-                                <div className='pull-left first'>
-                                    <img src={icon} alt=""/>
-                                    <p>Olivia Olivia</p>
-                                </div>
-                                <div className='pull-right second'>
-                                    <div>
-                                        <p>我正在争当普法小先锋，目前积分<span>2048</span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
+                        scoreInfo? (
+                            <div className='wrapper'>
+                                <div className='wrapper-thumb'>
+                                    <div className='third'>
+                                        <p>恭喜你已为好友</p>
+                                        <p>{scoreInfo.NickName}</p>
+                                        <p>点赞成功</p>
+                                    </div>
+                                    <div className='four'>
+                                        <p>我也要争做普法小先锋与好友PK赢奖品</p>
                                     </div>
                                 </div>
+                                <div className='text-center thumb-btn'>
+                                    <div className='right-now' onClick={this.handleAnswer}>马上答题</div>
+                                </div>
                             </div>
-                            <div className='text-center thumb-btn'>
-                                <img src={btn_thumbup} onClick={this.handleThumb} alt=""/>
+                        ) : (null)
+                    ) : (
+                        scoreInfo? (
+                            <div className='wrapper'>
+                                <div className='clearfix wrapper-thumb'>
+                                    <div className='pull-left first'>
+                                        <img src={scoreInfo.toPortrait} alt=""/>
+                                        <p>{scoreInfo.toNickName}</p>
+                                    </div>
+                                    <div className='pull-right second'>
+                                        <div>
+                                            <p>我正在争当普法小先锋，目前积分<span>{scoreInfo.totalScore}</span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='text-center thumb-btn'>
+                                    <img src={btn_thumbup} onClick={this.handleThumb} alt=""/>
+                                </div>
                             </div>
-                        </div>
+                        ) : (null)
                     )
                 }
                 {/*{scoreInfo? (
