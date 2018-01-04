@@ -115,7 +115,7 @@ public class WechatController {
                 Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
                 cookie.setMaxAge(-1);
                 response.addCookie(cookie);
-                if(state.matches("^[0-9]+$")) {
+                if(state.matches("^[0-9]+$") && accountDto.getNew()) {
                     AccountDto toAccount = accountService.findById(Integer.parseInt(state));
                     shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
