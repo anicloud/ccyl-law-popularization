@@ -143,26 +143,31 @@
   <script src="<%=request.getContextPath() %>/build/assets/js/rem.js"></script>
 </head>
 <body>
-  <div class='wrapper'>
-    <div class='clearfix wrapper-thumb'>
-      <div class='pull-left first'>
-        <img src=<%=head%> alt=""/>
-        <p><%=nickName%></p>
+    <div className='thumb common-bg'>
+      <div className='text-center header'>
+        <img src="${pageContext.request.contextPath}/build/assets/images/header_thumbup.png" alt=""/>
       </div>
-      <div class='pull-right second'>
-        <div>
-          <p>我正在争当普法小先锋，目前积分<span><%=totalScore%></span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
+      <div class='wrapper'>
+        <div class='clearfix wrapper-thumb'>
+          <div class='pull-left first'>
+            <img src=<%=head%> alt=""/>
+            <p><%=nickName%></p>
+          </div>
+          <div class='pull-right second'>
+            <div>
+              <p>我正在争当普法小先锋，目前积分<span><%=totalScore%></span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
+            </div>
+          </div>
+        </div>
+        <div class='text-center thumb-btn'>
+          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb" alt=""/>
+        </div>
+        <div class='text-center thumb-btn'>
+          <div class='right-now' onclick="handleAnswer">马上答题</div>
         </div>
       </div>
+      <div class="alert alert-success" role="alert">...</div>
     </div>
-    <div class='text-center thumb-btn'>
-      <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick={this.handleThumb} alt=""/>
-    </div>
-    <div class='text-center thumb-btn'>
-      <div class='right-now' onclick={this.handleAnswer}>马上答题</div>
-    </div>
-  </div>
-  <div class="alert alert-success" role="alert">...</div>
   <script>
       function handleThumb(){
         var _CTX = '<%=request.getContextPath() %>';
