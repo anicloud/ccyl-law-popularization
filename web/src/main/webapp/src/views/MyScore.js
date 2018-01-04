@@ -22,6 +22,7 @@ class MyScore extends Component {
             showSuccess:false,
             successInfo:"",
             currentAward:{},
+            timer:null,
             myPrizeButtons: [
             {
                 label: '返回我的积分',
@@ -87,11 +88,18 @@ class MyScore extends Component {
         const {host} = _this.props;
         axios.get(`${host}/score/signIn`).then(function (response) {
             if (response.data.state === 0) {
+                _this.state.timer && clearTimeout(_this.state.timer);
                 _this.setState({
                     scoreInfo:response.data.data,
                     successInfo:"签到成功",
                     showSuccess:true
                 });
+                _this.state.timer = setTimeout(function () {
+                    _this.setState({
+                        showSuccess:false
+                    });
+                }, 2000);
+
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -220,7 +228,7 @@ class MyScore extends Component {
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>
-                        <span>当前积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
+                        <span>获得总积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
                     </div>
                 </div>
                 <div className="bottomDiv">
