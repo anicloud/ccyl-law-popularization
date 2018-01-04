@@ -116,6 +116,7 @@
       border-radius: .3rem;
       border: .06rem solid #fff;
       box-shadow: 0.02rem 0.02rem 0.2rem rgba(0, 0, 0, 0.3);
+      margin-top: .4rem;
     }
 
     .thumb .wrapper .thumb-btn img {
@@ -123,7 +124,6 @@
       width: 2.2rem;
       text-align: center;
       font-size: .4rem;
-      margin-top: .4rem;
       display:block;
     }
 
