@@ -16,7 +16,11 @@ class ScoreShopping extends Component{
     constructor(props){
        super(props);
         this.state = {
+            showSuccess:false,
+            showWarning:false,
             location: this.props.location.state? this.props.location.state : '/home',
+            warningInfo:"",
+            successInfo:"",
             awardInfo: [],
             userInfo:[]
         };
@@ -32,6 +36,10 @@ class ScoreShopping extends Component{
                 })
             }
         }).catch(function (errors) {
+            _this.setState({
+                warningInfo:"请求失败",
+                showWarning:true
+            });
             console.log(errors);
         });
         axios.get(`${host}/account/findById`).then(function (response) {
@@ -41,6 +49,10 @@ class ScoreShopping extends Component{
                 })
             }
         }).catch(function (errors) {
+            _this.setState({
+                warningInfo:"请求失败",
+                showWarning:true
+            });
             console.log(errors);
         })
     }
@@ -60,12 +72,16 @@ class ScoreShopping extends Component{
         const {host} = _this.props;
         axios.get(`${host}/score/convertAward?awardType=${type}`).then(function (response) {
             if (response.data.state === 0) {
-                const {history} = _this.props;
-                history.push({
-                    pathname: '/exsuccess'
-                });
+                _this.setState({
+                    successInfo:"兑换成功",
+                    showSuccess:true,
+                })
             }
         }).catch(function (errors) {
+            _this.setState({
+                warningInfo:errors.data.msg,
+                showWarning:true
+            });
             console.log(errors);
         });
     }
@@ -117,6 +133,8 @@ class ScoreShopping extends Component{
                     </div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                <Toast icon="warn" show={this.props.showWarning}></Toast>
+                <Toast icon="success-no-circle" show={this.state.showSuccess}>{this.state.successInfo}</Toast>
             </div>
         );
     }
@@ -126,7 +144,7 @@ function mapStateToProps(state) {
     return {
         host: state.host,
         showLoading: state.showLoading,
-        showError: state.showError
+        showError: state.showError,
     }
 }
 
