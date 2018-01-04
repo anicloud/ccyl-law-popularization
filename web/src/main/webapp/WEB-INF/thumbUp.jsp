@@ -160,10 +160,10 @@
           </div>
         </div>
         <div class='text-center thumb-btn'>
-          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb" alt=""/>
+          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
         </div>
         <div class='text-center thumb-btn'>
-          <div class='right-now' onclick="handleAnswer">马上答题</div>
+          <div class='right-now' onclick="handleAnswer()">马上答题</div>
         </div>
       </div>
       <div class="alert alert-success" role="alert">...</div>
