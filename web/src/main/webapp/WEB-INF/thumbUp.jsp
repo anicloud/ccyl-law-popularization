@@ -166,13 +166,12 @@
           <div class='right-now' onclick="handleAnswer()">马上答题</div>
         </div>
       </div>
-      <div class="alert alert-success" role="alert">...</div>
     </div>
   <script>
       function handleThumb(){
         var _CTX = '<%=request.getContextPath() %>';
         $.ajax({
-          url: _CTX + "/share/thumbUp?toAccountId=${accountId}",
+          url: _CTX + "/share/thumbUp?toAccountId=<%=accountId%>",
           type: "GET",
           cache:false,
           success: function () {
