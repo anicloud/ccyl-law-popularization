@@ -166,9 +166,6 @@
             if(res.state===0){
               alert("点赞成功!");
             }
-            if(res.state===2){
-              alert("好友点赞次数已满");
-            }
           },
           error:function(e){
             console.log(e);
