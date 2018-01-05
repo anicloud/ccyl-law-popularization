@@ -63,7 +63,7 @@
       border-top-right-radius: .1rem;
     }
     .thumb .wrapper .wrapper-thumb {
-      margin: 1rem auto;
+      margin: 2rem auto;
     }
     .thumb .wrapper .wrapper-thumb .first {
       padding-top: .6rem;
@@ -142,7 +142,7 @@
 <body>
   <div class='thumb common-bg'>
     <div class='text-center header'>
-      <img src=<%=head%> alt=""/>
+      <img src="${pageContext.request.contextPath}/build/assets/images/header_thumbup.png" alt=""/>
     </div>
     <div class='wrapper'>
       <div class='wrapper-thumb'>
