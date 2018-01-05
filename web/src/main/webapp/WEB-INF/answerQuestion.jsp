@@ -104,6 +104,13 @@
       font-size: .4rem;
       letter-spacing: .02rem;
     }
+    .thumb .wrapper .wrapper-thumb .four{
+      margin: .4rem auto;
+      text-align: center;
+      color: #303030;
+      font-size: .4rem;
+      width: 5rem;
+    }
     .thumb .wrapper .thumb-btn .right-now {
       margin: 0 auto;
       width: 3.2rem;
