@@ -27,7 +27,7 @@
         SELECT t1.score AS score,t2.questionCount AS questionCount,t3.thumbUpCount AS thumbUpCount, t4.signInCount AS signInCount, t5.inviteCount AS inviteCount, t6.shareCount AS shareCount FROM
         (SELECT sum(score) AS score FROM t_score_record WHERE account_id=#{accountId}) t1,
         (SELECT count(src_question_id) AS questionCount FROM t_score_record WHERE src_type=1 AND score &gt; 0 AND account_id=#{accountId}) t2,
-        (SELECT count(src_account_id) AS thumbUpCount FROM t_score_record WHERE src_type=2 AND account_id=#{accountId}) t3,
+        (SELECT count(*) AS thumbUpCount FROM t_score_record WHERE src_type=2 AND account_id=#{accountId}) t3,
         (SELECT count(*) AS signInCount FROM t_score_record WHERE src_type=3 AND account_id=#{accountId}) t4,
         (SELECT count(*) AS inviteCount FROM t_score_record WHERE src_type=4 AND account_id=#{accountId}) t5,
         (SELECT count(*) AS shareCount FROM t_score_record WHERE src_type=5 AND account_id=#{accountId}) t6

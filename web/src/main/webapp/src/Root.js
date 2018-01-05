@@ -80,12 +80,12 @@ class Root extends Component {
             axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     window.wx.onMenuShareTimeline({
-                        title: `我正在中国共青团青少年学法用法知识答题，快来参加吧`,
+                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
                         link: response.data.data.url,
                         imgUrl: response.data.data.portrait
                     });
                     window.wx.onMenuShareAppMessage({
-                        title: `我正在中国共青团青少年学法用法知识答题，快来参加吧`,
+                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
                         link: response.data.data.url,
                         imgUrl: response.data.data.portrait,
                         desc: '共青团中央2018年第十四届青少年学法用法知识竞赛'
