@@ -17,7 +17,7 @@
 %>
 <html>
 <head>
-    <title>点赞</title>
+  <title>点赞</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <style>
     .common-bg {
@@ -98,7 +98,7 @@
       margin: 0 auto;
       width: 4rem;
       text-align: center;
-      line-height: .7rem;
+      line-height: 1rem;
       color: #303030;
       font-weight: bold;
       font-size: .4rem;
@@ -133,49 +133,32 @@
   <script src="<%=request.getContextPath() %>/build/assets/js/rem.js"></script>
 </head>
 <body>
-    <div class='thumb common-bg'>
-      <div class='text-center header'>
-        <img src="${pageContext.request.contextPath}/build/assets/images/header_thumbup.png" alt=""/>
+  <div class='thumb common-bg'>
+    <div class='text-center header'>
+      <img src=<%=head%> alt=""/>
+    </div>
+    <div class='wrapper'>
+      <div class='wrapper-thumb'>
+        <div class='third'>
+          <p>恭喜你已为好友</p>
+          <p><%=nickName%></p>
+          <p>点赞成功</p>
+        </div>
+        <div class='four'>
+          <p>我也要争做普法小先锋与好友PK赢奖品</p>
+        </div>
       </div>
-      <div class='wrapper'>
-        <div class='clearfix wrapper-thumb'>
-          <div class='pull-left first'>
-            <img src=<%=head%> alt=""/>
-            <p><%=nickName%></p>
-          </div>
-          <div class='pull-right second'>
-            <div>
-              <p>我正在争当普法小先锋，目前积分<span><%=totalScore%></span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
-            </div>
-          </div>
-        </div>
-        <div class='text-center thumb-btn'>
-          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
-        </div>
+      <div class='text-center thumb-btn'>
+        <div class='right-now' onclick="handleAnswer()">马上答题</div>
       </div>
     </div>
-  <script>
-      function handleThumb(){
-        var _CTX = '<%=request.getContextPath() %>';
-        $.ajax({
-          url: _CTX + "/share/thumbUp?toAccountId=<%=accountId%>",
-          type: "GET",
-          cache:false,
-          success: function (response) {
-            var res = JSON.parse(response);
-            if(res.state===0){
-              alert("点赞成功!");
-            }
-            if(res.state===2){
-              alert("好友点赞次数已满");
-            }
-          },
-          error:function(e){
-            console.log(e);
-          }
-        });
-      }
-  </script>
+</div>
+<script>
+  function handleAnswer(){
+    var _CTX = '<%=request.getContextPath() %>';
+    window.location.href= _CTX+"/share/goToAnswerQuestion";
+  }
+
+</script>
 </body>
 </html>
-
