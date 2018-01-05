@@ -8,12 +8,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  ThumbUpDto thumbUpDto = (ThumbUpDto)request.getAttribute("thumbUpDto");
-  String head = thumbUpDto.getToPortrait();
-  String nickName = thumbUpDto.getToNickName();
-  Integer totalScore = thumbUpDto.getTotalScore();
-  Boolean isThumbUp = thumbUpDto.getIsThumbUp();
-  Integer accountId = thumbUpDto.getAccountId();
+  String nickName = (String)request.getAttribute("nickName");
+  Boolean content = (Boolean)request.getAttribute("content");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
 %>
 <html>
 <head>
@@ -146,11 +142,19 @@
     </div>
     <div class='wrapper'>
       <div class='wrapper-thumb'>
+        <% if(content==true){%>
         <div class='third'>
-          <p>恭喜你已为好友</p>
+          <p>恭喜您已为好友</p>
           <p><%=nickName%></p>
           <p>点赞成功</p>
         </div>
+        <%}else{%>
+          <div class='third'>
+            <p>您今日已为好友</p>
+            <p><%=nickName%></p>
+            <p>点过赞了</p>
+          </div>
+        <%}%>
         <div class='four'>
           <p>我也要争做普法小先锋与好友PK赢奖品</p>
         </div>
