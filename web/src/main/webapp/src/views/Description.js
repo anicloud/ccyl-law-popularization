@@ -36,7 +36,7 @@ class Description extends Component {
                                     <ul>
                                         <li>为引导广大青少年深入学习贯彻十九大精神，落实“七五”普法规划要求和部署，深入开展青少年法治宣传教育工作，切实提高广大青少年的法治观念和法治素养，共青团中央、司法部、全国普法共同举办第14届全国青少年学法用法网上知识竞赛。</li>
                                         <br/>
-                                        <li>参赛时间:2018.1.15 - 2018.2.28</li>
+                                        <li className="competitionTime">参赛时间:2018.1.15 - 2018.2.28</li>
                                     </ul>
                                 </Article>
                                 <Article style={{display: this.state.tab == 1 ? null : 'none'}}>
@@ -44,7 +44,6 @@ class Description extends Component {
                                     <ul>
                                         <li>争当普法先锋！赢取丰富奖品！</li>
                                         <br/>
-
                                         <li>每天答题、签到、分享、拉好友答题和点赞都可增加积分哦，每天积分前20名可领取相应奖品。</li>
                                         <li>NO.1:荣获100元京东购物卡</li>
                                         <li>NO.2:荣获50元京东购物卡</li>
