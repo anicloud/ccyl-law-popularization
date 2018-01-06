@@ -15,6 +15,7 @@ import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -97,8 +98,9 @@ public class ShareController {
         AccountDto accountDto = accountService.findById(toAccountId);
         String macAddress = IPUtil.getMACAddress(IPUtil.getRemoteAddress(request));
         Boolean isThumbUp = scoreRecordService.findIsThumbUp(macAddress,toAccountId);
-        if(!isThumbUp) {
+        if(!StringUtils.isEmpty(macAddress)&&!isThumbUp) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
+            scoreRecordPO.setMacAddress(macAddress);
             scoreRecordPO.setAccountId(toAccountId);
             scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
             scoreRecordPO.setScore(Constants.Score.THUMB_UP_SCORE);

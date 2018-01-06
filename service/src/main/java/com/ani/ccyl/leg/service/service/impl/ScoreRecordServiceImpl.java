@@ -166,10 +166,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public Boolean findIsThumbUp(Object accountId, Integer toAccountId) {
+    public Boolean findIsThumbUp(Object srcIdOrMac, Integer toAccountId) {
         Map<String,Object> paramMap = new HashMap<>();
         paramMap.put("accountId", toAccountId);
-        paramMap.put("srcAccountId",accountId);
+        paramMap.put("srcIdOrMac",srcIdOrMac);
         return scoreRecordMapper.findIsThumbUp(paramMap);
     }
 

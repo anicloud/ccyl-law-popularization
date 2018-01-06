@@ -28,8 +28,9 @@ public class ScoreRecordPO implements Serializable {
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
+    private String macAddress;
 
-    public ScoreRecordPO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, String selfAnswer, Integer srcAccountId, Integer questionTime, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
+    public ScoreRecordPO(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, String selfAnswer, Integer srcAccountId, Integer questionTime, Timestamp updateTime, Timestamp createTime, Boolean isDel, String macAddress) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
@@ -41,6 +42,15 @@ public class ScoreRecordPO implements Serializable {
         this.updateTime = updateTime;
         this.createTime = createTime;
         this.isDel = isDel;
+        this.macAddress = macAddress;
+    }
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
     }
 
     public Integer getQuestionTime() {
