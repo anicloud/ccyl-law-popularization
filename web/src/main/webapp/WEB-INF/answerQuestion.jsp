@@ -13,7 +13,7 @@
 %>
 <html>
 <head>
-  <title>点赞</title>
+  <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <style>
     .common-bg {
