@@ -150,7 +150,7 @@
           </div>
         </div>
         <div class='text-center thumb-btn'>
-          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
+          <a href="${pageContext.request.contextPath}/share/thumbUp?toAccountId=<%=accountId%>"><img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" alt=""/></a>
         </div>
       </div>
     </div>
@@ -162,10 +162,10 @@
           type: "GET",
           cache:false,
           success: function (response) {
-            var res = JSON.parse(response);
-            if(res.state===0){
-//              alert("点赞成功!");
-            }
+//            var res = JSON.parse(response);
+//            if(res.state===0){
+////              alert("点赞成功!");
+//            }
           },
           error:function(e){
             console.log(e);
