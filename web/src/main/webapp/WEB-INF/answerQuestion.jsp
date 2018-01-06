@@ -144,19 +144,19 @@
       <div class='wrapper-thumb'>
         <% if(content==true){%>
         <div class='third'>
-          <p>恭喜您已为好友</p>
+          <p>恭喜你已为好友</p>
           <p><%=nickName%></p>
           <p>点赞成功</p>
         </div>
         <%}else{%>
           <div class='third'>
-            <p>您今日已为好友</p>
+            <p>你今日已为好友</p>
             <p><%=nickName%></p>
             <p>点过赞了</p>
           </div>
         <%}%>
         <div class='four'>
-          <p>我也要争做普法小先锋与好友PK赢奖品</p>
+          <p>我也要争当普法先锋，与好友PK赢奖品</p>
         </div>
       </div>
       <div class='text-center thumb-btn'>
