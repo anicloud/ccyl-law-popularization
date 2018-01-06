@@ -123,6 +123,7 @@ class SharePrizeTwo extends Component {
                                 <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
                             </div>
                             <div className='thumb-up' onClick={this.handleShare}>邀请答题</div>
+                            <p className='thumb-up-text'>快快邀请伙伴答题，大家前赴后继赢奖品</p>
                         </div>
                     ) : (null)
                 }

@@ -301,7 +301,7 @@ class MyScore extends Component {
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>
-                        <span>获得总积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>
+                        <span>荣获<span className='detail-span'>总积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span></span>
                     </div>
                 </div>
                 <div className="bottomDiv">
