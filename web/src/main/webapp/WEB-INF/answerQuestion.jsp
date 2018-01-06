@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   String nickName = (String)request.getAttribute("nickName");
-  Boolean content = (Boolean)request.getAttribute("content");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
+  Boolean content = (Boolean)request.getAttribute("isThumbUp");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
 %>
 <html>
 <head>

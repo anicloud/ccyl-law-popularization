@@ -162,10 +162,10 @@
           type: "GET",
           cache:false,
           success: function (response) {
-            var res = JSON.parse(response);
-            if(res.state===0){
-//              alert("点赞成功!");
-            }
+//            var res = JSON.parse(response);
+//            if(res.state===0){
+////              alert("点赞成功!");
+//            }
           },
           error:function(e){
             console.log(e);
