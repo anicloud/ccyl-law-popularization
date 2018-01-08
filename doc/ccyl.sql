@@ -52,7 +52,7 @@ CREATE TABLE `t_account` (
   `email` varchar(128) DEFAULT NULL COMMENT '邮箱',
   `address` varchar(256) DEFAULT NULL COMMENT '地址',
   `province` tinyint(2) DEFAULT NULL COMMENT '省份',
-  `nick_name` varchar(64) DEFAULT NULL COMMENT '昵称',
+  `nick_name` varchar(512) DEFAULT NULL COMMENT '昵称',
   `portrait` varchar(1024) DEFAULT NULL COMMENT '头像',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
