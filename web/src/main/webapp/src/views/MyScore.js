@@ -9,6 +9,8 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import "../media/styles/myscore.less";
 import disPlus from "../media/imgs/displus.png";
+import footReverse from '../media/imgs/foot-reverse.png';
+import foot from '../media/imgs/foot.png';
 import copy from "copy-to-clipboard";
 
 class MyScore extends Component {
@@ -93,14 +95,12 @@ class MyScore extends Component {
             _this.setState({ showMyPrize: true});
         })
     }
-
     handleShopping() {
         this.props.history.push({
             pathname: '/scoreshopping',
             state: '/tasks'
         });
     }
-
     handleSignIn() {
         let _this = this;
         const {host} = _this.props;
@@ -151,7 +151,6 @@ class MyScore extends Component {
         const {history} = this.props;
         history.push('/announce');
     }
-
     goToRegist(){
         let _this = this;
         const {history} = _this.props;
@@ -160,26 +159,22 @@ class MyScore extends Component {
             state:'/tasks'
         });
     }
-
     hideTiShiDialog(){
         this.setState({
             showTishi: false,
         });
     }
-
     hideMyPrizeDialog() {
         this.setState({
             showMyPrize: false,
         });
     }
-
     hidePrizeDetailDialog() {
         this.setState({
             showPrizeDetail: false,
             showMyPrize: true,
         });
     }
-
     getPrizeDetail(award){
         //发请求
         let _this = this;
@@ -202,7 +197,6 @@ class MyScore extends Component {
             console.log(errors);
         });
     }
-
     copyCode(code){
         let _this = this;
         copy(code);
@@ -218,7 +212,6 @@ class MyScore extends Component {
             });
         }, 2000);
     }
-
     getConditionFromEnum(type){
         let result = "";
         switch(type){
@@ -252,7 +245,6 @@ class MyScore extends Component {
         }
         return result;
     }
-
     getNameFromEnum(type){
         let result = "";
         switch(type){
@@ -301,7 +293,7 @@ class MyScore extends Component {
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>
-                        <span>荣获<span className='detail-span'>总积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span></span>
+                        <span className='detail-msg'>荣获总积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
                     </div>
                 </div>
                 <div className="bottomDiv">
@@ -321,7 +313,7 @@ class MyScore extends Component {
                             <span>签到</span>
                             <span className="desc">已签{scoreInfo?scoreInfo.signInCount : 0}次</span>
                         </div>
-                        {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={this.handleSignIn}> <i className="plus"/></div>}
+                        {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={footReverse} alt=''/></div> : <div className="rightDiv" onClick={this.handleSignIn}><img src={foot} alt=''/></div>}
                     </div>
                     <div className="task">
                         <div className="leftDiv">
