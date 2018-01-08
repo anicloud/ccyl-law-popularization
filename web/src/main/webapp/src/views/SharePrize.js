@@ -20,7 +20,7 @@ class SharePrize extends Component {
             showToast: false,
             toastText: '分享成功',
             location: this.props.location.state? this.props.location.state : '/answer',
-            showPopup: false,
+            showPopup: true,
             isReady: false
         };
         this.userId = getCookie('LOGIN_COOKIE');
@@ -44,7 +44,7 @@ class SharePrize extends Component {
                     });
                     let scoreInfo = response.data.data;
                     window.wx.onMenuShareTimeline({
-                        title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
+                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
                         link: scoreInfo.url,
                         imgUrl: scoreInfo.portrait,
                         success: function (res) {
@@ -58,11 +58,12 @@ class SharePrize extends Component {
 
                         }
                     });
+                    /*我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!*/
                     window.wx.onMenuShareAppMessage({
-                        title: `我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!`,
+                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
                         link: scoreInfo.url,
                         imgUrl: scoreInfo.portrait,
-                        desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
+                        desc: '第十四届全国青少年学法用法网上知识竞赛',
                         success: function(res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);

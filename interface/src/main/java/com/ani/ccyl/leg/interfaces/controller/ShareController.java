@@ -4,6 +4,7 @@ import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+import com.ani.ccyl.leg.commons.utils.IPUtil;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
@@ -14,6 +15,7 @@ import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -89,27 +91,26 @@ public class ShareController {
         return modelAndView;
     }
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto thumbUp(Integer toAccountId) {
-        ResponseMessageDto message = new ResponseMessageDto();
+    public ModelAndView thumbUp(Integer toAccountId, HttpServletRequest request) {
 //        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
 //        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
-        Integer thumbUpCount = scoreRecordMapper.findDailyThumbUpCount(toAccountId);
-        if(thumbUpCount<5) {
+        ModelAndView modelAndView = new ModelAndView("answerQuestion");
+        AccountDto accountDto = accountService.findById(toAccountId);
+        String macAddress = IPUtil.getMACAddress(IPUtil.getRemoteAddress(request));
+        Boolean isThumbUp = scoreRecordService.findIsThumbUp(macAddress,toAccountId);
+        if(!StringUtils.isEmpty(macAddress)&&!isThumbUp) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
+            scoreRecordPO.setMacAddress(macAddress);
             scoreRecordPO.setAccountId(toAccountId);
             scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
             scoreRecordPO.setScore(Constants.Score.THUMB_UP_SCORE);
             scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
             scoreRecordPO.setDel(false);
             scoreRecordMapper.insertSelective(scoreRecordPO);
-            message.setMsg("点赞成功");
-            message.setState(ResponseStateEnum.OK);
-        } else {
-            message.setMsg("点赞次数达到上限");
-            message.setState(ResponseStateEnum.ERROR);
         }
-        return message;
+        modelAndView.addObject("nickName",accountDto.getNickName());
+        modelAndView.addObject("isThumbUp",isThumbUp);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/goToAnswerQuestion")
@@ -119,13 +120,13 @@ public class ShareController {
 
     @RequestMapping(value = "/findThumbUpInfo", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findThumbUpInfo(Integer toAccountId, HttpSession session) {
+    public ResponseMessageDto findThumbUpInfo(Integer toAccountId, HttpServletRequest request) {
         ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         AccountDto toAccountDto = accountService.findById(toAccountId);
+        String macAddress = IPUtil.getMACAddress(IPUtil.getRemoteAddress(request));
         if(toAccountDto != null) {
             ThumbUpDto thumbUpDto = new ThumbUpDto();
-            thumbUpDto.setIsThumbUp(scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId));
+            thumbUpDto.setIsThumbUp(scoreRecordService.findIsThumbUp(macAddress,toAccountId));
             thumbUpDto.setToNickName(toAccountDto.getNickName());
             thumbUpDto.setToPortrait(toAccountDto.getPortrait());
             TotalScoreDto totalScore = scoreRecordService.findTotalScore(toAccountId);

@@ -19,7 +19,7 @@ public interface ScoreRecordService {
     DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType);
     List<Top20Dto> findDailyTop20() throws UnsupportedEncodingException;
 
-    Boolean findIsThumbUp(Integer accountId, Integer toAccountId);
+    Boolean findIsThumbUp(Object srcIdOrMac, Integer toAccountId);
     Boolean findIsSignIn(Integer accountId);
     TotalSignInDto findTotalSignIn(Integer accountId);
 

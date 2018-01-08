@@ -109,8 +109,9 @@ class AnswerQuestion extends Component {
                     question === ''? (
                         isComplete? (
                             <div className='text-center complete'>
-                                今日答题已完成
-                                <div className='share' onClick={this.handleShare}>分享荣誉</div>
+                                <p className='text-center'>恭喜！今日答题已顺利完成，明日记得继续来答题涨积分！</p>
+                                <p className='text-center'>现在我要马上拉好友为我点赞涨积分赢奖品！</p>
+                                <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                             </div>
                         ) : (null)
                     ) : (

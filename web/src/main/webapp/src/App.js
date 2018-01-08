@@ -43,7 +43,7 @@ class App extends Component {
         return (
             <div className="app main-bg">
                 <div className='text-center right-now'>
-                    <div onClick={() => {this.handleTouch(1)}}>马上答题</div>
+                    <div onClick={() => {this.handleTouch(1)}}>每日答题</div>
                 </div>
                 <div className='list'>
                     <div className='list-first' onClick={() => {this.handleTouch(5)}}>荣耀榜</div>
