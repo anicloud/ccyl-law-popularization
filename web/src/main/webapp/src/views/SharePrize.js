@@ -63,7 +63,7 @@ class SharePrize extends Component {
                         title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
                         link: scoreInfo.url,
                         imgUrl: scoreInfo.portrait,
-                        desc: '共青团中央2018年第十四届青少年学法用法知识竞赛',
+                        desc: '第十四届全国青少年学法用法网上知识竞赛',
                         success: function(res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);

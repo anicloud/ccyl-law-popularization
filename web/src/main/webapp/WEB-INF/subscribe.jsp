@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#000000">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/build/favicon.ico">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
-    <title>共青团中央2018年第十四届青少年学法用法知识竞赛项目</title>
+    <title>第十四届全国青少年学法用法网上知识竞赛</title>
     <style>
         .subscribe {
             width: 100%;

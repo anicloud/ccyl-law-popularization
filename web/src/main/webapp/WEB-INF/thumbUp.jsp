@@ -17,7 +17,7 @@
 %>
 <html>
 <head>
-    <title>点赞</title>
+    <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <style>
     .common-bg {
@@ -145,12 +145,12 @@
           </div>
           <div class='pull-right second'>
             <div>
-              <p>我正在争当普法小先锋，目前积分<span><%=totalScore%></span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
+              <p>为<span><%=nickName%></span>增加积分领取奖品，力挺TA争当普法先锋</p>
             </div>
           </div>
         </div>
         <div class='text-center thumb-btn'>
-          <img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" onclick="handleThumb()" alt=""/>
+          <a href="${pageContext.request.contextPath}/share/thumbUp?toAccountId=<%=accountId%>"><img src="${pageContext.request.contextPath}/build/assets/images/btn_thumbup.png" alt=""/></a>
         </div>
       </div>
     </div>
@@ -162,10 +162,10 @@
           type: "GET",
           cache:false,
           success: function (response) {
-            var res = JSON.parse(response);
-            if(res.state===0){
-//              alert("点赞成功!");
-            }
+//            var res = JSON.parse(response);
+//            if(res.state===0){
+////              alert("点赞成功!");
+//            }
           },
           error:function(e){
             console.log(e);

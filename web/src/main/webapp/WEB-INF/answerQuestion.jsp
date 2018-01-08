@@ -9,11 +9,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   String nickName = (String)request.getAttribute("nickName");
-  Boolean content = (Boolean)request.getAttribute("content");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
+  Boolean content = (Boolean)request.getAttribute("isThumbUp");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
 %>
 <html>
 <head>
-  <title>点赞</title>
+  <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <style>
     .common-bg {
@@ -144,19 +144,19 @@
       <div class='wrapper-thumb'>
         <% if(content==true){%>
         <div class='third'>
-          <p>恭喜您已为好友</p>
+          <p>恭喜你已为好友</p>
           <p><%=nickName%></p>
           <p>点赞成功</p>
         </div>
         <%}else{%>
           <div class='third'>
-            <p>您今日已为好友</p>
+            <p>你今日已为好友</p>
             <p><%=nickName%></p>
             <p>点过赞了</p>
           </div>
         <%}%>
         <div class='four'>
-          <p>我也要争做普法小先锋与好友PK赢奖品</p>
+          <p>我也要争当普法先锋，与好友PK赢奖品</p>
         </div>
       </div>
       <div class='text-center thumb-btn'>
