@@ -34,6 +34,37 @@ class Description extends Component {
                             <TabBody>
                                 <Article style={{display: this.state.tab == 0 ? null : 'none'}}>
                                     <ul>
+                                        <li className="danwei">
+                                            <div>
+                                                <div>
+                                                    <span className="label">主办单位:</span>
+                                                </div>
+                                                <div>
+                                                    <div className="gong-qing-tuan"></div><div className="si-fa-bu"></div><div className="pu-fa-ban"></div>
+                                                </div>
+                                                <div>
+                                                    <span className="gqt-name">共青团中央</span><span className="sfb-name">司法部</span><span className="pfb-name">全国普法办</span>
+                                                </div>
+                                                <div>
+                                                    <span className="label1">承办单位:</span>
+                                                </div>
+                                                <div>
+                                                    <span className="secondName">司法部法制宣传司</span>
+                                                    <span className="secondName">团中央维护青少年权益部</span>
+                                                    <span className="secondName">中国少年儿童发展服务中心</span>
+                                                    <span className="secondName">中国青少年宫协会</span>
+                                                </div>
+                                                <div>
+                                                    <span className="label1">协办单位:</span>
+                                                </div>
+                                                <div>
+                                                    <span className="secondName">中国青年网</span>
+                                                    <span className="secondName">青年之声互动社交平台</span>
+                                                    <span className="secondName">青少年维权在线</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <br/>
                                         <li>为引导广大青少年深入学习贯彻十九大精神，落实“七五”普法规划要求和部署，深入开展青少年法治宣传教育工作，切实提高广大青少年的法治观念和法治素养，共青团中央、司法部、全国普法办共同举办第14届全国青少年学法用法网上知识竞赛。</li>
                                         <br/>
                                         <li className="competitionTime">参赛时间:2018.1.15 - 2018.2.28</li>
