@@ -355,7 +355,8 @@ class MyScore extends Component {
                             获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分
                         </div>
                         <div className="rightDiv" onClick={this.handleThumbUp}>
-                            <img src={billDetail} alt=""/>
+                            {/*<img src={billDetail} alt=""/>*/}
+                            <i className='plus'></i>
                         </div>
                     </div>
                 </div>
