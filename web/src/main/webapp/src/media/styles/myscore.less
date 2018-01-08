@@ -76,6 +76,9 @@
           background: url("../imgs/Plus.png") center center;
           background-size: 100% 100%;
         }
+        img {
+          width: .7rem;
+        }
       }
     }
   }
@@ -89,7 +92,7 @@
     padding: .4rem .3rem 0;
   }
   .detail {
-    margin-top: 1rem;
+    margin-top: .7rem;
     margin-left: .4rem;
     .touxiang {
       height: 1.28rem;
@@ -97,8 +100,11 @@
     }
     .detail-span {
       font-size: .5rem;
-      color: #8fc440;
+      color: #f6dc01;
       font-weight: 600;
+    }
+    .detail-msg {
+      letter-spacing: .03rem;
     }
   }
 }
@@ -163,15 +169,14 @@
   .task{
     width:98%;
     height:1rem;
-    margin:0 auto;
+    margin:.2rem auto 0;
     display: inline-block;
-    margin-top:.2rem;
     .leftDiv{
-      width:70%;
-      heigth:1rem;
-      display:inline-block;
+      width:33%;
+      height:1rem;
       color:black;
       margin-left: .2rem;
+      float: left;
       span{
         display:block;
       }
@@ -179,6 +184,13 @@
         font-size:.2rem;
         color:grey;
       }
+    }
+    .middleDiv {
+      float: left;
+      width: 33%;
+      margin-left: .2rem;
+      line-height: 1rem;
+      letter-spacing: .02rem;
     }
     .rightDiv{
       width:.7rem;
@@ -194,7 +206,18 @@
         background: url("../imgs/Plus.png") center center;
         background-size: 100% 100%;
       }
+      img {
+        width: .7rem;
+      }
     }
-
+  }
+  .detail-info {
+    padding-left: .2rem;
+    padding-right: .2rem;
+    color: grey;
+    font-size: .2rem;
+    text-indent: 2em;
+    margin-top: .3rem;
+    letter-spacing: .01rem;
   }
 }

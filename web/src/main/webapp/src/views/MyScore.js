@@ -7,9 +7,13 @@ import {Button, Toast,Dialog} from 'react-weui';
 import Back from './Back';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import "../media/styles/myscore.less";
 import disPlus from "../media/imgs/displus.png";
+import billDetail from "../media/imgs/bill_detail.png";
+import footReverse from '../media/imgs/foot-reverse.png';
+import share from '../media/imgs/share.png';
+import foot from '../media/imgs/foot.png';
 import copy from "copy-to-clipboard";
+import "../media/styles/myscore.less";
 
 class MyScore extends Component {
     constructor(props) {
@@ -93,14 +97,12 @@ class MyScore extends Component {
             _this.setState({ showMyPrize: true});
         })
     }
-
     handleShopping() {
         this.props.history.push({
             pathname: '/scoreshopping',
             state: '/tasks'
         });
     }
-
     handleSignIn() {
         let _this = this;
         const {host} = _this.props;
@@ -151,7 +153,6 @@ class MyScore extends Component {
         const {history} = this.props;
         history.push('/announce');
     }
-
     goToRegist(){
         let _this = this;
         const {history} = _this.props;
@@ -160,26 +161,22 @@ class MyScore extends Component {
             state:'/tasks'
         });
     }
-
     hideTiShiDialog(){
         this.setState({
             showTishi: false,
         });
     }
-
     hideMyPrizeDialog() {
         this.setState({
             showMyPrize: false,
         });
     }
-
     hidePrizeDetailDialog() {
         this.setState({
             showPrizeDetail: false,
             showMyPrize: true,
         });
     }
-
     getPrizeDetail(award){
         //发请求
         let _this = this;
@@ -202,7 +199,6 @@ class MyScore extends Component {
             console.log(errors);
         });
     }
-
     copyCode(code){
         let _this = this;
         copy(code);
@@ -218,7 +214,6 @@ class MyScore extends Component {
             });
         }, 2000);
     }
-
     getConditionFromEnum(type){
         let result = "";
         switch(type){
@@ -252,7 +247,6 @@ class MyScore extends Component {
         }
         return result;
     }
-
     getNameFromEnum(type){
         let result = "";
         switch(type){
@@ -297,11 +291,13 @@ class MyScore extends Component {
                         <Back location='/home' history={this.props.history}/>
                     </div>
                     <div className="detail">
-                        <img src={scoreInfo.portrait} className="touxiang"></img>
+                        <img src={scoreInfo.portrait} className="touxiang"/>
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>
-                        <span>荣获<span className='detail-span'>总积分:{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span></span>
+                        <span className='detail-msg'>荣获总积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
+                        <br/>
+                        <span className='detail-msg'>排名:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>名</span>
                     </div>
                 </div>
                 <div className="bottomDiv">
@@ -316,43 +312,54 @@ class MyScore extends Component {
                         </div>
                     </div>
 
-                    <div className="task">
+                    <div className="task clearfix">
                         <div className="leftDiv">
                             <span>签到</span>
                             <span className="desc">已签{scoreInfo?scoreInfo.signInCount : 0}次</span>
                         </div>
-                        {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={this.handleSignIn}> <i className="plus"/></div>}
+                        <div className='middleDiv'>
+                            获 {scoreInfo?scoreInfo.signInCount * 5 : 0} 积分
+                        </div>
+                        {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={footReverse} alt=''/></div> : <div className="rightDiv" onClick={this.handleSignIn}><img src={foot} alt=''/></div>}
                     </div>
-                    <div className="task">
+                    <div className="task clearfix">
                         <div className="leftDiv">
                             <span>分享答题</span>
                             <span className="desc">已成功分享{scoreInfo? scoreInfo.shareCount : 0}次</span>
                         </div>
+                        <div className='middleDiv'>
+                            获 {scoreInfo? scoreInfo.shareCount * 5 : 0} 积分
+                        </div>
                         <div className="rightDiv" onClick={this.handleShare}>
-                            <i className="plus"/>
-
+                            <img src={share} alt=""/>
                         </div>
                     </div>
-                    <div className="task">
+                    <div className="task clearfix">
                         <div className="leftDiv">
                             <span>邀请答题</span>
                             <span className="desc">已成功邀请{scoreInfo? scoreInfo.inviteCount : 0}次</span>
                         </div>
+                        <div className='middleDiv'>
+                            获 {scoreInfo? scoreInfo.inviteCount * 5 : 0} 积分
+                        </div>
                         <div className="rightDiv" onClick={this.handleInvitation}>
-                            <i className="plus"/>
-
+                            <img src={billDetail} alt=""/>
                         </div>
                     </div>
-                    <div className="task">
+                    <div className="task clearfix">
                         <div className="leftDiv">
                             <span>好友点赞</span>
                             <span className="desc">已被点赞{scoreInfo? scoreInfo.thumbUpCount : 0}次</span>
                         </div>
+                        <div className='middleDiv'>
+                            获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分
+                        </div>
                         <div className="rightDiv" onClick={this.handleThumbUp}>
-                            <i className="plus"/>
-
+                            {/*<img src={billDetail} alt=""/>*/}
+                            <i className='plus'></i>
                         </div>
                     </div>
+                    <p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
                     {this.state.myAwardInfo.length===0?(
