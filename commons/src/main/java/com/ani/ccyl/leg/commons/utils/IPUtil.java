@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.commons.utils;
 
+import javax.naming.Context;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -156,6 +157,34 @@ public class IPUtil {
 
         return result;
     }
+    public static String getPhoneMACAddress(String ip) {
+        String str="";
+        String macAddress="";
+        try {
+
+            System.out.println(ip);
+            Process p = Runtime.getRuntime().exec("nbtstat -A " + ip);
+            System.out.println("===process=="+p);
+            InputStreamReader ir = new InputStreamReader(p.getInputStream());
+
+            BufferedReader br = new BufferedReader(ir);
+
+            while ((str = br.readLine()) != null) {
+            if(str.indexOf("MAC")>1){
+            macAddress = str.substring(str.indexOf("MAC")+9, str.length());
+            macAddress = macAddress.trim();
+            System.out.println("macAddress:" + macAddress);
+            break;
+            }
+        }
+        p.destroy();
+        br.close();
+        ir.close();
+        } catch (IOException ex) {
+
+        }
+        return macAddress;
+    }
 
     /**
      * 获取MAC地址
@@ -166,7 +195,13 @@ public class IPUtil {
         macAddress = getMacInWindows(ip).trim();
         if(macAddress==null||"".equals(macAddress)){
             macAddress = getMacInLinux(ip).trim();
+            return macAddress;
         }
+        if (macAddress ==null||"".equals(macAddress)){
+            macAddress = getPhoneMACAddress(ip).trim();
+            return macAddress;
+        }
+
         return macAddress;
     }
 

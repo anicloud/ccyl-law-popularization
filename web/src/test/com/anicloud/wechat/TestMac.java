@@ -9,7 +9,7 @@ import org.junit.Test;
 public class TestMac {
     @Test
     public void testMac() {
-        String macAddress = IPUtil.getMACAddress("101.201.142.227");
+        String macAddress = IPUtil.getMACAddress("114.242.250.23");
         System.out.print(macAddress);
     }
 }

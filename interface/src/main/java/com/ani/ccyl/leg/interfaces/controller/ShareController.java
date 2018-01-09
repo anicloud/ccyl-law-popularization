@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/share")
@@ -74,45 +75,60 @@ public class ShareController {
         return message;
     }
     @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
-    public ModelAndView toThumbUp(Integer accountId) throws IOException {
-//        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId);
-//        response.sendRedirect(url);
-        ModelAndView modelAndView = new ModelAndView("thumbUp");
+    public ModelAndView toThumbUp(Integer accountId,HttpServletRequest request) throws IOException {
+        String uniCodeString=request.getParameter("uniCode");
+        String targetJsp="";
+        ThumbUpDto thumbUpDto=null;
         AccountDto toAccountDto = accountService.findById(accountId);
-        if(toAccountDto != null) {
-            ThumbUpDto thumbUpDto = new ThumbUpDto();
-            thumbUpDto.setToNickName(toAccountDto.getNickName());
-            thumbUpDto.setToPortrait(toAccountDto.getPortrait());
-            TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountId);
-            thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
-            thumbUpDto.setAccountId(accountId);
-            modelAndView.addObject("thumbUpDto",thumbUpDto);
+
+        if (StringUtils.isEmpty(uniCodeString)){
+            targetJsp="thumbUp";
+
+            if(toAccountDto != null) {
+                 thumbUpDto = new ThumbUpDto();
+                thumbUpDto.setToNickName(toAccountDto.getNickName());
+                thumbUpDto.setToPortrait(toAccountDto.getPortrait());
+                TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountId);
+                thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
+                thumbUpDto.setAccountId(accountId);
+            }
+        }else {
+            targetJsp="answerQuestion";
         }
+
+        ModelAndView modelAndView = new ModelAndView(targetJsp);
+        if (thumbUpDto!=null){
+            modelAndView.addObject("thumbUpDto",thumbUpDto);
+        }else {
+            modelAndView.addObject("nickName",toAccountDto.getNickName());
+        }
+
         return modelAndView;
     }
+
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
     public ModelAndView thumbUp(Integer toAccountId, HttpServletRequest request) {
-//        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-//        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
         ModelAndView modelAndView = new ModelAndView("answerQuestion");
         AccountDto accountDto = accountService.findById(toAccountId);
-        String macAddress = IPUtil.getMACAddress(IPUtil.getRemoteAddress(request));
-        Boolean isThumbUp = scoreRecordService.findIsThumbUp(macAddress,toAccountId);
-        if(!StringUtils.isEmpty(macAddress)&&!isThumbUp) {
+            Long uniCode =  generateUniCode();
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
-            scoreRecordPO.setMacAddress(macAddress);
+            scoreRecordPO.setUniCode(uniCode);
             scoreRecordPO.setAccountId(toAccountId);
             scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
             scoreRecordPO.setScore(Constants.Score.THUMB_UP_SCORE);
             scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
             scoreRecordPO.setDel(false);
             scoreRecordMapper.insertSelective(scoreRecordPO);
-        }
+
         modelAndView.addObject("nickName",accountDto.getNickName());
-        modelAndView.addObject("isThumbUp",isThumbUp);
+        modelAndView.addObject("uniCode",uniCode);
         return modelAndView;
     }
+    private Long generateUniCode(){
+        Random random = new Random(System.currentTimeMillis() + (new Random()).nextLong());
+        return Long.valueOf(Math.abs(random.nextLong()));
 
+    }
     @RequestMapping(value = "/goToAnswerQuestion")
     public String goToAnswerQuestion() {
         return "subscribe";
