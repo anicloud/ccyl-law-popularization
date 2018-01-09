@@ -10,11 +10,6 @@
 <%
   String nickName = (String)request.getAttribute("nickName");
   Boolean content = (Boolean)request.getAttribute("isThumbUp");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
-  String uniCode = "";
-  if(request.getAttribute("uniCode")!=null){
-    uniCode= (String)request.getAttribute("uniCode");
-    System.out.println(uniCode);
-  }
 %>
 <html>
 <head>
@@ -167,8 +162,7 @@
     </div>
 </div>
 <script>
-  var uniCode = <%=uniCode%>;
-  alert(uniCode);
+  var uniCode = <%=request.getAttribute("uniCode")%>;
   if(uniCode!==null&&uniCode!==undefined&&uniCode!==""){
     alert(uniCode);
     window.onload(setCookie("uniCode",uniCode,90));
