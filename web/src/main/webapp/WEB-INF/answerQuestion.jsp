@@ -13,6 +13,7 @@
   String uniCode = "";
   if(request.getAttribute("uniCode")!=null){
     uniCode= (String)request.getAttribute("uniCode");
+    System.out.println(uniCode);
   }
 %>
 <html>
@@ -176,7 +177,7 @@
   {
     var exdate=new Date();
     exdate.setDate(exdate.getDate()+expiredays);
-    document.cookie=c_name+ "=" +escape(value)+
+    document.cookie=c_name+ "=" +value+
             ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
   }
 
