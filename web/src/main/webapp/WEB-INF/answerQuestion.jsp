@@ -16,8 +16,8 @@
   <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <style>
-    .common-bg {
-      background: #aee644 url("${pageContext.request.contextPath}/build/static/media/bkg1.png") center top no-repeat;
+    .comeon-bg {
+      background: #aee644 url("${pageContext.request.contextPath}/build/static/media/comeon.gif") center top no-repeat;
       background-attachment: fixed;
       background-size: 100%;
     }
@@ -136,10 +136,7 @@
   <script src="<%=request.getContextPath() %>/build/assets/js/rem.js"></script>
 </head>
 <body>
-  <div class='thumb common-bg'>
-    <div class='text-center header'>
-      <img src="${pageContext.request.contextPath}/build/assets/images/header_thumbup.png" alt=""/>
-    </div>
+  <div class='thumb comeon-bg'>
     <div class='wrapper'>
       <div class='wrapper-thumb'>
         <% if(content==true){%>

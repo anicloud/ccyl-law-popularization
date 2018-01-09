@@ -32,6 +32,8 @@ import ScoreShopping from '../views/ScoreShopping';
 import ThumbUp from '../views/ThumbUp';
 /*上传题库*/
 import UploadQuestion from '../views/UploadQuestion';
+/*展示邀请答题详情*/
+import ShowAnsQuesDetail from '../views/ShowAnsQuesDetail';
 
 const Routes = () => (
     <Switch>
@@ -39,6 +41,7 @@ const Routes = () => (
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
         <Route path='/scoreshopping' component={ScoreShopping}/>
+        <Route path='/showAnswerDetail' component={ShowAnsQuesDetail}/>
         <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/announce' component={Tasks} />
