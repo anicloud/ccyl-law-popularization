@@ -9,7 +9,6 @@ import Back from './Back';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {Toast} from 'react-weui';
-import header from '../media/imgs/header_glory.png';
 import '../media/styles/showAnsQuesDetail.less';
 
 class ShowAnsQuesDetail extends Component{
@@ -73,13 +72,13 @@ class ShowAnsQuesDetail extends Component{
         let rankingInfo = this.state.rankingInfo;
         let myRankInfo = this.state.myRankInfo;
         return (
-            <div className='score common-bg'>
+            <div className='score showAnsQues-bg'>
                 <div className='clearfix'>
                     <Back location={this.state.location} history={this.props.history} />
                 </div>
-                <div className='text-right header'>
+                {/*<div className='text-right header'>
                     <img src={header} alt=""/>
-                </div>
+                </div>*/}
                 <div className='clearfix info'>
                     <div className='pull-left first'>
                         今日得分

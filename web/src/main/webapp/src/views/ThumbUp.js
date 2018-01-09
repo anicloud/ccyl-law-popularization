@@ -4,7 +4,6 @@ import axios from 'axios';
 import {Toast} from 'react-weui';
 import {jsSdkConfig} from "../utils/index";
 import '../media/styles/thumb.less';
-import header from '../media/imgs/header_thumbup.png';
 import btn_thumbup from '../media/imgs/btn_thumbup.png';
 
 class ThumbUp extends Component {
@@ -72,10 +71,10 @@ class ThumbUp extends Component {
         let scoreInfo = this.state.scoreInfo;
         let isReady = this.state.isReady;
         return (
-            <div className='thumb common-bg'>
-                <div className='text-center header'>
+            <div className='thumb comeon-bg'>
+                {/*<div className='text-center header'>
                     <img src={header} alt=""/>
-                </div>
+                </div>*/}
                 {
                     isReady && isThumbUp? (
                         scoreInfo? (

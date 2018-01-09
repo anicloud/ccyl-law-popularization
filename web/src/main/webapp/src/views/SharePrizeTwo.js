@@ -8,7 +8,6 @@ import first from '../media/images/first.png';
 import second from '../media/images/second.png';
 import arrow from '../media/images/arrow.png';
 import know from '../media/images/know.png';
-import Achievement from '../media/imgs/Achievement.png';
 import reback from '../media/imgs/reback.png';
 import '../media/styles/prize.less';
 
@@ -98,13 +97,13 @@ class SharePrizeTwo extends Component {
         let scoreInfo = this.state.scoreInfo;
         let isReady = this.state.isReady;
         return (
-            <div className='share-prize common-bg'>
+            <div className='share-prize myprize-bg'>
                 <div className='clearfix'>
                     <Back location={this.state.location} history={this.props.history} />
                 </div>
-                <div className='text-center header'>
+                {/*<div className='text-center header'>
                     <img src={Achievement} alt=""/>
-                </div>
+                </div>*/}
                 {
                     (isReady && scoreInfo)? (
                         <div className='wrapper'>
