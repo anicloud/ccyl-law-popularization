@@ -10,6 +10,7 @@
 <%
   String nickName = (String)request.getAttribute("nickName");
   Boolean content = (Boolean)request.getAttribute("isThumbUp");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
+  String uniCode = (String)request.getAttribute("uniCode");
 %>
 <html>
 <head>
@@ -162,6 +163,18 @@
     </div>
 </div>
 <script>
+  var uniCode = '<%=uniCode%>';
+  if(uniCode!==null&&uniCode!==undefined&&uniCode!==""){
+    window.onload(setCookie("uniCode",uniCode,90));
+  }
+  function setCookie(c_name,value,expiredays)
+  {
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate()+expiredays);
+    document.cookie=c_name+ "=" +escape(value)+
+            ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+  }
+
   function handleAnswer(){
     var _CTX = '<%=request.getContextPath() %>';
     window.location.href= _CTX+"/share/goToAnswerQuestion";
