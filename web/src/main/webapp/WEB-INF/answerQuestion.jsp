@@ -10,7 +10,10 @@
 <%
   String nickName = (String)request.getAttribute("nickName");
   Boolean content = (Boolean)request.getAttribute("isThumbUp");//true为从点赞页面跳转，false为已经点赞过，直接进入这个页面
-  String uniCode = (String)request.getAttribute("uniCode");
+  String uniCode = null;
+  if(request.getAttribute("uniCode")!=null){
+    uniCode= (String)request.getAttribute("uniCode");
+  }
 %>
 <html>
 <head>
