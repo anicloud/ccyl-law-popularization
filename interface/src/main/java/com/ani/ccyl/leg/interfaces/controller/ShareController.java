@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -76,36 +77,52 @@ public class ShareController {
     }
     @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
     public ModelAndView toThumbUp(Integer accountId,HttpServletRequest request) throws IOException {
-        String uniCodeString=request.getParameter("uniCode");
-        String targetJsp="";
-        ThumbUpDto thumbUpDto=null;
+        String uniCodeString = getUniCodeFromRequest(request);
         AccountDto toAccountDto = accountService.findById(accountId);
+        ModelAndView modelAndView =null;
+        boolean isThumbUped=false;
 
-        if (StringUtils.isEmpty(uniCodeString)){
-            targetJsp="thumbUp";
-
+        if (!StringUtils.isEmpty(uniCodeString)){
+            isThumbUped = scoreRecordService.findIsThumbUp(Long.parseLong(uniCodeString),accountId);
+        }
+        if(!isThumbUped){
+             modelAndView = new ModelAndView("thumbUp");
             if(toAccountDto != null) {
-                 thumbUpDto = new ThumbUpDto();
+                ThumbUpDto thumbUpDto = new ThumbUpDto();
                 thumbUpDto.setToNickName(toAccountDto.getNickName());
                 thumbUpDto.setToPortrait(toAccountDto.getPortrait());
                 TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountId);
                 thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
                 thumbUpDto.setAccountId(accountId);
+                modelAndView.addObject("thumbUpDto",thumbUpDto);
             }
-        }else {
-            targetJsp="answerQuestion";
-        }
 
-        ModelAndView modelAndView = new ModelAndView(targetJsp);
-        if (thumbUpDto!=null){
-            modelAndView.addObject("thumbUpDto",thumbUpDto);
-        }else {
-            modelAndView.addObject("nickName",toAccountDto.getNickName());
+        }
+        else {
+            if (toAccountDto != null){
+                modelAndView = new ModelAndView("answerQuestion");
+                modelAndView.addObject("isThumbUp",isThumbUped);
+                modelAndView.addObject("nickName",toAccountDto.getNickName());
+            }
+
         }
 
         return modelAndView;
     }
+    private String getUniCodeFromRequest(HttpServletRequest request){
+        Cookie[] cookie = request.getCookies();
+        for (int i = 0; i < cookie.length; i++) {
+            Cookie cook = cookie[i];
+            if(cook.getName().equalsIgnoreCase("uniCode")){ //获取键
+                String uniCodeString = cook.getValue().toString();
+                System.out.println("account:"+cook.getValue().toString());    //获取值
+                return uniCodeString;
 
+            }
+        }
+        return "";
+
+    }
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
     public ModelAndView thumbUp(Integer toAccountId, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("answerQuestion");
@@ -121,6 +138,7 @@ public class ShareController {
             scoreRecordMapper.insertSelective(scoreRecordPO);
 
         modelAndView.addObject("nickName",accountDto.getNickName());
+        modelAndView.addObject("isThumbUp",true);
         modelAndView.addObject("uniCode",uniCode);
         return modelAndView;
     }
