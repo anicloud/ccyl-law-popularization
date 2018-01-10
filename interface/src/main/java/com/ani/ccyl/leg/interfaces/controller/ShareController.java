@@ -200,5 +200,6 @@ public class ShareController {
         message.setData(invitedDtos);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
+        return message;
     }
 }
