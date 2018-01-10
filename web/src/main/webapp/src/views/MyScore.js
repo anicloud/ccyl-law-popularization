@@ -306,7 +306,7 @@ class MyScore extends Component {
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>
-                        <span className='detail-msg'>荣获总积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
+                        <span className='detail-msg'>剩余积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
                         <br/>
                         <span className='detail-msg'>排名:<span className='detail-span'>{mySelfRank?mySelfRank:0}</span>名</span>
                     </div>
