@@ -282,7 +282,8 @@ CREATE PROCEDURE proce_init_day_questions()
     DECLARE cur_day_num INTEGER;
     DECLARE cur_order_num INTEGER;
     DECLARE cursor_day_question CURSOR FOR SELECT id FROM t_day_question WHERE date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d');
-    DECLARE cursor_top5_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE AND id > (SELECT ifnull(max(id),0) FROM t_day_question) ORDER BY id LIMIT 5;
+    DECLARE cursor_top4_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE ORDER BY id LIMIT 4;
+    DECLARE cursor_19max_question CURSOR FOR SELECT id FROM t_19max_question WHERE is_del=FALSE ORDER BY id LIMIT 1;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
     SET flag=0;
     OPEN cursor_day_question;
@@ -291,14 +292,25 @@ CREATE PROCEDURE proce_init_day_questions()
       SET cur_order_num = 1;
       SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2017-12-20')+1;
       SET flag=0;
-      OPEN cursor_top5_question;
-      FETCH cursor_top5_question INTO day_question_id;
+      OPEN cursor_top4_question;
+      FETCH cursor_top4_question INTO day_question_id;
       WHILE flag <> 1 DO
         INSERT INTO t_day_question(id,day_num,update_time,create_time,is_del,order_num) VALUES (day_question_id,cur_day_num,now(),now(),0,cur_order_num);
+        UPDATE t_question SET is_del=TRUE where id=day_question_id;
         SET cur_order_num = cur_order_num+1;
-        FETCH cursor_top5_question INTO day_question_id;
+        FETCH cursor_top4_question INTO day_question_id;
       END WHILE;
-      CLOSE cursor_top5_question;
+      CLOSE cursor_top4_question;
+      SET flag=0;
+      OPEN cursor_19max_question;
+      FETCH cursor_19max_question INTO day_question_id;
+      WHILE flag <> 1 DO
+        INSERT INTO t_day_question(id,day_num,update_time,create_time,is_del,order_num) VALUES (day_question_id,cur_day_num,now(),now(),0,cur_order_num);
+        UPDATE t_19max_question SET is_del=TRUE where id=day_question_id;
+        SET cur_order_num = cur_order_num+1;
+        FETCH t_19max_question INTO day_question_id;
+      END WHILE;
+      CLOSE t_19max_question;
     END IF;
     CLOSE cursor_day_question;
   END $
