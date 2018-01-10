@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -194,8 +195,8 @@ public class ShareController {
     @ResponseBody
     public ResponseMessageDto findInviteInfo(Integer accountId){
         ResponseMessageDto message = new ResponseMessageDto();
-       shareRelationService.selectByShareId(accountId);
-
+        List<InvitedDto> invitedDtos=shareRelationService.selectByShareId(accountId);
+       // message.s
 
     }
 }
