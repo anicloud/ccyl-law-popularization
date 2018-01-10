@@ -17,23 +17,23 @@ class ShowAnsQuesDetail extends Component{
         this.state = {
             rankingInfo: [{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:1,
+                updateTime:1,
                 name:'sdfasd'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:22,
+                updateTime:22,
                 name:'asdfda'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:56,
+                updateTime:56,
                 name:'a;sodih'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:88,
+                updateTime:88,
                 name:'gopsdihngi'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:434,
+                updateTime:434,
                 name:'gosidhn'
             }],
             location: this.props.location.state? this.props.location.state : '/home',
@@ -47,7 +47,7 @@ class ShowAnsQuesDetail extends Component{
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        /*axios.get(`${host}/score/findSelfRank`).then(function (response) {
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
             if (response.data.data !== null) {
                 _this.setState({
                     myRankInfo: response.data.data
@@ -55,18 +55,18 @@ class ShowAnsQuesDetail extends Component{
             }
         }).catch(function (errors) {
             console.log(errors);
-        });*/
-        /*axios.get(`${host}/score/findTop20`).then(function (response) {
-         if (response.data.state === 0) {
-         if (response.data.data !== null) {
-         _this.setState({
-         rankingInfo: response.data.data
-         })
-         }
-         }
+        });
+        axios.get(`${host}/share/findInviteInfo`).then(function (response) {
+             if (response.data.state === 0) {
+                 if (response.data.data !== null) {
+                 _this.setState({
+                    rankingInfo: response.data.data
+                 })
+                 }
+             }
          }).catch(function (errors) {
          console.log(errors);
-         })*/
+         })
     }
     render(){
         let rankingInfo = this.state.rankingInfo;
@@ -81,10 +81,10 @@ class ShowAnsQuesDetail extends Component{
                 </div>*/}
                 <div className='clearfix info'>
                     <div className='pull-left first'>
-                        今日得分
+                        好友详情
                     </div>
                     <div className='pull-right second'>
-                        全国排名
+                        答题时间
                     </div>
                 </div>
                 {
@@ -110,7 +110,7 @@ class ShowAnsQuesDetail extends Component{
                                         <img src={item.portrat} alt=""/>
                                     </div>
                                     <div className='pull-left second'>
-                                        <div>{item.score}</div>
+                                        <div>{item.updateTime}</div>
                                         <div>{item.name}</div>
                                     </div>
                                     <div className='pull-right third'>{index + 1}</div>
