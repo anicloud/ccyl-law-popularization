@@ -297,7 +297,7 @@ CREATE PROCEDURE proce_init_day_questions()
 
     DECLARE cursor_top_xz_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='1' ORDER BY id LIMIT 2;
     DECLARE cursor_top_pd_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='2' ORDER BY id LIMIT 2;
-    DECLARE cursor_19max_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='3' ORDER BY id LIMIT 1;
+    DECLARE cursor_19max_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and (type='3' or type='4') ORDER BY id LIMIT 1;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
     SET flag=0;
     OPEN cursor_day_question;
