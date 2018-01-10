@@ -30,7 +30,7 @@ class SharePrize extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        {/*jsSdkConfig(axios, host);
+        jsSdkConfig(axios, host);
         window.wx.ready(function () {
             console.log(1);
             _this.setState({
@@ -57,7 +57,7 @@ class SharePrize extends Component {
 
                         }
                     });
-                    /!*我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!*!/
+                    /*我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!*/
                     window.wx.onMenuShareAppMessage({
                         title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
                         link: scoreInfo.url,
@@ -78,7 +78,7 @@ class SharePrize extends Component {
             }).catch(function (errors) {
                 console.log(errors);
             });
-        })*/}
+        })
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
