@@ -246,7 +246,7 @@ DROP TABLE IF EXISTS `t_total_score`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_total_score` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '账户主键',
   `delete_score` int(4) NOT NULL COMMENT '消耗总积分',
   `total_score` int(4) NOT NULL COMMENT '获得总积分',
   PRIMARY KEY (`id`)
