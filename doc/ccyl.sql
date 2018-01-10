@@ -239,6 +239,17 @@ CREATE TABLE `t_score_record` (
   KEY `t_score_record_src_account_id_index` (`src_account_id`),
   KEY `t_score_record_log_date_key` (`log_date`),
   KEY `t_score_record_update_time_key` (`update_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `t_total_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_total_score` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `delete_score` int(4) NOT NULL COMMENT '消耗总积分',
+  `total_score` int(4) NOT NULL COMMENT '获得总积分',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
