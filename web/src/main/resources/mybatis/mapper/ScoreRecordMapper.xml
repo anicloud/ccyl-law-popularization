@@ -62,7 +62,7 @@
         SELECT count(account_id) FROM t_score_record WHERE account_id=#{accountId} AND src_type=5 AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findSelfRank" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-       SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id ORDER BY total_score DESC,update_time ASC
+        SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id ORDER BY total_score DESC,update_time ASC
     </select>
     <select id="findDailyThumbUpCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT count(id) FROM t_score_record WHERE src_type=2 AND account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d')
