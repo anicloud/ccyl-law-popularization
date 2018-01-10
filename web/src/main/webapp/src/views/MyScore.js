@@ -370,7 +370,7 @@ class MyScore extends Component {
                             <i className='plus'></i>
                         </div>
                     </div>
-                    <p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>
+                    {/* <p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>*/}
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
                     {this.state.myAwardInfo.length===0?(
