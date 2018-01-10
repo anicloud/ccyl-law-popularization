@@ -247,10 +247,9 @@ DROP TABLE IF EXISTS `t_total_score`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_total_score` (
   `account_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '账户主键',
-  `delete_score` int(4) NOT NULL COMMENT '消耗总积分',
-  `total_score` int(4) NOT NULL COMMENT '获得总积分',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
+  `delete_score` int(4) NOT NULL COMMENT '清零积分',
+  PRIMARY KEY (`account_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='获得Top20后积分清零表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
