@@ -188,6 +188,7 @@ public class ScoreRecordController {
         message.setMsg("查询成功");
         return message;
     }
+
     @RequestMapping(value = "/findLuckyAward", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findLuckyAward(HttpSession session) {
