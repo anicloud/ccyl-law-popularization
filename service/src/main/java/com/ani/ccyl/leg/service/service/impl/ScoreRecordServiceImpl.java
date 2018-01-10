@@ -208,6 +208,36 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
     }
 
+    /**查找所有我用积分兑换的奖品**/
+    @Override
+    public List<MyAwardDto> findMyConvertAward(Integer accountId){
+        DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
+        dailyAwardsParam.setAccountId(accountId);
+        List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
+        List<MyAwardDto> myAwardDtos = new ArrayList<>();
+        Integer lastScore = findTotalScore(accountId).getScore();
+        if(dailyAwardsPOs!=null) {
+            for(DailyAwardsPO dailyAwardsPO:dailyAwardsPOs) {
+                MyAwardDto myAwardDto = new MyAwardDto();
+                myAwardDto.setAwardType(dailyAwardsPO.getType());
+                myAwardDto.setCreateTime(dailyAwardsPO.getUpdateTime());
+                if((System.currentTimeMillis()-dailyAwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
+                    myAwardDto.setIsExpired(true);
+                } else {
+                    myAwardDto.setCodeSecret(dailyAwardsPO.getCodeSecret());
+                    myAwardDto.setIsExpired(false);
+                }
+                myAwardDto.setIsReceivedAward(true);
+                lastScore = lastScore - dailyAwardsPO.getType().findScore();
+                myAwardDtos.add(myAwardDto);
+            }
+        }
+        for(MyAwardDto myAwardDto : myAwardDtos) {
+            myAwardDto.setLastScore(lastScore);
+        }
+        return myAwardDtos;
+    }
+
     @Override
     public List<MyAwardDto> findMyAward(Integer accountId) {
         DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();

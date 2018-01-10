@@ -29,6 +29,7 @@ class MyScore extends Component {
             currentAward:{},
             timer:null,
             showTishi:false,
+            mySelfRank:0,
             tishiButtons: [
                 {
                     label: '补全信息',
@@ -67,10 +68,19 @@ class MyScore extends Component {
         let _this = this;
         const {host} = _this.props;
         //剩余积分获取
-        axios.get(`${host}/score/findTotalScore`).then(function (response) {
+        axios.get(`${host}/score/findResidueScore`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     scoreInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    mySelfRank: response.data.data.ranking
                 })
             }
         }).catch(function (errors) {
@@ -283,6 +293,7 @@ class MyScore extends Component {
 
     render() {
         let scoreInfo = this.state.scoreInfo;
+        let mySelfRank = this.state.mySelfRank;
         let _this = this;
         return (
             <div className="root">
@@ -297,7 +308,7 @@ class MyScore extends Component {
                         <br/>
                         <span className='detail-msg'>荣获总积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
                         <br/>
-                        <span className='detail-msg'>排名:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>名</span>
+                        <span className='detail-msg'>排名:<span className='detail-span'>{mySelfRank?mySelfRank:0}</span>名</span>
                     </div>
                 </div>
                 <div className="bottomDiv">

@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+import com.ani.ccyl.leg.persistence.po.DailyAwardsPO;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,6 +149,34 @@ public class ScoreRecordController {
         message.setMsg("查询成功");
         return message;
     }
+
+    /**
+     * 查找剩余积分
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/findResidueScore", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findResidueScore(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        /*使用TatalScoreDto里的分数来代表剩余积分*/
+        TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
+        Integer lastScore = totalScoreDto.getScore();
+        List<MyAwardDto> myConvertAwards = scoreRecordService.findMyConvertAward(accountDto.getId());
+
+        if(myConvertAwards!=null) {
+            for(MyAwardDto myAwardsPO:myConvertAwards) {
+                lastScore = lastScore - myAwardsPO.getAwardType().findScore();
+            }
+        }
+        totalScoreDto.setScore(lastScore);
+        message.setData(totalScoreDto);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        return message;
+    }
+
     @RequestMapping(value = "/findTopAward", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findTopAward(HttpSession session) {

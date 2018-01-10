@@ -27,6 +27,9 @@ public interface ScoreRecordService {
 
     List<MyAwardDto> findMyAward(Integer accountId);
 
+    /**查找所有我用积分兑换的奖品**/
+    List<MyAwardDto> findMyConvertAward(Integer accountId);
+
     List<AwardDto> findAllAwards(Integer accountId);
 
     String updateTop20AwardByAccountId(Integer accountId);
