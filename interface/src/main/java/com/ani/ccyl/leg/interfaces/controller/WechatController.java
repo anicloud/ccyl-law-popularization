@@ -94,7 +94,7 @@ public class WechatController {
     }
     private ScoreRecordDto isThumbUp(HttpServletRequest request){
         String uniCode=getUniCodeFromRequest(request);
-        if (uniCode==null){
+        if (uniCode==null||uniCode==""){
             return null;
 
         }else {
@@ -105,6 +105,9 @@ public class WechatController {
     }
     private String getUniCodeFromRequest(HttpServletRequest request){
         Cookie[] cookie = request.getCookies();
+        if (cookie==null || cookie.length==0){
+            return "";
+        }
         for (int i = 0; i < cookie.length; i++) {
             Cookie cook = cookie[i];
             if(cook.getName().equalsIgnoreCase("uniCode")){ //获取键
