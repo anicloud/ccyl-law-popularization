@@ -169,7 +169,6 @@
 <script>
   var uniCode = "<%=uniCode%>";
   if(uniCode!==null&&uniCode!==undefined&&uniCode!==""){
-    alert(uniCode);
     window.onload(setCookie("uniCode",uniCode,90));
   }
   function setCookie(c_name,value,expiredays)
