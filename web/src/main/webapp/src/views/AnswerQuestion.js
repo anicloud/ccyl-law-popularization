@@ -140,8 +140,9 @@ class AnswerQuestion extends Component {
                                 {
                                     question.type === 'CHOICE'? (
                                         <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
-                                    ) : (
+                                    ) : question.type === 'CHOICE'?(
                                         <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
+                                    ) : question.type === 'CHOICE'?(
                                     )
                                 }
                                 {
