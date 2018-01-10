@@ -17,46 +17,32 @@ class ShowAnsQuesDetail extends Component{
         this.state = {
             rankingInfo: [{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:1,
+                updateTime:"2017-8-11 22:50",
                 name:'sdfasd'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:22,
+                updateTime:"2017-8-11 22:50",
                 name:'asdfda'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:56,
+                updateTime:"2017-8-11 22:50",
                 name:'a;sodih'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:88,
+                updateTime:"2017-8-11 22:50",
                 name:'gopsdihngi'
             },{
                 portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:434,
+                updateTime:"2017-8-11 22:50",
                 name:'gosidhn'
             }],
             location: this.props.location.state? this.props.location.state : '/home',
-            myRankInfo: {
-                portrait:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                totalScore:100,
-                nickName:'sdsgsd'
-            }
         }
     }
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/score/findSelfRank`).then(function (response) {
-            if (response.data.data !== null) {
-                _this.setState({
-                    myRankInfo: response.data.data
-                })
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });
-        axios.get(`${host}/share/findInviteInfo`).then(function (response) {
+       /* axios.get(`${host}/share/findInviteInfo`).then(function (response) {
              if (response.data.state === 0) {
                  if (response.data.data !== null) {
                  _this.setState({
@@ -66,11 +52,10 @@ class ShowAnsQuesDetail extends Component{
              }
          }).catch(function (errors) {
          console.log(errors);
-         })
+         })*/
     }
     render(){
         let rankingInfo = this.state.rankingInfo;
-        let myRankInfo = this.state.myRankInfo;
         return (
             <div className='score showAnsQues-bg'>
                 <div className='clearfix'>
@@ -88,20 +73,6 @@ class ShowAnsQuesDetail extends Component{
                     </div>
                 </div>
                 {
-                    myRankInfo? (
-                        <div className='my-ranking clearfix'>
-                            <div className='pull-left first'>
-                                <img src={myRankInfo.portrait} alt=""/>
-                            </div>
-                            <div className='pull-left second'>
-                                <div>{myRankInfo.totalScore? myRankInfo.totalScore : 0}</div>
-                                <div>{myRankInfo.nickName}</div>
-                            </div>
-                            <div className='pull-right third'>{myRankInfo.ranking}</div>
-                        </div>
-                    ) : (null)
-                }
-                {
                     rankingInfo? (
                         rankingInfo.map(function (item, index) {
                             return (
@@ -110,10 +81,9 @@ class ShowAnsQuesDetail extends Component{
                                         <img src={item.portrat} alt=""/>
                                     </div>
                                     <div className='pull-left second'>
-                                        <div>{item.updateTime}</div>
                                         <div>{item.name}</div>
                                     </div>
-                                    <div className='pull-right third'>{index + 1}</div>
+                                    <div className='pull-right third'>{item.updateTime}</div>
                                 </div>
                             );
                         })
