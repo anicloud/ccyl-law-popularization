@@ -197,6 +197,8 @@ public class ShareController {
         ResponseMessageDto message = new ResponseMessageDto();
         List<InvitedDto> invitedDtos=shareRelationService.selectByShareId(accountId);
        // message.s
-
+        message.setData(invitedDtos);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
     }
 }
