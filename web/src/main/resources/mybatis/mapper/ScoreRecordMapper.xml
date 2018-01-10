@@ -25,7 +25,8 @@
     </select>
     <select id="findTotalScore" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.commons.dto.TotalScoreDto">
         SELECT t1.score AS score,t2.questionCount AS questionCount,t3.thumbUpCount AS thumbUpCount, t4.signInCount AS signInCount, t5.inviteCount AS inviteCount, t6.shareCount AS shareCount FROM
-        (SELECT total_score AS score FROM t_total_score WHERE account_id=#{accountId}) t1,
+        (SELECT sum(score) AS score FROM t_score_record WHERE account_id=#{accountId}) t1,
+        /*(SELECT total_score AS score FROM t_total_score WHERE account_id=#{accountId}) t1,*/
         (SELECT count(src_question_id) AS questionCount FROM t_score_record WHERE src_type=1 AND score &gt; 0 AND account_id=#{accountId}) t2,
         (SELECT count(*) AS thumbUpCount FROM t_score_record WHERE src_type=2 AND account_id=#{accountId}) t3,
         (SELECT count(*) AS signInCount FROM t_score_record WHERE src_type=3 AND account_id=#{accountId}) t4,
@@ -36,7 +37,8 @@
         SELECT * FROM t_score_record WHERE src_account_id=#{srcAccountId} AND account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findDailyTop20" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-       select t.*,t1.total_score from t_score_record t,t_total_score t1, (SELECT account_id FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id LIMIT 20)t2 where t1.account_id in(t2.account_id) and t.account_id in(t2.account_id) ORDER BY t1.total_score DESC,t.update_time ASC
+       SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
+       /*select t.*,t1.total_score from t_score_record t,t_total_score t1, (SELECT account_id FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id LIMIT 20)t2 where t1.account_id in(t2.account_id) and t.account_id in(t2.account_id) ORDER BY t1.total_score DESC,t.update_time ASC*/
     </select>
     <select id="findIsThumbUp" parameterType="java.util.Map" resultType="java.lang.Boolean">
         SELECT CASE t.thumbUps
@@ -62,7 +64,8 @@
         SELECT count(account_id) FROM t_score_record WHERE account_id=#{accountId} AND src_type=5 AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findSelfRank" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-        select t.*,t1.total_score from t_score_record t,t_total_score t1,(SELECT account_id FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id )t2 where t1.account_id in(t2.account_id) and t.account_id in(t2.account_id) ORDER BY t1.total_score DESC,t.update_time ASC
+       SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id ORDER BY total_score DESC,update_time ASC
+        /*select t.*,t1.total_score from t_score_record t,t_total_score t1,(SELECT account_id FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id )t2 where t1.account_id in(t2.account_id) and t.account_id in(t2.account_id) ORDER BY t1.total_score DESC,t.update_time ASC*/
     </select>
     <select id="findDailyThumbUpCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT count(id) FROM t_score_record WHERE src_type=2 AND account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d')
