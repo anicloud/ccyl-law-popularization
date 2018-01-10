@@ -15,27 +15,7 @@ class ShowAnsQuesDetail extends Component{
     constructor(props){
         super(props);
         this.state = {
-            rankingInfo: [{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:"2017-8-11 22:50",
-                name:'sdfasd'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:"2017-8-11 22:50",
-                name:'asdfda'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:"2017-8-11 22:50",
-                name:'a;sodih'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:"2017-8-11 22:50",
-                name:'gopsdihngi'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                updateTime:"2017-8-11 22:50",
-                name:'gosidhn'
-            }],
+            rankingInfo: [],
             location: this.props.location.state? this.props.location.state : '/home',
         }
     }
