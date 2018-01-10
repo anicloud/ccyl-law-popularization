@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ani.ccyl.leg.persistence.mapper.ShareRelationMapper">
+    <select id="selectByShareId" resultType="java.util.List">
+       SELECT *  from t_share_relation r WHERE share_id =? ORDER by r.update_time
+    </select>
+</mapper>

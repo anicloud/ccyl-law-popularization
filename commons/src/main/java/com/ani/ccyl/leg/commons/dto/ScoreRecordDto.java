@@ -10,14 +10,16 @@ import java.io.Serializable;
 public class ScoreRecordDto implements Serializable {
     private static final long serialVersionUID = -1906713816735543692L;
     private Integer id;
+    private Integer accountId;
     private Integer score;
     private ScoreSrcTypeEnum srcType;
     private QuestionDto srcQuestion;
     private String selfAnswer;
     private AccountDto srcAccount;
 
-    public ScoreRecordDto(Integer id, Integer score, ScoreSrcTypeEnum srcType, QuestionDto srcQuestion, String selfAnswer, AccountDto srcAccount) {
+    public ScoreRecordDto(Integer id, Integer accountId, Integer score, ScoreSrcTypeEnum srcType, QuestionDto srcQuestion, String selfAnswer, AccountDto srcAccount) {
         this.id = id;
+        this.accountId = accountId;
         this.score = score;
         this.srcType = srcType;
         this.srcQuestion = srcQuestion;
@@ -26,6 +28,14 @@ public class ScoreRecordDto implements Serializable {
     }
 
     public ScoreRecordDto() {
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public Integer getId() {

@@ -340,4 +340,16 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         }
         return mySelfRankDto;
     }
+
+    @Override
+    public ScoreRecordDto findRecodByUniCode(Long unicode) {
+        ScoreRecordPO scoreRecordPO=new ScoreRecordPO();
+        scoreRecordPO.setUniCode(unicode);
+        List<ScoreRecordPO> scoreRecords=scoreRecordMapper.select(scoreRecordPO);
+        if (scoreRecords!=null && scoreRecords.size()!=0){
+            return ScoreRecordAdapter.fromPO(scoreRecords.get(0)) ;
+        }
+        return null;
+
+    }
 }

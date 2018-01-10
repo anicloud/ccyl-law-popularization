@@ -8,10 +8,7 @@ import com.ani.ccyl.leg.commons.utils.IPUtil;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
-import com.ani.ccyl.leg.service.service.facade.AccountService;
-import com.ani.ccyl.leg.service.service.facade.QuestionService;
-import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
-import com.ani.ccyl.leg.service.service.facade.WechatService;
+import com.ani.ccyl.leg.service.service.facade.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +37,8 @@ public class ShareController {
     private AccountService accountService;
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
+    @Autowired
+    private ShareRelationService shareRelationService;
     private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
 
     @RequestMapping(value = "/share", method = RequestMethod.GET)
@@ -78,6 +77,7 @@ public class ShareController {
     @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
     public ModelAndView toThumbUp(Integer accountId,HttpServletRequest request) throws IOException {
         String uniCodeString = getUniCodeFromRequest(request);
+      //  uniCodeString="";
         AccountDto toAccountDto = accountService.findById(accountId);
         ModelAndView modelAndView =null;
         boolean isThumbUped=false;
@@ -125,8 +125,21 @@ public class ShareController {
     }
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
     public ModelAndView thumbUp(Integer toAccountId, HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView("answerQuestion");
+        String uniCodeString = getUniCodeFromRequest(request);
         AccountDto accountDto = accountService.findById(toAccountId);
+        boolean isThumbUped=false;
+        ModelAndView modelAndView = new ModelAndView("answerQuestion");
+       // uniCodeString="";
+        if (!StringUtils.isEmpty(uniCodeString)){
+            isThumbUped = scoreRecordService.findIsThumbUp(Long.parseLong(uniCodeString),toAccountId);
+        }
+        if (isThumbUped){
+            modelAndView.addObject("nickName",accountDto.getNickName());
+            modelAndView.addObject("isThumbUp",isThumbUped);
+
+        }else {
+
+            // AccountDto accountDto = accountService.findById(toAccountId);
             Long uniCode =  generateUniCode();
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
             scoreRecordPO.setUniCode(uniCode);
@@ -136,10 +149,16 @@ public class ShareController {
             scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
             scoreRecordPO.setDel(false);
             scoreRecordMapper.insertSelective(scoreRecordPO);
+            modelAndView.addObject("nickName",accountDto.getNickName());
+            modelAndView.addObject("isThumbUp",isThumbUped);
+            modelAndView.addObject("uniCode",uniCode+"");
 
-        modelAndView.addObject("nickName",accountDto.getNickName());
-        modelAndView.addObject("isThumbUp",true);
-        modelAndView.addObject("uniCode",uniCode);
+        }
+
+
+
+
+
         return modelAndView;
     }
     private Long generateUniCode(){
@@ -170,5 +189,13 @@ public class ShareController {
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
         return message;
+    }
+    @RequestMapping(value = "/findInviteInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findInviteInfo(Integer accountId){
+        ResponseMessageDto message = new ResponseMessageDto();
+       shareRelationService.selectByShareId(accountId);
+
+
     }
 }

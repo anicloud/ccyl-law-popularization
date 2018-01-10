@@ -1,14 +1,12 @@
 package com.ani.ccyl.leg.interfaces.controller;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
-import com.ani.ccyl.leg.commons.dto.AccessTokenDto;
-import com.ani.ccyl.leg.commons.dto.AccountDto;
-import com.ani.ccyl.leg.commons.dto.JsSDKConfigDto;
-import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
+import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.HttpMessageEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
+import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
@@ -45,6 +43,8 @@ public class WechatController {
     private AccountService accountService;
     @Autowired
     private ShareRelationService shareRelationService;
+    @Autowired
+    private ScoreRecordService scoreRecordService;
     @RequestMapping(value = "/entrance")
     @ResponseBody
     public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -92,9 +92,34 @@ public class WechatController {
         }
         return message;
     }
+    private ScoreRecordDto isThumbUp(HttpServletRequest request){
+        String uniCode=getUniCodeFromRequest(request);
+        if (uniCode==null){
+            return null;
 
+        }else {
+           return scoreRecordService.findRecodByUniCode(Long.parseLong(uniCode));
+        }
+
+
+    }
+    private String getUniCodeFromRequest(HttpServletRequest request){
+        Cookie[] cookie = request.getCookies();
+        for (int i = 0; i < cookie.length; i++) {
+            Cookie cook = cookie[i];
+            if(cook.getName().equalsIgnoreCase("uniCode")){ //获取键
+                String uniCodeString = cook.getValue().toString();
+                System.out.println("account:"+cook.getValue().toString());    //获取值
+                return uniCodeString;
+
+            }
+        }
+        return "";
+
+    }
     @RequestMapping("/redirect")//是不是新用户 && 是否点过赞 -》 插入sharerelation
     public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         response.setContentType("text/html; charset=utf-8");
         String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
         JSONObject tokenObj = WechatUtil.httpRequest(tokenUrl, "GET", null);
@@ -109,6 +134,12 @@ public class WechatController {
                     return "subscribe";
                 }
                 AccountDto accountDto = accountService.insertAccount(userObj);
+                ScoreRecordDto scoreRecordDto =isThumbUp(request);
+                //是不是新用户 && 是否点过赞 -》 插入sharerelation
+               if (accountDto.getNew() && scoreRecordDto!=null ){
+                   shareRelationService.insert(scoreRecordDto.getAccountId(),accountDto.getId(),false);
+
+               }
                 Subject subject = SecurityUtils.getSubject();
                 UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());
                 subject.login(token);

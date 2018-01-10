@@ -85,7 +85,7 @@ CREATE TABLE `t_daily_awards` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_daily_awards_is_del_key` (`is_del`),
   KEY `t_daily_awards_type_key` (`type`),
@@ -106,7 +106,7 @@ CREATE TABLE `t_top20_awards` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
   `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_top20_awards_account_id_uk` (`account_id`),
   KEY `t_top20_awards_is_del_key` (`is_del`),
@@ -129,7 +129,7 @@ CREATE TABLE `t_lucky20_awards` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
   `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_lucky20_awards_account_id_uk` (`account_id`),
   KEY `t_lucky20_awards_is_del_key` (`is_del`),
@@ -152,7 +152,7 @@ CREATE TABLE `t_day_question` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `order_num` int(4) DEFAULT NULL COMMENT '排序',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_day_question_is_del_key` (`is_del`),
   KEY `t_day_question_order_num_key` (`order_num`),
@@ -203,7 +203,7 @@ CREATE TABLE `t_question` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `question_no` int(11) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_question_is_del_key` (`is_del`),
   KEY `t_question_log_date_key` (`log_date`)
@@ -230,7 +230,7 @@ CREATE TABLE `t_score_record` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `uni_code` bigint COMMENT 'uniCode',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_record_id_key` (`account_id`,`src_question_id`),
   KEY `t_score_record_src_type_index` (`src_type`),
@@ -283,6 +283,7 @@ CREATE PROCEDURE proce_init_day_questions()
     DECLARE cur_order_num INTEGER;
     DECLARE cursor_day_question CURSOR FOR SELECT id FROM t_day_question WHERE date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d');
     DECLARE cursor_top5_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE AND id > (SELECT ifnull(max(id),0) FROM t_day_question) ORDER BY id LIMIT 5;
+
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
     SET flag=0;
     OPEN cursor_day_question;

@@ -8,8 +8,10 @@ import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
+import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -34,6 +36,8 @@ public class QuestionController {
     private QuestionService questionService;
     @Autowired
     private ScoreRecordService scoreRecordService;
+    @Autowired
+    private ShareRelationService shareRelationService;
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessageDto uploadQuestionFile(@RequestParam QuestionTypeEnum type, @RequestParam MultipartFile file) {
@@ -68,6 +72,15 @@ public class QuestionController {
             verifyDto.setIsCorrect(false);
             verifyDto.setAnswer(questionDto == null?null:questionDto.getAnswer());
         }
+      //  Integer orderNum=questionService.findOrderNumbyId(id);
+//        if (orderNum == 5){
+//
+////           ShareRelationPO shareRelationPO = shareRelationService.selectBySharedId(accountDto.getId());
+////            if (shareRelationPO!=null){
+////                scoreRecordService.insertScore(shareRelationPO.getShareId(),Constants.Score.);
+////            }
+////
+//        }
         message.setData(verifyDto);
         return message;
     }

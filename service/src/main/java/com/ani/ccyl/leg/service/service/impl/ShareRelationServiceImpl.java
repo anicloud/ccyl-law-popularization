@@ -26,4 +26,24 @@ public class ShareRelationServiceImpl implements ShareRelationService {
             shareRelationMapper.insertSelective(relationPO);
         }
     }
+
+    @Override
+    public ShareRelationPO selectBySharedId(Integer sharedId) {
+        ShareRelationPO relationPO = new ShareRelationPO();
+        relationPO.setSharedId(sharedId);
+        List<ShareRelationPO> shareRelationPOs = shareRelationMapper.select(relationPO);
+        if (shareRelationPOs!=null && shareRelationPOs.size()!=0){
+            return shareRelationPOs.get(0);
+        }
+        return null;
+
+    }
+
+    @Override
+    public ShareRelationPO selectByShareId(Integer shareId) {
+        ShareRelationPO relationPO = new ShareRelationPO();
+        relationPO.setSharedId(shareId);
+        List<ShareRelationPO> shareRelationPOS=shareRelationMapper.selectByShareId(shareId);
+
+    }
 }

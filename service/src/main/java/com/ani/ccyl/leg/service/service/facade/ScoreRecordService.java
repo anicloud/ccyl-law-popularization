@@ -4,6 +4,7 @@ import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.dto.MySelfRankDto;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -33,5 +34,7 @@ public interface ScoreRecordService {
     String updateLucky20AwardByAccountId(Integer accountId);
 
     MySelfRankDto findSelfRank(Integer accountId);
+
+    ScoreRecordDto findRecodByUniCode(Long unicode);
 
 }

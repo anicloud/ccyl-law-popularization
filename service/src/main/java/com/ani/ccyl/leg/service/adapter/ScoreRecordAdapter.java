@@ -20,6 +20,7 @@ public class ScoreRecordAdapter {
             questionDto.setId(scoreRecordPO.getSrcQuestionId());
             return new ScoreRecordDto(
                     scoreRecordPO.getId(),
+                    scoreRecordPO.getAccountId(),
                     scoreRecordPO.getScore(),
                     scoreRecordPO.getSrcType(),
                     questionDto,

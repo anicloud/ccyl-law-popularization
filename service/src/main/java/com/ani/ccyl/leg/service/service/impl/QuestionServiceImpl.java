@@ -132,4 +132,10 @@ public class QuestionServiceImpl implements QuestionService {
     public Integer findDailyCorrectCount(Integer accountId) {
         return scoreRecordMapper.findDailyCorrectCount(accountId);
     }
+
+    @Override
+    public Integer findOrderNumbyId(Integer id) {
+      DayQuestionPO dayQuestionPO = dayQuestionMapper.selectByPrimaryKey(id);
+        return dayQuestionPO.getOrderNum();
+    }
 }
