@@ -124,7 +124,7 @@ class AnswerQuestion extends Component {
                                 <div className="text-center center">
                                     <p className='text-center'>恭喜！今日答对5题，增加10个积分。</p>
                                     <p className='text-center'>明日记得继续来答题涨积分！</p>
-                                    <p className='text-center'>你目前的积分排名是{mySelfRank}名！</p>
+                                    <p className='text-center'>你目前的积分排名是第{mySelfRank}名！</p>
                                     <p className='text-center'>快来拉好朋友为你点赞吧！一起参与答题，涨积分赢奖品！</p>
                                     <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                                 </div>

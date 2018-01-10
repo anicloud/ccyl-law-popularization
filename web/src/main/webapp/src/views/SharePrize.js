@@ -84,11 +84,13 @@ class SharePrize extends Component {
         this.toastTimer && clearTimeout(this.toastTimer);
     }
     handleShare() {
-        this.setState(function (prevState) {
-            return {
-                showPopup: !prevState.showPopup
+        this.setState(
+            function (prevState) {
+                return {
+                    showPopup: !prevState.showPopup
+                }
             }
-        });
+        );
     }
     backAnswer() {
         const {history} = this.props;
