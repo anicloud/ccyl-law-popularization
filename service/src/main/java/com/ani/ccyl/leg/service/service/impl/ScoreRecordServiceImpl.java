@@ -44,6 +44,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private Top20AwardsMapper top20AwardsMapper;
     @Autowired
     private Lucky20AwardsMapper lucky20AwardsMapper;
+    @Autowired
+    private TotalScoreMapper totalScoreMapper;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -300,6 +302,12 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 lastScore = lastScore - dailyAwardsPO.getType().findScore();
             }
         }
+        /**减去清空积分表中的清空积分**/
+        UpdateScorePO updateScorePO = totalScoreMapper.selectByPrimaryKey(accountId);
+        if(updateScorePO!=null){
+            lastScore = lastScore - updateScorePO.getDeleteScore();
+        }
+        /**减去清空积分表中的清空积分**/
         List<AwardDto> awardDtos = new ArrayList<>();
         AwardDto tencentAward = new AwardDto(AwardTypeEnum.TENCENT_VIP, dailyAwardsMapper.findByType(AwardTypeEnum.TENCENT_VIP.getCode())==null,AwardTypeEnum.TENCENT_VIP.findScore(),lastScore);
         AwardDto ofoAward = new AwardDto(AwardTypeEnum.OFO_COUPON,dailyAwardsMapper.findByType(AwardTypeEnum.OFO_COUPON.getCode())==null,AwardTypeEnum.OFO_COUPON.findScore(),lastScore);

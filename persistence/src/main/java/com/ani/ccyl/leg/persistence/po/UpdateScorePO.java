@@ -15,12 +15,10 @@ public class UpdateScorePO implements Serializable {
     @Id
     private Integer accountId;
     private Integer deleteScore;
-    private Integer totalScore;
 
-    public UpdateScorePO(Integer accountId, Integer deleteScore, Integer totalScore) {
+    public UpdateScorePO(Integer accountId, Integer deleteScore) {
         this.accountId = accountId;
         this.deleteScore = deleteScore;
-        this.totalScore = totalScore;
     }
 
     public Integer getAccountId() {
@@ -37,13 +35,5 @@ public class UpdateScorePO implements Serializable {
 
     public void setDeleteScore(Integer deleteScore) {
         this.deleteScore = deleteScore;
-    }
-
-    public Integer getTotalScore() {
-        return totalScore;
-    }
-
-    public void setTotalScore(Integer totalScore) {
-        this.totalScore = totalScore;
     }
 }

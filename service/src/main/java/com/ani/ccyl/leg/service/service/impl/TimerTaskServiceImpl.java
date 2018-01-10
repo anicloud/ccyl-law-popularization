@@ -53,7 +53,13 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                     }
                 }
                 UpdateScorePO updateScorePO = totalScoreMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
-                updateScorePO.setDeleteScore(updateScorePO.getTotalScore());
+                if(updateScorePO!=null){
+                    updateScorePO.setDeleteScore(residueScore);
+                    totalScoreMapper.updateByPrimaryKey(updateScorePO);
+                }else{
+                    updateScorePO = new UpdateScorePO(scoreRecordPO.getAccountId(),residueScore);
+                    totalScoreMapper.insertSelective(updateScorePO);
+                }
                 /*积分清零功能结束*/
                 top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
                 order++;

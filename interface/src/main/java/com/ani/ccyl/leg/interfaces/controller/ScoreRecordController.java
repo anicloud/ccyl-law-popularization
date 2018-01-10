@@ -5,7 +5,9 @@ import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
+import com.ani.ccyl.leg.persistence.mapper.TotalScoreMapper;
 import com.ani.ccyl.leg.persistence.po.DailyAwardsPO;
+import com.ani.ccyl.leg.persistence.po.UpdateScorePO;
 import com.ani.ccyl.leg.service.service.facade.QuestionService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class ScoreRecordController {
     private ScoreRecordService scoreRecordService;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private TotalScoreMapper totalScoreMapper;
     @RequestMapping(value = "/findDailyRecord", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findDailyRecord(HttpSession session) {
@@ -90,6 +94,21 @@ public class ScoreRecordController {
             totalScore.setPortrait(accountDto.getPortrait());
             totalScore.setNickName(accountDto.getNickName());
         }
+        Integer lastScore = totalScore.getScore();
+        List<MyAwardDto> myConvertAwards = scoreRecordService.findMyConvertAward(accountDto.getId());
+
+        if(myConvertAwards!=null) {
+            for(MyAwardDto myAwardsPO:myConvertAwards) {
+                lastScore = lastScore - myAwardsPO.getAwardType().findScore();
+            }
+        }
+        /**减去清空积分表中的清空积分**/
+        UpdateScorePO updateScorePO = totalScoreMapper.selectByPrimaryKey(accountDto.getId());
+        if(updateScorePO!=null){
+            lastScore = lastScore - updateScorePO.getDeleteScore();
+        }
+        /**减去清空积分表中的清空积分**/
+        totalScore.setScore(lastScore);//剩余积分
         message.setState(ResponseStateEnum.OK);
         message.setData(totalScore);
         message.setMsg("签到成功");
@@ -170,7 +189,13 @@ public class ScoreRecordController {
                 lastScore = lastScore - myAwardsPO.getAwardType().findScore();
             }
         }
-        totalScoreDto.setScore(lastScore);
+        /**减去清空积分表中的清空积分**/
+        UpdateScorePO updateScorePO = totalScoreMapper.selectByPrimaryKey(accountDto.getId());
+        if(updateScorePO!=null){
+            lastScore = lastScore - updateScorePO.getDeleteScore();
+        }
+        /**减去清空积分表中的清空积分**/
+        totalScoreDto.setScore(lastScore);//剩余积分
         message.setData(totalScoreDto);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
