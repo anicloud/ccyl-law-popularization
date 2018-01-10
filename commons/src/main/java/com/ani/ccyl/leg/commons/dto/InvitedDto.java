@@ -1,4 +1,4 @@
-package com.ani.ccyl.leg.commons.dto.wechat;
+package com.ani.ccyl.leg.commons.dto;
 
 import java.sql.Timestamp;
 import java.util.Date;

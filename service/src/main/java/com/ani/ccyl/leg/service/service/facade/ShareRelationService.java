@@ -1,6 +1,6 @@
 package com.ani.ccyl.leg.service.service.facade;
 
-import com.ani.ccyl.leg.commons.dto.wechat.InvitedDto;
+import com.ani.ccyl.leg.commons.dto.InvitedDto;
 import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
 
 import java.util.List;

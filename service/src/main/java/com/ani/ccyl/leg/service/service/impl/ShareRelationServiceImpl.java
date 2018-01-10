@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.service.service.impl;
 
+import com.ani.ccyl.leg.commons.dto.InvitedDto;
 import com.ani.ccyl.leg.persistence.mapper.ShareRelationMapper;
 import com.ani.ccyl.leg.persistence.po.ShareRelationPO;
 import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
@@ -40,10 +41,12 @@ public class ShareRelationServiceImpl implements ShareRelationService {
     }
 
     @Override
-    public ShareRelationPO selectByShareId(Integer shareId) {
+    public List<InvitedDto> selectByShareId(Integer shareId) {
         ShareRelationPO relationPO = new ShareRelationPO();
         relationPO.setSharedId(shareId);
         List<ShareRelationPO> shareRelationPOS=shareRelationMapper.selectByShareId(shareId);
+        for (ShareRelationPO relationPO1:shareRelationPOS){
 
+        }
     }
 }
