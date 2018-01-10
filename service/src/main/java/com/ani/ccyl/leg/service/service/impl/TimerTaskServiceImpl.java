@@ -19,6 +19,8 @@ import java.util.*;
 public class TimerTaskServiceImpl implements TimerTaskService {
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     @Autowired
+    private DailyAwardsMapper dailyAwardsMapper;
+    @Autowired
     private ScoreRecordMapper scoreRecordMapper;
     @Autowired
     private Top20AwardsMapper top20AwardsMapper;
@@ -38,6 +40,18 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                 top20AwardsPO.setDel(true);
                 top20AwardsPO.setType(AwardTypeEnum.getTopEnum(order));
                 top20AwardsPO.setReceivedAward(false);
+                /*积分清零功能*/
+                DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
+                dailyAwardsParam.setAccountId(scoreRecordPO.getAccountId());
+                List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
+                Integer residueScore = 0;
+                if(dailyAwardsPOs!=null) {
+                    for (DailyAwardsPO dailyAwardsPO : dailyAwardsPOs) {
+                        residueScore = residueScore + dailyAwardsPO.getType().findScore();
+                    }
+                }
+
+                /*积分清零功能结束*/
                 top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
                 order++;
             }

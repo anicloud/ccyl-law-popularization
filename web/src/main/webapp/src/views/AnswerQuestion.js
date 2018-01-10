@@ -18,7 +18,8 @@ class AnswerQuestion extends Component {
             location: '/home',
             question: null,
             showNext: false,
-            isComplete: false
+            isComplete: false,
+            mySelfRank:0
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
@@ -44,7 +45,17 @@ class AnswerQuestion extends Component {
                 } else {
                     _this.setState({
                         isComplete: true
+                    });
+                    axios.get(`${host}/score/findSelfRank`).then(function (response) {
+                        if (response.data.data !== null) {
+                            _this.setState({
+                                mySelfRank:response.data.data.ranking
+                            });
+                        }
+                    }).catch(function(errors){
+                        console.log(errors);
                     })
+
                 }
             }
         }).catch(function (errors) {
@@ -84,6 +95,7 @@ class AnswerQuestion extends Component {
     render() {
         let question = this.state.question? this.state.question.toJS() : '';
         let isComplete = this.state.isComplete;
+        let mySelfRank = this.state.mySelfRank;
         return (
             <div className="answer answer-bg">
                 <div className='clearfix'>
@@ -112,7 +124,7 @@ class AnswerQuestion extends Component {
                                 <div className="text-center center">
                                     <p className='text-center'>恭喜！今日答对5题，增加10个积分。</p>
                                     <p className='text-center'>明日记得继续来答题涨积分！</p>
-                                    <p className='text-center'>你目前的积分排名是？名！</p>
+                                    <p className='text-center'>你目前的积分排名是{mySelfRank}名！</p>
                                     <p className='text-center'>快来拉好朋友为你点赞吧！一起参与答题，涨积分赢奖品！</p>
                                     <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                                 </div>
