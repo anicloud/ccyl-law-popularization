@@ -187,7 +187,7 @@ class ScoreShopping extends Component{
                     </div>
                     <div className="task">
                         <div className="leftDiv">
-                            <span>ofo用车券</span>
+                            <span>摩拜用车券</span>
                             <span className="desc">{_this.state.awardInfo.length===0?500:_this.getCurrentAwardScore("OFO_COUPON").score}积分</span>
                         </div>
                         {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>_this.getCurrentAwardScore("OFO_COUPON").score&&_this.getCurrentAwardScore("OFO_COUPON").usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("OFO_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
