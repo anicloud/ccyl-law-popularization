@@ -73,6 +73,7 @@ class ScoreBoard extends Component {
                 }
                 {
                     rankingInfo? (
+                        rankingInfo.length===0?(<div className='text-center ranking'><div className="middle">暂无荣耀榜相关信息</div></div>):
                         rankingInfo.map(function (item, index) {
                             return (
                                 <div className='top-ranking clearfix'>
@@ -88,7 +89,7 @@ class ScoreBoard extends Component {
                             );
                         })
                     ) : (
-                        <div className='text-center ranking'>暂无荣耀榜相关信息</div>
+                        <div className='text-center ranking'><div className="middle">暂无荣耀榜相关信息</div></div>
                     )
                 }
                 {/*<div className='top-ranking clearfix'>
