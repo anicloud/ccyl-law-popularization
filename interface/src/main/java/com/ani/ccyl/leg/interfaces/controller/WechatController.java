@@ -93,7 +93,7 @@ public class WechatController {
         return message;
     }
 
-    @RequestMapping("/redirect")//是不是新用户 && 是否点过赞 -》 插入sharerelation
+    @RequestMapping("/redirect")
     public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
