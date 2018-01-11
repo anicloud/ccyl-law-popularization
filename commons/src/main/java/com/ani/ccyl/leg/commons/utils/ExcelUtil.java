@@ -57,6 +57,31 @@ public class ExcelUtil {
                     questionDto.setFileId(fileId);
                     questions.add(questionDto);
                 }
+            } else if (QuestionTypeEnum.NINETEENCHOICE.getCode().equals(type.getCode())){
+                Iterator<Row> iterator = sheet.iterator();
+                while (iterator.hasNext()) {
+                    Row row = iterator.next();
+                    QuestionDto questionDto = new QuestionDto();
+                    questionDto.setContent(row.getCell(0).getStringCellValue());
+                    questionDto.setOptionOne(row.getCell(1).getStringCellValue());
+                    questionDto.setOptionTwo(row.getCell(2).getStringCellValue());
+                    questionDto.setOptionThree(row.getCell(3).getStringCellValue());
+                    questionDto.setAnswer(row.getCell(4).getStringCellValue().trim());
+                    questionDto.setType(type);
+                    questionDto.setFileId(fileId);
+                    questions.add(questionDto);
+                }
+            } else if (QuestionTypeEnum.NINETEENJUDGEMENT.getCode().equals(type.getCode())){
+                for (Row row : sheet) {
+                    QuestionDto questionDto = new QuestionDto();
+                    questionDto.setContent(row.getCell(0).getStringCellValue());
+                    questionDto.setOptionOne("Y");
+                    questionDto.setOptionTwo("N");
+                    questionDto.setAnswer(row.getCell(1).getStringCellValue().trim());
+                    questionDto.setType(type);
+                    questionDto.setFileId(fileId);
+                    questions.add(questionDto);
+                }
             }
             return questions;
         } catch(Exception e) {

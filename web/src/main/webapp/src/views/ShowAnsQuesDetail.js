@@ -15,62 +15,27 @@ class ShowAnsQuesDetail extends Component{
     constructor(props){
         super(props);
         this.state = {
-            rankingInfo: [{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:1,
-                name:'sdfasd'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:22,
-                name:'asdfda'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:56,
-                name:'a;sodih'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:88,
-                name:'gopsdihngi'
-            },{
-                portrat:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                score:434,
-                name:'gosidhn'
-            }],
+            rankingInfo: [],
             location: this.props.location.state? this.props.location.state : '/home',
-            myRankInfo: {
-                portrait:'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0',
-                totalScore:100,
-                nickName:'sdsgsd'
-            }
         }
     }
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        /*axios.get(`${host}/score/findSelfRank`).then(function (response) {
-            if (response.data.data !== null) {
-                _this.setState({
-                    myRankInfo: response.data.data
-                })
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });*/
-        /*axios.get(`${host}/score/findTop20`).then(function (response) {
-         if (response.data.state === 0) {
-         if (response.data.data !== null) {
-         _this.setState({
-         rankingInfo: response.data.data
-         })
-         }
-         }
+        axios.get(`${host}/share/findInviteInfo`).then(function (response) {
+             if (response.data.state === 0) {
+                 if (response.data.data !== null) {
+                     _this.setState({
+                        rankingInfo: response.data.data
+                     })
+                 }
+             }
          }).catch(function (errors) {
          console.log(errors);
-         })*/
+         })
     }
     render(){
         let rankingInfo = this.state.rankingInfo;
-        let myRankInfo = this.state.myRankInfo;
         return (
             <div className='score showAnsQues-bg'>
                 <div className='clearfix'>
@@ -81,28 +46,15 @@ class ShowAnsQuesDetail extends Component{
                 </div>*/}
                 <div className='clearfix info'>
                     <div className='pull-left first'>
-                        今日得分
+                        好友详情
                     </div>
                     <div className='pull-right second'>
-                        全国排名
+                        答题时间
                     </div>
                 </div>
                 {
-                    myRankInfo? (
-                        <div className='my-ranking clearfix'>
-                            <div className='pull-left first'>
-                                <img src={myRankInfo.portrait} alt=""/>
-                            </div>
-                            <div className='pull-left second'>
-                                <div>{myRankInfo.totalScore? myRankInfo.totalScore : 0}</div>
-                                <div>{myRankInfo.nickName}</div>
-                            </div>
-                            <div className='pull-right third'>{myRankInfo.ranking}</div>
-                        </div>
-                    ) : (null)
-                }
-                {
                     rankingInfo? (
+                        rankingInfo.length===0?(<div className='text-center ranking'>暂无邀请答题相关信息</div>):
                         rankingInfo.map(function (item, index) {
                             return (
                                 <div className='top-ranking clearfix'>
@@ -110,10 +62,9 @@ class ShowAnsQuesDetail extends Component{
                                         <img src={item.portrat} alt=""/>
                                     </div>
                                     <div className='pull-left second'>
-                                        <div>{item.score}</div>
                                         <div>{item.name}</div>
                                     </div>
-                                    <div className='pull-right third'>{index + 1}</div>
+                                    <div className='pull-right third'>{item.updateTime}</div>
                                 </div>
                             );
                         })

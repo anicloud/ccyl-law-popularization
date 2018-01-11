@@ -1,14 +1,12 @@
 package com.ani.ccyl.leg.interfaces.controller;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
-import com.ani.ccyl.leg.commons.dto.AccessTokenDto;
-import com.ani.ccyl.leg.commons.dto.AccountDto;
-import com.ani.ccyl.leg.commons.dto.JsSDKConfigDto;
-import com.ani.ccyl.leg.commons.dto.ResponseMessageDto;
+import com.ani.ccyl.leg.commons.dto.*;
 import com.ani.ccyl.leg.commons.enums.HttpMessageEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
+import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
@@ -45,6 +43,8 @@ public class WechatController {
     private AccountService accountService;
     @Autowired
     private ShareRelationService shareRelationService;
+    @Autowired
+    private ScoreRecordService scoreRecordService;
     @RequestMapping(value = "/entrance")
     @ResponseBody
     public void entrance(String signature, String timestamp, String nonce, String echostr, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -95,6 +95,7 @@ public class WechatController {
 
     @RequestMapping("/redirect")
     public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         response.setContentType("text/html; charset=utf-8");
         String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
         JSONObject tokenObj = WechatUtil.httpRequest(tokenUrl, "GET", null);

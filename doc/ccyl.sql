@@ -85,7 +85,7 @@ CREATE TABLE `t_daily_awards` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_daily_awards_is_del_key` (`is_del`),
   KEY `t_daily_awards_type_key` (`type`),
@@ -106,7 +106,7 @@ CREATE TABLE `t_top20_awards` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
   `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_top20_awards_account_id_uk` (`account_id`),
   KEY `t_top20_awards_is_del_key` (`is_del`),
@@ -129,7 +129,7 @@ CREATE TABLE `t_lucky20_awards` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
   `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_lucky20_awards_account_id_uk` (`account_id`),
   KEY `t_lucky20_awards_is_del_key` (`is_del`),
@@ -152,7 +152,7 @@ CREATE TABLE `t_day_question` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `order_num` int(4) DEFAULT NULL COMMENT '排序',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_day_question_is_del_key` (`is_del`),
   KEY `t_day_question_order_num_key` (`order_num`),
@@ -203,7 +203,7 @@ CREATE TABLE `t_question` (
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `question_no` int(11) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   KEY `t_question_is_del_key` (`is_del`),
   KEY `t_question_log_date_key` (`log_date`)
@@ -229,8 +229,7 @@ CREATE TABLE `t_score_record` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
-  `uni_code` bigint COMMENT 'uniCode',
-  `log_date` DATE AS (DATE(update_time)) STORED,
+  `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_record_id_key` (`account_id`,`src_question_id`),
   KEY `t_score_record_src_type_index` (`src_type`),
@@ -239,7 +238,17 @@ CREATE TABLE `t_score_record` (
   KEY `t_score_record_src_account_id_index` (`src_account_id`),
   KEY `t_score_record_log_date_key` (`log_date`),
   KEY `t_score_record_update_time_key` (`update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `t_total_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_total_score` (
+  `account_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '账户主键',
+  `delete_score` int(4) NOT NULL COMMENT '清零积分',
+  PRIMARY KEY (`account_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='获得Top20后积分清零表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,8 +291,11 @@ CREATE PROCEDURE proce_init_day_questions()
     DECLARE cur_day_num INTEGER;
     DECLARE cur_order_num INTEGER;
     DECLARE cursor_day_question CURSOR FOR SELECT id FROM t_day_question WHERE date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d');
-    DECLARE cursor_top4_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE ORDER BY id LIMIT 4;
-    DECLARE cursor_19max_question CURSOR FOR SELECT id FROM t_19max_question WHERE is_del=FALSE ORDER BY id LIMIT 1;
+    DECLARE cursor_top5_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE AND id > (SELECT ifnull(max(id),0) FROM t_day_question) ORDER BY id LIMIT 5;
+
+    DECLARE cursor_top_xz_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='1' ORDER BY id LIMIT 2;
+    DECLARE cursor_top_pd_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='2' ORDER BY id LIMIT 2;
+    DECLARE cursor_19max_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and (type='3' or type='4') ORDER BY id LIMIT 1;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
     SET flag=0;
     OPEN cursor_day_question;
@@ -292,25 +304,35 @@ CREATE PROCEDURE proce_init_day_questions()
       SET cur_order_num = 1;
       SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2017-12-20')+1;
       SET flag=0;
-      OPEN cursor_top4_question;
-      FETCH cursor_top4_question INTO day_question_id;
+      OPEN cursor_top_xz_question;
+      FETCH cursor_top_xz_question INTO day_question_id;
       WHILE flag <> 1 DO
         INSERT INTO t_day_question(id,day_num,update_time,create_time,is_del,order_num) VALUES (day_question_id,cur_day_num,now(),now(),0,cur_order_num);
         UPDATE t_question SET is_del=TRUE where id=day_question_id;
         SET cur_order_num = cur_order_num+1;
-        FETCH cursor_top4_question INTO day_question_id;
+        FETCH cursor_top_xz_question INTO day_question_id;
       END WHILE;
-      CLOSE cursor_top4_question;
+      CLOSE cursor_top_xz_question;
+      SET flag=0;
+      OPEN cursor_top_pd_question;
+      FETCH cursor_top_pd_question INTO day_question_id;
+      WHILE flag <> 1 DO
+        INSERT INTO t_day_question(id,day_num,update_time,create_time,is_del,order_num) VALUES (day_question_id,cur_day_num,now(),now(),0,cur_order_num);
+        UPDATE t_question SET is_del=TRUE where id=day_question_id;
+        SET cur_order_num = cur_order_num+1;
+        FETCH cursor_top_pd_question INTO day_question_id;
+      END WHILE;
+      CLOSE cursor_top_pd_question;
       SET flag=0;
       OPEN cursor_19max_question;
       FETCH cursor_19max_question INTO day_question_id;
       WHILE flag <> 1 DO
         INSERT INTO t_day_question(id,day_num,update_time,create_time,is_del,order_num) VALUES (day_question_id,cur_day_num,now(),now(),0,cur_order_num);
-        UPDATE t_19max_question SET is_del=TRUE where id=day_question_id;
+        UPDATE t_question SET is_del=TRUE where id=day_question_id;
         SET cur_order_num = cur_order_num+1;
-        FETCH t_19max_question INTO day_question_id;
+        FETCH cursor_19max_question INTO day_question_id;
       END WHILE;
-      CLOSE t_19max_question;
+      CLOSE cursor_19max_question;
     END IF;
     CLOSE cursor_day_question;
   END $

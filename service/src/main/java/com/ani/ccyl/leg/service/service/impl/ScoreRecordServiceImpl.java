@@ -44,6 +44,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private Top20AwardsMapper top20AwardsMapper;
     @Autowired
     private Lucky20AwardsMapper lucky20AwardsMapper;
+    @Autowired
+    private TotalScoreMapper totalScoreMapper;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -195,10 +197,13 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Override
     public void updateConvertAward(Integer accountId, AwardTypeEnum awardType) {
         TotalScoreDto totalScoreDto = findTotalScore(accountId);
+        Map<String,Integer> params = new HashMap<String,Integer>();
+        params.put("account_id",accountId);
+        params.put("awardType",awardType.getCode());
         if(totalScoreDto.getScore()<awardType.findScore())
             throw new RuntimeException("积分不足");
-        if(dailyAwardsMapper.findIsAwardToday(accountId))
-            throw new RuntimeException("今天已经领取过了");
+        if(dailyAwardsMapper.findIsAwardToday(params))
+            throw new RuntimeException("每种奖品只限兑换一次,您已经兑换过该奖品了");
         DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(awardType.getCode());
         if(dailyAwardsPO == null)
             throw new RuntimeException("今天奖品已经领取完了～");
@@ -300,6 +305,12 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 lastScore = lastScore - dailyAwardsPO.getType().findScore();
             }
         }
+        /**减去清空积分表中的清空积分**/
+        UpdateScorePO updateScorePO = totalScoreMapper.selectByPrimaryKey(accountId);
+        if(updateScorePO!=null){
+            lastScore = lastScore - updateScorePO.getDeleteScore();
+        }
+        /**减去清空积分表中的清空积分**/
         List<AwardDto> awardDtos = new ArrayList<>();
         AwardDto tencentAward = new AwardDto(AwardTypeEnum.TENCENT_VIP, dailyAwardsMapper.findByType(AwardTypeEnum.TENCENT_VIP.getCode())==null,AwardTypeEnum.TENCENT_VIP.findScore(),lastScore);
         AwardDto ofoAward = new AwardDto(AwardTypeEnum.OFO_COUPON,dailyAwardsMapper.findByType(AwardTypeEnum.OFO_COUPON.getCode())==null,AwardTypeEnum.OFO_COUPON.findScore(),lastScore);
@@ -370,4 +381,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         }
         return mySelfRankDto;
     }
+
+
 }

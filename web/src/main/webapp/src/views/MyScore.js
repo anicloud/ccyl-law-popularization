@@ -148,7 +148,7 @@ class MyScore extends Component {
     handleInvitation() {
         const {history} = this.props;
         history.push({
-            pathname: '/prize2',
+            pathname: '/showAnswerDetail',
             state: '/tasks'
         });
     }
@@ -306,7 +306,7 @@ class MyScore extends Component {
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>
-                        <span className='detail-msg'>荣获总积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
+                        <span className='detail-msg'>剩余积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
                         <br/>
                         <span className='detail-msg'>排名:<span className='detail-span'>{mySelfRank?mySelfRank:0}</span>名</span>
                     </div>
@@ -327,20 +327,22 @@ class MyScore extends Component {
                         <div className="leftDiv">
                             <span>签到</span>
                             <span className="desc">已签{scoreInfo?scoreInfo.signInCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo?scoreInfo.signInCount * 5 : 0} 积分</span>
                         </div>
-                        <div className='middleDiv'>
+                        {/*<div className='middleDiv'>
                             获 {scoreInfo?scoreInfo.signInCount * 5 : 0} 积分
-                        </div>
+                        </div>*/}
                         {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={footReverse} alt=''/></div> : <div className="rightDiv" onClick={this.handleSignIn}><img src={foot} alt=''/></div>}
                     </div>
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>分享答题</span>
                             <span className="desc">已成功分享{scoreInfo? scoreInfo.shareCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo?scoreInfo.shareCount * 5 : 0} 积分</span>
                         </div>
-                        <div className='middleDiv'>
+                        {/* <div className='middleDiv'>
                             获 {scoreInfo? scoreInfo.shareCount * 5 : 0} 积分
-                        </div>
+                        </div>*/}
                         <div className="rightDiv" onClick={this.handleShare}>
                             <img src={share} alt=""/>
                         </div>
@@ -349,10 +351,11 @@ class MyScore extends Component {
                         <div className="leftDiv">
                             <span>邀请答题</span>
                             <span className="desc">已成功邀请{scoreInfo? scoreInfo.inviteCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo?scoreInfo.inviteCount * 5 : 0} 积分</span>
                         </div>
-                        <div className='middleDiv'>
+                        {/*<div className='middleDiv'>
                             获 {scoreInfo? scoreInfo.inviteCount * 5 : 0} 积分
-                        </div>
+                        </div>*/}
                         <div className="rightDiv" onClick={this.handleInvitation}>
                             <img src={billDetail} alt=""/>
                         </div>
@@ -361,16 +364,17 @@ class MyScore extends Component {
                         <div className="leftDiv">
                             <span>好友点赞</span>
                             <span className="desc">已被点赞{scoreInfo? scoreInfo.thumbUpCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分</span>
                         </div>
-                        <div className='middleDiv'>
+                        {/*<div className='middleDiv'>
                             获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分
-                        </div>
+                        </div>*/}
                         <div className="rightDiv" onClick={this.handleThumbUp}>
                             {/*<img src={billDetail} alt=""/>*/}
                             <i className='plus'></i>
                         </div>
                     </div>
-                    <p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>
+                    {/* <p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>*/}
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
                     {this.state.myAwardInfo.length===0?(

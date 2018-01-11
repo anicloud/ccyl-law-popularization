@@ -124,7 +124,7 @@ class AnswerQuestion extends Component {
                                 <div className="text-center center">
                                     <p className='text-center'>恭喜！今日答对5题，增加10个积分。</p>
                                     <p className='text-center'>明日记得继续来答题涨积分！</p>
-                                    <p className='text-center'>你目前的积分排名是{mySelfRank}名！</p>
+                                    <p className='text-center'>你目前的积分排名是第{mySelfRank}名！</p>
                                     <p className='text-center'>快来拉好朋友为你点赞吧！一起参与答题，涨积分赢奖品！</p>
                                     <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                                 </div>
@@ -140,8 +140,12 @@ class AnswerQuestion extends Component {
                                 {
                                     question.type === 'CHOICE'? (
                                         <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
-                                    ) : (
+                                    ) : question.type === 'JUDGEMENT'?(
                                         <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
+                                    ) : question.type === 'NINETEENCHOICE'?(
+                                        <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
+                                    ):(
+                                       <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
                                     )
                                 }
                                 {
@@ -151,7 +155,7 @@ class AnswerQuestion extends Component {
                                 }
                                 {
                                     (this.state.showNext && question.order === 5)? (
-                                        <div className='share' onClick={this.handleShare}>分享荣誉</div>
+                                        <div className='share' onClick={this.handleShare}>完成今日答题</div>
                                     ) : (null)
                                 }
                             </div>

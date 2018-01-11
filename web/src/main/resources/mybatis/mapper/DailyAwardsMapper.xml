@@ -6,11 +6,11 @@
     <select id="findByType" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.DailyAwardsPO">
         SELECT * FROM t_daily_awards WHERE type=#{type} AND is_del=0 AND account_id IS NULL LIMIT 1
     </select>
-    <select id="findIsAwardToday" parameterType="java.lang.Integer" resultType="java.lang.Boolean">
+    <select id="findIsAwardToday" parameterType="java.util.Map" resultType="java.lang.Boolean">
         SELECT CASE t.awardCount
             WHEN 0 THEN FALSE
             ELSE TRUE
             END
-        FROM (SELECT count(account_id) AS awardCount FROM t_daily_awards WHERE account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d') LIMIT 1)t
+        FROM (SELECT count(account_id) AS awardCount FROM t_daily_awards WHERE account_id=#{account_id} AND type=#{awardType} LIMIT 1)t
     </select>
 </mapper>

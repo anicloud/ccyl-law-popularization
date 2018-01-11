@@ -8,10 +8,7 @@ import com.ani.ccyl.leg.commons.utils.IPUtil;
 import com.ani.ccyl.leg.commons.utils.WechatUtil;
 import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
 import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
-import com.ani.ccyl.leg.service.service.facade.AccountService;
-import com.ani.ccyl.leg.service.service.facade.QuestionService;
-import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
-import com.ani.ccyl.leg.service.service.facade.WechatService;
+import com.ani.ccyl.leg.service.service.facade.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -40,6 +38,8 @@ public class ShareController {
     private AccountService accountService;
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
+    @Autowired
+    private ShareRelationService shareRelationService;
     private String appId = Constants.PROPERTIES.getProperty("wechat.appid");
 
     @RequestMapping(value = "/share", method = RequestMethod.GET)
@@ -75,78 +75,49 @@ public class ShareController {
         message.setState(ResponseStateEnum.OK);
         return message;
     }
+
     @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
-    public ModelAndView toThumbUp(Integer accountId,HttpServletRequest request) throws IOException {
-        String uniCodeString = getUniCodeFromRequest(request);
+    public ModelAndView toThumbUp(Integer accountId,HttpServletResponse response) throws IOException {
+        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId+"");
+        response.sendRedirect(url);
+        ModelAndView modelAndView = new ModelAndView("thumbUp");
         AccountDto toAccountDto = accountService.findById(accountId);
-        ModelAndView modelAndView =null;
-        boolean isThumbUped=false;
-
-        if (!StringUtils.isEmpty(uniCodeString)){
-            isThumbUped = scoreRecordService.findIsThumbUp(Long.parseLong(uniCodeString),accountId);
+        if(toAccountDto != null) {
+            ThumbUpDto thumbUpDto = new ThumbUpDto();
+            thumbUpDto.setToNickName(toAccountDto.getNickName());
+            thumbUpDto.setToPortrait(toAccountDto.getPortrait());
+            TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountId);
+            thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
+            thumbUpDto.setAccountId(accountId);
+            modelAndView.addObject("thumbUpDto",thumbUpDto);
         }
-        if(!isThumbUped){
-             modelAndView = new ModelAndView("thumbUp");
-            if(toAccountDto != null) {
-                ThumbUpDto thumbUpDto = new ThumbUpDto();
-                thumbUpDto.setToNickName(toAccountDto.getNickName());
-                thumbUpDto.setToPortrait(toAccountDto.getPortrait());
-                TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountId);
-                thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
-                thumbUpDto.setAccountId(accountId);
-                modelAndView.addObject("thumbUpDto",thumbUpDto);
-            }
-
-        }
-        else {
-            if (toAccountDto != null){
-                modelAndView = new ModelAndView("answerQuestion");
-                modelAndView.addObject("isThumbUp",isThumbUped);
-                modelAndView.addObject("nickName",toAccountDto.getNickName());
-            }
-
-        }
-
         return modelAndView;
     }
-    private String getUniCodeFromRequest(HttpServletRequest request){
-        Cookie[] cookie = request.getCookies();
-        for (int i = 0; i < cookie.length; i++) {
-            Cookie cook = cookie[i];
-            if(cook.getName().equalsIgnoreCase("uniCode")){ //获取键
-                String uniCodeString = cook.getValue().toString();
-                System.out.println("account:"+cook.getValue().toString());    //获取值
-                return uniCodeString;
 
-            }
-        }
-        return "";
-
-    }
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
     public ModelAndView thumbUp(Integer toAccountId, HttpServletRequest request) {
+//        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+//        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
         ModelAndView modelAndView = new ModelAndView("answerQuestion");
         AccountDto accountDto = accountService.findById(toAccountId);
-            Long uniCode =  generateUniCode();
+        String macAddress = IPUtil.getMACAddress(IPUtil.getRemoteAddress(request));
+        Boolean isThumbUp = scoreRecordService.findIsThumbUp(macAddress,toAccountId);
+        if(!StringUtils.isEmpty(macAddress)&&!isThumbUp) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
-            scoreRecordPO.setUniCode(uniCode);
             scoreRecordPO.setAccountId(toAccountId);
             scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
             scoreRecordPO.setScore(Constants.Score.THUMB_UP_SCORE);
             scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
             scoreRecordPO.setDel(false);
             scoreRecordMapper.insertSelective(scoreRecordPO);
-
+        }
         modelAndView.addObject("nickName",accountDto.getNickName());
-        modelAndView.addObject("isThumbUp",true);
-        modelAndView.addObject("uniCode",uniCode);
+        modelAndView.addObject("isThumbUp",isThumbUp);
         return modelAndView;
     }
-    private Long generateUniCode(){
-        Random random = new Random(System.currentTimeMillis() + (new Random()).nextLong());
-        return Long.valueOf(Math.abs(random.nextLong()));
 
-    }
+
+
     @RequestMapping(value = "/goToAnswerQuestion")
     public String goToAnswerQuestion() {
         return "subscribe";
@@ -167,6 +138,17 @@ public class ShareController {
             thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
             message.setData(thumbUpDto);
         }
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        return message;
+    }
+    @RequestMapping(value = "/findInviteInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findInviteInfo(Integer accountId){
+        ResponseMessageDto message = new ResponseMessageDto();
+        List<InvitedDto> invitedDtos=shareRelationService.selectByShareId(accountId);
+       // message.s
+        message.setData(invitedDtos);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
         return message;

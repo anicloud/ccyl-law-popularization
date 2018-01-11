@@ -19,4 +19,5 @@ public interface QuestionService {
 
     QuestionDto updateNewQuestion(Integer accountId) throws ParseException;
     Integer findDailyCorrectCount(Integer accountId);
+    Integer findOrderNumbyId(Integer id);
 }

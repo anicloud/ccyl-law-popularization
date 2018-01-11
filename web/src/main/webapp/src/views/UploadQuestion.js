@@ -43,6 +43,47 @@ class UploadQuestion extends Component {
             console.log(errors);
         })
     }
+    handleBigChoice(e) {
+        let _this = this;
+        let file = e.target.files[0];
+        let {host} = _this.props;
+        let formData = new FormData();
+        formData.append('type', 'NINETEENCHOICE');
+        formData.append('file', file);
+        let config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        axios.post(`${host}/question/upload`, formData, config).then(function (response) {
+            if (response.data.state === 0) {
+                console.log('上传成功');
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        })
+    }
+    handleBigJudge(e) {
+        let _this = this;
+        let file = e.target.files[0];
+        let {host} = _this.props;
+        let formData = new FormData();
+        formData.append('type', 'NINETEENJUDGEMENT');
+        formData.append('file', file);
+        let config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        axios.post(`${host}/question/upload`, formData, config).then(function (response) {
+            if (response.data.state === 0) {
+                console.log('上传成功');
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        })
+    }
+
     render() {
         return (
             <div className='upload'>
@@ -51,6 +92,12 @@ class UploadQuestion extends Component {
                 </div>
                 <div>
                     判断 <input type="file" onChange={(e) => {this.handleJudge(e)}} />
+                </div>
+                <div>
+                    19大选择 <input type="file" onChange={(e) => {this.handleBigChoice(e)}} />
+                </div>
+                <div>
+                    19大判断 <input type="file" onChange={(e) => {this.handleBigJudge(e)}} />
                 </div>
             </div>
         )
