@@ -136,6 +136,7 @@ public class ScoreRecordController {
         message.setMsg("查询成功");
         return message;
     }
+
     @RequestMapping(value = "/convertAward", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto convertAward(AwardTypeEnum awardType, HttpSession session) {

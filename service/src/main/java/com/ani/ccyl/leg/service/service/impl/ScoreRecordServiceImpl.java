@@ -197,10 +197,13 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Override
     public void updateConvertAward(Integer accountId, AwardTypeEnum awardType) {
         TotalScoreDto totalScoreDto = findTotalScore(accountId);
+        Map<String,Integer> params = new HashMap<String,Integer>();
+        params.put("account_id",accountId);
+        params.put("awardType",awardType.getCode());
         if(totalScoreDto.getScore()<awardType.findScore())
             throw new RuntimeException("积分不足");
-        if(dailyAwardsMapper.findIsAwardToday(accountId))
-            throw new RuntimeException("今天已经领取过了");
+        if(dailyAwardsMapper.findIsAwardToday(params))
+            throw new RuntimeException("每种奖品只限兑换一次,您已经兑换过该奖品了");
         DailyAwardsPO dailyAwardsPO = dailyAwardsMapper.findByType(awardType.getCode());
         if(dailyAwardsPO == null)
             throw new RuntimeException("今天奖品已经领取完了～");
