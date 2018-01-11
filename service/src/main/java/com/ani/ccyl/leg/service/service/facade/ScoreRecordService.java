@@ -38,6 +38,5 @@ public interface ScoreRecordService {
 
     MySelfRankDto findSelfRank(Integer accountId);
 
-    ScoreRecordDto findRecodByUniCode(Long unicode);
 
 }

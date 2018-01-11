@@ -398,6 +398,12 @@
                 <version>${gson-version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>net.sourceforge.javacsv</groupId>
+                <artifactId>javacsv</artifactId>
+                <version>2.1</version>
+            </dependency>
+
             <!-- https://mvnrepository.com/artifact/org.apache.geronimo.specs/geronimo-jms_1.1_spec -->
             <dependency>
                 <groupId>org.apache.geronimo.specs</groupId>

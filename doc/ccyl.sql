@@ -229,7 +229,6 @@ CREATE TABLE `t_score_record` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
-  `uni_code` bigint COMMENT 'uniCode',
   `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_score_record_id_key` (`account_id`,`src_question_id`),

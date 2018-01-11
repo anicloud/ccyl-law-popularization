@@ -92,34 +92,7 @@ public class WechatController {
         }
         return message;
     }
-    private ScoreRecordDto isThumbUp(HttpServletRequest request){
-        String uniCode=getUniCodeFromRequest(request);
-        if (uniCode==null||uniCode==""){
-            return null;
 
-        }else {
-           return scoreRecordService.findRecodByUniCode(Long.parseLong(uniCode));
-        }
-
-
-    }
-    private String getUniCodeFromRequest(HttpServletRequest request){
-        Cookie[] cookie = request.getCookies();
-        if (cookie==null || cookie.length==0){
-            return "";
-        }
-        for (int i = 0; i < cookie.length; i++) {
-            Cookie cook = cookie[i];
-            if(cook.getName().equalsIgnoreCase("uniCode")){ //获取键
-                String uniCodeString = cook.getValue().toString();
-                System.out.println("account:"+cook.getValue().toString());    //获取值
-                return uniCodeString;
-
-            }
-        }
-        return "";
-
-    }
     @RequestMapping("/redirect")//是不是新用户 && 是否点过赞 -》 插入sharerelation
     public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -137,12 +110,6 @@ public class WechatController {
                     return "subscribe";
                 }
                 AccountDto accountDto = accountService.insertAccount(userObj);
-                ScoreRecordDto scoreRecordDto =isThumbUp(request);
-                //是不是新用户 && 是否点过赞 -》 插入sharerelation
-               if (accountDto.getNew() && scoreRecordDto!=null ){
-                   shareRelationService.insert(scoreRecordDto.getAccountId(),accountDto.getId(),false);
-
-               }
                 Subject subject = SecurityUtils.getSubject();
                 UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());
                 subject.login(token);
