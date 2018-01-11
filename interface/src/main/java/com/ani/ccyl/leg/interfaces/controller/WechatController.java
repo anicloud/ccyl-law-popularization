@@ -93,9 +93,31 @@ public class WechatController {
         return message;
     }
 
-    @RequestMapping("/redirect")
-    public String redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping("/redirectNew")
+    public void redirectNew(Integer toAccountId, String srcAccountJson, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html; charset=utf-8");
+        HttpSession session = request.getSession();
+        if(!StringUtils.isEmpty(srcAccountJson)) {
+            AccountDto accountDto = accountService.insertAccount(JSONObject.fromObject(srcAccountJson));
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());
+            subject.login(token);
+            AccountDto loginAccount = (AccountDto) subject.getPrincipal();
+            session.setAttribute(Constants.LOGIN_SESSION,loginAccount);
+            Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
+            cookie.setMaxAge(-1);
+            response.addCookie(cookie);
+            if(accountDto.getNew() && srcAccountJson.matches("^[0-9]+$")) {
+                AccountDto toAccount = accountService.findById(toAccountId);
+                shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
+                response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
+            } else
+                response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
+        }
+    }
 
+    @RequestMapping("/redirect")
+    public void redirect(String code, String state, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         String tokenUrl = oauthTokenUrl.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
         JSONObject tokenObj = WechatUtil.httpRequest(tokenUrl, "GET", null);
@@ -106,9 +128,6 @@ public class WechatController {
                 String openId = tokenObj.getString("openid");
                 String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
-                if(userObj != null && userObj.containsKey("subscribe") && userObj.getInt("subscribe")==0) {
-                    return "subscribe";
-                }
                 AccountDto accountDto = accountService.insertAccount(userObj);
                 Subject subject = SecurityUtils.getSubject();
                 UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());
@@ -118,7 +137,7 @@ public class WechatController {
                 Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
                 cookie.setMaxAge(-1);
                 response.addCookie(cookie);
-                if(state.matches("^[0-9]+$")) {
+                if(accountDto.getNew() && state.matches("^[0-9]+$")) {
                     AccountDto toAccount = accountService.findById(Integer.parseInt(state));
                     shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
@@ -128,7 +147,6 @@ public class WechatController {
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+HttpMessageEnum.LOGIN_FAILURE.name());
             }
         }
-        return null;
     }
 
     @RequestMapping(value = "/getJsSDKConfig",method = RequestMethod.GET)

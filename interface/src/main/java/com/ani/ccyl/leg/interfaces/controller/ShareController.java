@@ -76,33 +76,20 @@ public class ShareController {
         return message;
     }
 
-    @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
-    public ModelAndView toThumbUp(Integer accountId,HttpServletResponse response) throws IOException {
-        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId+"");
-        response.sendRedirect(url);
-        ModelAndView modelAndView = new ModelAndView("thumbUp");
-        AccountDto toAccountDto = accountService.findById(accountId);
-        if(toAccountDto != null) {
-            ThumbUpDto thumbUpDto = new ThumbUpDto();
-            thumbUpDto.setToNickName(toAccountDto.getNickName());
-            thumbUpDto.setToPortrait(toAccountDto.getPortrait());
-            TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountId);
-            thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
-            thumbUpDto.setAccountId(accountId);
-            modelAndView.addObject("thumbUpDto",thumbUpDto);
-        }
-        return modelAndView;
-    }
+//    @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
+//    public void toThumbUp(Integer accountId,HttpServletResponse response) throws IOException {
+//        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId+"");
+//        response.sendRedirect(url);
+//    }
 
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
-    public ModelAndView thumbUp(Integer toAccountId, HttpServletRequest request) {
-//        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-//        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
-        ModelAndView modelAndView = new ModelAndView("answerQuestion");
-        AccountDto accountDto = accountService.findById(toAccountId);
-        String macAddress = IPUtil.getMACAddress(IPUtil.getRemoteAddress(request));
-        Boolean isThumbUp = scoreRecordService.findIsThumbUp(macAddress,toAccountId);
-        if(!StringUtils.isEmpty(macAddress)&&!isThumbUp) {
+    @ResponseBody
+    public ResponseMessageDto thumbUp(Integer toAccountId, HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
+        Boolean isThumbUp = scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId);
+        if(!isThumbUp) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
             scoreRecordPO.setAccountId(toAccountId);
             scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
@@ -110,28 +97,25 @@ public class ShareController {
             scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
             scoreRecordPO.setDel(false);
             scoreRecordMapper.insertSelective(scoreRecordPO);
+            message.setState(ResponseStateEnum.OK);
+            message.setMsg("点赞成功");
+        } else{
+            message.setState(ResponseStateEnum.ERROR);
+            message.setMsg("已经点过赞了");
         }
-        modelAndView.addObject("nickName",accountDto.getNickName());
-        modelAndView.addObject("isThumbUp",isThumbUp);
-        return modelAndView;
-    }
 
-
-
-    @RequestMapping(value = "/goToAnswerQuestion")
-    public String goToAnswerQuestion() {
-        return "subscribe";
+        return message;
     }
 
     @RequestMapping(value = "/findThumbUpInfo", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findThumbUpInfo(Integer toAccountId, HttpServletRequest request) {
+    public ResponseMessageDto findThumbUpInfo(Integer toAccountId, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto toAccountDto = accountService.findById(toAccountId);
-        String macAddress = IPUtil.getMACAddress(IPUtil.getRemoteAddress(request));
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         if(toAccountDto != null) {
             ThumbUpDto thumbUpDto = new ThumbUpDto();
-            thumbUpDto.setIsThumbUp(scoreRecordService.findIsThumbUp(macAddress,toAccountId));
+            thumbUpDto.setIsThumbUp(scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId));
             thumbUpDto.setToNickName(toAccountDto.getNickName());
             thumbUpDto.setToPortrait(toAccountDto.getPortrait());
             TotalScoreDto totalScore = scoreRecordService.findTotalScore(toAccountId);

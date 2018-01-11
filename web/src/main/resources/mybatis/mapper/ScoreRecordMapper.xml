@@ -43,7 +43,7 @@
                 WHEN 0 THEN FALSE
                 ELSE TRUE
                END
-        FROM (SELECT count(account_id) AS thumbUps FROM t_score_record WHERE account_id=#{accountId} AND (src_account_id=#{srcIdOrUniCode} OR uni_code=#{srcIdOrUniCode}) AND t_score_record.src_type=2 AND log_date=date_format(now(),'%Y-%m-%d') LIMIT 1) t
+        FROM (SELECT count(account_id) AS thumbUps FROM t_score_record WHERE account_id=#{accountId} AND src_account_id=#{srcId} AND t_score_record.src_type=2 AND log_date=date_format(now(),'%Y-%m-%d') LIMIT 1) t
     </select>
     <select id="findIsSignIn" parameterType="java.lang.Integer" resultType="java.lang.Boolean">
         SELECT CASE t.signIns
