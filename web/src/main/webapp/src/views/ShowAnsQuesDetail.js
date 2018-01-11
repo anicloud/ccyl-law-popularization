@@ -25,9 +25,9 @@ class ShowAnsQuesDetail extends Component{
         axios.get(`${host}/share/findInviteInfo`).then(function (response) {
              if (response.data.state === 0) {
                  if (response.data.data !== null) {
-                 _this.setState({
-                    rankingInfo: response.data.data
-                 })
+                     _this.setState({
+                        rankingInfo: response.data.data
+                     })
                  }
              }
          }).catch(function (errors) {
