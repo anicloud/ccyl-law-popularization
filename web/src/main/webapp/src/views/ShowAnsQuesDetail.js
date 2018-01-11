@@ -22,7 +22,7 @@ class ShowAnsQuesDetail extends Component{
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-       /* axios.get(`${host}/share/findInviteInfo`).then(function (response) {
+        axios.get(`${host}/share/findInviteInfo`).then(function (response) {
              if (response.data.state === 0) {
                  if (response.data.data !== null) {
                  _this.setState({
@@ -32,7 +32,7 @@ class ShowAnsQuesDetail extends Component{
              }
          }).catch(function (errors) {
          console.log(errors);
-         })*/
+         })
     }
     render(){
         let rankingInfo = this.state.rankingInfo;

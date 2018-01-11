@@ -155,7 +155,7 @@ class AnswerQuestion extends Component {
                                 }
                                 {
                                     (this.state.showNext && question.order === 5)? (
-                                        <div className='share' onClick={this.handleShare}>分享荣誉</div>
+                                        <div className='share' onClick={this.handleShare}>完成今日答题</div>
                                     ) : (null)
                                 }
                             </div>
