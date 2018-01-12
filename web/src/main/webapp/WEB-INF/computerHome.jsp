@@ -30,17 +30,6 @@
       width: 124px;
       height: 119px;
     }
-    .info {
-      margin-top: .5rem;
-      font-size: .36rem;
-      letter-spacing: 1px;
-    }
-    .msg {
-      position: absolute;
-      font-size: .32rem;
-      bottom: 1rem;
-      width: 100%;
-    }
   </style>
 </head>
 <body>
