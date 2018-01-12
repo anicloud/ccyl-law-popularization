@@ -18,8 +18,11 @@ class AnswerQuestion extends Component {
             location: '/home',
             question: null,
             showNext: false,
-            isComplete: false,
-            mySelfRank:0
+            isComplete: true,
+            mySelfRank:0,
+            scoreInfo: {
+                totalScore:1000
+            }
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
@@ -54,7 +57,17 @@ class AnswerQuestion extends Component {
                         }
                     }).catch(function(errors){
                         console.log(errors);
-                    })
+                    });
+                    //剩余积分获取
+                    axios.get(`${host}/score/findResidueScore`).then(function (response) {
+                        if (response.data.state === 0) {
+                            _this.setState({
+                                scoreInfo: response.data.data
+                            })
+                        }
+                    }).catch(function (errors) {
+                        console.log(errors);
+                    });
 
                 }
             }
@@ -86,6 +99,28 @@ class AnswerQuestion extends Component {
         })
     }
     handleShare() {
+        let _this = this;
+        const {host} = _this.props;
+        //剩余积分获取
+        axios.get(`${host}/score/findResidueScore`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    scoreInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    mySelfRank: response.data.data.ranking
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
+
         const {history} = this.props;
         history.push({
             pathname: '/prize',
@@ -96,74 +131,93 @@ class AnswerQuestion extends Component {
         let question = this.state.question? this.state.question.toJS() : '';
         let isComplete = this.state.isComplete;
         let mySelfRank = this.state.mySelfRank;
+        let scoreInfo = this.state.scoreInfo;
         return (
-            <div className="answer answer-bg">
-                <div className='clearfix'>
-                    <Back location={this.state.location} history={this.props.history} />
-                </div>
-                {/*<ChoiceQuestion
-                    handleShowNext={this.handleShowNext}
-                    question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐', id: 1, optionOne: 'Y', optionTwo: 'N'}}
-                />*/}
-                {/*<div className='wrapper'>
-                    <h2 className='wrapper-title'>今日必答 - 第<span>1</span>日</h2>
-                    <div className='wrapper-body'>
-                        <h4>
-                            第<span>3</span>题 <i>共5题</i>
-                        </h4>
-                        <TrueFalseQuestion
+            <div className="answer-main">
+            {
+            question === ''? (
+               isComplete? (
+                   <div className="answer myprize-bg">
+                       <div className='clearfix'>
+                           <Back location={this.state.location} history={this.props.history} />
+                       </div>
+                       <div className='text-center complete'>
+                           <div className='wrapper'>
+                               <div className='sum-score'>
+                                   <div><span className="score">+10</span></div>
+                               </div>
+                               <div className="sum-detail">
+                                   <p className='first'>恭喜你！今日答对5题</p>
+                                   <p className='second'>当前积分：<span>{scoreInfo.totalScore}</span></p>
+                                   <p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>
+                               </div>
+                               <div className="sum-bottom">
+                                   <p className='first'>马上拉好友为你点赞吧</p>
+                                   <p className='second'>每天都有新题，等你来答!</p>
+                                   <p className="third">一起参与答题，涨积分赢奖品</p>
+                               </div>
+                               <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
+                           </div>
+                        </div>
+                       <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                       <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
+                   </div>
+                    ) : (null)
+                ) : (
+                    <div className="answer answer-bg">
+                        <div className='clearfix'>
+                            <Back location={this.state.location} history={this.props.history} />
+                        </div>
+                        {/*<ChoiceQuestion
                             handleShowNext={this.handleShowNext}
                             question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐', id: 1, optionOne: 'Y', optionTwo: 'N'}}
-                        />
-                    </div>
-                </div>*/}
-                {
-                    question === ''? (
-                        isComplete? (
-                            <div className='text-center complete'>
-                                <div className="text-center center">
-                                    <p className='text-center'>恭喜！今日答对5题，增加10个积分。</p>
-                                    <p className='text-center'>明日记得继续来答题涨积分！</p>
-                                    <p className='text-center'>你目前的积分排名是第{mySelfRank}名！</p>
-                                    <p className='text-center'>快来拉好朋友为你点赞吧！一起参与答题，涨积分赢奖品！</p>
-                                    <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
-                                </div>
-                            </div>
-                        ) : (null)
-                    ) : (
-                        <div className='wrapper'>
-                            <h2 className='wrapper-title'>今日必答 - 第<span>{question.dayNum}</span>日</h2>
+                        />*/}
+                        {/*<div className='wrapper'>
+                            <h2 className='wrapper-title'>今日必答 - 第<span>1</span>日</h2>
                             <div className='wrapper-body'>
                                 <h4>
-                                    第<span>{question.order}</span>题 <i>共5题</i>
+                                    第<span>3</span>题 <i>共5题</i>
                                 </h4>
-                                {
-                                    question.type === 'CHOICE'? (
-                                        <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
-                                    ) : question.type === 'JUDGEMENT'?(
-                                        <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
-                                    ) : question.type === 'NINETEENCHOICE'?(
-                                        <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
-                                    ):(
-                                       <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
-                                    )
-                                }
-                                {
-                                    (this.state.showNext && question.order !== 5 )? (
-                                        <div className='questionButton' onClick={this.handleNext}>下一题</div>
-                                    ) : (null)
-                                }
-                                {
-                                    (this.state.showNext && question.order === 5)? (
-                                        <div className='share' onClick={this.handleShare}>完成今日答题</div>
-                                    ) : (null)
-                                }
+                                <TrueFalseQuestion
+                                    handleShowNext={this.handleShowNext}
+                                    question={{content: 'asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐asdjkasjdassd奥斯卡大胜靠德拉克丝懒得看来到拉萨的卡拉斯科带来快乐', id: 1, optionOne: 'Y', optionTwo: 'N'}}
+                                />
                             </div>
-                        </div>
-                    )
-                }
-                <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-                <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
+                        </div>*/}
+                                <div className='wrapper'>
+                                    <h2 className='wrapper-title'>今日必答 - 第<span>{question.dayNum}</span>日</h2>
+                                    <div className='wrapper-body'>
+                                        <h4>
+                                            第<span>{question.order}</span>题 <i>共5题</i>
+                                        </h4>
+                                        {
+                                            question.type === 'CHOICE'? (
+                                                <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
+                                            ) : question.type === 'JUDGEMENT'?(
+                                                <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
+                                            ) : question.type === 'NINETEENCHOICE'?(
+                                                <ChoiceQuestion question={question} handleShowNext={this.handleShowNext} />
+                                            ):(
+                                               <TrueFalseQuestion question={question} handleShowNext={this.handleShowNext} />
+                                            )
+                                        }
+                                        {
+                                            (this.state.showNext && question.order !== 5 )? (
+                                                <div className='questionButton' onClick={this.handleNext}>下一题</div>
+                                            ) : (null)
+                                        }
+                                        {
+                                            (this.state.showNext && question.order === 5)? (
+                                                <div className='share' onClick={this.handleShare}>完成今日答题</div>
+                                            ) : (null)
+                                        }
+                                    </div>
+                                </div>
+                        <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                        <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
+                    </div>
+                )
+            }
             </div>
         )
     }
