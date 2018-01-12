@@ -18,11 +18,9 @@ class AnswerQuestion extends Component {
             location: '/home',
             question: null,
             showNext: false,
-            isComplete: true,
+            isComplete: false,
             mySelfRank:0,
-            scoreInfo: {
-                totalScore:1000
-            }
+            scoreInfo: null
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
