@@ -241,16 +241,6 @@ CREATE TABLE `t_score_record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分记录表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `t_total_score`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_total_score` (
-  `account_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '账户主键',
-  `delete_score` int(4) NOT NULL COMMENT '清零积分',
-  PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='获得Top20后积分清零表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Table structure for table `t_share_relation`
 --

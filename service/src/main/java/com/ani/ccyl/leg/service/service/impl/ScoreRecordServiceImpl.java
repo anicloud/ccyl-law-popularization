@@ -44,8 +44,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private Top20AwardsMapper top20AwardsMapper;
     @Autowired
     private Lucky20AwardsMapper lucky20AwardsMapper;
-    @Autowired
-    private TotalScoreMapper totalScoreMapper;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -197,7 +195,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Override
     public void updateConvertAward(Integer accountId, AwardTypeEnum awardType) {
         TotalScoreDto totalScoreDto = findTotalScore(accountId);
-        Map<String,Integer> params = new HashMap<String,Integer>();
+        Map<String,Integer> params = new HashMap<>();
         params.put("account_id",accountId);
         params.put("awardType",awardType.getCode());
         if(totalScoreDto.getScore()<awardType.findScore())
@@ -274,6 +272,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             myAwardDto.setIsReceivedAward(top20AwardsPO.getReceivedAward());
             if((System.currentTimeMillis()-top20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
                 myAwardDto.setIsExpired(true);
+            } else {
+                myAwardDto.setCodeSecret(accountPersistenceService.findIsInfoComplete(accountId) ? top20AwardsPO.getCodeSecret() : "个人信息不完整");
             }
             myAwardDtos.add(myAwardDto);
         }
@@ -285,6 +285,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             myAwardDto.setIsReceivedAward(lucky20AwardsPO.getReceivedAward());
             if((System.currentTimeMillis()-lucky20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
                 myAwardDto.setIsExpired(true);
+            } else {
+                myAwardDto.setCodeSecret(accountPersistenceService.findIsInfoComplete(accountId) ? lucky20AwardsPO.getCodeSecret() : "个人信息不完整");
             }
             myAwardDtos.add(myAwardDto);
         }
@@ -305,12 +307,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 lastScore = lastScore - dailyAwardsPO.getType().findScore();
             }
         }
-        /**减去清空积分表中的清空积分**/
-        UpdateScorePO updateScorePO = totalScoreMapper.selectByPrimaryKey(accountId);
-        if(updateScorePO!=null){
-            lastScore = lastScore - updateScorePO.getDeleteScore();
-        }
-        /**减去清空积分表中的清空积分**/
         List<AwardDto> awardDtos = new ArrayList<>();
         AwardDto tencentAward = new AwardDto(AwardTypeEnum.TENCENT_VIP, dailyAwardsMapper.findByType(AwardTypeEnum.TENCENT_VIP.getCode())==null,AwardTypeEnum.TENCENT_VIP.findScore(),lastScore);
         AwardDto ofoAward = new AwardDto(AwardTypeEnum.OFO_COUPON,dailyAwardsMapper.findByType(AwardTypeEnum.OFO_COUPON.getCode())==null,AwardTypeEnum.OFO_COUPON.findScore(),lastScore);
