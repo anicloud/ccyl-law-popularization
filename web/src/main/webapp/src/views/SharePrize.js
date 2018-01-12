@@ -20,7 +20,7 @@ class SharePrize extends Component {
             toastText: '分享成功',
             location: this.props.location.state? this.props.location.state : '/answer',
             showPopup: true,
-            isReady: false
+            isReady:false,
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;

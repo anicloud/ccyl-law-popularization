@@ -128,6 +128,26 @@ class ScoreShopping extends Component{
                                     showSuccess:false
                                 });
                             }, 2000);
+                            //查找所有奖品
+                            axios.get(`${host}/score/findAllAwards`).then(function (response) {
+                                if (response.data.state === 0) {
+                                    _this.setState({
+                                        awardInfo: response.data.data
+                                    })
+                                }
+                            }).catch(function (errors) {
+                                _this.state.timer && clearTimeout(_this.state.timer);
+                                _this.setState({
+                                    warningInfo:"请求失败",
+                                    showWarning:true
+                                });
+                                _this.state.timer = setTimeout(function () {
+                                    _this.setState({
+                                        showWarning:false
+                                    });
+                                }, 2000);
+                                console.log(errors);
+                            });
                         }
                         if(response.data.state !== 0){
                             _this.state.timer && clearTimeout(_this.state.timer);
