@@ -28,8 +28,6 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     private Lucky20AwardsMapper lucky20AwardsMapper;
     @Autowired
     private AccountMapper accountMapper;
-    @Autowired
-    private TotalScoreMapper totalScoreMapper;
     @Override
     public void updateDailyTop20() {
         List<ScoreRecordPO> dailyTop20 = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()-24*60*60*1000L));
@@ -52,15 +50,9 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                         residueScore = residueScore + dailyAwardsPO.getType().findScore();
                     }
                 }
-                UpdateScorePO updateScorePO = totalScoreMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
-                if(updateScorePO!=null){
-                    updateScorePO.setDeleteScore(residueScore);
-                    totalScoreMapper.updateByPrimaryKey(updateScorePO);
-                }else{
-                    updateScorePO = new UpdateScorePO(scoreRecordPO.getAccountId(),residueScore);
-                    totalScoreMapper.insertSelective(updateScorePO);
+                if(scoreRecordPO.getAccountId()!=null) {
+                    scoreRecordMapper.cleanUpScore(scoreRecordPO.getAccountId());
                 }
-                /*积分清零功能结束*/
                 top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
                 order++;
             }

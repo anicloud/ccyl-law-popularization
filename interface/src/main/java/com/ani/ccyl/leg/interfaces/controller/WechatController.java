@@ -93,7 +93,7 @@ public class WechatController {
         return message;
     }
 
-    @RequestMapping("/redirectNew")
+    @RequestMapping("/redirectNew")//{"openid":"orf6ew_iTOFmBrXb9bG5b-IY2TeI","nickname":"狂奔的蜗牛","sex":1,"language":"zh_CN","city":"石家庄","province":"河北","country":"中国","headimgurl":"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132","privilege":[]}
     public void redirectNew(Integer toAccountId, String srcAccountJson, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         HttpSession session = request.getSession();
@@ -107,7 +107,7 @@ public class WechatController {
             Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
             cookie.setMaxAge(-1);
             response.addCookie(cookie);
-            if(accountDto.getNew() && srcAccountJson.matches("^[0-9]+$")) {
+            if(accountDto.getNew() && toAccountId != null) {
                 AccountDto toAccount = accountService.findById(toAccountId);
                 shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
@@ -128,6 +128,8 @@ public class WechatController {
                 String openId = tokenObj.getString("openid");
                 String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
+                String userInfoJson = userObj.toString();
+                System.out.print(userInfoJson);
                 AccountDto accountDto = accountService.insertAccount(userObj);
                 Subject subject = SecurityUtils.getSubject();
                 UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());

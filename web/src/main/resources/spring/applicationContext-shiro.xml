@@ -65,6 +65,7 @@
 			<value>
 				/wechat/entrance = anon
 				/wechat/redirect = anon
+				/wechat/redirectNew = anon
 				/wechat/makeMenu = anon
 				/home/index = anon
 				/upload = anon

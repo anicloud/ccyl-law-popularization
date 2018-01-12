@@ -18,4 +18,6 @@ public interface AccountService {
     AccountDto findById(Integer id);
 
     Boolean findIsInfoCompleted(Integer id);
+
+    void getCsvFile(Integer accountId);
 }

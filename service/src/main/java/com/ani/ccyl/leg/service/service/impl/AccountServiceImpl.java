@@ -2,6 +2,7 @@ package com.ani.ccyl.leg.service.service.impl;
 
 import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
+import com.ani.ccyl.leg.commons.dto.CsvDto;
 import com.ani.ccyl.leg.commons.enums.ProvinceEnum;
 import com.ani.ccyl.leg.commons.utils.Encrypt;
 import com.ani.ccyl.leg.commons.utils.ExcelUtil;
@@ -99,5 +100,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Boolean findIsInfoCompleted(Integer id) {
         return accountPersistenceService.findIsInfoComplete(id);
+    }
+
+    @Override
+    public void getCsvFile(Integer accountId) {
+        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+        CsvDto csvDto = new CsvDto(
+                accountPO.getNickName(),accountPO.getProvince().getValue(),accountPO.getName(),accountPO.getPhone(),accountPO.getEmail(),accountPO.getSex()?"男":"女",accountPO.getOrgName(),accountPO.getAge()+"",null
+        );
     }
 }
