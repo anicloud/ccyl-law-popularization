@@ -20,10 +20,15 @@
       background-size: 100%,100%;
       position: relative;
     }
+    span{
+      font-size:.3rem;
+      display:inline-block;
+      margin-bottom:0rem;
+      font-weight: 600;
+    }
     img {
       width: 124px;
       height: 119px;
-      margin-top: 4rem;
     }
     .info {
       margin-top: .5rem;
@@ -43,7 +48,6 @@
   You need to enable JavaScript to run this app.
 </noscript>
 <div class="subscribe">
-  <img src="${pageContext.request.contextPath}/build/assets/images/qrcode.jpg" alt=""/>
 </div>
 <script src="${pageContext.request.contextPath}/build/assets/js/rem.js"></script>
 </body>
