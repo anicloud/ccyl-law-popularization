@@ -15,4 +15,8 @@ public class HomeController {
     public String index(HttpServletRequest request, HttpServletResponse response) {
         return "index";
     }
+    @RequestMapping("/pc")
+    public String pc() {
+        return "computerHome";
+    }
 }

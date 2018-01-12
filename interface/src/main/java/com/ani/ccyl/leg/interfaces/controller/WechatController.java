@@ -10,6 +10,12 @@ import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -97,6 +103,7 @@ public class WechatController {
     public void redirectNew(Integer toAccountId, String srcAccountJson, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         HttpSession session = request.getSession();
+        srcAccountJson = "{\"openid\":\"orf6ew_iTOFmBrXb9bG5b-IY2TeI\",\"nickname\":\"狂奔的蜗牛\",\"sex\":1,\"language\":\"zh_CN\",\"city\":\"石家庄\",\"province\":\"河北\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132\",\"privilege\":[]}";
         if(!StringUtils.isEmpty(srcAccountJson)) {
             AccountDto accountDto = accountService.insertAccount(JSONObject.fromObject(srcAccountJson));
             Subject subject = SecurityUtils.getSubject();
@@ -113,6 +120,8 @@ public class WechatController {
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
             } else
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
+        } else {
+            response.sendRedirect(request.getContextPath()+"/home/index?op="+HttpMessageEnum.LOGIN_FAILURE.name());
         }
     }
 
@@ -153,18 +162,27 @@ public class WechatController {
 
     @RequestMapping(value = "/getJsSDKConfig",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto getJsSDKConfig(String timestamp, String nonceStr, String url, HttpServletRequest request) {
+    public ResponseMessageDto getJsSDKConfig(String timestamp, String nonceStr, String url, HttpServletRequest request) throws IOException {
         ResponseMessageDto message = new ResponseMessageDto();
-        AccessTokenDto accessToken = wechatService.updateToken();
-
-        if(accessToken != null) {
-            String jsSDKSign = WechatUtil.getJsSDKSign(nonceStr, accessToken.getJsapiTicket(), timestamp, url);
-            JsSDKConfigDto jsSDKConfigDto = new JsSDKConfigDto();
-            jsSDKConfigDto.setAppId(appId);
-            jsSDKConfigDto.setNonceStr(nonceStr);
-            jsSDKConfigDto.setSignature(jsSDKSign);
-            jsSDKConfigDto.setTimestamp(timestamp);
-            message.setData(jsSDKConfigDto);
+//        AccessTokenDto accessToken = wechatService.updateToken();
+//
+//        if(accessToken != null) {
+//            String jsSDKSign = WechatUtil.getJsSDKSign(nonceStr, accessToken.getJsapiTicket(), timestamp, url);
+//            JsSDKConfigDto jsSDKConfigDto = new JsSDKConfigDto();
+//            jsSDKConfigDto.setAppId(appId);
+//            jsSDKConfigDto.setNonceStr(nonceStr);
+//            jsSDKConfigDto.setSignature(jsSDKSign);
+//            jsSDKConfigDto.setTimestamp(timestamp);
+//            message.setData(jsSDKConfigDto);
+//        }
+        String ccylUrl = Constants.PROPERTIES.getProperty("ccyl.url");
+        ccylUrl = ccylUrl.replace("TIME",timestamp).replace("STRING",nonceStr).replace("URL",url);
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(ccylUrl);
+        CloseableHttpResponse response = httpclient.execute(httpGet);
+        HttpEntity entity = response.getEntity();
+        if(entity != null) {
+            message.setData(EntityUtils.toString(entity));
         }
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
