@@ -281,7 +281,6 @@ CREATE PROCEDURE proce_init_day_questions()
     DECLARE cur_day_num INTEGER;
     DECLARE cur_order_num INTEGER;
     DECLARE cursor_day_question CURSOR FOR SELECT id FROM t_day_question WHERE date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d');
-    DECLARE cursor_top5_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE AND id > (SELECT ifnull(max(id),0) FROM t_day_question) ORDER BY id LIMIT 5;
 
     DECLARE cursor_top_xz_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='1' ORDER BY id LIMIT 2;
     DECLARE cursor_top_pd_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='2' ORDER BY id LIMIT 2;
