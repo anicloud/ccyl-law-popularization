@@ -76,11 +76,11 @@ public class ShareController {
         return message;
     }
 
-//    @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
-//    public void toThumbUp(Integer accountId,HttpServletResponse response) throws IOException {
-//        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId+"");
-//        response.sendRedirect(url);
-//    }
+    @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
+    public void toThumbUp(Integer accountId,HttpServletResponse response) throws IOException {
+        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId+"");
+        response.sendRedirect(url);
+    }
 
     @RequestMapping(value = "/thumbUp", method = RequestMethod.GET)
     @ResponseBody
