@@ -17,7 +17,7 @@
       text-align: center;
       background: #aee644 url("${pageContext.request.contextPath}/build/assets/images/computerBkg.jpg") center top no-repeat;
       background-attachment: fixed;
-      background-size: 100%;
+      background-size: 100%,100%;
       position: relative;
     }
     img {
@@ -44,8 +44,6 @@
 </noscript>
 <div class="subscribe">
   <img src="${pageContext.request.contextPath}/build/assets/images/qrcode.jpg" alt=""/>
-  <p class='text-center info'>扫描二维码，关注点击我要答题</p>
-  <p class="text-center msg">首次关注后点击好友分享才可以为好友点赞加分哦~</p>
 </div>
 <script src="${pageContext.request.contextPath}/build/assets/js/rem.js"></script>
 </body>
