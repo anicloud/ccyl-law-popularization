@@ -86,7 +86,7 @@ class ThumbUp extends Component {
                                         <p>点赞成功</p>
                                     </div>
                                     <div className='four'>
-                                        <p>我也要争做普法小先锋与好友PK赢奖品</p>
+                                        <p>我也要争当普法先锋，与好友PK赢奖品</p>
                                     </div>
                                 </div>
                                 <div className='text-center thumb-btn'>
@@ -104,7 +104,7 @@ class ThumbUp extends Component {
                                     </div>
                                     <div className='pull-right second'>
                                         <div>
-                                            <p>我正在争当普法小先锋，目前积分<span>{scoreInfo.totalScore}</span>，快来为我点赞，帮我增加积分赢取奖品哦~</p>
+                                            <p>为<span>{scoreInfo.toNickName}</span>增加积分领取奖品，力挺TA争当普法先锋</p>
                                         </div>
                                     </div>
                                 </div>
