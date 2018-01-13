@@ -37,25 +37,6 @@ class AnswerQuestion extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/score/findSelfRank`).then(function (response) {
-            if (response.data.data !== null) {
-                _this.setState({
-                    mySelfRank:response.data.data.ranking
-                });
-            }
-        }).catch(function(errors){
-            console.log(errors);
-        });
-        //剩余积分获取
-        axios.get(`${host}/score/findResidueScore`).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({
-                    scoreInfo: response.data.data
-                })
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
                 if (response.data.data !== null) {
@@ -65,6 +46,25 @@ class AnswerQuestion extends Component {
                 }else{
                     _this.setState({
                         isComplete: true
+                    });
+                    axios.get(`${host}/score/findSelfRank`).then(function (response) {
+                        if (response.data.data !== null) {
+                            _this.setState({
+                                mySelfRank:response.data.data.ranking
+                            });
+                        }
+                    }).catch(function(errors){
+                        console.log(errors);
+                    });
+                    //剩余积分获取
+                    axios.get(`${host}/score/findResidueScore`).then(function (response) {
+                        if (response.data.state === 0) {
+                            _this.setState({
+                                scoreInfo: response.data.data
+                            })
+                        }
+                    }).catch(function (errors) {
+                        console.log(errors);
                     });
                 }
             }
@@ -145,7 +145,7 @@ class AnswerQuestion extends Component {
                                </div>
                                <div className="sum-detail">
                                    <p className='first'>恭喜你！今日答对5题</p>
-                                   <p className='second'>当前积分：<span>{scoreInfo.score}</span></p>
+                                   <p className='second'>当前积分：<span>{scoreInfo.score?scoreInfo.score:0}</span></p>
                                    <p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>
                                </div>
                                <div className="sum-bottom">
