@@ -335,30 +335,62 @@ CREATE PROCEDURE proce_init_day_questions()
     DECLARE day_question_id INTEGER;
     DECLARE cur_day_num INTEGER;
     DECLARE cur_order_num INTEGER;
+    DECLARE awardId INTEGER;
+    DECLARE prodId VARCHAR(64);
+    DECLARE codeSecret VARCHAR(64);
+    DECLARE awardType INTEGER;
     DECLARE cursor_day_question CURSOR FOR SELECT id FROM t_day_question WHERE date_format(create_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d');
 
     DECLARE cursor_top_xz_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='1' ORDER BY id LIMIT 2;
     DECLARE cursor_top_pd_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and type='2' ORDER BY id LIMIT 2;
     DECLARE cursor_19max_question CURSOR FOR SELECT id FROM t_question WHERE is_del=FALSE and (type='3' or type='4') ORDER BY id LIMIT 1;
 
-    DECLARE cursor_top20_awards CURSOR FOR ((SELECT id,prod_id,code_secret,type FROM t_total_top20_awards WHERE is_del=FALSE AND type=5 LIMIT 1)
+    DECLARE cursor_top20_awards CURSOR FOR SELECT id,prod_id,code_secret,type FROM ((SELECT id,prod_id,code_secret,type FROM t_total_top20_awards WHERE is_del=FALSE AND type=5 LIMIT 1)
                                                 UNION
                                               (SELECT id,prod_id,code_secret,type FROM t_total_top20_awards WHERE is_del=FALSE AND type=6 LIMIT 1)
                                                 UNION
                                               (SELECT id,prod_id,code_secret,type FROM t_total_top20_awards WHERE is_del=FALSE AND type=7 LIMIT 1)
                                                 UNION
-                                              (SELECT id,prod_id,code_secret,type FROM t_total_top20_awards WHERE is_del=FALSE AND type=8 LIMIT 17)
-    );
+                                              (SELECT id,prod_id,code_secret,type FROM t_total_top20_awards WHERE is_del=FALSE AND type=8 LIMIT 17))t;
     DECLARE cursor_lucky20_awards CURSOR FOR SELECT id,prod_id,code_secret,type FROM t_total_lucky20_awards WHERE is_del=FALSE LIMIT 20;
-    DECLARE cursor_daily_awards CURSOR FOR ((SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=1 LIMIT 20)
+    DECLARE cursor_daily_awards CURSOR FOR SELECT id,prod_id,code_secret,type FROM ((SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=1 LIMIT 20)
                                                 UNION
-                                              (SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=2 LIMIT 20));
-
+                                              (SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=2 LIMIT 20))t;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
     SET flag=0;
     OPEN cursor_day_question;
     FETCH cursor_day_question INTO day_question_id;
     IF (flag=1) THEN
+      SET flag=0;
+      OPEN cursor_lucky20_awards;
+      FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
+      WHILE flag <> 1 DO
+        INSERT INTO t_lucky20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+        UPDATE t_total_lucky20_awards SET is_del=TRUE WHERE id=awardId;
+        FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
+      END WHILE;
+      CLOSE cursor_lucky20_awards;
+
+      SET flag=0;
+      OPEN cursor_top20_awards;
+      FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
+      WHILE flag <> 1 DO
+        INSERT INTO t_top20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+        UPDATE t_total_top20_awards SET is_del=TRUE WHERE id=awardId;
+        FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
+      END WHILE;
+      CLOSE cursor_top20_awards;
+
+      SET flag=0;
+      OPEN cursor_daily_awards;
+      FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
+      WHILE flag <> 1 DO
+        INSERT INTO t_daily_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+        UPDATE t_total_daily_awards SET is_del=TRUE WHERE id=awardId;
+        FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
+      END WHILE;
+      CLOSE cursor_daily_awards;
+
       SET cur_order_num = 1;
       SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2017-12-20')+1;
       SET flag=0;
