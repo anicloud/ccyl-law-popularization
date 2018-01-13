@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Random;
@@ -78,7 +79,7 @@ public class ShareController {
 
     @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
     public void toThumbUp(Integer accountId,HttpServletResponse response) throws IOException {
-        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI",Constants.PROPERTIES.getProperty("wechat.redirect.url")).replace("STATE",accountId+"");
+        String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI", URLEncoder.encode(Constants.PROPERTIES.getProperty("wechat.redirect.url"),"utf-8")).replace("STATE",accountId+"");
         response.sendRedirect(url);
     }
 

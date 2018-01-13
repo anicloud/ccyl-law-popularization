@@ -6,6 +6,7 @@ import com.ani.ccyl.leg.commons.enums.ExceptionEnum;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import com.ani.ccyl.leg.commons.exception.ParseExcelException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -13,6 +14,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,14 +27,8 @@ import java.util.List;
 public class ExcelUtil {
     public static List<QuestionDto> readFromExcel(QuestionTypeEnum type, String path, Integer fileId) {
         try {
-            InputStream inputStream = new FileInputStream(path);
             List<QuestionDto> questions = new ArrayList<>();
-            Workbook workbook;
-            if(path.substring(path.lastIndexOf(".")).equals("xls"))
-                workbook = new HSSFWorkbook(inputStream);
-            else
-                workbook = new XSSFWorkbook(OPCPackage.open(inputStream));
-            Sheet sheet = workbook.getSheetAt(0);
+            Sheet sheet = getWorkBook(path).getSheetAt(0);
             if(QuestionTypeEnum.CHOICE.getCode().equals(type.getCode())) {
                 Iterator<Row> iterator = sheet.iterator();
                 while (iterator.hasNext()) {
@@ -88,5 +85,14 @@ public class ExcelUtil {
             e.printStackTrace();
             throw new ParseExcelException(e.getMessage(), ExceptionEnum.PARSE_EXCEL_ERROR);
         }
+    }
+    private static Workbook getWorkBook(String path) throws IOException, InvalidFormatException {
+        Workbook workbook = null;
+        InputStream inputStream = new FileInputStream(path);
+        if(path.substring(path.lastIndexOf(".")).equals("xls"))
+            workbook = new HSSFWorkbook(inputStream);
+        else
+            workbook = new XSSFWorkbook(OPCPackage.open(inputStream));
+        return workbook;
     }
 }

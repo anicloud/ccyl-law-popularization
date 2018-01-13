@@ -82,6 +82,8 @@ public class QuestionServiceImpl implements QuestionService {
                     questionDto.setDayNum(dayNum);
                     resultDtos.add(questionDto);
                     dayQuestionMapper.insertSelective(dayQuestionPO);
+                    questionPO.setDel(true);
+                    questionMapper.updateByPrimaryKeySelective(questionPO);
                     i++;
                 }
             }
