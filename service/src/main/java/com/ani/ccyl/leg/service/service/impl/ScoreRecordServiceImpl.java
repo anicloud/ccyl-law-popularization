@@ -50,7 +50,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
             scoreRecordPO.setAccountId(accountId);
             ShareRelationPO shareRelationPO = shareRelationPersistenceService.findBySharedId(accountId);
-            if(shareRelationPO != null&&!shareRelationPO.getPartIn()) {
+            if(shareRelationPO != null&&!shareRelationPO.getIsPartIn()) {
                 ScoreRecordPO shareRecord = new ScoreRecordPO();
                 shareRecord.setAccountId(shareRelationPO.getShareId());
                 shareRecord.setScore(Constants.Score.INVITE_SC0RE);
@@ -58,7 +58,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 shareRecord.setSrcType(ScoreSrcTypeEnum.INVITE);
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
-                shareRelationPO.setPartIn(true);
+                shareRelationPO.setIsPartIn(true);
                 shareRelationMapper.updateByPrimaryKeySelective(shareRelationPO);
             }
             switch (srcType.getCode()) {

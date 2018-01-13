@@ -28,7 +28,7 @@ public class ShareRelationServiceImpl implements ShareRelationService {
         List<ShareRelationPO> shareRelationPOs = shareRelationMapper.select(relationPO);
         if(shareRelationPOs.size()==0) {
             relationPO.setShareId(shareId);
-            relationPO.setPartIn(isPartIn);
+            relationPO.setIsPartIn(isPartIn);
             shareRelationMapper.insertSelective(relationPO);
         }
     }
@@ -50,9 +50,9 @@ public class ShareRelationServiceImpl implements ShareRelationService {
         ShareRelationPO relationPO = new ShareRelationPO();
         List<InvitedDto> invitedDtos=new ArrayList<>();
 
-        relationPO.setSharedId(shareId);
-        relationPO.setPartIn(true);
-        List<ShareRelationPO> shareRelationPOS=shareRelationMapper.selectByShareId(shareId);
+        relationPO.setShareId(shareId);
+        relationPO.setIsPartIn(true);
+        List<ShareRelationPO> shareRelationPOS=shareRelationMapper.selectByShareId(relationPO);
         for (ShareRelationPO relationPO1:shareRelationPOS){
             AccountPO accountPO=accountMapper.selectByPrimaryKey(relationPO1.getSharedId());
             InvitedDto invitedDto =new InvitedDto(
