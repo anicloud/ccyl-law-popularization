@@ -15,7 +15,7 @@ class SharePrize extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scoreInfo: null,
+            scoreInfo: {},
             showToast: false,
             toastText: '分享成功',
             location: this.props.location.state? this.props.location.state : '/answer',
