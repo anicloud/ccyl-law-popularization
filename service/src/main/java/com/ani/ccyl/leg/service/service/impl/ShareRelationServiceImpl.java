@@ -51,6 +51,7 @@ public class ShareRelationServiceImpl implements ShareRelationService {
         List<InvitedDto> invitedDtos=new ArrayList<>();
 
         relationPO.setSharedId(shareId);
+        relationPO.setPartIn(true);
         List<ShareRelationPO> shareRelationPOS=shareRelationMapper.selectByShareId(shareId);
         for (ShareRelationPO relationPO1:shareRelationPOS){
             AccountPO accountPO=accountMapper.selectByPrimaryKey(relationPO1.getSharedId());

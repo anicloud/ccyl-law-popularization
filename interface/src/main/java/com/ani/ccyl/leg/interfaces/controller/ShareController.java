@@ -129,10 +129,10 @@ public class ShareController {
     }
     @RequestMapping(value = "/findInviteInfo", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessageDto findInviteInfo(Integer accountId){
+    public ResponseMessageDto findInviteInfo(HttpSession session){
         ResponseMessageDto message = new ResponseMessageDto();
-        List<InvitedDto> invitedDtos=shareRelationService.selectByShareId(accountId);
-       // message.s
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        List<InvitedDto> invitedDtos=shareRelationService.selectByShareId(accountDto.getId());
         message.setData(invitedDtos);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
