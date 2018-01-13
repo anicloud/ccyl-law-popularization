@@ -357,40 +357,41 @@ CREATE PROCEDURE proce_init_daily_info()
                                                 UNION
                                               (SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=2 LIMIT 10))t;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
+
+    SET flag=0;
+    OPEN cursor_lucky20_awards;
+    FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
+    WHILE flag <> 1 DO
+      INSERT INTO t_lucky20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+      UPDATE t_total_lucky20_awards SET is_del=TRUE WHERE id=awardId;
+      FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
+    END WHILE;
+    CLOSE cursor_lucky20_awards;
+
+    SET flag=0;
+    OPEN cursor_top20_awards;
+    FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
+    WHILE flag <> 1 DO
+      INSERT INTO t_top20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+      UPDATE t_total_top20_awards SET is_del=TRUE WHERE id=awardId;
+      FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
+    END WHILE;
+    CLOSE cursor_top20_awards;
+
+    SET flag=0;
+    OPEN cursor_daily_awards;
+    FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
+    WHILE flag <> 1 DO
+      INSERT INTO t_daily_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+      UPDATE t_total_daily_awards SET is_del=TRUE WHERE id=awardId;
+      FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
+    END WHILE;
+    CLOSE cursor_daily_awards;
+
     SET flag=0;
     OPEN cursor_day_question;
     FETCH cursor_day_question INTO day_question_id;
     IF (flag=1) THEN
-      SET flag=0;
-      OPEN cursor_lucky20_awards;
-      FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
-      WHILE flag <> 1 DO
-        INSERT INTO t_lucky20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
-        UPDATE t_total_lucky20_awards SET is_del=TRUE WHERE id=awardId;
-        FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
-      END WHILE;
-      CLOSE cursor_lucky20_awards;
-
-      SET flag=0;
-      OPEN cursor_top20_awards;
-      FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
-      WHILE flag <> 1 DO
-        INSERT INTO t_top20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
-        UPDATE t_total_top20_awards SET is_del=TRUE WHERE id=awardId;
-        FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
-      END WHILE;
-      CLOSE cursor_top20_awards;
-
-      SET flag=0;
-      OPEN cursor_daily_awards;
-      FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
-      WHILE flag <> 1 DO
-        INSERT INTO t_daily_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
-        UPDATE t_total_daily_awards SET is_del=TRUE WHERE id=awardId;
-        FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
-      END WHILE;
-      CLOSE cursor_daily_awards;
-
       SET cur_order_num = 1;
       SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2017-12-20')+1;
       SET flag=0;
