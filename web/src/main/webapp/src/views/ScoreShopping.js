@@ -184,9 +184,21 @@ class ScoreShopping extends Component{
         let _this = this;
         let userInfo = this.state.userInfo;
         let tencent_vip = _this.getCurrentAwardScore("TENCENT_VIP");
+        if(tencent_vip === null||tencent_vip===undefined){
+            tencent_vip = {};
+        }
         let ofo_Coupon = _this.getCurrentAwardScore("OFO_COUPON");
+        if(ofo_Coupon === null||ofo_Coupon===undefined){
+            ofo_Coupon = {};
+        }
         let five_coupon = _this.getCurrentAwardScore("FIVE_COUPON");
+        if(five_coupon === null||five_coupon===undefined){
+            five_coupon = {};
+        }
         let ten_coupon = _this.getCurrentAwardScore("TEN_COUPON");
+        if(ten_coupon === null||ten_coupon===undefined){
+            ten_coupon = {};
+        }
         return (
             <div className="root">
                 <div className="scoreshopping score-bg">
