@@ -40,6 +40,7 @@ class AnswerQuestion extends Component {
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
                 alert("response.data.state===0");
+                debugger;
                 if (response.data.data !== null) {
                     alert("response.data.data !== null");
                     _this.setState({
