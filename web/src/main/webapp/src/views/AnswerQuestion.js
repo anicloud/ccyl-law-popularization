@@ -18,7 +18,7 @@ class AnswerQuestion extends Component {
             location: '/home',
             question: null,
             showNext: false,
-            isComplete: false,
+            isComplete: true,
             mySelfRank:0,
             scoreInfo: null
         };
@@ -146,7 +146,7 @@ class AnswerQuestion extends Component {
                                </div>
                                <div className="sum-detail">
                                    <p className='first'>恭喜你！今日答对5题</p>
-                                   <p className='second'>当前积分：<span>{scoreInfo.totalScore}</span></p>
+                                   <p className='second'>当前积分：<span>{scoreInfo.score}</span></p>
                                    <p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>
                                </div>
                                <div className="sum-bottom">
