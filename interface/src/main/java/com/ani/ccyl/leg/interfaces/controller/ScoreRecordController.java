@@ -170,13 +170,16 @@ public class ScoreRecordController {
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
         Integer lastScore = totalScoreDto.getScore();
         List<MyAwardDto> myConvertAwards = scoreRecordService.findMyConvertAward(accountDto.getId());
-
         if(myConvertAwards!=null) {
             for(MyAwardDto myAwardsPO:myConvertAwards) {
                 lastScore = lastScore - myAwardsPO.getAwardType().findScore();
             }
         }
         totalScoreDto.setScore(lastScore);
+        if(totalScoreDto != null) {
+            totalScoreDto.setNickName(accountDto.getNickName());
+            totalScoreDto.setPortrait(accountDto.getPortrait());
+        }
         message.setData(totalScoreDto);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
