@@ -21,7 +21,6 @@ class AnswerQuestion extends Component {
             isComplete: false,
             mySelfRank:0,
             scoreInfo: null,
-            showLoading:true
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
@@ -38,6 +37,25 @@ class AnswerQuestion extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+            if (response.data.data !== null) {
+                _this.setState({
+                    mySelfRank:response.data.data.ranking
+                });
+            }
+        }).catch(function(errors){
+            console.log(errors);
+        });
+        //剩余积分获取
+        axios.get(`${host}/score/findResidueScore`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    scoreInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
                 if (response.data.data !== null) {
@@ -48,34 +66,11 @@ class AnswerQuestion extends Component {
                     _this.setState({
                         isComplete: true
                     });
-                    axios.get(`${host}/score/findSelfRank`).then(function (response) {
-                        if (response.data.data !== null) {
-                            _this.setState({
-                                mySelfRank:response.data.data.ranking
-                            });
-                        }
-                    }).catch(function(errors){
-                        console.log(errors);
-                    });
-                    //剩余积分获取
-                    axios.get(`${host}/score/findResidueScore`).then(function (response) {
-                        if (response.data.state === 0) {
-                            _this.setState({
-                                scoreInfo: response.data.data
-                            })
-                        }
-                    }).catch(function (errors) {
-                        console.log(errors);
-                    });
                 }
             }
         }).catch(function (errors) {
             console.log(errors);
         });
-        this.setState({
-            showLoading:false
-        });
-
     }
     handleShowNext() {
         this.setState((prevState) => {
@@ -161,7 +156,7 @@ class AnswerQuestion extends Component {
                                <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                            </div>
                         </div>
-                       <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
+                       <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                        <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                    </div>
                     ) : (null)
@@ -215,7 +210,7 @@ class AnswerQuestion extends Component {
                                         }
                                     </div>
                                 </div>
-                        <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
+                        <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                         <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                     </div>
                 )
