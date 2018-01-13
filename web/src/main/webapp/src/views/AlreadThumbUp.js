@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import {Toast} from 'react-weui';
 import {jsSdkConfig} from "../utils/index";
-import '../media/styles/thumb.less';
+import '../media/styles/alreadyThumb.less';
 
-class ThumbUp extends Component {
+class AlreadyThumbUp extends Component {
     constructor(props) {
         super(props);
         console.log(this.props);
@@ -78,4 +78,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(ThumbUp);
+export default connect(mapStateToProps)(AlreadyThumbUp);

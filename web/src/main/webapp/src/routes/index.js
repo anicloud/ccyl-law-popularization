@@ -34,6 +34,8 @@ import ThumbUp from '../views/ThumbUp';
 import UploadQuestion from '../views/UploadQuestion';
 /*展示邀请答题详情*/
 import ShowAnsQuesDetail from '../views/ShowAnsQuesDetail';
+/*二次点赞界面*/
+import AlreadyThumbUp from '../views/AlreadThumbUp.js';
 
 const Routes = () => (
     <Switch>
@@ -48,6 +50,7 @@ const Routes = () => (
         <Route exact path='/prize' component={SharePrize} />
         <Route exact path='/prize2' component={SharePrizeTwo} />
         <Route exact path='/prize3' component={SharePrizeThree} />
+        <Route path='/alreadythumb' component={AlreadyThumbUp} />
         <Route path='/thumb' component={ThumbUp} />
         <Route path='/home/index' component={Options} />
         <Route path='/signin' component={SignIn}/>
