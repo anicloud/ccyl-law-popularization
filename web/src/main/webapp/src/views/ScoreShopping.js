@@ -194,7 +194,7 @@ class ScoreShopping extends Component{
                         <br/>
                         <span>{userInfo.nickName}</span>
                         <br/>
-                        <span>剩余积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
+                        <span>剩余积分:<span className='detail-span'>{_this.state.awardInfo[0]?_this.state.awardInfo[0].myScore:0}</span>分</span>
                     </div>
                 </div>
                 <div className="bottomDiv">
