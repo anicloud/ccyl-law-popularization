@@ -20,7 +20,7 @@ class AnswerQuestion extends Component {
             showNext: false,
             isComplete: false,
             mySelfRank:0,
-            scoreInfo: null,
+            scoreInfo: {},
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
