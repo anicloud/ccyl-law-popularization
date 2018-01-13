@@ -88,7 +88,6 @@ public class ShareController {
     public ResponseMessageDto thumbUp(Integer toAccountId, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
         Boolean isThumbUp = scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId);
         if(!isThumbUp) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
