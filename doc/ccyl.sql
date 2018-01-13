@@ -159,8 +159,8 @@ DROP TABLE IF EXISTS `t__total_lucky20_awards`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t__total_lucky20_awards` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `prod_id` char(400) NOT NULL COMMENT '产品id',
-  `code_secret` char(400) NOT NULL COMMENT '卡密',
+  `prod_id` char(64) NOT NULL COMMENT '产品id',
+  `code_secret` char(64) NOT NULL COMMENT '卡密',
   `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
