@@ -17,15 +17,6 @@ class ScoreBoard extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/score/findSelfRank`).then(function (response) {
-            if (response.data.data !== null) {
-                _this.setState({
-                    myRankInfo: response.data.data
-                })
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        });
         axios.get(`${host}/score/findTop20`).then(function (response) {
             if (response.data.state === 0) {
                 if (response.data.data !== null) {
@@ -36,7 +27,16 @@ class ScoreBoard extends Component {
             }
         }).catch(function (errors) {
             console.log(errors);
-        })
+        });
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+            if (response.data.data !== null) {
+                _this.setState({
+                    myRankInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
     }
     render() {
         let rankingInfo = this.state.rankingInfo;
