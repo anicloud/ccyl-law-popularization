@@ -360,20 +360,20 @@ class MyScore extends Component {
                             <img src={billDetail} alt=""/>
                         </div>
                     </div>
-                    <div className="task clearfix">
+                    {/*<div className="task clearfix">
                         <div className="leftDiv">
                             <span>好友点赞</span>
                             <span className="desc">已被点赞{scoreInfo? scoreInfo.thumbUpCount : 0}次</span>
                             <span className="desc">获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分</span>
                         </div>
-                        {/*<div className='middleDiv'>
+                        {/!*<div className='middleDiv'>
                             获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分
-                        </div>*/}
+                        </div>*!/}
                         <div className="rightDiv" onClick={this.handleThumbUp}>
-                            {/*<img src={billDetail} alt=""/>*/}
+                            {/!*<img src={billDetail} alt=""/>*!/}
                             <i className='plus'></i>
                         </div>
-                    </div>
+                    </div>*/}
                     {/* <p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>*/}
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>

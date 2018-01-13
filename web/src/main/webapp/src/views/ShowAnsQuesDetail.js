@@ -54,7 +54,6 @@ class ShowAnsQuesDetail extends Component{
                 </div>
                 {
                     rankingInfo? (
-                        rankingInfo.length===0?(<div className='text-center ranking'><div className="middle">暂无邀请答题相关信息</div></div>):
                         rankingInfo.map(function (item, index) {
                             return (
                                 <div className='top-ranking clearfix'>
