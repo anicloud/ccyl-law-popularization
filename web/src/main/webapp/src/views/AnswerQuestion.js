@@ -161,7 +161,7 @@ class AnswerQuestion extends Component {
                                <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                            </div>
                         </div>
-                       <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                       <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
                        <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                    </div>
                     ) : (null)
