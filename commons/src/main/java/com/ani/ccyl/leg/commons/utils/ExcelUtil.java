@@ -2,6 +2,8 @@ package com.ani.ccyl.leg.commons.utils;
 
 
 import com.ani.ccyl.leg.commons.dto.QuestionDto;
+import com.ani.ccyl.leg.commons.dto.TotalAwardsDto;
+import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ExceptionEnum;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import com.ani.ccyl.leg.commons.exception.ParseExcelException;
@@ -12,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.util.StringUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -86,14 +89,39 @@ public class ExcelUtil {
             throw new ParseExcelException(e.getMessage(), ExceptionEnum.PARSE_EXCEL_ERROR);
         }
     }
+    public static List<TotalAwardsDto> readAwardsFromExcel(String path,AwardTypeEnum type) {
+        List<TotalAwardsDto> awardsDtos = new ArrayList<>();
+        try {
+            Sheet sheet = getWorkBook(path).getSheetAt(0);
+            if(sheet != null)
+            for(Row row:sheet) {
+                String cell1 = row.getCell(0).getStringCellValue();
+                String cell2 = row.getCell(1).getStringCellValue();
+                if(!StringUtils.isEmpty(cell1)) {
+                    TotalAwardsDto totalAwardsDto = new TotalAwardsDto();
+                    totalAwardsDto.setType(type);
+                    totalAwardsDto.setProdId(cell1);
+                    totalAwardsDto.setCodeSecret(cell2);
+                    awardsDtos.add(totalAwardsDto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ParseExcelException(e.getMessage(),ExceptionEnum.PARSE_EXCEL_ERROR);
+        }
+        return awardsDtos;
+    }
 
     private static Workbook getWorkBook(String path) throws IOException, InvalidFormatException {
         Workbook workbook = null;
-        InputStream inputStream = new FileInputStream(path);
-        if(path.substring(path.lastIndexOf(".")).equals("xls"))
+
+        try {
+            InputStream inputStream = new FileInputStream(path);
             workbook = new HSSFWorkbook(inputStream);
-        else
+        }catch (Exception e) {
+            InputStream inputStream = new FileInputStream(path);
             workbook = new XSSFWorkbook(OPCPackage.open(inputStream));
+        }
         return workbook;
     }
 }
