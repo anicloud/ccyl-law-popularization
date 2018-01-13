@@ -9,6 +9,8 @@ import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class ShareRelationServiceImpl implements ShareRelationService {
     }
 
     @Override
-    public List<InvitedDto> selectByShareId(Integer shareId) {
+    public List<InvitedDto> selectByShareId(Integer shareId) throws UnsupportedEncodingException {
         ShareRelationPO relationPO = new ShareRelationPO();
         List<InvitedDto> invitedDtos=new ArrayList<>();
 
@@ -57,9 +59,9 @@ public class ShareRelationServiceImpl implements ShareRelationService {
             AccountPO accountPO=accountMapper.selectByPrimaryKey(relationPO1.getSharedId());
             InvitedDto invitedDto =new InvitedDto(
                     accountPO.getId(),
-                    accountPO.getNickName(),
+                    URLDecoder.decode(accountPO.getNickName(),"utf-8"),
                     accountPO.getPortrait(),
-                    relationPO.getUpdateTime()
+                    relationPO1.getUpdateTime()
             );
             invitedDtos.add(invitedDto);
 
