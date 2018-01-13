@@ -103,7 +103,7 @@ public class WechatController {
     public void redirectNew(Integer toAccountId, String srcAccountJson, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         HttpSession session = request.getSession();
-        srcAccountJson = "{\"openid\":\"orf6ew_iTOFmBrXb9bG5b-IY2TeI\",\"nickname\":\"狂奔的蜗牛\",\"sex\":1,\"language\":\"zh_CN\",\"city\":\"石家庄\",\"province\":\"河北\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132\",\"privilege\":[]}";
+//        srcAccountJson = "{\"openid\":\"orf6ew_iTOFmBrXb9bG5b-IY2TeI\",\"nickname\":\"狂奔的蜗牛\",\"sex\":1,\"language\":\"zh_CN\",\"city\":\"石家庄\",\"province\":\"河北\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132\",\"privilege\":[]}";
         if(!StringUtils.isEmpty(srcAccountJson)) {
             AccountDto accountDto = accountService.insertAccount(JSONObject.fromObject(srcAccountJson));
             Subject subject = SecurityUtils.getSubject();
@@ -164,25 +164,16 @@ public class WechatController {
     @ResponseBody
     public ResponseMessageDto getJsSDKConfig(String timestamp, String nonceStr, String url, HttpServletRequest request) throws IOException {
         ResponseMessageDto message = new ResponseMessageDto();
-//        AccessTokenDto accessToken = wechatService.updateToken();
-//
-//        if(accessToken != null) {
-//            String jsSDKSign = WechatUtil.getJsSDKSign(nonceStr, accessToken.getJsapiTicket(), timestamp, url);
-//            JsSDKConfigDto jsSDKConfigDto = new JsSDKConfigDto();
-//            jsSDKConfigDto.setAppId(appId);
-//            jsSDKConfigDto.setNonceStr(nonceStr);
-//            jsSDKConfigDto.setSignature(jsSDKSign);
-//            jsSDKConfigDto.setTimestamp(timestamp);
-//            message.setData(jsSDKConfigDto);
-//        }
-        String ccylUrl = Constants.PROPERTIES.getProperty("ccyl.url");
-        ccylUrl = ccylUrl.replace("TIME",timestamp).replace("STRING",nonceStr).replace("URL",url);
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(ccylUrl);
-        CloseableHttpResponse response = httpclient.execute(httpGet);
-        HttpEntity entity = response.getEntity();
-        if(entity != null) {
-            message.setData(EntityUtils.toString(entity));
+        AccessTokenDto accessToken = wechatService.updateToken();
+
+        if(accessToken != null) {
+            String jsSDKSign = WechatUtil.getJsSDKSign(nonceStr, accessToken.getJsapiTicket(), timestamp, url);
+            JsSDKConfigDto jsSDKConfigDto = new JsSDKConfigDto();
+            jsSDKConfigDto.setAppId(appId);
+            jsSDKConfigDto.setNonceStr(nonceStr);
+            jsSDKConfigDto.setSignature(jsSDKSign);
+            jsSDKConfigDto.setTimestamp(timestamp);
+            message.setData(jsSDKConfigDto);
         }
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
