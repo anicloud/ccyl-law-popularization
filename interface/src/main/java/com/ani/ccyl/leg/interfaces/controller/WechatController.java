@@ -116,7 +116,7 @@ public class WechatController {
             response.addCookie(cookie);
             if(accountDto.getNew() && toAccountId != null) {
                 AccountDto toAccount = accountService.findById(toAccountId);
-                shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
+//                shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
             } else
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
@@ -148,9 +148,10 @@ public class WechatController {
                 Cookie cookie = new Cookie(Constants.LOGIN_COOKIE, String.valueOf(loginAccount.getId()));
                 cookie.setMaxAge(-1);
                 response.addCookie(cookie);
-                if(accountDto.getNew() && state.matches("^[0-9]+$")) {
+                if(state.matches("^[0-9]+$")) {
                     AccountDto toAccount = accountService.findById(Integer.parseInt(state));
-                    shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
+                    if(!accountDto.getNew())
+                        shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());

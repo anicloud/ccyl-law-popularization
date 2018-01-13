@@ -327,9 +327,9 @@ CREATE TABLE `t_share_relation` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-12-30 14:03:18
-DROP PROCEDURE IF EXISTS proce_init_day_questions;
+DROP PROCEDURE IF EXISTS proce_init_daily_info;
 DELIMITER $
-CREATE PROCEDURE proce_init_day_questions()
+CREATE PROCEDURE proce_init_daily_info()
   BEGIN
     DECLARE flag INTEGER;
     DECLARE day_question_id INTEGER;
@@ -353,9 +353,9 @@ CREATE PROCEDURE proce_init_day_questions()
                                                 UNION
                                               (SELECT id,prod_id,code_secret,type FROM t_total_top20_awards WHERE is_del=FALSE AND type=8 LIMIT 17))t;
     DECLARE cursor_lucky20_awards CURSOR FOR SELECT id,prod_id,code_secret,type FROM t_total_lucky20_awards WHERE is_del=FALSE LIMIT 20;
-    DECLARE cursor_daily_awards CURSOR FOR SELECT id,prod_id,code_secret,type FROM ((SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=1 LIMIT 20)
+    DECLARE cursor_daily_awards CURSOR FOR SELECT id,prod_id,code_secret,type FROM ((SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=1 LIMIT 10)
                                                 UNION
-                                              (SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=2 LIMIT 20))t;
+                                              (SELECT id,prod_id,code_secret,type FROM t_total_daily_awards WHERE is_del=FALSE AND type=2 LIMIT 10))t;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET flag=1;
     SET flag=0;
     OPEN cursor_day_question;
@@ -432,5 +432,5 @@ CREATE EVENT event_init_day_question
   ON SCHEDULE EVERY 1 DAY STARTS '2017-12-22 00:00:00'
   ON COMPLETION  PRESERVE
   ENABLE
-DO CALL proce_init_day_questions();
+DO CALL proce_init_daily_info();
 SET GLOBAL event_scheduler = 1;
