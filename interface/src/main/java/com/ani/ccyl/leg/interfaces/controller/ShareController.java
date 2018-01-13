@@ -92,6 +92,7 @@ public class ShareController {
         if(!isThumbUp) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
             scoreRecordPO.setAccountId(toAccountId);
+            scoreRecordPO.setSrcAccountId(accountDto.getId());
             scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
             scoreRecordPO.setScore(Constants.Score.THUMB_UP_SCORE);
             scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
