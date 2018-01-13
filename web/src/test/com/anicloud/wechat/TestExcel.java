@@ -8,6 +8,7 @@ import com.ani.ccyl.leg.commons.utils.ExcelUtil;
 import com.ani.ccyl.leg.persistence.mapper.TotalDailyAwardsMapper;
 import com.ani.ccyl.leg.persistence.mapper.TotalLucky20AwardsMapper;
 import com.ani.ccyl.leg.persistence.mapper.TotalTop20AwardsMapper;
+import com.ani.ccyl.leg.persistence.po.TotalDailyAwardsPO;
 import com.ani.ccyl.leg.persistence.po.TotalLucky20AwardsPO;
 import com.ani.ccyl.leg.persistence.po.TotalTop20AwardsPO;
 import org.junit.Test;
@@ -77,18 +78,18 @@ public class TestExcel {
         List<TotalAwardsDto> lucky = ExcelUtil.readAwardsFromExcel(luckyPath1,AwardTypeEnum.LUCKY);
         lucky.addAll(ExcelUtil.readAwardsFromExcel(luckyPath2,AwardTypeEnum.LUCKY));
         for(TotalAwardsDto totalAwardsDto:lucky) {
-            TotalTop20AwardsPO totalTop20AwardsPO = new TotalTop20AwardsPO(null,totalAwardsDto.getProdId(),totalAwardsDto.getCodeSecret(),totalAwardsDto.getType(),new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),false);
-            totalTop20AwardsMapper.insertSelective(totalTop20AwardsPO);
+            TotalLucky20AwardsPO luckyPO = new TotalLucky20AwardsPO(null,totalAwardsDto.getProdId(),totalAwardsDto.getCodeSecret(),totalAwardsDto.getType(),new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),false);
+            totalLucky20AwardsMapper.insertSelective(luckyPO);
         }
         List<TotalAwardsDto> conver1 = ExcelUtil.readAwardsFromExcel(convert1Path,AwardTypeEnum.TENCENT_VIP);
         for(TotalAwardsDto totalAwardsDto:conver1) {
-            TotalTop20AwardsPO totalTop20AwardsPO = new TotalTop20AwardsPO(null,totalAwardsDto.getProdId(),totalAwardsDto.getCodeSecret(),totalAwardsDto.getType(),new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),false);
-            totalTop20AwardsMapper.insertSelective(totalTop20AwardsPO);
+            TotalDailyAwardsPO dailyPO = new TotalDailyAwardsPO(null,totalAwardsDto.getProdId(),totalAwardsDto.getCodeSecret(),totalAwardsDto.getType(),new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),false);
+            totalDailyAwardsMapper.insertSelective(dailyPO);
         }
         List<TotalAwardsDto> convert2 = ExcelUtil.readAwardsFromExcel(convert2Path,AwardTypeEnum.OFO_COUPON);
         for(TotalAwardsDto totalAwardsDto:convert2) {
-            TotalTop20AwardsPO totalTop20AwardsPO = new TotalTop20AwardsPO(null,totalAwardsDto.getProdId(),totalAwardsDto.getCodeSecret(),totalAwardsDto.getType(),new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),false);
-            totalTop20AwardsMapper.insertSelective(totalTop20AwardsPO);
+            TotalDailyAwardsPO dailyPO = new TotalDailyAwardsPO(null,totalAwardsDto.getProdId(),totalAwardsDto.getCodeSecret(),totalAwardsDto.getType(),new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),false);
+            totalDailyAwardsMapper.insertSelective(dailyPO);
         }
 
     }
