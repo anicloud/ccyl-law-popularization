@@ -76,7 +76,7 @@ CREATE TABLE `t_account` (
 DROP TABLE IF EXISTS `t_total_daily_awards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_daily_awards` (
+CREATE TABLE `t_total_daily_awards` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `prod_id` char(32) NOT NULL COMMENT '产品id',
   `code_secret` char(64) NOT NULL COMMENT '卡密',
@@ -85,8 +85,8 @@ CREATE TABLE `t_daily_awards` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  KEY `t_daily_awards_is_del_key` (`is_del`),
-  KEY `t_daily_awards_type_key` (`type`)
+  KEY `t_total_daily_awards_is_del_key` (`is_del`),
+  KEY `t_total_daily_awards_type_key` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分兑换奖品总表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -118,7 +118,7 @@ CREATE TABLE `t_daily_awards` (
 DROP TABLE IF EXISTS `t_total_top20_awards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_top20_awards` (
+CREATE TABLE `t_total_top20_awards` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `prod_id` char(400) NOT NULL COMMENT '产品id',
   `code_secret` char(400) NOT NULL COMMENT '卡密',
@@ -127,9 +127,8 @@ CREATE TABLE `t_top20_awards` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `t_top20_awards_account_id_uk` (`account_id`),
-  KEY `t_top20_awards_is_del_key` (`is_del`),
-  KEY `t_top20_awards_type_key` (`type`)
+  KEY `t_total_top20_awards_is_del_key` (`is_del`),
+  KEY `t_total_top20_awards_type_key` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='前20奖品总表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -158,7 +157,7 @@ CREATE TABLE `t_top20_awards` (
 DROP TABLE IF EXISTS `t__total_lucky20_awards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_lucky20_awards` (
+CREATE TABLE `t__total_lucky20_awards` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `prod_id` char(400) NOT NULL COMMENT '产品id',
   `code_secret` char(400) NOT NULL COMMENT '卡密',
@@ -167,8 +166,8 @@ CREATE TABLE `t_lucky20_awards` (
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  KEY `t_lucky20_awards_is_del_key` (`is_del`),
-  KEY `t_lucky20_awards_type_key` (`type`)
+  KEY `t__total_lucky20_awards_is_del_key` (`is_del`),
+  KEY `t__total_lucky20_awards_type_key` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='幸运奖品总表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
