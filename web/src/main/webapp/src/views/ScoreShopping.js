@@ -183,6 +183,10 @@ class ScoreShopping extends Component{
     render(){
         let _this = this;
         let userInfo = this.state.userInfo;
+        let tencent_vip = _this.getCurrentAwardScore("TENCENT_VIP");
+        let ofo_Coupon = _this.getCurrentAwardScore("OFO_COUPON");
+        let five_coupon = _this.getCurrentAwardScore("FIVE_COUPON");
+        let ten_coupon = _this.getCurrentAwardScore("TEN_COUPON");
         return (
             <div className="root">
                 <div className="scoreshopping score-bg">
@@ -201,30 +205,34 @@ class ScoreShopping extends Component{
                     <div className="task">
                         <div className="leftDiv">
                             <span>腾讯视频会员月卡</span>
-                            <span className="desc">{_this.state.awardInfo.length===0?1000:_this.getCurrentAwardScore("TENCENT_VIP").score}积分</span>
+                            <span className="desc">{_this.state.awardInfo.length===0?1000:tencent_vip.score}积分</span>
+                            <span className="desc">剩余{tencent_vip.number?tencent_vip.number:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>_this.getCurrentAwardScore("TENCENT_VIP").score&&_this.getCurrentAwardScore("TENCENT_VIP").usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TENCENT_VIP")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>tencent_vip.score&&tencent_vip.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TENCENT_VIP")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
                             <span>摩拜用车券</span>
-                            <span className="desc">{_this.state.awardInfo.length===0?500:_this.getCurrentAwardScore("OFO_COUPON").score}积分</span>
+                            <span className="desc">{_this.state.awardInfo.length===0?500:ofo_Coupon.score}积分</span>
+                            <span className="desc">剩余{ofo_Coupon.number?ofo_Coupon.number:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>_this.getCurrentAwardScore("OFO_COUPON").score&&_this.getCurrentAwardScore("OFO_COUPON").usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("OFO_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>ofo_Coupon.score&&ofo_Coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("OFO_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
                             <span>购物优惠券(满49减5)</span>
-                            <span className="desc">{_this.state.awardInfo.length===0?200:_this.getCurrentAwardScore("FIVE_COUPON").score}积分</span>
+                            <span className="desc">{_this.state.awardInfo.length===0?200:five_coupon.score}积分</span>
+                            <span className="desc">剩余{five_coupon.number?five_coupon.number:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>_this.getCurrentAwardScore("FIVE_COUPON").score&&_this.getCurrentAwardScore("FIVE_COUPON").usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("FIVE_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>five_coupon.score&&five_coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("FIVE_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
                             <span>购物优惠券(满99减10)</span>
                             <span className="desc">{_this.state.awardInfo.length===0?100:_this.getCurrentAwardScore("TEN_COUPON").score}积分</span>
+                            <span className="desc">剩余{ten_coupon.number?ten_coupon.number:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>this.getCurrentAwardScore("TEN_COUPON").score&&this.getCurrentAwardScore("TEN_COUPON").usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TEN_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>ten_coupon.score&&ten_coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TEN_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
