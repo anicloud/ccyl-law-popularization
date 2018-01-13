@@ -18,7 +18,7 @@ class AnswerQuestion extends Component {
             location: '/home',
             question: null,
             showNext: false,
-            isComplete: true,
+            isComplete: false,
             mySelfRank:0,
             scoreInfo: null
         };
