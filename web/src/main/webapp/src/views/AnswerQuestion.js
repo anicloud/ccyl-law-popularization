@@ -39,14 +39,17 @@ class AnswerQuestion extends Component {
         const {host} = _this.props;
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
+                alert("response.data.state===0");
                 if (response.data.data !== null) {
+                    alert("response.data.data !== null");
                     _this.setState({
                         question: Map(response.data.data)
                     });
-                } else {
+                }else{
                     _this.setState({
                         isComplete: true
                     });
+                    alert("response.data.data === null");
                     axios.get(`${host}/score/findSelfRank`).then(function (response) {
                         if (response.data.data !== null) {
                             _this.setState({
@@ -66,7 +69,6 @@ class AnswerQuestion extends Component {
                     }).catch(function (errors) {
                         console.log(errors);
                     });
-
                 }
             }
         }).catch(function (errors) {
