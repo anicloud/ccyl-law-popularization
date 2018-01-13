@@ -20,7 +20,8 @@ class AnswerQuestion extends Component {
             showNext: false,
             isComplete: false,
             mySelfRank:0,
-            scoreInfo: null
+            scoreInfo: null,
+            showLoading:true
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
@@ -39,9 +40,7 @@ class AnswerQuestion extends Component {
         const {host} = _this.props;
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
-                alert("response.data.state===0");
                 if (response.data.data !== null) {
-                    alert("response.data.data !== null");
                     _this.setState({
                         question: Map(response.data.data)
                     });
@@ -49,7 +48,6 @@ class AnswerQuestion extends Component {
                     _this.setState({
                         isComplete: true
                     });
-                    alert("response.data.data === null");
                     axios.get(`${host}/score/findSelfRank`).then(function (response) {
                         if (response.data.data !== null) {
                             _this.setState({
@@ -73,7 +71,11 @@ class AnswerQuestion extends Component {
             }
         }).catch(function (errors) {
             console.log(errors);
-        })
+        });
+        this.setState({
+            showLoading:false
+        });
+
     }
     handleShowNext() {
         this.setState((prevState) => {
@@ -159,7 +161,7 @@ class AnswerQuestion extends Component {
                                <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                            </div>
                         </div>
-                       <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                       <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
                        <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                    </div>
                     ) : (null)
@@ -213,7 +215,7 @@ class AnswerQuestion extends Component {
                                         }
                                     </div>
                                 </div>
-                        <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                        <Toast icon="loading" show={this.state.showLoading}>Loading...</Toast>
                         <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                     </div>
                 )
