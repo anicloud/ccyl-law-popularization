@@ -154,10 +154,10 @@ CREATE TABLE `t_top20_awards` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日前20奖品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `t__total_lucky20_awards`;
+DROP TABLE IF EXISTS `t_total_lucky20_awards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t__total_lucky20_awards` (
+CREATE TABLE `t_total_lucky20_awards` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `prod_id` char(32) NOT NULL COMMENT '产品id',
   `code_secret` char(64) NOT NULL COMMENT '卡密',
