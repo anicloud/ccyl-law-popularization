@@ -282,6 +282,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             if((System.currentTimeMillis()-top20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
                 myAwardDto.setIsExpired(true);
             } else {
+                myAwardDto.setIsExpired(false);
                 myAwardDto.setCodeSecret(accountPersistenceService.findIsInfoComplete(accountId) ? top20AwardsPO.getCodeSecret() : "个人信息不完整");
             }
             myAwardDtos.add(myAwardDto);
