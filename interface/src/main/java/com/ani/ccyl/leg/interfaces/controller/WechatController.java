@@ -138,7 +138,6 @@ public class WechatController {
                 String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
                 String userInfoJson = userObj.toString();
-                System.out.print(userInfoJson);
                 AccountDto accountDto = accountService.insertAccount(userObj);
                 Subject subject = SecurityUtils.getSubject();
                 UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());
@@ -153,8 +152,13 @@ public class WechatController {
                     if(!accountDto.getNew())
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
-                } else
-                    response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
+                } else {
+                    if(userObj != null && userObj.containsKey("subscribe") && userObj.getInt("subscribe")==0) {
+                        response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.UNSUBSCRIBE.name());
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.LOGIN_SUCCESS.name());
+                    }
+                }
             } else if(tokenObj.containsKey("errcode")) {
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+HttpMessageEnum.LOGIN_FAILURE.name());
             }

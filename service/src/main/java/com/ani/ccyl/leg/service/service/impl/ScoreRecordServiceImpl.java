@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -389,12 +390,14 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public Map<String,Object> findIsTop20Yesterday(Integer accountId) {
+    public Map<String,Object> findIsTop20(Integer accountId) {
         Map<String,Object> resultMap = null;
         Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
         if(top20AwardsPO != null) {
             resultMap = new HashMap<>();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             resultMap.put("type",top20AwardsPO.getType());
+            resultMap.put("date",simpleDateFormat.format(top20AwardsPO.getUpdateTime()));
         }
         return resultMap;
     }

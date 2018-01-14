@@ -40,5 +40,5 @@ public interface ScoreRecordService {
     MySelfRankDto findSelfRank(Integer accountId);
 
 
-    Map<String,Object> findIsTop20Yesterday(Integer accountId);
+    Map<String,Object> findIsTop20(Integer accountId);
 }
