@@ -13,4 +13,7 @@
             END
         FROM (SELECT count(account_id) AS awardCount FROM t_daily_awards WHERE account_id=#{account_id} AND type=#{awardType} LIMIT 1)t
     </select>
+    <select id="find78Count" resultType="java.lang.Integer">
+        SELECT count(id) FROM ccyl.t_daily_awards WHERE type IN (7,8)
+    </select>
 </mapper>
