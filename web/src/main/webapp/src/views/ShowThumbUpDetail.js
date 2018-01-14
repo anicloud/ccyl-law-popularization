@@ -49,7 +49,7 @@ class ShowThumbUpDetail extends Component{
                         好友详情
                     </div>
                     <div className='pull-right second'>
-                        答题时间
+                        点赞时间
                     </div>
                 </div>
                 {
