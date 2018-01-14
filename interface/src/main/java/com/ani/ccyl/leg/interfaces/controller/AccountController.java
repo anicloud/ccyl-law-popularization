@@ -124,7 +124,7 @@ public class AccountController {
     public void getCsvFile(HttpServletResponse response) throws IOException {
         String csvFile = accountService.getCsvFile();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        response.setHeader("content-disposition", "attachment;filename="+simpleDateFormat.format(new Date()));
+        response.setHeader("content-disposition", "attachment;filename="+simpleDateFormat.format(new Date())+".csv");
         InputStream in = new FileInputStream(csvFile);
         int len = 0;
 

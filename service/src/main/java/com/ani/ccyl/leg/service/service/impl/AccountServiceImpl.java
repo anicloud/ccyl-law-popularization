@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -114,21 +115,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String getCsvFile() {
+    public String getCsvFile() throws UnsupportedEncodingException {
         List<CsvDto> csvDtos = new ArrayList<>();
         for(ProvinceEnum provinceEnum:ProvinceEnum.values()) {
             Map<String,Object> paramMap = new HashMap<>();
             paramMap.put("createTime", new Timestamp(System.currentTimeMillis()));
             paramMap.put("province", provinceEnum.getCode());
             List<ScoreRecordPO> provinceOrder = scoreRecordMapper.findProvinceOrder(paramMap);
-            if (provinceOrder != null)
+            if (provinceOrder != null) {
+                int order = 1;
                 for (ScoreRecordPO scoreRecordPO : provinceOrder) {
                     AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
                     CsvDto csvDto = new CsvDto(
-                            accountPO.getNickName(), accountPO.getProvince().getValue(), accountPO.getName(), accountPO.getPhone(), accountPO.getEmail(), accountPO.getSex() ? "男" : "女", accountPO.getOrgName(), accountPO.getAge() + "", null
+                            URLDecoder.decode(accountPO.getNickName(), "utf-8"), accountPO.getProvince().getValue(), accountPO.getName(), accountPO.getPhone(), accountPO.getEmail(), accountPO.getSex() ? "男" : "女", accountPO.getOrgName(), accountPO.getAge() + "", null
                     );
+                    csvDto.setProvinceOrder(String.valueOf(order));
                     csvDtos.add(csvDto);
+                    order++;
                 }
+            }
         }
         List<String> csvStrs = CSVUtil.getCsvStrings(csvDtos);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
