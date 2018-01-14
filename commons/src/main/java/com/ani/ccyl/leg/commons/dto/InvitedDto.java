@@ -45,10 +45,11 @@ public class InvitedDto {
     }
 
     public InvitedDto(Integer accountId, String nickName, String portrait, Timestamp updateTime) {
-
         this.accountId = accountId;
         this.nickName = nickName;
         this.portrait = portrait;
         this.updateTime = updateTime;
+    }
+    public InvitedDto() {
     }
 }
