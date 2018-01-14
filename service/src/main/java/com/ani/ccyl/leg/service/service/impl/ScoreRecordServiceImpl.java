@@ -208,6 +208,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         dailyAwardsPO.setDel(true);
         dailyAwardsPO.setAccountId(accountId);
         dailyAwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        if(awardType.getCode().equals(AwardTypeEnum.TEN_COUPON.getCode()) || awardType.getCode().equals(AwardTypeEnum.FIVE_COUPON.getCode())) {
+            DailyAwardsPO newDailyAwards = new DailyAwardsPO();
+            newDailyAwards.setDel(false);
+            newDailyAwards.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            newDailyAwards.setType(awardType);
+            newDailyAwards.setProdId(UUID.randomUUID().toString().replace("-", ""));
+            newDailyAwards.setDel(false);
+            dailyAwardsMapper.insertSelective(newDailyAwards);
+        }
         dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
     }
 

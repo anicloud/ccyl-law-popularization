@@ -71,7 +71,7 @@
         SELECT count(id) FROM t_score_record WHERE src_type=2 AND account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findProvinceOrder" parameterType="java.util.Map"  resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-        SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id IN (SELECT account_id FROM t_account WHERE province=#{province}) GROUP BY account_id ORDER BY total_score DESC,update_time ASC
+        SELECT *,sum(score) AS total_score FROM t_score_record WHERE log_date=date_format(#{createTime},'%Y-%m-%d') AND account_id IN (SELECT id FROM t_account WHERE province=#{province}) GROUP BY account_id ORDER BY total_score DESC,update_time ASC
     </select>
     <update id="cleanUpScore" parameterType="java.lang.Integer" >
         UPDATE t_score_record SET score=0 WHERE account_id=#{accountId}

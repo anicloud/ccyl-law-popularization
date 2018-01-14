@@ -122,7 +122,7 @@ public class AccountServiceImpl implements AccountService {
             paramMap.put("createTime", new Timestamp(System.currentTimeMillis()));
             paramMap.put("province", provinceEnum.getCode());
             List<ScoreRecordPO> provinceOrder = scoreRecordMapper.findProvinceOrder(paramMap);
-            if (provinceOrder != null) {
+            if (provinceOrder != null&&provinceOrder.size()>0) {
                 int order = 1;
                 for (ScoreRecordPO scoreRecordPO : provinceOrder) {
                     AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
