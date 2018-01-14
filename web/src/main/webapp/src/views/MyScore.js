@@ -88,7 +88,7 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+        /*axios.get(`${host}/score/findSelfRank`).then(function (response) {
             if (response.data.state === 0) {
                 _this.setState({
                     mySelfRank: response.data.data.ranking
@@ -96,7 +96,7 @@ class MyScore extends Component {
             }
         }).catch(function (errors) {
             console.log(errors);
-        });
+        });*/
         if(_this.props.location!==undefined&&_this.props.location!==null&&_this.props.location.state!==undefined&&_this.props.location.state!==null&&_this.props.location.state.ifFromRegist!==undefined&&_this.props.location.state.ifFromRegist!==null){
             console.log(_this.props.location.state.ifFromRegist);
             this.changeMyPrize();

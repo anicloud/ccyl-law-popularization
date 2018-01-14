@@ -13,15 +13,17 @@ public class AwardDto implements Serializable {
     private Boolean isUsedUp;
     private Integer score;
     private Integer myScore;
+    private Integer awardCount;
 
     public AwardDto() {
     }
 
-    public AwardDto(AwardTypeEnum awardType, Boolean isUsedUp, Integer score, Integer myScore) {
+    public AwardDto(AwardTypeEnum awardType, Boolean isUsedUp, Integer score, Integer myScore,Integer awardCount) {
         this.awardType = awardType;
         this.isUsedUp = isUsedUp;
         this.score = score;
         this.myScore = myScore;
+        this.awardCount = awardCount;
     }
 
     public Integer getMyScore() {
@@ -54,5 +56,13 @@ public class AwardDto implements Serializable {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public Integer getAwardCount() {
+        return awardCount;
+    }
+
+    public void setAwardCount(Integer awardCount) {
+        this.awardCount = awardCount;
     }
 }

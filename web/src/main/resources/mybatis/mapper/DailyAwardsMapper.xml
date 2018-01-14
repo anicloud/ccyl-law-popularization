@@ -13,4 +13,7 @@
             END
         FROM (SELECT count(account_id) AS awardCount FROM t_daily_awards WHERE account_id=#{account_id} AND type=#{awardType} LIMIT 1)t
     </select>
+    <select id="findCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_daily_awards WHERE type=#{type} AND is_del=0 AND account_id IS NULL
+    </select>
 </mapper>

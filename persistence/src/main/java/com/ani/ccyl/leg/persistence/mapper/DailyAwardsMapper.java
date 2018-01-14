@@ -11,4 +11,5 @@ import java.util.Map;
 public interface DailyAwardsMapper extends SysMapper<DailyAwardsPO>{
     DailyAwardsPO findByType(Integer type);
     Boolean findIsAwardToday(Map<String,Integer> map);
+    Integer findCount(Integer type);
 }
