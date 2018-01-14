@@ -10,6 +10,9 @@ class Options extends Component {
         let search = this.props.location.search;
         let opt = getSearchString(search, 'op');
         switch (opt) {
+            case 'UNSUBSCRIBE':
+                this.props.history.push('/error');
+                break;
             case 'LOGIN_SUCCESS':
                 this.props.history.push('/');
                 break;
