@@ -104,8 +104,15 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(accountId));
         if(questionDto == null) {
             List<QuestionDto> questionDtos = findDayQuestions();
-            if(questionDtos != null && questionDtos.size()>0)
-                questionDto = questionDtos.get(0);
+            if(questionDtos != null && questionDtos.size()>0) {
+                for(QuestionDto questionDto1:questionDtos) {
+                    if(questionDto1.getOrder() == 1) {
+                        questionDto = questionDto1;
+                        break;
+                    }
+                }
+            }
+
         } else {
             DayQuestionPO dayQuestionPO = dayQuestionMapper.selectByPrimaryKey(questionDto.getId());
             ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
@@ -115,8 +122,10 @@ public class QuestionServiceImpl implements QuestionService {
             Integer order = dayQuestionPO.getOrderNum();
             if(order<5) {
                 questionDto = QuestionAdapter.fromPO(dayQuestionMapper.findNewQuestion(order+1));
-                questionDto.setDayNum(dayQuestionPO.getDayNum());
-                questionDto.setOrder(order+1);
+                if(questionDto != null) {
+                    questionDto.setDayNum(dayQuestionPO.getDayNum());
+                    questionDto.setOrder(order + 1);
+                }
             } else if(order == 5){
                 ScoreRecordPO scoreRecordPO = scoreRecordPOs.get(0);
                 if(scoreRecordPO.getQuestionTime() == 1 && scoreRecordMapper.findDailyCorrectCount(accountId)<5) {

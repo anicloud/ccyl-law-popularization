@@ -77,7 +77,7 @@
         UPDATE t_score_record SET score=0 WHERE account_id=#{accountId}
     </update>
     <select id="selectByAccountId" parameterType="java.util.Map" resultType="com.ani.ccyl.leg.commons.dto.InvitedDto">
-        SELECT r.account_id as accountId,r.update_time AS updateTime,r1.nick_name as nickName,r1.portrait AS portrait from t_score_record r,t_account r1 WHERE r.account_id =#{accountId} AND r.src_type=#{srcType} AND r.src_account_id=r1.id ORDER by r.update_time
+        SELECT r.account_id as accountId,r.update_time AS updateTime,r1.nick_name as nickName,r1.portrait AS portrait from t_score_record r,t_account r1 WHERE r.account_id =#{accountId} AND r.src_type=#{srcType} AND r.src_account_id=r1.id ORDER by r.update_time DESC
     </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>

@@ -10,12 +10,6 @@ import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import com.ani.ccyl.leg.service.service.facade.ShareRelationService;
 import com.ani.ccyl.leg.service.service.facade.WechatService;
 import net.sf.json.JSONObject;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -43,7 +37,7 @@ public class WechatController {
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
     private String oauthTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.oauth.token.url");
     private String fetchUserInfoUrl = Constants.PROPERTIES.getProperty("wechat.fetch.user.info.url");
-    private String fetchIsSubscribe = Constants.PROPERTIES.getProperty("wechat.fetch.is.subscribe");
+    private String fetchIsSubscribeUrl = Constants.PROPERTIES.getProperty("wechat.fetch.is.subscribe");
     @Autowired
     private WechatService wechatService;
     @Autowired
@@ -153,9 +147,10 @@ public class WechatController {
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else {
-                    String subscribeUrl = fetchIsSubscribe.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
+                    AccessTokenDto accessTokenDto = wechatService.updateToken();
+                    String subscribeUrl = fetchIsSubscribeUrl.replace("ACCESS_TOKEN",accessTokenDto.getAccessToken()).replace("OPENID",openId);
                     JSONObject subscribeInfo = WechatUtil.httpRequest(subscribeUrl,"GET",null);
-                    if(subscribeInfo != null && subscribeInfo.getInt("subscribe")==0) {
+                    if(subscribeInfo != null && subscribeInfo.containsKey("subscribe")&&subscribeInfo.getString("subscribe").equals("0")) {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.UNSUBSCRIBE.name());
                     } else {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.LOGIN_SUCCESS.name());
