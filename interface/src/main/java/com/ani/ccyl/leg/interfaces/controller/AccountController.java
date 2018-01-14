@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lihui on 17-12-13.
@@ -118,5 +118,22 @@ public class AccountController {
         message.setState(ResponseStateEnum.OK);
         message.setData(add);
         return message;
+    }
+
+    @RequestMapping(value = "/getCsvFile",method = RequestMethod.GET)
+    public void getCsvFile(HttpServletResponse response) throws IOException {
+        String csvFile = accountService.getCsvFile();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        response.setHeader("content-disposition", "attachment;filename="+simpleDateFormat.format(new Date()));
+        InputStream in = new FileInputStream(csvFile);
+        int len = 0;
+
+        byte[] buffer = new byte[1024];
+        OutputStream out = response.getOutputStream();
+        while ((len = in.read(buffer)) > 0) {
+            out.write(buffer,0,len);
+        }
+        in.close();
+        out.close();
     }
 }

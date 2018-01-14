@@ -38,18 +38,10 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                 top20AwardsPO.setAccountId(scoreRecordPO.getAccountId());
                 top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20AwardsPO.setDel(true);
-                top20AwardsPO.setType(AwardTypeEnum.getTopEnum(order));
-                top20AwardsPO.setReceivedAward(false);
+                top20AwardsPO.setReceivedAward(true);
                 /*积分清零功能*/
                 DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
                 dailyAwardsParam.setAccountId(scoreRecordPO.getAccountId());
-                List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
-                Integer residueScore = 0;
-                if(dailyAwardsPOs!=null) {
-                    for (DailyAwardsPO dailyAwardsPO : dailyAwardsPOs) {
-                        residueScore = residueScore + dailyAwardsPO.getType().findScore();
-                    }
-                }
                 if(scoreRecordPO.getAccountId()!=null) {
                     scoreRecordMapper.cleanUpScore(scoreRecordPO.getAccountId());
                 }

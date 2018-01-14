@@ -19,5 +19,5 @@ public interface AccountService {
 
     Boolean findIsInfoCompleted(Integer id);
 
-    void getCsvFile(Integer accountId);
+    String getCsvFile();
 }
