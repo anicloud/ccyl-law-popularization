@@ -362,7 +362,7 @@ CREATE PROCEDURE proce_init_daily_info()
     OPEN cursor_lucky20_awards;
     FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
     WHILE flag <> 1 DO
-      INSERT INTO t_lucky20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+      INSERT INTO t_lucky20_awards(prod_id, code_secret, type,create_time) VALUES (prodId,codeSecret,awardType,now());
       UPDATE t_total_lucky20_awards SET is_del=TRUE WHERE id=awardId;
       FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
     END WHILE;
@@ -372,7 +372,7 @@ CREATE PROCEDURE proce_init_daily_info()
     OPEN cursor_top20_awards;
     FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
     WHILE flag <> 1 DO
-      INSERT INTO t_top20_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+      INSERT INTO t_top20_awards(prod_id, code_secret, type,create_time) VALUES (prodId,codeSecret,awardType,now());
       UPDATE t_total_top20_awards SET is_del=TRUE WHERE id=awardId;
       FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
     END WHILE;
@@ -382,7 +382,7 @@ CREATE PROCEDURE proce_init_daily_info()
     OPEN cursor_daily_awards;
     FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
     WHILE flag <> 1 DO
-      INSERT INTO t_daily_awards(prod_id, code_secret, type) VALUES (prodId,'123-123',awardType);
+      INSERT INTO t_daily_awards(prod_id, code_secret, type, create_time) VALUES (prodId,codeSecret,awardType,now());
       UPDATE t_total_daily_awards SET is_del=TRUE WHERE id=awardId;
       FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
     END WHILE;
@@ -393,7 +393,7 @@ CREATE PROCEDURE proce_init_daily_info()
     FETCH cursor_day_question INTO day_question_id;
     IF (flag=1) THEN
       SET cur_order_num = 1;
-      SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2017-12-20')+1;
+      SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2018-01-15')+1;
       SET flag=0;
       OPEN cursor_top_xz_question;
       FETCH cursor_top_xz_question INTO day_question_id;
@@ -430,7 +430,7 @@ CREATE PROCEDURE proce_init_daily_info()
 DELIMITER ;
 DROP EVENT event_init_day_question;
 CREATE EVENT event_init_day_question
-  ON SCHEDULE EVERY 1 DAY STARTS '2017-12-22 00:00:00'
+  ON SCHEDULE EVERY 1 DAY STARTS '2018-01-14 00:00:00'
   ON COMPLETION  PRESERVE
   ENABLE
 DO CALL proce_init_daily_info();
