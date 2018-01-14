@@ -33,6 +33,7 @@ class MyScore extends Component {
             showTishi:false,
             mySelfRank:0,
             ifTop20:false,
+            top20Time:'',
             tishiButtons: [
                 {
                     label: '补全信息',
@@ -97,7 +98,8 @@ class MyScore extends Component {
                    var s1 = day1.getFullYear()+"-" + (day1.getMonth()+1) + "-" + day1.getDate();
                    if(response.data.data.date === s1){
                        _this.setState({
-                           ifTop20:true
+                           ifTop20:true,
+                           top20Time:s1
                        });
                    }
                }
@@ -395,7 +397,7 @@ class MyScore extends Component {
                             <i className='plus'></i>
                         </div>
                     </div>
-                    {_this.state.ifTop20?(<p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>):(null)}
+                    {_this.state.ifTop20?(<p className='detail-info'>恭喜！你在{_this.state.top20Time}获得Top前20，请在"我的奖品"中查看奖品，积分已被自动清零一次，欢迎继续每日答题赢积分兑换奖品</p>):(null)}
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
                     {this.state.myAwardInfo.length===0?(

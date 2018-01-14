@@ -6,8 +6,69 @@ import {Toast} from 'react-weui';
 class App extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showTishi:false,
+            tishiButtons: [
+                {
+                    label: '确定',
+                    onClick: this.hideTishiDialog.bind(this)
+                }
+            ],
+            ifTop20:false,
+            ifShow:false,
+            top20Time:'',
+        };
         this.handleTouch = this.handleTouch.bind(this);
         this.handleSign = this.handleSign.bind(this);
+    }
+    componentDidMount() {
+        let _this = this;
+        const {host} = _this.props;
+        axios.get(`${host}/score/findIsTop20`).then(function (response) {
+            if (response.data.state === 0) {
+                if(response.data.data!==null){
+                    var day1 = new Date();
+                    day1.setTime(day1.getTime()-24*60*60*1000);
+                    var s1 = day1.getFullYear()+"-" + (day1.getMonth()+1) + "-" + day1.getDate();
+                    var ifShow = getCookie("ifShow");
+                    if(ifShow==="true"){
+                        _this.setState({
+                            ifShow:true
+                        })
+                    }
+                    if(response.data.data.date === s1&&_this.state.ifShow===false){
+                        _this.setState({
+                            ifTop20:true,
+                            top20Time:s1,
+                            showTishi:true
+                        });
+                    }
+                }
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
+    }
+
+    hideTishiDialog() {
+        this.setState({
+            showTishi: false,
+        });
+        setCookie("ifShow","true",1);
+    }
+    function setCookie(c_name,value,expiredays)
+    {
+        var exdate=new Date();
+        exdate.setDate(exdate.getDate()+expiredays);
+        document.cookie=c_name+ "=" +escape(value)+
+            ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+    }
+    function getCookie(name){
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
     }
     handleTouch(num) {
         switch (num) {
@@ -40,6 +101,7 @@ class App extends Component {
         this.props.history.push('/signin');
     }
     render() {
+        let _this = this;
         return (
             <div className="app main-bg">
                 <div className='text-center right-now'>
@@ -51,6 +113,10 @@ class App extends Component {
                     <div className='list-third' onClick={() => {this.handleTouch(3)}}>我的积分</div>
                     <div className='list-four' onClick={() => {this.handleTouch(3)}}>每日签到</div>
                 </div>
+                <Dialog type="ios" title="提示" buttons={this.state.tishiButtons} show={this.state.showTishi}>
+                    <br/>
+                    <p className='detail-info'>恭喜！你在{_this.state.top20Time}获得Top前20，请在"我的奖品"中查看奖品，积分已被自动清零一次，欢迎继续每日答题赢积分兑换奖品</p>
+                </Dialog>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
             </div>
         );
