@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import '../media/styles/error.less';
-import qrcode from '../media/imgs/qrcode.png';
+import qrcode from '../media/imgs/qrcode.bmp';
 
 class Error extends Component {
     render() {

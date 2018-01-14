@@ -126,6 +126,7 @@ class App extends Component {
 
 function mapStateToProps (state) {
     return {
+        host: state.host,
         showLoading: state.showLoading
     }
 }
