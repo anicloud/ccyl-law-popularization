@@ -137,7 +137,6 @@ public class WechatController {
                 String openId = tokenObj.getString("openid");
                 String userInfoUrl = fetchUserInfoUrl.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
                 JSONObject userObj = WechatUtil.httpRequest(userInfoUrl,"GET",null);
-                String userInfoJson = userObj.toString();
                 AccountDto accountDto = accountService.insertAccount(userObj);
                 Subject subject = SecurityUtils.getSubject();
                 UsernamePasswordToken token = new UsernamePasswordToken(accountDto.getOpenId(), accountDto.getAccountPwd());
@@ -153,7 +152,7 @@ public class WechatController {
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else {
-                    if(userObj != null && userObj.containsKey("subscribe") && userObj.getInt("subscribe")==0) {
+                    if(userObj.containsKey("subscribe") && userObj.getInt("subscribe")==0) {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.UNSUBSCRIBE.name());
                     } else {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.LOGIN_SUCCESS.name());
