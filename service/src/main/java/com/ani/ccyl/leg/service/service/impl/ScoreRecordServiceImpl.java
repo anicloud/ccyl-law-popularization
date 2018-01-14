@@ -208,11 +208,12 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         dailyAwardsPO.setDel(true);
         dailyAwardsPO.setAccountId(accountId);
         dailyAwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        if((awardType.getCode().equals(AwardTypeEnum.TEN_COUPON.getCode()) || awardType.getCode().equals(AwardTypeEnum.FIVE_COUPON.getCode())) && dailyAwardsMapper.find78Count()<20000) {
+        if((awardType.getCode().equals(AwardTypeEnum.TEN_COUPON.getCode()) || awardType.getCode().equals(AwardTypeEnum.FIVE_COUPON.getCode())) && dailyAwardsMapper.find34Count()<20000) {
             DailyAwardsPO newDailyAwards = new DailyAwardsPO();
             newDailyAwards.setDel(false);
             newDailyAwards.setCreateTime(new Timestamp(System.currentTimeMillis()));
             newDailyAwards.setType(awardType);
+            newDailyAwards.setCodeSecret("");
             newDailyAwards.setProdId(UUID.randomUUID().toString().replace("-", ""));
             dailyAwardsMapper.insertSelective(newDailyAwards);
         }
@@ -281,6 +282,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             if((System.currentTimeMillis()-top20AwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
                 myAwardDto.setIsExpired(true);
             } else {
+                myAwardDto.setIsExpired(false);
                 myAwardDto.setCodeSecret(accountPersistenceService.findIsInfoComplete(accountId) ? top20AwardsPO.getCodeSecret() : "个人信息不完整");
             }
             myAwardDtos.add(myAwardDto);
@@ -384,6 +386,17 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             mySelfRankDto.setPortrait(accountPO.getPortrait());
         }
         return mySelfRankDto;
+    }
+
+    @Override
+    public Map<String,Object> findIsTop20Yesterday(Integer accountId) {
+        Map<String,Object> resultMap = null;
+        Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
+        if(top20AwardsPO != null) {
+            resultMap = new HashMap<>();
+            resultMap.put("type",top20AwardsPO.getType());
+        }
+        return resultMap;
     }
 
 

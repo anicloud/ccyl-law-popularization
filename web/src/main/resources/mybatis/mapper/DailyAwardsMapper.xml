@@ -16,7 +16,7 @@
     <select id="findCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT count(*) FROM t_daily_awards WHERE type=#{type} AND is_del=0 AND account_id IS NULL
     </select>
-    <select id="find78Count" resultType="java.lang.Integer">
-        SELECT count(id) FROM ccyl.t_daily_awards WHERE type IN (7,8)
+    <select id="find34Count" resultType="java.lang.Integer">
+        SELECT count(id) FROM ccyl.t_daily_awards WHERE type IN (3,4)
     </select>
 </mapper>
