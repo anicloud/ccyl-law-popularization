@@ -19,5 +19,5 @@ public interface AccountService {
 
     Boolean findIsInfoCompleted(Integer id);
 
-    String getCsvFile();
+    String getCsvFile() throws UnsupportedEncodingException;
 }
