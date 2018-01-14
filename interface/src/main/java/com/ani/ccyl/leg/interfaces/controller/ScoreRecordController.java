@@ -220,4 +220,15 @@ public class ScoreRecordController {
         message.setData(scoreRecordService.findSelfRank(accountDto.getId()));
         return message;
     }
+
+    @RequestMapping(value = "/findIsTop20", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findIsTop20Yesterday(HttpSession session) {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        message.setData(scoreRecordService.findIsTop20Yesterday(accountDto.getId()));
+        message.setMsg("查询成功");
+        message.setState(ResponseStateEnum.OK);
+        return message;
+    }
 }

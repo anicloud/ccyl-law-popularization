@@ -8,6 +8,7 @@ import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lihui on 17-12-15.
@@ -39,4 +40,5 @@ public interface ScoreRecordService {
     MySelfRankDto findSelfRank(Integer accountId);
 
 
+    Map<String,Object> findIsTop20Yesterday(Integer accountId);
 }

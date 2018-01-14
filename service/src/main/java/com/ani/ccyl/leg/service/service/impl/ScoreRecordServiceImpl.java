@@ -388,5 +388,16 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         return mySelfRankDto;
     }
 
+    @Override
+    public Map<String,Object> findIsTop20Yesterday(Integer accountId) {
+        Map<String,Object> resultMap = null;
+        Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByAccountId(accountId);
+        if(top20AwardsPO != null) {
+            resultMap = new HashMap<>();
+            resultMap.put("type",top20AwardsPO.getType());
+        }
+        return resultMap;
+    }
+
 
 }
