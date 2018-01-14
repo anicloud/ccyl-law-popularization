@@ -200,7 +200,7 @@ class MyScore extends Component {
                         showMyPrize:false,
                     });
                 }else{
-                    this.setState({
+                    _this.setState({
                         currentAward:award,
                         showPrizeDetail: true,
                         showMyPrize: false,
