@@ -96,7 +96,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                     }
                     break;
                 case 5:
-                    if(scoreRecordMapper.findDailyShareCount(accountId)<5) {
+                    if(scoreRecordMapper.findDailyShareCount(accountId)==0) {
                         scoreRecordPO.setSrcType(ScoreSrcTypeEnum.SHARE);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordPO.setScore(score);
