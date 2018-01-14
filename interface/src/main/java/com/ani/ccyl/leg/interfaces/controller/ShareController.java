@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -152,6 +153,11 @@ public class ShareController {
         paramMap.put("accountId",accountDto.getId());
         paramMap.put("srcType",2);
         List<InvitedDto> invitedDtos=scoreRecordMapper.selectByAccountId(paramMap);
+        for(InvitedDto invitedDto : invitedDtos){
+            if(invitedDto.getNickName()!=null){
+                invitedDto.setNickName(URLDecoder.decode(invitedDto.getNickName(), "utf-8"));
+            }
+        }
         message.setData(invitedDtos);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");
