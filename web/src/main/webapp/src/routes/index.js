@@ -50,7 +50,6 @@ const Routes = () => (
         <Route exact path='/prize3' component={SharePrizeThree} />
         <Route path='/thumb' component={ThumbUp} />
         <Route path='/home/index' component={Options} />
-        <Route path='/signin' component={SignIn}/>
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />
         <Route path='/error' component={Error} />
