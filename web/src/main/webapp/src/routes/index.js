@@ -2,16 +2,12 @@ import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 /*首页*/
 import App from '../App';
-/*/!*引导页*!/
-import Main from '../views/Main'*/
 /*注册信息*/
 import Regist from '../views/Regist';
 /*每日答题*/
 import AnswerQuestion from '../views/AnswerQuestion';
 /*赛事说明*/
 import Description from '../views/Description';
-/*签到*/
-import SignIn from '../views/SignIn';
 /*前后端转接组件*/
 import Options from '../views/Options';
 /*错误页面*/
