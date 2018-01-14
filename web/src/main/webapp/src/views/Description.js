@@ -49,8 +49,8 @@ class Description extends Component {
                                                     <span className="label1">承办单位:</span>
                                                 </div>
                                                 <div>
-                                                    <span className="secondName">司法部法制宣传司</span>
                                                     <span className="secondName">团中央维护青少年权益部</span>
+                                                    <span className="secondName">司法部法制宣传司</span>
                                                     <span className="secondName">中国少年儿童发展服务中心</span>
                                                     <span className="secondName">中国青少年宫协会</span>
                                                 </div>
@@ -59,8 +59,8 @@ class Description extends Component {
                                                 </div>
                                                 <div>
                                                     <span className="secondName">中国青年网</span>
-                                                    <span className="secondName">青年之声互动社交平台</span>
                                                     <span className="secondName">青少年维权在线</span>
+                                                    <span className="secondName">青年之声互动社交平台</span>
                                                 </div>
                                             </div>
                                         </li>
