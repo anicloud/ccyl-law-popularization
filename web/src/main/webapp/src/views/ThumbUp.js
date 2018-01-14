@@ -105,7 +105,7 @@ class ThumbUp extends Component {
                                             <p>点赞成功</p>
                                         </div>
                                         <div className='four'>
-                                            <p>已有{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}人为好友{scoreInfo.NickName}点赞,增加积分{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}</p>
+                                            <p>已有<span className='detail-span'>{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}</span>人为好友{scoreInfo.NickName}点赞,增加<span className='detail-span'>{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}</span>积分</p>
                                             <p>我也要争当普法先锋，与好友PK赢奖品</p>
                                         </div>
                                     </div>
