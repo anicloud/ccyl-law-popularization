@@ -32,4 +32,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     Integer findDailyThumbUpCount(Integer accountId);
     List<ScoreRecordPO> findProvinceOrder(Map<String,Object> paramMap);
     void cleanUpScore(Integer accountId);
+    Integer findThumbUpCount(Integer accountId);
 }

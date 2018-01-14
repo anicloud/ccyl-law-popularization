@@ -8,14 +8,24 @@ public class ThumbUpDto implements Serializable {
     private String toNickName;
     private Integer totalScore;
     private Boolean isThumbUp;
+    private Integer thumbUpCount;
     private Integer accountId;
 
-    public ThumbUpDto(String toPortrait, String toNickName, Integer totalScore, Boolean isThumbUp,Integer accountId) {
+    public ThumbUpDto(String toPortrait, String toNickName, Integer totalScore, Boolean isThumbUp,Integer accountId, Integer thumbUpCount) {
         this.toPortrait = toPortrait;
         this.toNickName = toNickName;
         this.totalScore = totalScore;
         this.isThumbUp = isThumbUp;
         this.accountId = accountId;
+        this.thumbUpCount = thumbUpCount;
+    }
+
+    public Integer getThumbUpCount() {
+        return thumbUpCount;
+    }
+
+    public void setThumbUpCount(Integer thumbUpCount) {
+        this.thumbUpCount = thumbUpCount;
     }
 
     public ThumbUpDto() {
