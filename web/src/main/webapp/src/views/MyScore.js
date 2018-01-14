@@ -14,6 +14,8 @@ import share from '../media/imgs/share.png';
 import foot from '../media/imgs/foot.png';
 import copy from "copy-to-clipboard";
 import "../media/styles/myscore.less";
+import five from "../media/imgs/five.jpg";
+import ten from "../media/imgs/ten.jpg";
 
 class MyScore extends Component {
     constructor(props) {
@@ -72,6 +74,15 @@ class MyScore extends Component {
             if (response.data.state === 0) {
                 _this.setState({
                     scoreInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    mySelfRank: response.data.data.ranking
                 })
             }
         }).catch(function (errors) {
@@ -275,16 +286,16 @@ class MyScore extends Component {
                 result = "购物优惠券";
                 break;
             case "TOP_1":
-                result = "京东购物卡";
+                result = "京东购物卡(积分清零)";
                 break;
             case "TOP_2":
-                result = "京东购物卡";
+                result = "京东购物卡(积分清零)";
                 break;
             case "TOP_3":
-                result = "京东购物卡";
+                result = "京东购物卡(积分清零)";
                 break;
             case "TOP_4S":
-                result = "腾讯视频会员月卡";
+                result = "腾讯视频会员月卡(积分清零)";
                 break;
             case "LUCKY":
                 result = "摩拜单车骑行券";
@@ -404,7 +415,7 @@ class MyScore extends Component {
                 </Dialog>
                 <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)} buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
                     {/*this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret}></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>*/}
-                    {this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret} className="srcImg"></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
+                    {this.state.currentAward.awardType==="FIVE_COUPON"?<img src={five} className="srcImg"></img>:this.state.currentAward.awardType==="TEN_COUPON"?<img src={ten} className="srcImg"></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
                 </Dialog>
                 <Dialog type="ios" title="提示" buttons={this.state.tishiButtons} show={this.state.showTishi}>
                     <br/>
