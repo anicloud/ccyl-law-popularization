@@ -214,7 +214,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             newDailyAwards.setCreateTime(new Timestamp(System.currentTimeMillis()));
             newDailyAwards.setType(awardType);
             newDailyAwards.setProdId(UUID.randomUUID().toString().replace("-", ""));
-            newDailyAwards.setDel(false);
             dailyAwardsMapper.insertSelective(newDailyAwards);
         }
         dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
