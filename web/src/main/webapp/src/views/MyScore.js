@@ -174,6 +174,7 @@ class MyScore extends Component {
     hideTiShiDialog(){
         this.setState({
             showTishi: false,
+            showMyPrize:true
         });
     }
     hideMyPrizeDialog() {
@@ -196,6 +197,7 @@ class MyScore extends Component {
                 if(response.data.data===false){
                     _this.setState({
                         showTishi:true,
+                        showMyPrize:false,
                     });
                 }else{
                     this.setState({
