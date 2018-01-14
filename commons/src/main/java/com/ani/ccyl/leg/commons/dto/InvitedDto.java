@@ -7,10 +7,10 @@ import java.util.Date;
  * Created by zhanglina on 18-1-10.
  */
 public class InvitedDto {
-    Integer accountId;
-    String nickName;
-    String portrait;
-    Timestamp updateTime;
+    private Integer accountId;
+    private String nickName;
+    private String portrait;
+    private Timestamp updateTime;
 
     public Integer getAccountId() {
         return accountId;

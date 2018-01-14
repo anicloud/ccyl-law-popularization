@@ -60,11 +60,11 @@ public class ShareRelationPO implements Serializable {
         this.sharedId = sharedId;
     }
 
-    public Boolean getPartIn() {
+    public Boolean getIsPartIn() {
         return isPartIn;
     }
 
-    public void setPartIn(Boolean partIn) {
+    public void setIsPartIn(Boolean partIn) {
         isPartIn = partIn;
     }
 

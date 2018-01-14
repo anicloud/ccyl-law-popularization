@@ -9,6 +9,6 @@ import java.util.List;
  * Created by lihui on 17-12-21.
  */
 public interface ShareRelationMapper extends SysMapper<ShareRelationPO> {
-    public List<ShareRelationPO> selectByShareId(Integer shareId);
+    List<ShareRelationPO> selectByShareId(ShareRelationPO relationPO);
 
 }
