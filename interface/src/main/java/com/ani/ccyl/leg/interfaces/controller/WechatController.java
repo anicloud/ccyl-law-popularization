@@ -43,6 +43,7 @@ public class WechatController {
     private String appSecret = Constants.PROPERTIES.getProperty("wechat.appsecret");
     private String oauthTokenUrl = Constants.PROPERTIES.getProperty("wechat.access.oauth.token.url");
     private String fetchUserInfoUrl = Constants.PROPERTIES.getProperty("wechat.fetch.user.info.url");
+    private String fetchIsSubscribe = Constants.PROPERTIES.getProperty("wechat.fetch.is.subscribe");
     @Autowired
     private WechatService wechatService;
     @Autowired
@@ -152,7 +153,9 @@ public class WechatController {
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else {
-                    if(userObj.containsKey("subscribe") && userObj.getInt("subscribe")==0) {
+                    String subscribeUrl = fetchIsSubscribe.replace("ACCESS_TOKEN",accessToken).replace("OPENID",openId);
+                    JSONObject subscribeInfo = WechatUtil.httpRequest(subscribeUrl,"GET",null);
+                    if(subscribeInfo != null && subscribeInfo.getInt("subscribe")==0) {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.UNSUBSCRIBE.name());
                     } else {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.LOGIN_SUCCESS.name());
