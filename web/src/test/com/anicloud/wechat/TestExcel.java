@@ -5,12 +5,15 @@ import com.ani.ccyl.leg.commons.dto.TotalAwardsDto;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.QuestionTypeEnum;
 import com.ani.ccyl.leg.commons.utils.ExcelUtil;
+import com.ani.ccyl.leg.persistence.mapper.QuestionMapper;
 import com.ani.ccyl.leg.persistence.mapper.TotalDailyAwardsMapper;
 import com.ani.ccyl.leg.persistence.mapper.TotalLucky20AwardsMapper;
 import com.ani.ccyl.leg.persistence.mapper.TotalTop20AwardsMapper;
+import com.ani.ccyl.leg.persistence.po.QuestionPO;
 import com.ani.ccyl.leg.persistence.po.TotalDailyAwardsPO;
 import com.ani.ccyl.leg.persistence.po.TotalLucky20AwardsPO;
 import com.ani.ccyl.leg.persistence.po.TotalTop20AwardsPO;
+import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +35,52 @@ public class TestExcel {
     private TotalDailyAwardsMapper  totalDailyAwardsMapper;
     @Autowired
     private TotalTop20AwardsMapper totalTop20AwardsMapper;
+    @Autowired
+    private QuestionMapper questionMapper;
     @Test
     public void testReadChoice() {
-        List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.CHOICE, "/home/lihui/choice.xlsx", null);
+        List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.CHOICE, "C:\\choice.xlsx", null);
+        List<QuestionPO> questionPOs = QuestionAdapter.fromDtoList(questionDtos);
+        if(questionPOs != null) {
+            for(QuestionPO questionPO:questionPOs) {
+                questionMapper.insertSelective(questionPO);
+            }
+        }
         System.out.print(questionDtos.size());
     }
 
     @Test
     public void testReadJudge() {
-        List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.JUDGEMENT,"/home/lihui/judge.xlsx",null);
+        List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.JUDGEMENT,"C:\\judge.xlsx",null);
+        List<QuestionPO> questionPOs = QuestionAdapter.fromDtoList(questionDtos);
+        if(questionPOs != null) {
+            for(QuestionPO questionPO:questionPOs) {
+                questionMapper.insertSelective(questionPO);
+            }
+        }
+        System.out.print(questionDtos.size());
+    }
+    @Test
+    public void testPeopleJudge() {
+        List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.NINETEENJUDGEMENT,"C:\\peopleJudge.xlsx",null);
+        List<QuestionPO> questionPOs = QuestionAdapter.fromDtoList(questionDtos);
+        if(questionPOs != null) {
+            for(QuestionPO questionPO:questionPOs) {
+                questionMapper.insertSelective(questionPO);
+            }
+        }
+        System.out.print(questionDtos.size());
+    }
+
+    @Test
+    public void testPeoleChoice() {
+        List<QuestionDto> questionDtos = ExcelUtil.readFromExcel(QuestionTypeEnum.NINETEENCHOICE,"C:\\peopleChoice.xlsx",null);
+        List<QuestionPO> questionPOs = QuestionAdapter.fromDtoList(questionDtos);
+        if(questionPOs != null) {
+            for(QuestionPO questionPO:questionPOs) {
+                questionMapper.insertSelective(questionPO);
+            }
+        }
         System.out.print(questionDtos.size());
     }
 
