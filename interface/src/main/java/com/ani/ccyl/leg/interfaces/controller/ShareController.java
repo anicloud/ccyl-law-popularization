@@ -26,7 +26,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -135,6 +137,21 @@ public class ShareController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         List<InvitedDto> invitedDtos=shareRelationService.selectByShareId(accountDto.getId());
+        message.setData(invitedDtos);
+        message.setState(ResponseStateEnum.OK);
+        message.setMsg("查询成功");
+        return message;
+    }
+
+    @RequestMapping(value = "/findThumbListInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessageDto findThumbListInfo(HttpSession session) throws UnsupportedEncodingException {
+        ResponseMessageDto message = new ResponseMessageDto();
+        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        Map<String,Object> paramMap = new HashMap<String,Object>();
+        paramMap.put("accountId",accountDto.getId());
+        paramMap.put("srcType",2);
+        List<InvitedDto> invitedDtos=scoreRecordMapper.selectByAccountId(paramMap);
         message.setData(invitedDtos);
         message.setState(ResponseStateEnum.OK);
         message.setMsg("查询成功");

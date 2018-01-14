@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.persistence.mapper;
 
+import com.ani.ccyl.leg.commons.dto.InvitedDto;
 import com.ani.ccyl.leg.commons.dto.ScoreRecordDto;
 import com.ani.ccyl.leg.commons.dto.TotalScoreDto;
 import com.ani.ccyl.leg.commons.dto.MySelfRankDto;
@@ -33,4 +34,5 @@ public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     List<ScoreRecordPO> findProvinceOrder(Map<String,Object> paramMap);
     void cleanUpScore(Integer accountId);
     Integer findThumbUpCount(Integer accountId);
+    List<InvitedDto> selectByAccountId(Map<String,Object> paramMap);
 }
