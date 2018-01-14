@@ -54,21 +54,22 @@ class ShowThumbUpDetail extends Component{
                 </div>
                 {
                     rankingInfo? (
-                        rankingInfo.map(function (item, index) {
-                            return (
-                                <div className='top-ranking clearfix'>
-                                    <div className='pull-left first'>
-                                        <img src={item.portrait} alt=""/>
+                        rankingInfo.length===0?(<div className='text-center ranking'><div className="middle">暂无点赞相关信息</div></div>):
+                            rankingInfo.map(function (item, index) {
+                                return (
+                                    <div className='top-ranking clearfix'>
+                                        <div className='pull-left first'>
+                                            <img src={item.portrait} alt=""/>
+                                        </div>
+                                        <div className='pull-left second'>
+                                            <div>{item.nickName}</div>
+                                        </div>
+                                        <div className='pull-right third'>{item.updateTime}</div>
                                     </div>
-                                    <div className='pull-left second'>
-                                        <div>{item.nickName}</div>
-                                    </div>
-                                    <div className='pull-right third'>{item.updateTime}</div>
-                                </div>
-                            );
-                        })
+                                );
+                            })
                     ) : (
-                        <div className='text-center ranking'><div className="middle">暂无邀请答题相关信息</div></div>
+                        <div className='text-center ranking'><div className="middle">暂无点赞相关信息</div></div>
                     )
                 }
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>

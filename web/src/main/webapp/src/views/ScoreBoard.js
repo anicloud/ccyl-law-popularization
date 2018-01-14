@@ -72,22 +72,22 @@ class ScoreBoard extends Component {
                     ) : (null)
                 }
                 {
-                    rankingInfo? (
-                        rankingInfo.map(function (item, index) {
-                            return (
-                                <div className='top-ranking clearfix'>
-                                    <div className='pull-left first'>
-                                        <img src={item.portrat} alt=""/>
+                    rankingInfo?(
+                            rankingInfo.map(function (item, index) {
+                                return (
+                                    <div className='top-ranking clearfix'>
+                                        <div className='pull-left first'>
+                                            <img src={item.portrat} alt=""/>
+                                        </div>
+                                        <div className='pull-left second'>
+                                            <div>{item.score}</div>
+                                            <div>{item.name}</div>
+                                        </div>
+                                        <div className='pull-right third'>{index + 1}</div>
                                     </div>
-                                    <div className='pull-left second'>
-                                        <div>{item.score}</div>
-                                        <div>{item.name}</div>
-                                    </div>
-                                    <div className='pull-right third'>{index + 1}</div>
-                                </div>
-                            );
-                        })
-                    ) : (
+                                );
+                            })
+                        ) : (
                         <div className='text-center ranking'><div className="middle">暂无荣耀榜相关信息</div></div>
                     )
                 }
