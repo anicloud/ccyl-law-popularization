@@ -32,6 +32,7 @@ class MyScore extends Component {
             timer:null,
             showTishi:false,
             mySelfRank:0,
+            ifTop20:false,
             tishiButtons: [
                 {
                     label: '补全信息',
@@ -88,15 +89,22 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        /*axios.get(`${host}/score/findSelfRank`).then(function (response) {
+        axios.get(`${host}/score/findIsTop20`).then(function (response) {
             if (response.data.state === 0) {
-                _this.setState({
-                    mySelfRank: response.data.data.ranking
-                })
+               if(response.data.data!==null){
+                   var day1 = new Date();
+                   day1.setTime(day1.getTime()-24*60*60*1000);
+                   var s1 = day1.getFullYear()+"-" + (day1.getMonth()+1) + "-" + day1.getDate();
+                   if(response.data.data.date === s1){
+                       _this.setState({
+                           ifTop20:true
+                       });
+                   }
+               }
             }
         }).catch(function (errors) {
             console.log(errors);
-        });*/
+        });
         if(_this.props.location!==undefined&&_this.props.location!==null&&_this.props.location.state!==undefined&&_this.props.location.state!==null&&_this.props.location.state.ifFromRegist!==undefined&&_this.props.location.state.ifFromRegist!==null){
             console.log(_this.props.location.state.ifFromRegist);
             this.changeMyPrize();
@@ -387,7 +395,7 @@ class MyScore extends Component {
                             <i className='plus'></i>
                         </div>
                     </div>
-                    {/* <p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>*/}
+                    {_this.state.ifTop20?(<p className='detail-info'>恭喜！你已进入Top20，请在我的奖品中查看奖品！领取奖品，积分会被清零一次，继续每日答题将会获得积分。</p>):(null)}
                 </div>
                 <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
                     {this.state.myAwardInfo.length===0?(
