@@ -4,21 +4,28 @@ import com.ani.ccyl.leg.commons.constants.Constants;
 import com.ani.ccyl.leg.commons.dto.AccountDto;
 import com.ani.ccyl.leg.commons.dto.CsvDto;
 import com.ani.ccyl.leg.commons.enums.ProvinceEnum;
+import com.ani.ccyl.leg.commons.utils.CSVUtil;
 import com.ani.ccyl.leg.commons.utils.Encrypt;
 import com.ani.ccyl.leg.commons.utils.ExcelUtil;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
+import com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper;
 import com.ani.ccyl.leg.persistence.po.AccountPO;
+import com.ani.ccyl.leg.persistence.po.ScoreRecordPO;
 import com.ani.ccyl.leg.persistence.service.facade.AccountPersistenceService;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lihui on 17-12-12.
@@ -29,6 +36,10 @@ public class AccountServiceImpl implements AccountService {
     private AccountMapper accountMapper;
     @Autowired
     private AccountPersistenceService accountPersistenceService;
+    @Autowired
+    private ScoreRecordMapper scoreRecordMapper;
+    @Value("${base.file.path}")
+    private String baseFilePath;
     @Override
     public AccountDto insertAccount(JSONObject wechatObj) throws UnsupportedEncodingException {
         String openId = wechatObj.getString("openid");
@@ -103,10 +114,31 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void getCsvFile(Integer accountId) {
-        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
-        CsvDto csvDto = new CsvDto(
-                accountPO.getNickName(),accountPO.getProvince().getValue(),accountPO.getName(),accountPO.getPhone(),accountPO.getEmail(),accountPO.getSex()?"男":"女",accountPO.getOrgName(),accountPO.getAge()+"",null
-        );
+    public String getCsvFile() {
+        List<CsvDto> csvDtos = new ArrayList<>();
+        for(ProvinceEnum provinceEnum:ProvinceEnum.values()) {
+            Map<String,Object> paramMap = new HashMap<>();
+            paramMap.put("createTime", new Timestamp(System.currentTimeMillis()));
+            paramMap.put("province", provinceEnum.getCode());
+            List<ScoreRecordPO> provinceOrder = scoreRecordMapper.findProvinceOrder(paramMap);
+            if (provinceOrder != null)
+                for (ScoreRecordPO scoreRecordPO : provinceOrder) {
+                    AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
+                    CsvDto csvDto = new CsvDto(
+                            accountPO.getNickName(), accountPO.getProvince().getValue(), accountPO.getName(), accountPO.getPhone(), accountPO.getEmail(), accountPO.getSex() ? "男" : "女", accountPO.getOrgName(), accountPO.getAge() + "", null
+                    );
+                    csvDtos.add(csvDto);
+                }
+        }
+        List<String> csvStrs = CSVUtil.getCsvStrings(csvDtos);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String path = baseFilePath+"/csv";
+        File file = new File(path);
+        if(!file.exists()) {
+            file.mkdirs();
+        }
+        String resultPath = path+simpleDateFormat.format(new Date())+".csv";
+        CSVUtil.exportCsv(resultPath,csvStrs);
+        return resultPath;
     }
 }

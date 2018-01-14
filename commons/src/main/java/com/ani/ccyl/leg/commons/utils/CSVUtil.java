@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVUtil {
-    public static boolean exportCsv(File file, List<String> dataList){
+    public static boolean exportCsv(String path, List<String> dataList){
         boolean isSucess=false;
 
         FileOutputStream out=null;
         OutputStreamWriter osw=null;
         BufferedWriter bw=null;
         try {
-            out = new FileOutputStream(file);
+            out = new FileOutputStream(path);
             osw = new OutputStreamWriter(out);
             bw =new BufferedWriter(osw);
             if(dataList!=null && !dataList.isEmpty()){
@@ -55,7 +55,7 @@ public class CSVUtil {
         return isSucess;
     }
 
-    public List<String> getCsvStrings(List<CsvDto> csvDtos) {
+    public static List<String> getCsvStrings(List<CsvDto> csvDtos) {
         List<String> csvStrs = new ArrayList<>();
         if(csvDtos != null) {
             for(CsvDto csvDto:csvDtos) {
