@@ -76,6 +76,9 @@
     <update id="cleanUpScore" parameterType="java.lang.Integer" >
         UPDATE t_score_record SET score=0 WHERE account_id=#{accountId}
     </update>
+    <select id="selectByAccountId" parameterType="java.util.Map" resultMap="invitedDtoResultMap">
+        SELECT r.account_id,r.update_time,r1.nick_name,r1.portrait from t_score_record r,t_account r1 WHERE r.account_id =#{accountId} AND r.src_type=#{srcType} AND r.src_account_id=r1.id ORDER by r.update_time
+    </select>
     <resultMap id="scoreResultMap" type="com.ani.ccyl.leg.commons.dto.ScoreRecordDto">
         <id property="id" column="scoreId"/>
         <result property="score" column="score"/>
@@ -113,5 +116,11 @@
         <result property="orgName" column="accOrgName"/>
         <result property="age" column="accAge"/>
         <result property="name" column="accName"/>
+    </resultMap>
+    <resultMap id="invitedDtoResultMap" type="com.ani.ccyl.leg.commons.dto.InvitedDto">
+        <id property="accountId" column="account_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="portrait" column="portrait"/>
     </resultMap>
 </mapper>

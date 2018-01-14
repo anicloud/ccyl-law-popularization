@@ -166,7 +166,7 @@ class MyScore extends Component {
     handleThumbUp() {
         const {history} = this.props;
         history.push({
-            pathname: '/prize3',
+            pathname: '/showThumbDetail',
             state: '/tasks'
         });
     }

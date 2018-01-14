@@ -34,6 +34,8 @@ import ThumbUp from '../views/ThumbUp';
 import UploadQuestion from '../views/UploadQuestion';
 /*展示邀请答题详情*/
 import ShowAnsQuesDetail from '../views/ShowAnsQuesDetail';
+/*展示点赞详情*/
+import ShowThumbUpDetail from '../views/ShowThumbUpDetail';
 
 
 const Routes = () => (
@@ -43,6 +45,7 @@ const Routes = () => (
         <Route exact path='/regist' component={Regist} />
         <Route path='/scoreshopping' component={ScoreShopping}/>
         <Route path='/showAnswerDetail' component={ShowAnsQuesDetail}/>
+        <Route path='/showThumbDetail' component={ShowThumbUpDetail}/>
         <Route path='/tasks' component={MyScore} />
         <Route path='/score' component={ScoreBoard} />
         <Route path='/announce' component={Tasks} />
