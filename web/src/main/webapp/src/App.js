@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './App.less';
 import {connect} from 'react-redux';
-import {Toast} from 'react-weui';
+import {Dialog,Toast} from 'react-weui';
+import axios from 'axios';
 
 class App extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class App extends Component {
                     var day1 = new Date();
                     day1.setTime(day1.getTime()-24*60*60*1000);
                     var s1 = day1.getFullYear()+"-" + (day1.getMonth()+1) + "-" + day1.getDate();
-                    var ifShow = getCookie("ifShow");
+                    var ifShow = _this.getCookie("ifShow");
                     if(ifShow==="true"){
                         _this.setState({
                             ifShow:true
@@ -54,16 +55,16 @@ class App extends Component {
         this.setState({
             showTishi: false,
         });
-        setCookie("ifShow","true",1);
+        this.setCookie("ifShow","true",1);
     }
-    function setCookie(c_name,value,expiredays)
+    setCookie(c_name,value,expiredays)
     {
         var exdate=new Date();
         exdate.setDate(exdate.getDate()+expiredays);
         document.cookie=c_name+ "=" +escape(value)+
             ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
     }
-    function getCookie(name){
+    getCookie(name){
         var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
         if(arr=document.cookie.match(reg))
             return unescape(arr[2]);
