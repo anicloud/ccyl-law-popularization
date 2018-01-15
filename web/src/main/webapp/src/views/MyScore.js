@@ -172,7 +172,7 @@ class MyScore extends Component {
     handleShare() {
         const {history} = this.props;
         history.push({
-            pathname: '/prize',
+            pathname: '/answer',
             state: '/tasks'
         });
     }

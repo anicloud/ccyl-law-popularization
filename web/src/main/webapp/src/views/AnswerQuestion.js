@@ -115,8 +115,7 @@ class AnswerQuestion extends Component {
         });
     }
     backAnswer() {
-        const {history,location} = this.props;
-        location.reload(true);
+        window.location.reload();
     }
     render() {
         let question = this.state.question? this.state.question.toJS() : '';
