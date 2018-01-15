@@ -56,7 +56,6 @@ class AnswerQuestion extends Component {
                     _this.setState({
                         isComplete: true
                     });
-
                 }
             }
         }).catch(function (errors) {
@@ -97,8 +96,8 @@ class AnswerQuestion extends Component {
         });
     }
     backAnswer() {
-        const {history} = this.props;
-        history.push('/answer');
+        const {history,location} = this.props;
+        location.reload(true);
     }
     render() {
         let question = this.state.question? this.state.question.toJS() : '';
