@@ -95,7 +95,7 @@ class MyScore extends Component {
                if(response.data.data!==null){
                    var day1 = new Date();
                    day1.setTime(day1.getTime());
-                   let month = day1.getMonth();
+                   let month = day1.getMonth()+"";
                    if(month.length===1){
                        month = "0"+month;
                    }
