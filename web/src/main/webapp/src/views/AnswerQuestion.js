@@ -23,6 +23,7 @@ class AnswerQuestion extends Component {
         };
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
+        this.handleShare = this.handleShare.bind(this);
     }
     componentWillMount() {
         const {state} = this.props.location;
@@ -75,6 +76,15 @@ class AnswerQuestion extends Component {
         }).catch(function (errors) {
             console.log(errors);
         })
+    }
+    handleShare() {
+        let _this = this;
+        const {host} = _this.props;
+        const {history} = this.props;
+        history.push({
+            pathname: '/prize',
+            state: '/home'
+        });
     }
     render() {
         let question = this.state.question? this.state.question.toJS() : '';
