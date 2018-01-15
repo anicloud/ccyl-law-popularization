@@ -59,10 +59,10 @@ class ShowAnsQuesDetail extends Component{
                                 return (
                                     <div className='top-ranking clearfix'>
                                         <div className='pull-left first'>
-                                            <img src={item.portrat} alt=""/>
+                                            <img src={item.portrait} alt=""/>
                                         </div>
                                         <div className='pull-left second'>
-                                            <div>{item.name}</div>
+                                            <div>{item.nickName}</div>
                                         </div>
                                         <div className='pull-right third'>{item.updateTime}</div>
                                     </div>
