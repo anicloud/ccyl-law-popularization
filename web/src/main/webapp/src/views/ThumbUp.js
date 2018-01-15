@@ -13,6 +13,7 @@ class ThumbUp extends Component {
         this.state = {
             scoreInfo: null,
             showToast: false,
+            showError: false,
             isThumbUp: false,
             isReady: false,
             alreadyThumbUp:false
@@ -62,6 +63,13 @@ class ThumbUp extends Component {
                 _this.toastTimer = setTimeout(()=> {
                     _this.setState({showToast: false});
                 }, 2000);
+            }else if(response.data.state === 1){
+                _this.setState({
+                    showError: true,
+                });
+                _this.toastTimer = setTimeout(()=> {
+                    _this.setState({showError: false});
+                }, 2000);
             }
         }).catch(function (errors) {
             console.log(errors);
@@ -83,7 +91,7 @@ class ThumbUp extends Component {
                             <div className='wrapper-thumb'>
                                 <div className='third'>
                                     <p>你今日已为好友</p>
-                                    <p>{scoreInfo.NickName}</p>
+                                    <p>{scoreInfo.toNickName}</p>
                                     <p>点过赞了</p>
                                 </div>
                                 <div className='four'>
@@ -101,11 +109,11 @@ class ThumbUp extends Component {
                                     <div className='wrapper-thumb'>
                                         <div className='third'>
                                             <p>恭喜你已为好友</p>
-                                            <p>{scoreInfo.NickName}</p>
+                                            <p>{scoreInfo.toNickName}</p>
                                             <p>点赞成功</p>
                                         </div>
                                         <div className='four'>
-                                            <p>已有<span className='detail-span'>{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}</span>人为好友{scoreInfo.NickName}点赞,增加<span className='detail-span'>{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}</span>积分</p>
+                                            <p>已有<span className='detail-span'>{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}</span>人为好友{scoreInfo.toNickName}点赞,增加<span className='detail-span'>{scoreInfo.thumbUpCount?scoreInfo.thumbUpCount+1:1}</span>积分</p>
                                             <p>我也要争当普法先锋，与好友PK赢奖品</p>
                                         </div>
                                     </div>
@@ -136,6 +144,7 @@ class ThumbUp extends Component {
                         )
                     )
                 }
+                <Toast icon="success-no-circle" show={this.state.showError}>不能为自己点赞</Toast>
                 <Toast icon="success-no-circle" show={this.state.showToast}>点赞成功</Toast>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
