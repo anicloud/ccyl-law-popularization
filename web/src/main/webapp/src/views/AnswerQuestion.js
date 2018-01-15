@@ -22,7 +22,7 @@ class AnswerQuestion extends Component {
             showNext: false,
             isComplete: false,
             scoreInfo: null,
-            correctCount,
+            correctCount:0,
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.handleShowNext = this.handleShowNext.bind(this);
@@ -44,7 +44,6 @@ class AnswerQuestion extends Component {
             if (response.data.state === 0) {
                 let scoreInfo = response.data.data;
                 _this.setState({
-                    scoreInfo: scoreInfo,
                     correctCount:scoreInfo.correctCount
                 });
             }
@@ -123,6 +122,8 @@ class AnswerQuestion extends Component {
         let question = this.state.question? this.state.question.toJS() : '';
         let isComplete = this.state.isComplete;
         let scoreInfo = this.state.scoreInfo;
+        let correctCount = this.state.correctCount;
+        let mySelfRank = this.state.mySelfRank;
         return (
             <div className="answer-main">
             {
@@ -136,7 +137,7 @@ class AnswerQuestion extends Component {
                            <div className='wrapper'>
                                <h2 className='wrapper-title'>
                                    {
-                                       scoreInfo.correctCount === 5? (
+                                       correctCount === 5? (
                                            <span>已答完</span>
                                        ) : (
                                            <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>

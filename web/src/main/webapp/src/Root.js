@@ -18,9 +18,9 @@ class Root extends Component {
         }
     }
     componentWillMount() {
-        this.setState({
+        /*this.setState({
             showLoading: true
-        });
+        });*/
         // 添加请求拦截器
         let timer = null;
         axios.interceptors.request.use(function (config) {
@@ -63,9 +63,9 @@ class Root extends Component {
     componentDidMount() {
         let _this = this;
         // TODO: 测试使用
-        /*_this.setState({
+        _this.setState({
             showLoading: false
-        });*/
+        });
         jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             window.wx.getLocation({
