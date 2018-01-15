@@ -21,7 +21,7 @@ class AnswerQuestion extends Component {
             question: null,
             showNext: false,
             isComplete: false,
-            scoreInfo: {},
+            scoreInfo: null,
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.handleShowNext = this.handleShowNext.bind(this);
@@ -109,29 +109,31 @@ class AnswerQuestion extends Component {
             {
             question === ''? (
                 (isComplete&&scoreInfo)? (
-                   <div className="answer myprize-bg">
-                       <div className='clearfix'>
-                           <Back location={this.state.location} history={this.props.history} />
-                       </div>
-                       <div className='wrapper'>
-                           <h2 className='wrapper-title'>
-                               {
-                                   scoreInfo.correctCount === 5? (
-                                       <span>已答完</span>
-                                   ) : (
-                                       <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
-                                   )
-                               }
-                           </h2>
-                           <div className='sum-score'>
-                               <div>+{scoreInfo.correctCount * 2}</div>
-                               <p className='first'>当前积分：<span>{scoreInfo.totalScore}</span></p>
-                               <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
+                   <div className="answer1-main myprize-bg">
+                       <div className="answer1">
+                           <div className='clearfix'>
+                               <Back location={this.state.location} history={this.props.history} />
                            </div>
-                           <div className='thumb-up' onClick={this.handleShare}>分享答题</div>
+                           <div className='wrapper'>
+                               <h2 className='wrapper-title'>
+                                   {
+                                       scoreInfo.correctCount === 5? (
+                                           <span>已答完</span>
+                                       ) : (
+                                           <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
+                                       )
+                                   }
+                               </h2>
+                               <div className='sum-score'>
+                                   <div>+{scoreInfo.correctCount * 2}</div>
+                                   <p className='first'>当前积分：<span>{scoreInfo.totalScore}</span></p>
+                                   <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
+                               </div>
+                               <div className='thumb-up' onClick={this.handleShare}>分享答题</div>
+                           </div>
+                           <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                           <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                        </div>
-                       <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-                       <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                    </div>
                     ) : (null)
                 ) : (

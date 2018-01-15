@@ -15,12 +15,14 @@ class SharePrize extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            scoreInfo: null,
+            scoreInfo: {
+                score:10,
+            },
             showToast: false,
             toastText: '分享成功',
             location: this.props.location.state? this.props.location.state : '/answer',
             showPopup: false,
-            isReady:false,
+            isReady:true,
             mySelfRank:0,
             correctCount:0
         };
