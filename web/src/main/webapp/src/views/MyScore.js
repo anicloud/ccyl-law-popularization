@@ -341,7 +341,7 @@ class MyScore extends Component {
                         <br/>
                         <span className='detail-msg'>剩余积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
                         <br/>
-                        <span className='detail-msg'>排名:<span className='detail-span'>{mySelfRank?mySelfRank:0}</span>名</span>
+                        {mySelfRank===-1?(<span className='detail-msg'>排名:<span className='detail-span'>{mySelfRank?mySelfRank:0}</span>名</span>):(null)}
                     </div>
                 </div>
                 <div className="bottomDiv">

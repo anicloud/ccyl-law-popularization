@@ -16,15 +16,19 @@
       height: 100%;
       text-align: center;
       background: #aee644 url("${pageContext.request.contextPath}/build/assets/images/computerBkg.png") center top no-repeat;
-      background-attachment: fixed;
-      background-size: 100%,100%;
-      position: relative;
+      background-size: cover;
     }
     .middle{
       wudth:100%;
       height:1000px;
       text-align:center;
-      background-color: #96b941;
+      background-color: #9bbd4b;
+    }
+    .tubiao{
+      height:3rem;
+      width:70%;
+      margin:0 auto;
+      background-color: grey;
     }
   </style>
 </head>
@@ -34,7 +38,8 @@
 </noscript>
 <div class="title"></div>
 <div class="middle">
-
+  <div class="tubiao">
+  </div>
 </div>
 <script src="${pageContext.request.contextPath}/build/assets/js/rem.js"></script>
 </body>
