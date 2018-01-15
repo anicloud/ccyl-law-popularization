@@ -116,6 +116,7 @@ class SharePrize extends Component {
     render() {
         let scoreInfo = this.state.scoreInfo;
         let isReady = this.state.isReady;
+        let mySelfRank = this.state.mySelfRank;
         return (
             <div className='share-prize myprize-bg'>
                 <div className='clearfix'>
@@ -126,10 +127,6 @@ class SharePrize extends Component {
                 </div>*/}
                 {
                     (isReady && scoreInfo)? (
-                    <div className="answer myprize-bg">
-                        <div className='clearfix'>
-                            <Back location={this.state.location} history={this.props.history} />
-                        </div>
                         <div className='text-center complete'>
                             <div className='wrapper'>
                                 <div className='sum-score'>
@@ -148,9 +145,6 @@ class SharePrize extends Component {
                                 <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
                             </div>
                         </div>
-                        <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-                        <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
-                    </div>
                     ) : (null)
                 }
                 <div className='popup' style={{display: this.state.showPopup? 'block' : 'none'}}>
