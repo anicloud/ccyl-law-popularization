@@ -3,6 +3,7 @@ import './App.less';
 import {connect} from 'react-redux';
 import {Dialog,Toast} from 'react-weui';
 import axios from 'axios';
+import getprize from "./media/imgs/getprize.jpg";
 
 class App extends Component {
     constructor(props) {
