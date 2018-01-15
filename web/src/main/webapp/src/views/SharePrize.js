@@ -132,7 +132,7 @@ class SharePrize extends Component {
                         <div className='text-center complete'>
                             <div className='wrapper'>
                                 <div className='sum-score'>
-                                    <div><span className="score">+{correctCount*5?correctCount*5:0}</span></div>
+                                    <div><span className="score">+{correctCount*2?correctCount*2:0}</span></div>
                                 </div>
                                 <div className="sum-detail">
                                     <p className='first'>恭喜你！今日答对{correctCount}题</p>

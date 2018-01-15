@@ -20,8 +20,11 @@ class AnswerQuestion extends Component {
             location: '/home',
             question: null,
             showNext: false,
-            isComplete: false,
-            scoreInfo: null,
+            isComplete: true,
+            scoreInfo: {
+                totalScore:10,
+                correctCount:5
+            }
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.handleShowNext = this.handleShowNext.bind(this);
