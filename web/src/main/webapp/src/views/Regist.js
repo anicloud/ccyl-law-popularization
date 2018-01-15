@@ -202,7 +202,7 @@ class Regist extends Component {
         let descriptor = {};
         let source = this.state.registInfo.toJS();
         let message  = '';
-        if (key === 'name' || key === 'sex' || key === 'age' || key === 'province' || key === 'orgName') {
+        /*if (key === 'name' || key === 'sex' || key === 'age' || key === 'province' || key === 'orgName') {
             message = key === 'name'? '请输入姓名' : key === 'sex'? '请选择性别' : key === 'age'? '请选择年龄' : key === 'province'? '请选择地区' : key === 'orgName'? '请输入学校或单位' : '';
             descriptor = {
                 type: 'object',
@@ -223,7 +223,30 @@ class Regist extends Component {
                     }
                 }
             };
-        } else if (key === 'email') {
+        }*/
+        if (key === 'name' || key === 'sex' || key === 'age') {
+            message = key === 'name'? '请输入姓名' : key === 'sex'? '请选择性别' : key === 'age'? '请选择年龄' : '';
+            descriptor = {
+                type: 'object',
+                fields: {
+                    [key]: function(cb) {
+                        // if this.value has error condition call this.raise()
+                        if (this.value.trim() === '') {
+                            cb({key, message: message});
+                        } else {
+                            _this.setState((prevState) => {
+                                let info = prevState.errorStatus.setIn([key, 'status'], false);
+                                return {
+                                    errorStatus: info
+                                }
+                            });
+                            cb();
+                        }
+                    }
+                }
+            };
+        }
+        /*else if (key === 'email') {
             descriptor = {
                 type: 'object',
                 fields: {
@@ -260,7 +283,8 @@ class Regist extends Component {
                     ]
                 }
             };
-        } else if (key === 'phone') {
+        }*/
+        else if (key === 'phone') {
             descriptor = {
                 type: 'object',
                 fields: {
@@ -387,7 +411,7 @@ class Regist extends Component {
                         cb();
                     }
                 },
-                province: function(cb) {
+                /*province: function(cb) {
                     if (this.value.trim() === '') {
                         cb({key: 'province', message: '请选择地区'});
                     } else {
@@ -399,8 +423,8 @@ class Regist extends Component {
                         });
                         cb();
                     }
-                },
-                orgName: function(cb) {
+                },*/
+               /* orgName: function(cb) {
                     if (this.value.trim() === '') {
                         cb({key: 'orgName', message: '请输入学校或单位'});
                     } else {
@@ -412,8 +436,8 @@ class Regist extends Component {
                         });
                         cb();
                     }
-                },
-                email: [
+                },*/
+                /*email: [
                     function(cb) {
                         if (this.value.trim() === '') {
                             cb({key: 'email', message: '请输入邮箱'});
@@ -441,7 +465,7 @@ class Regist extends Component {
                             cb();
                         }
                     }
-                ],
+                ],*/
                 phone: [
                     function(cb) {
                         if (this.value.trim() === '') {

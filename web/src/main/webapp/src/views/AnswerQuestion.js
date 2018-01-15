@@ -152,7 +152,6 @@ class AnswerQuestion extends Component {
                                    <p className='first'>恭喜你！今日答对{correctCount}题</p>
                                    <p className='second'>当前积分：<span>{scoreInfo.score?scoreInfo.score:0}</span></p>
                                    {mySelfRank!==-1?(<p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>):(null)}
-
                                </div>
                                <div className="sum-bottom">
                                    <p className='first'>马上拉好友为你点赞吧</p>
