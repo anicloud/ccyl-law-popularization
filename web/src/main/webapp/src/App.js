@@ -29,7 +29,7 @@ class App extends Component {
             if (response.data.state === 0) {
                 if(response.data.data!==null){
                     var day1 = new Date();
-                    day1.setTime(day1.getTime()-24*60*60*1000);
+                    day1.setTime(day1.getTime());
                     var s1 = day1.getFullYear()+"-" + (day1.getMonth()+1) + "-" + day1.getDate();
                     var ifShow = _this.getCookie("ifShow");
                     if(ifShow==="true"){
