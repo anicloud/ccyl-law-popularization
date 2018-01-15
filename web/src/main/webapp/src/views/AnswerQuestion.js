@@ -10,6 +10,8 @@ import {Map} from 'immutable';
 import axios from 'axios';
 import {Toast, Button} from 'react-weui';
 import '../media/styles/answer.less';
+import {getCookie} from "../utils/index";
+import reback from '../media/imgs/reback.png';
 
 class AnswerQuestion extends Component {
     constructor(props) {
