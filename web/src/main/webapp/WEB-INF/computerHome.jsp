@@ -11,24 +11,20 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <style>
-    .subscribe {
+    .title {
       width: 100%;
       height: 100%;
       text-align: center;
-      background: #aee644 url("${pageContext.request.contextPath}/build/assets/images/computerBkg.jpg") center top no-repeat;
+      background: #aee644 url("${pageContext.request.contextPath}/build/assets/images/computerBkg.png") center top no-repeat;
       background-attachment: fixed;
       background-size: 100%,100%;
       position: relative;
     }
-    span{
-      font-size:.3rem;
-      display:inline-block;
-      margin-bottom:0rem;
-      font-weight: 600;
-    }
-    img {
-      width: 124px;
-      height: 119px;
+    .middle{
+      wudth:100%;
+      height:1000px;
+      text-align:center;
+      background-color: #96b941;
     }
   </style>
 </head>
@@ -36,7 +32,9 @@
 <noscript>
   You need to enable JavaScript to run this app.
 </noscript>
-<div class="subscribe">
+<div class="title"></div>
+<div class="middle">
+
 </div>
 <script src="${pageContext.request.contextPath}/build/assets/js/rem.js"></script>
 </body>
