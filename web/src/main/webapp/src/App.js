@@ -41,7 +41,6 @@ class App extends Component {
                         day = "0"+day;
                     }
                     var s1 = day1.getFullYear()+"-" + month + "-" +day;
-                    alert(s1);
                     var ifShow = _this.getCookie("ifShow");
                     if(ifShow==="true"){
                         _this.setState({

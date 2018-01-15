@@ -106,7 +106,6 @@ class MyScore extends Component {
                        day = "0"+day;
                    }
                    var s1 = day1.getFullYear()+"-" + month + "-" + day;
-                   alert(s1);
                    if(response.data.data.date === s1){
                        _this.setState({
                            ifTop20:true,
