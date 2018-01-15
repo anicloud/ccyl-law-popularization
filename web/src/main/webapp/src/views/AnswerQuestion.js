@@ -41,54 +41,13 @@ class AnswerQuestion extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        jsSdkConfig(axios, host);
-        window.wx.ready(function () {
-            console.log(1);
-            _this.setState({
-                isReady: true
-            });
-            axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
-                if (response.data.state === 0) {
-                    let scoreInfo = response.data.data;
-                    _this.setState({
-                        correctCount: scoreInfo.correctCount
-                    });
-                    window.wx.onMenuShareTimeline({
-                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
-                        link: scoreInfo.url,
-                        imgUrl: scoreInfo.portrait,
-                        success: function (res) {
-                            axios.get(`${host}/share/share`).then(function (response) {
-                                console.log(response);
-                            }).catch(function (errors) {
-                                console.log(errors);
-                            });
-                        },
-                        fail: function (res) {
-
-                        }
-                    });
-                    /*我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!*/
-                    window.wx.onMenuShareAppMessage({
-                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
-                        link: scoreInfo.url,
-                        imgUrl: scoreInfo.portrait,
-                        desc: '第十四届全国青少年学法用法网上知识竞赛',
-                        success: function (res) {
-                            axios.get(`${host}/share/share`).then(function (response) {
-                                console.log(response);
-                            }).catch(function (errors) {
-                                console.log(errors);
-                            });
-                        },
-                        fail: function (res) {
-
-                        }
-                    });
-                }
-            }).catch(function (errors) {
-                console.log(errors);
-            });
+        axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
+            if (response.data.state === 0) {
+                let scoreInfo = response.data.data;
+                _this.setState({
+                    correctCount:scoreInfo.correctCount
+                });
+            }
         });
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
@@ -147,16 +106,15 @@ class AnswerQuestion extends Component {
         })
     }
     handleShare() {
-        this.setState(
-            function (prevState) {
-                return {
-                    showPopup: !prevState.showPopup
-                }
-            }
-        );
+        let _this = this;
+        const {host} = _this.props;
+        const {history} = this.props;
+        history.push({
+            pathname: '/prize',
+            state: '/home'
+        });
     }
     backAnswer() {
-        alert("a");
         const {history,location} = this.props;
         location.reload(true);
     }
@@ -256,20 +214,6 @@ class AnswerQuestion extends Component {
                                         }
                                     </div>
                                 </div>
-                        <div className='popup' style={{display: this.state.showPopup? 'block' : 'none'}}>
-                            <div className='arrow'>
-                                <img src={arrow} alt=""/>
-                            </div>
-                            <div className='first'>
-                                <img src={first} alt=""/>
-                            </div>
-                            <div className='second'>
-                                <img src={second} alt=""/>
-                            </div>
-                            <div className='text-center know'>
-                                <img src={know} onClick={this.handleShare} alt=""/>
-                            </div>
-                        </div>
                         <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                         <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                     </div>
