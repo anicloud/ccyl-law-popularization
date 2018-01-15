@@ -27,7 +27,6 @@ class SharePrize extends Component {
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
         this.handleShare = this.handleShare.bind(this);
-        this.backAnswer = this.backAnswer.bind(this);
     }
     componentDidMount() {
         let _this = this;
@@ -101,6 +100,9 @@ class SharePrize extends Component {
             });
         })
     }
+    componentWillUnmount() {
+        this.toastTimer && clearTimeout(this.toastTimer);
+    }
     handleShare() {
         this.setState(
             function (prevState) {
@@ -109,10 +111,6 @@ class SharePrize extends Component {
                 }
             }
         );
-    }
-    backAnswer() {
-        const {history} = this.props;
-        history.push('/answer');
     }
     render() {
         let scoreInfo = this.state.scoreInfo;
@@ -131,22 +129,13 @@ class SharePrize extends Component {
                     (isReady && scoreInfo)? (
                         <div className='text-center complete'>
                             <div className='wrapper'>
-                                <h2 className='wrapper-title'>
-                                    {
-                                        correctCount === 5? (
-                                            <span>已答完</span>
-                                        ) : (
-                                            <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
-                                        )
-                                    }
-                                </h2>
                                 <div className='sum-score'>
                                     <div><span className="score">+{correctCount*2?correctCount*2:0}</span></div>
                                 </div>
                                 <div className="sum-detail">
                                     <p className='first'>恭喜你！今日答对{correctCount}题</p>
                                     <p className='second'>当前积分：<span>{scoreInfo.score?scoreInfo.score:0}</span></p>
-                                    {mySelfRank!==-1?(<p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>):(null)}
+                                    {mySelfRank===-1?(<p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>):(null)}
                                 </div>
                                 <div className="sum-bottom">
                                     <p className='first'>马上拉好友为你点赞吧</p>
