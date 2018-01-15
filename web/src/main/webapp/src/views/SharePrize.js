@@ -19,8 +19,9 @@ class SharePrize extends Component {
             showToast: false,
             toastText: '分享成功',
             location: this.props.location.state? this.props.location.state : '/answer',
-            showPopup: true,
+            showPopup: false,
             isReady:false,
+            mySelfRank:0,
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
@@ -30,6 +31,25 @@ class SharePrize extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
+        axios.get(`${host}/score/findSelfRank`).then(function (response) {
+            if (response.data.data !== null) {
+                _this.setState({
+                    mySelfRank:response.data.data.ranking
+                });
+            }
+        }).catch(function(errors){
+            console.log(errors);
+        });
+        //剩余积分获取
+        axios.get(`${host}/score/findResidueScore`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    scoreInfo: response.data.data
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
         jsSdkConfig(axios, host);
         window.wx.ready(function () {
             console.log(1);
@@ -38,9 +58,6 @@ class SharePrize extends Component {
             });
             axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
                 if (response.data.state === 0) {
-                    _this.setState({
-                        scoreInfo: response.data.data
-                    });
                     let scoreInfo = response.data.data;
                     window.wx.onMenuShareTimeline({
                         title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
@@ -109,23 +126,31 @@ class SharePrize extends Component {
                 </div>*/}
                 {
                     (isReady && scoreInfo)? (
-                        <div className='wrapper'>
-                            <h2 className='wrapper-title'>
-                                {
-                                    scoreInfo.correctCount === 5? (
-                                        <span>已答完</span>
-                                    ) : (
-                                        <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
-                                    )
-                                }
-                            </h2>
-                            <div className='sum-score'>
-                                <div>+{scoreInfo.correctCount * 2}</div>
-                                <p className='first'>当前积分：<span>{scoreInfo.totalScore}</span></p>
-                                <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
-                            </div>
-                            <div className='thumb-up' onClick={this.handleShare}>分享答题</div>
+                    <div className="answer myprize-bg">
+                        <div className='clearfix'>
+                            <Back location={this.state.location} history={this.props.history} />
                         </div>
+                        <div className='text-center complete'>
+                            <div className='wrapper'>
+                                <div className='sum-score'>
+                                    <div><span className="score">+10</span></div>
+                                </div>
+                                <div className="sum-detail">
+                                    <p className='first'>恭喜你！今日答对5题</p>
+                                    <p className='second'>当前积分：<span>{scoreInfo.score?scoreInfo.score:0}</span></p>
+                                    <p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>
+                                </div>
+                                <div className="sum-bottom">
+                                    <p className='first'>马上拉好友为你点赞吧</p>
+                                    <p className='second'>每天都有新题，等你来答!</p>
+                                    <p className="third">一起参与答题，涨积分赢奖品</p>
+                                </div>
+                                <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
+                            </div>
+                        </div>
+                        <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
+                        <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
+                    </div>
                     ) : (null)
                 }
                 <div className='popup' style={{display: this.state.showPopup? 'block' : 'none'}}>
