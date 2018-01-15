@@ -25,6 +25,7 @@ class AnswerQuestion extends Component {
             correctCount:0,
         };
         this.userId = getCookie('LOGIN_COOKIE');
+        this.backAnswer = this.backAnswer.bind(this);
         this.handleShowNext = this.handleShowNext.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleShare = this.handleShare.bind(this);
@@ -159,7 +160,6 @@ class AnswerQuestion extends Component {
                                    <p className="third">一起参与答题，涨积分赢奖品</p>
                                </div>
                                <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
-
                            </div>
                            <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                            <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
