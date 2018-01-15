@@ -67,7 +67,7 @@ class ScoreBoard extends Component {
                                 <div>{myRankInfo.totalScore? myRankInfo.totalScore : 0}</div>
                                 <div>{myRankInfo.nickName}</div>
                             </div>
-                            <div className='pull-right third'>{myRankInfo.ranking}</div>
+                            <div className='pull-right third'>{myRankInfo.ranking===-1?"已获奖，不再参与排名":myRankInfo.ranking}</div>
                         </div>
                     ) : (null)
                 }

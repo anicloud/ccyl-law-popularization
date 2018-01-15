@@ -22,6 +22,7 @@ class AnswerQuestion extends Component {
             showNext: false,
             isComplete: false,
             scoreInfo: null,
+            correctCount,
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.handleShowNext = this.handleShowNext.bind(this);
@@ -41,8 +42,10 @@ class AnswerQuestion extends Component {
         const {host} = _this.props;
         axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
             if (response.data.state === 0) {
+                let scoreInfo = response.data.data;
                 _this.setState({
-                    scoreInfo: response.data.data
+                    scoreInfo: scoreInfo,
+                    correctCount:scoreInfo.correctCount
                 });
             }
         });
@@ -53,8 +56,25 @@ class AnswerQuestion extends Component {
                         question: Map(response.data.data)
                     });
                 }else{
-                    _this.setState({
-                        isComplete: true
+                    axios.get(`${host}/score/findSelfRank`).then(function (response) {
+                        if (response.data.data !== null) {
+                            _this.setState({
+                                mySelfRank:response.data.data.ranking
+                            });
+                            //剩余积分获取
+                            axios.get(`${host}/score/findResidueScore`).then(function (response) {
+                                if (response.data.state === 0) {
+                                    _this.setState({
+                                        scoreInfo: response.data.data,
+                                        isComplete: true
+                                    })
+                                }
+                            }).catch(function (errors) {
+                                console.log(errors);
+                            });
+                        }
+                    }).catch(function(errors){
+                        console.log(errors);
                     });
                 }
             }
@@ -124,11 +144,20 @@ class AnswerQuestion extends Component {
                                    }
                                </h2>
                                <div className='sum-score'>
-                                   <div>+{scoreInfo.correctCount * 2}</div>
-                                   <p className='first'>当前积分：<span>{scoreInfo.totalScore}</span></p>
-                                   <p className='second'>答对<span>{scoreInfo.correctCount}</span>题，答错<span>{5 - scoreInfo.correctCount}</span>题</p>
+                                   <div><span className="score">+{correctCount*2?correctCount*2:0}</span></div>
                                </div>
-                               <div className='thumb-up' onClick={this.handleShare}>分享答题</div>
+                               <div className="sum-detail">
+                                   <p className='first'>恭喜你！今日答对{correctCount}题</p>
+                                   <p className='second'>当前积分：<span>{scoreInfo.score?scoreInfo.score:0}</span></p>
+                                   <p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>
+                               </div>
+                               <div className="sum-bottom">
+                                   <p className='first'>马上拉好友为你点赞吧</p>
+                                   <p className='second'>每天都有新题，等你来答!</p>
+                                   <p className="third">一起参与答题，涨积分赢奖品</p>
+                               </div>
+                               <div className='share' onClick={this.handleShare}>马上拉好友点赞</div>
+
                            </div>
                            <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                            <Toast icon="warn" show={this.props.showError}>请求失败</Toast>

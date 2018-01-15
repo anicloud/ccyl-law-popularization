@@ -365,6 +365,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public MySelfRankDto findSelfRank(Integer accountId) {
+        Map<String,Object> map = findIsTop20(accountId);
+        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+
         List<ScoreRecordPO> selfRanks = scoreRecordMapper.findSelfRank(new Timestamp(System.currentTimeMillis()));
         MySelfRankDto mySelfRankDto = new MySelfRankDto();
         if(selfRanks != null) {
@@ -378,10 +381,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 }
                 mySelfRankDto.setRanking(order);
             }
-            AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+
             ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
             scoreRecordParam.setAccountId(accountId);
-            mySelfRankDto.setRanking(order);
+            if(map != null){//获得过前20
+                mySelfRankDto.setRanking(-1);
+            }else{
+                mySelfRankDto.setRanking(order);
+            }
+
             mySelfRankDto.setTotalScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
             mySelfRankDto.setNickName(accountPO.getNickName());
             mySelfRankDto.setPortrait(accountPO.getPortrait());
