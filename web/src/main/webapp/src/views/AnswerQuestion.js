@@ -47,6 +47,7 @@ class AnswerQuestion extends Component {
                 }else{
                     history.push({
                         pathname:'/prize',
+                        state: '/home'
                     });
                 }
             }
