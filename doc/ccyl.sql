@@ -362,7 +362,7 @@ CREATE PROCEDURE proce_init_daily_info()
     OPEN cursor_lucky20_awards;
     FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
     WHILE flag <> 1 DO
-      INSERT INTO t_lucky20_awards(prod_id, code_secret, type,create_time) VALUES (prodId,codeSecret,awardType,now());
+      INSERT INTO t_lucky20_awards(prod_id, code_secret, type,create_time) VALUES (prodId,'123',awardType,now());
       UPDATE t_total_lucky20_awards SET is_del=TRUE WHERE id=awardId;
       FETCH cursor_lucky20_awards INTO awardId,prodId,codeSecret,awardType;
     END WHILE;
@@ -372,7 +372,7 @@ CREATE PROCEDURE proce_init_daily_info()
     OPEN cursor_top20_awards;
     FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
     WHILE flag <> 1 DO
-      INSERT INTO t_top20_awards(prod_id, code_secret, type,create_time) VALUES (prodId,codeSecret,awardType,now());
+      INSERT INTO t_top20_awards(prod_id, code_secret, type,create_time) VALUES (prodId,'123',awardType,now());
       UPDATE t_total_top20_awards SET is_del=TRUE WHERE id=awardId;
       FETCH cursor_top20_awards INTO awardId,prodId,codeSecret,awardType;
     END WHILE;
@@ -382,7 +382,7 @@ CREATE PROCEDURE proce_init_daily_info()
     OPEN cursor_daily_awards;
     FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
     WHILE flag <> 1 DO
-      INSERT INTO t_daily_awards(prod_id, code_secret, type, create_time) VALUES (prodId,codeSecret,awardType,now());
+      INSERT INTO t_daily_awards(prod_id, code_secret, type, create_time) VALUES (prodId,'123',awardType,now());
       UPDATE t_total_daily_awards SET is_del=TRUE WHERE id=awardId;
       FETCH cursor_daily_awards INTO awardId,prodId,codeSecret,awardType;
     END WHILE;
