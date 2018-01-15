@@ -30,11 +30,18 @@ class App extends Component {
                 if(response.data.data!==null){
                     var day1 = new Date();
                     day1.setTime(day1.getTime());
-                    let month = day1.getMonth()+"";
+                    let month = day1.getMonth()+1;
+                    month = month+"";
                     if(month.length===1){
                         month = "0"+month;
                     }
-                    var s1 = day1.getFullYear()+"-" + month + "-" + day1.getDate();
+                    let day = day1.getDate();
+                    day = day+"";
+                    if(day.length===1){
+                        day = "0"+day;
+                    }
+                    var s1 = day1.getFullYear()+"-" + month + "-" +day;
+                    alert(s1);
                     var ifShow = _this.getCookie("ifShow");
                     if(ifShow==="true"){
                         _this.setState({
