@@ -27,6 +27,7 @@ class AnswerQuestion extends Component {
             isComplete: false,
             scoreInfo: null,
             correctCount:0,
+            showPopup: false,
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.backAnswer = this.backAnswer.bind(this);
@@ -161,7 +162,6 @@ class AnswerQuestion extends Component {
         );
     }
     backAnswer() {
-        alert("a");
         const {history,location} = this.props;
         window.location.reload();
     }
