@@ -22,11 +22,11 @@ class SharePrize extends Component {
             showPopup: false,
             isReady:false,
             mySelfRank:0,
+            correctCount:0
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
         this.handleShare = this.handleShare.bind(this);
-        this.backAnswer = this.backAnswer.bind(this);
     }
     componentDidMount() {
         let _this = this;
@@ -59,6 +59,9 @@ class SharePrize extends Component {
             axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
+                    _this.setState({
+                        correctCount:scoreInfo.correctCount
+                    });
                     window.wx.onMenuShareTimeline({
                         title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
                         link: scoreInfo.url,
@@ -108,10 +111,6 @@ class SharePrize extends Component {
                 }
             }
         );
-    }
-    backAnswer() {
-        const {history} = this.props;
-        history.push('/answer');
     }
     render() {
         let scoreInfo = this.state.scoreInfo;
