@@ -28,7 +28,7 @@ CREATE TABLE `t_access_token` (
   `token_expires_in` int(11) NOT NULL COMMENT '过期时间',
   `ticket_expires_in` int(11) DEFAULT NULL,
   `token_create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `ticket_create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `ticket_create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `jsapi_ticket` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -55,7 +55,7 @@ CREATE TABLE `t_account` (
   `nick_name` varchar(512) DEFAULT NULL COMMENT '昵称',
   `portrait` varchar(1024) DEFAULT NULL COMMENT '头像',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `sex` tinyint(1) NOT NULL DEFAULT '1',
   `org_name` varchar(256) DEFAULT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `t_total_daily_awards` (
   `code_secret` char(64) NOT NULL COMMENT '卡密',
   `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t_total_daily_awards_is_del_key` (`is_del`),
@@ -104,7 +104,7 @@ CREATE TABLE `t_daily_awards` (
   `code_secret` char(64) NOT NULL COMMENT '卡密',
   `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
   `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
@@ -124,7 +124,7 @@ CREATE TABLE `t_total_top20_awards` (
   `code_secret` char(64) NOT NULL COMMENT '卡密',
   `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t_total_top20_awards_is_del_key` (`is_del`),
@@ -141,7 +141,7 @@ CREATE TABLE `t_top20_awards` (
   `code_secret` char(64) NOT NULL COMMENT '卡密',
   `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
   `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
@@ -163,7 +163,7 @@ CREATE TABLE `t_total_lucky20_awards` (
   `code_secret` char(64) NOT NULL COMMENT '卡密',
   `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t__total_lucky20_awards_is_del_key` (`is_del`),
@@ -180,7 +180,7 @@ CREATE TABLE `t_lucky20_awards` (
   `code_secret` char(64) NOT NULL COMMENT '卡密',
   `type` tinyint(2) NOT NULL COMMENT '产品类型',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `account_id` int(11) DEFAULT NULL,
   `is_received_award` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '是否领取奖品',
@@ -204,7 +204,7 @@ CREATE TABLE `t_day_question` (
   `id` int(11) NOT NULL COMMENT '主键，同question表主键保持一致，不自动生成',
   `day_num` int(2) DEFAULT NULL COMMENT '竞赛第几天',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `order_num` int(4) DEFAULT NULL COMMENT '排序',
   `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
@@ -229,7 +229,7 @@ CREATE TABLE `t_file` (
   `busi_type` tinyint(2) DEFAULT NULL COMMENT '文件业务类型',
   `name` varchar(128) DEFAULT NULL COMMENT '文件名',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   KEY `t_file_is_del_key` (`is_del`)
@@ -254,7 +254,7 @@ CREATE TABLE `t_question` (
   `type` tinyint(2) DEFAULT NULL COMMENT '选项四',
   `answer` char(4) DEFAULT NULL COMMENT '答案',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `question_no` int(11) DEFAULT NULL,
   `file_id` int(11) DEFAULT NULL,
@@ -282,7 +282,7 @@ CREATE TABLE `t_score_record` (
   `src_account_id` int(11) DEFAULT NULL COMMENT '来源账户id',
   `question_time` int(1) DEFAULT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   `log_date` VARCHAR(32) AS (DATE(update_time)) STORED,
   PRIMARY KEY (`id`),
@@ -309,12 +309,41 @@ CREATE TABLE `t_share_relation` (
   `shared_id` int(11) NOT NULL COMMENT '被分享者id',
   `is_part_in` tinyint(1) NOT NULL DEFAULT '0' COMMENT '被分享者是否参与',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
-  `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  `create_time` timestamp NOT NULL DEFAULT '2018-01-01 00:00:00' COMMENT '创建日期',
   `is_del` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
   UNIQUE KEY `t_share_relation_unique_key` (`shared_id`),
   KEY `t_share_relation_share_id_key` (`share_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='分享表';
+
+
+
+
+DROP TABLE IF EXISTS `t_daily_total_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_daily_total_score` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL COMMENT '账户id',
+  `score` int(8) NOT NULL COMMENT '每天总积分',
+  `date` VARCHAR(20) NOT NULL COMMENT '日期',
+  `province` tinyint(2) DEFAULT NULL COMMENT '省份',
+  `question_time` int(1) DEFAULT NULL,
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分记录表';
+
+
+DROP TABLE IF EXISTS `t_total_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_total_score` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL COMMENT '账户id',
+  `score` int(8) NOT NULL COMMENT '总积分',
+  `province` tinyint(2) DEFAULT NULL COMMENT '省份',
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分记录表';
+
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -428,7 +457,7 @@ CREATE PROCEDURE proce_init_daily_info()
     CLOSE cursor_day_question;
   END $
 DELIMITER ;
-DROP EVENT event_init_day_question;
+DROP EVENT IF EXISTS event_init_day_question;
 CREATE EVENT event_init_day_question
   ON SCHEDULE EVERY 1 DAY STARTS '2018-01-14 00:00:00'
   ON COMPLETION  PRESERVE

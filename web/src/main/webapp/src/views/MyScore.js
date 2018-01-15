@@ -23,17 +23,17 @@ class MyScore extends Component {
         this.state = {
             location: '/home',
             scoreInfo: {},
-            myPrizeTitle:"我的奖品",
-            showMyPrize:false,
-            showPrizeDetail:false,
-            showSuccess:false,
-            successInfo:"",
-            currentAward:{},
-            timer:null,
-            showTishi:false,
-            mySelfRank:0,
-            ifTop20:false,
-            top20Time:'',
+            myPrizeTitle: "我的奖品",
+            showMyPrize: false,
+            showPrizeDetail: false,
+            showSuccess: false,
+            successInfo: "",
+            currentAward: {},
+            timer: null,
+            showTishi: false,
+            mySelfRank: 0,
+            ifTop20: false,
+            top20Time: '',
             tishiButtons: [
                 {
                     label: '补全信息',
@@ -45,10 +45,10 @@ class MyScore extends Component {
                 }
             ],
             myPrizeButtons: [
-            {
-                label: '返回我的积分',
-                onClick: this.hideMyPrizeDialog.bind(this)
-            }
+                {
+                    label: '返回我的积分',
+                    onClick: this.hideMyPrizeDialog.bind(this)
+                }
             ],
             prizeDetailButtons: [
                 {
@@ -56,7 +56,7 @@ class MyScore extends Component {
                     onClick: this.hidePrizeDetailDialog.bind(this)
                 }
             ],
-            myAwardInfo:[]
+            myAwardInfo: []
         };
         this.handleShopping = this.handleShopping.bind(this);
         this.handleInfo = this.handleInfo.bind(this);
@@ -92,36 +92,41 @@ class MyScore extends Component {
         });
         axios.get(`${host}/score/findIsTop20`).then(function (response) {
             if (response.data.state === 0) {
-               if(response.data.data!==null){
-                   var day1 = new Date();
-                   day1.setTime(day1.getTime());
-                   let month = day1.getMonth()+1;
-                   month = month+"";
-                   if(month.length===1){
-                       month = "0"+month;
-                   }
-                   let day = day1.getDate();
-                   day = day+"";
-                   if(day.length===1){
-                       day = "0"+day;
-                   }
-                   var s1 = day1.getFullYear()+"-" + month + "-" + day;
-                   if(response.data.data.date === s1){
-                       _this.setState({
-                           ifTop20:true,
-                           top20Time:s1
-                       });
-                   }
-               }
+                if (response.data.data !== null) {
+                    _this.setState({
+                        ifTop20: true,
+                        top20Time: response.data.data.date
+                    });
+                    /*var day1 = new Date();
+                     day1.setTime(day1.getTime());
+                     let month = day1.getMonth()+1;
+                     month = month+"";
+                     if(month.length===1){
+                     month = "0"+month;
+                     }
+                     let day = day1.getDate();
+                     day = day+"";
+                     if(day.length===1){
+                     day = "0"+day;
+                     }
+                     var s1 = day1.getFullYear()+"-" + month + "-" + day;*/
+                    /*if(response.data.data.date === s1){
+                     _this.setState({
+                     ifTop20:true,
+                     top20Time:s1
+                     });
+                     }*/
+                }
             }
         }).catch(function (errors) {
             console.log(errors);
         });
-        if(_this.props.location!==undefined&&_this.props.location!==null&&_this.props.location.state!==undefined&&_this.props.location.state!==null&&_this.props.location.state.ifFromRegist!==undefined&&_this.props.location.state.ifFromRegist!==null){
+        if (_this.props.location !== undefined && _this.props.location !== null && _this.props.location.state !== undefined && _this.props.location.state !== null && _this.props.location.state.ifFromRegist !== undefined && _this.props.location.state.ifFromRegist !== null) {
             console.log(_this.props.location.state.ifFromRegist);
             this.changeMyPrize();
         }
     }
+
     changeMyPrize() {
         //我的奖品获取
         let _this = this;
@@ -131,19 +136,21 @@ class MyScore extends Component {
                 _this.setState({
                     myAwardInfo: response.data.data
                 });
-                _this.setState({ showMyPrize: true});
+                _this.setState({showMyPrize: true});
             }
         }).catch(function (errors) {
             console.log(errors);
-            _this.setState({ showMyPrize: true});
+            _this.setState({showMyPrize: true});
         })
     }
+
     handleShopping() {
         this.props.history.push({
             pathname: '/scoreshopping',
             state: '/tasks'
         });
     }
+
     handleSignIn() {
         let _this = this;
         const {host} = _this.props;
@@ -151,13 +158,13 @@ class MyScore extends Component {
             if (response.data.state === 0) {
                 _this.state.timer && clearTimeout(_this.state.timer);
                 _this.setState({
-                    scoreInfo:response.data.data,
-                    successInfo:"签到成功",
-                    showSuccess:true
+                    scoreInfo: response.data.data,
+                    successInfo: "签到成功",
+                    showSuccess: true
                 });
                 _this.state.timer = setTimeout(function () {
                     _this.setState({
-                        showSuccess:false
+                        showSuccess: false
                     });
                 }, 2000);
             }
@@ -169,13 +176,30 @@ class MyScore extends Component {
         //    state: '/tasks'
         //});
     }
+
     handleShare() {
-        const {history} = this.props;
-        history.push({
-            pathname: '/answer',
-            state: '/tasks'
+        let _this = this;
+        const {history, host} = _this.props;
+        axios.get(`${host}/share/findShareInfo`).then(function (response) {
+            if (response.data.state === 0) {
+                let scoreInfo = response.data.data;
+                if (scoreInfo.correctCount === 0) {
+                    history.push({
+                        pathname: '/answer',
+                        state: '/tasks'
+                    });
+                } else {
+                    history.push({
+                        pathname: '/prize',
+                        state: '/tasks'
+                    });
+                }
+            }
+        }).catch(function (errors) {
+            console.log(errors);
         });
     }
+
     handleInvitation() {
         const {history} = this.props;
         history.push({
@@ -183,6 +207,7 @@ class MyScore extends Component {
             state: '/tasks'
         });
     }
+
     handleThumbUp() {
         const {history} = this.props;
         history.push({
@@ -190,49 +215,55 @@ class MyScore extends Component {
             state: '/tasks'
         });
     }
+
     handleInfo() {
         const {history} = this.props;
         history.push('/announce');
     }
-    goToRegist(){
+
+    goToRegist() {
         let _this = this;
         const {history} = _this.props;
         history.push({
-            pathname:'/regist',
-            state:'/tasks'
+            pathname: '/regist',
+            state: '/tasks'
         });
     }
-    hideTiShiDialog(){
+
+    hideTiShiDialog() {
         this.setState({
             showTishi: false,
-            showMyPrize:true
+            showMyPrize: true
         });
     }
+
     hideMyPrizeDialog() {
         this.setState({
-            showMyPrize: false,
+            showMyPrize: false
         });
     }
+
     hidePrizeDetailDialog() {
         this.setState({
             showPrizeDetail: false,
-            showMyPrize: true,
+            showMyPrize: true
         });
     }
-    getPrizeDetail(award){
+
+    getPrizeDetail(award) {
         //发请求
         let _this = this;
         const {host} = _this.props;
         axios.get(`${host}/account/findInfoIsCompleted`).then(function (response) {
             if (response.data.state === 0) {
-                if(response.data.data===false){
+                if (response.data.data === false) {
                     _this.setState({
-                        showTishi:true,
-                        showMyPrize:false,
+                        showTishi: true,
+                        showMyPrize: false,
                     });
-                }else{
+                } else {
                     _this.setState({
-                        currentAward:award,
+                        currentAward: award,
                         showPrizeDetail: true,
                         showMyPrize: false,
                     });
@@ -242,24 +273,26 @@ class MyScore extends Component {
             console.log(errors);
         });
     }
-    copyCode(code){
+
+    copyCode(code) {
         let _this = this;
         copy(code);
         console.log(code);
         _this.state.timer && clearTimeout(_this.state.timer);
         _this.setState({
-            successInfo:"复制成功",
-            showSuccess:true
+            successInfo: "复制成功",
+            showSuccess: true
         });
         _this.state.timer = setTimeout(function () {
             _this.setState({
-                showSuccess:false
+                showSuccess: false
             });
         }, 2000);
     }
-    getConditionFromEnum(type){
+
+    getConditionFromEnum(type) {
         let result = "";
-        switch(type){
+        switch (type) {
             case "TENCENT_VIP":
                 result = "1000积分";
                 break;
@@ -290,9 +323,10 @@ class MyScore extends Component {
         }
         return result;
     }
-    getNameFromEnum(type){
+
+    getNameFromEnum(type) {
         let result = "";
-        switch(type){
+        switch (type) {
             case "TENCENT_VIP":
                 result = "腾讯视频会员月卡";
                 break;
@@ -306,16 +340,16 @@ class MyScore extends Component {
                 result = "购物优惠券";
                 break;
             case "TOP_1":
-                result = "京东购物卡(积分清零)";
+                result = "京东购物卡(Top20奖)";
                 break;
             case "TOP_2":
-                result = "京东购物卡(积分清零)";
+                result = "京东购物卡(Top20奖)";
                 break;
             case "TOP_3":
-                result = "京东购物卡(积分清零)";
+                result = "京东购物卡(Top20奖)";
                 break;
             case "TOP_4S":
-                result = "腾讯视频会员月卡(积分清零)";
+                result = "腾讯视频会员月卡(Top20奖)";
                 break;
             case "LUCKY":
                 result = "摩拜单车骑行券";
@@ -329,7 +363,7 @@ class MyScore extends Component {
         let mySelfRank = this.state.mySelfRank;
         let _this = this;
         return (
-            <div className="root">
+            <div className="root-score">
                 <div className="MyScore score-bg">
                     <div className='clearfix'>
                         <Back location='/home' history={this.props.history}/>
@@ -339,9 +373,11 @@ class MyScore extends Component {
                         <br/>
                         <span>{scoreInfo.nickName}</span>
                         <br/>
-                        <span className='detail-msg'>剩余积分:<span className='detail-span'>{scoreInfo? (scoreInfo.score? scoreInfo.score : 0) : 0}</span>分</span>
+                        <span className='detail-msg'>剩余积分:<span
+                            className='detail-span'>{scoreInfo ? (scoreInfo.score ? scoreInfo.score : 0) : 0}</span>分</span>
                         <br/>
-                        {mySelfRank!==-1?(<span className='detail-msg'>排名:<span className='detail-span'>{mySelfRank?mySelfRank:0}</span>名</span>):(null)}
+                        {mySelfRank !== -1 ? (<span className='detail-msg'>排名:<span
+                            className='detail-span'>{mySelfRank ? mySelfRank : 0}</span>名</span>) : (null)}
                     </div>
                 </div>
                 <div className="bottomDiv">
@@ -359,23 +395,24 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>签到</span>
-                            <span className="desc">已签{scoreInfo?scoreInfo.signInCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo?scoreInfo.signInCount * 5 : 0} 积分</span>
+                            <span className="desc">已签{scoreInfo ? scoreInfo.signInCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? scoreInfo.signInCount * 5 : 0} 积分</span>
                         </div>
                         {/*<div className='middleDiv'>
-                            获 {scoreInfo?scoreInfo.signInCount * 5 : 0} 积分
-                        </div>*/}
-                        {scoreInfo.isSignIn===true?<div className="rightDiv"><img src={footReverse} alt=''/></div> : <div className="rightDiv" onClick={this.handleSignIn}><img src={foot} alt=''/></div>}
+                         获 {scoreInfo?scoreInfo.signInCount * 5 : 0} 积分
+                         </div>*/}
+                        {scoreInfo.isSignIn === true ? <div className="rightDiv"><img src={footReverse} alt=''/></div> :
+                            <div className="rightDiv" onClick={this.handleSignIn}><img src={foot} alt=''/></div>}
                     </div>
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>分享答题</span>
-                            <span className="desc">已成功分享{scoreInfo? scoreInfo.shareCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo?scoreInfo.shareCount * 5 : 0} 积分</span>
+                            <span className="desc">已成功分享{scoreInfo ? scoreInfo.shareCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? scoreInfo.shareCount * 5 : 0} 积分</span>
                         </div>
                         {/* <div className='middleDiv'>
-                            获 {scoreInfo? scoreInfo.shareCount * 5 : 0} 积分
-                        </div>*/}
+                         获 {scoreInfo? scoreInfo.shareCount * 5 : 0} 积分
+                         </div>*/}
                         <div className="rightDiv" onClick={this.handleShare}>
                             <img src={share} alt=""/>
                         </div>
@@ -383,12 +420,12 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>邀请答题</span>
-                            <span className="desc">已成功邀请{scoreInfo? scoreInfo.inviteCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo?scoreInfo.inviteCount * 5 : 0} 积分</span>
+                            <span className="desc">已成功邀请{scoreInfo ? scoreInfo.inviteCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? scoreInfo.inviteCount * 5 : 0} 积分</span>
                         </div>
                         {/*<div className='middleDiv'>
-                            获 {scoreInfo? scoreInfo.inviteCount * 5 : 0} 积分
-                        </div>*/}
+                         获 {scoreInfo? scoreInfo.inviteCount * 5 : 0} 积分
+                         </div>*/}
                         <div className="rightDiv" onClick={this.handleInvitation}>
                             <img src={billDetail} alt=""/>
                         </div>
@@ -396,50 +433,62 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>好友点赞</span>
-                            <span className="desc">已被点赞{scoreInfo? scoreInfo.thumbUpCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分</span>
+                            <span className="desc">已被点赞{scoreInfo ? scoreInfo.thumbUpCount : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? scoreInfo.thumbUpCount : 0} 积分</span>
                         </div>
                         {/*<div className='middleDiv'>
-                            获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分
-                        </div>*/}
+                         获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分
+                         </div>*/}
                         <div className="rightDiv" onClick={this.handleThumbUp}>
                             {/*<img src={billDetail} alt=""/>*/}
                             <i className='plus'></i>
                         </div>
                     </div>
-                    {_this.state.ifTop20?(<p className='detail-info'>恭喜！你在{_this.state.top20Time}获得Top前20，请在"我的奖品"中查看奖品，积分已被自动清零一次，欢迎继续每日答题赢积分兑换奖品</p>):(null)}
+                    {_this.state.ifTop20 ? (<p className='detail-info'>恭喜！你在{_this.state.top20Time}获得Top前20，请在"我的奖品"中查看奖品，积分已被自动清零一次，欢迎继续每日答题赢积分兑换奖品</p>) : (null)}
                 </div>
-                <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons} show={this.state.showMyPrize}>
-                    {this.state.myAwardInfo.length===0?(
+                <Dialog type="ios" title={this.state.myPrizeTitle} buttons={this.state.myPrizeButtons}
+                        show={this.state.showMyPrize}>
+                    {this.state.myAwardInfo.length === 0 ? (
                         <div>
                             <span className="noAward">暂无奖品</span>
                         </div>
-                    ):(
+                    ) : (
                         <div className="listdiv">
-                            {this.state.myAwardInfo.map(function(item,index){
+                            {this.state.myAwardInfo.map(function (item, index) {
                                 return (
 
                                     <div className="task" key={index}>
                                         <div className="leftDiv">
                                             <span>{_this.getNameFromEnum(item.awardType)}</span>
                                             <span className="desc">获奖时间:{item.createTime}</span>
-                                            <span className="desc">状态:{item.isReceivedAward===true?"已领取":item.isExpired===false?"待领取":"已过期"}</span>
+                                            <span
+                                                className="desc">状态:{item.isReceivedAward === true ? "已领取" : item.isExpired === false ? "待领取" : "已过期"}</span>
                                             <span className="desc">有效期:6天</span>
                                         </div>
-                                        {item.isReceivedAward===false&&item.isExpired===true?<div className="rightDiv"><img src={disPlus}/></div>:<div className="rightDiv" onClick={() => _this.getPrizeDetail(item)}><i className="plus"/></div>}
+                                        {item.isReceivedAward === false && item.isExpired === true ?
+                                            <div className="rightDiv"><img src={disPlus}/></div> :
+                                            <div className="rightDiv" onClick={() => _this.getPrizeDetail(item)}><i
+                                                className="plus"/></div>}
                                     </div>
                                 );
                             })}
                         </div>
                     )}
                 </Dialog>
-                <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)} buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
+                <Dialog type="ios" title={_this.getNameFromEnum(this.state.currentAward.awardType)}
+                        buttons={this.state.prizeDetailButtons} show={this.state.showPrizeDetail}>
                     {/*this.state.currentAward.awardType==="FIVE_COUPON"||this.state.currentAward.awardType==="TEN_COUPON"?<img src={this.state.currentAward.codeSecret}></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>*/}
-                    {this.state.currentAward.awardType==="FIVE_COUPON"?<img src={five} className="srcImg"></img>:this.state.currentAward.awardType==="TEN_COUPON"?<img src={ten} className="srcImg"></img>:<div className="myPrize"><span className="codeLable">兑换码:</span><span className="codeSecret">{this.state.currentAward.codeSecret}</span><Button className="copyCode" onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
+                    {this.state.currentAward.awardType === "FIVE_COUPON" ?
+                        <img src={five} className="srcImg"></img> : this.state.currentAward.awardType === "TEN_COUPON" ?
+                        <img src={ten} className="srcImg"></img> :
+                        <div className="myPrize"><span className="codeLable">兑换码:</span><span
+                            className="codeSecret">{this.state.currentAward.codeSecret}</span><Button
+                            className="copyCode"
+                            onClick={()=>_this.copyCode(this.state.currentAward.codeSecret)}>复制兑换码</Button></div>}
                 </Dialog>
                 <Dialog type="ios" title="提示" buttons={this.state.tishiButtons} show={this.state.showTishi}>
                     <br/>
-                    兑换奖品前需补全信息，是否跳转
+                    兑换奖品前需补全信息
                 </Dialog>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>

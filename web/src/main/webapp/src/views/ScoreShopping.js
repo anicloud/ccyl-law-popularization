@@ -200,7 +200,7 @@ class ScoreShopping extends Component{
             ten_coupon = {};
         }
         return (
-            <div className="root">
+            <div className="root-shop">
                 <div className="scoreshopping score-bg">
                     <div className='clearfix'>
                         <Back location='/home' history={this.props.history}/>
