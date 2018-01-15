@@ -39,6 +39,13 @@ class AnswerQuestion extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
+        axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    scoreInfo: response.data.data
+                });
+            }
+        });
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
                 if (response.data.data !== null) {
@@ -66,13 +73,6 @@ class AnswerQuestion extends Component {
     handleNext() {
         let _this = this;
         const {host} = _this.props;
-        axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({
-                    scoreInfo: response.data.data
-                });
-            }
-        });
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
                 if (response.data.data !== null) {

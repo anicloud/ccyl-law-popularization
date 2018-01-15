@@ -118,6 +118,7 @@ class SharePrize extends Component {
         let scoreInfo = this.state.scoreInfo;
         let isReady = this.state.isReady;
         let mySelfRank = this.state.mySelfRank;
+        let correctCount = this.state.correctCount;
         return (
             <div className='share-prize myprize-bg'>
                 <div className='clearfix'>
@@ -131,10 +132,10 @@ class SharePrize extends Component {
                         <div className='text-center complete'>
                             <div className='wrapper'>
                                 <div className='sum-score'>
-                                    <div><span className="score">+10</span></div>
+                                    <div><span className="score">+{correctCount*5?correctCount*5:0}</span></div>
                                 </div>
                                 <div className="sum-detail">
-                                    <p className='first'>恭喜你！今日答对5题</p>
+                                    <p className='first'>恭喜你！今日答对{correctCount}题</p>
                                     <p className='second'>当前积分：<span>{scoreInfo.score?scoreInfo.score:0}</span></p>
                                     <p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>
                                 </div>
