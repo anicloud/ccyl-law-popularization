@@ -287,7 +287,7 @@ class MyScore extends Component {
                 result = "腾讯视频会员月卡";
                 break;
             case "OFO_COUPON":
-                result = "ofo用车券";
+                result = "摩拜单车骑行券";
                 break;
             case "FIVE_COUPON":
                 result = "购物优惠券";
