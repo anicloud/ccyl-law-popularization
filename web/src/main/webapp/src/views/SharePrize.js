@@ -220,7 +220,7 @@ class SharePrize extends Component {
                 </div>
                 {/*<Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>*/}
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-                <Toast icon="loading" show={this.state.oading}>Loading...</Toast>
+                <Toast icon="loading" show={this.state.loading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                 <Toast icon="warn" show={this.state.showReAnswer}>重答次数已用完</Toast>
             </div>
