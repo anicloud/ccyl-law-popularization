@@ -27,6 +27,7 @@ class SharePrize extends Component {
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
         this.handleShare = this.handleShare.bind(this);
+        this.backAnswer = this.backAnswer.bind(this);
     }
     componentDidMount() {
         let _this = this;
@@ -111,6 +112,10 @@ class SharePrize extends Component {
                 }
             }
         );
+    }
+    backAnswer() {
+        const {history} = this.props;
+        history.push('/answer');
     }
     render() {
         let scoreInfo = this.state.scoreInfo;
