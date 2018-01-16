@@ -128,6 +128,15 @@ class SharePrize extends Component {
                 {
                     (isReady && scoreInfo)? (
                         <div className='text-center complete'>
+                            <h2 className='wrapper-title'>
+                                {
+                                    correctCount === 5? (
+                                        <span>已答完</span>
+                                    ) : (
+                                        <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
+                                    )
+                                }
+                            </h2>
                             <div className='wrapper'>
                                 <div className='sum-score'>
                                     <div><span className="score">+{correctCount*2?correctCount*2:0}</span></div>
