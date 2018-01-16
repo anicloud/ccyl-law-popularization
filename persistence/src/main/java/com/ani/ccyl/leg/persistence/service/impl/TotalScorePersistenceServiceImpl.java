@@ -62,11 +62,11 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
         List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
         if(scorePOS!=null && scorePOS.size()!=0){
             TotalScorePO scorePO=scorePOS.get(0);
-            if (scorePO.getThumbUpCount()!=null){
-                scorePO.setThumbUpCount(scorePO.getSignInCount()+1);
+            if (scorePO.getSignInCount()!=null){
+                scorePO.setSignInCount(scorePO.getSignInCount()+1);
 
             }else {
-                scorePO.setThumbUpCount(1);
+                scorePO.setSignInCount(1);
             }
             totalScoreMapper.updateByPrimaryKeySelective(scorePO);
 
