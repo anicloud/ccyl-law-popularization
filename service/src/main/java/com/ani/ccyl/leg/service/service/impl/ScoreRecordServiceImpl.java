@@ -463,12 +463,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 infoDto.setProvince(ProvinceEnum.NUll.getValue());
             }
         }
-
-
         totalInfo.put("top20",top20Dtos);
         totalInfo.put("province",provinceInfoDtos);
         savetoFile("top20/"+dateString+".json",totalInfo);
-
         return totalInfo;
     }
     public void savetoFile(String filePath,Map<String,Object> obj){
