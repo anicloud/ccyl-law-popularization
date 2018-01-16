@@ -19,8 +19,11 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
         List<TotalScorePO> scorePOList=totalScoreMapper.select(scoreParam);
         if (scorePOList!=null && scorePOList.size()!=0){
             TotalScorePO scorePO=scorePOList.get(0);
-            scorePO.setScore(scorePO.getScore()+totalScorePO.getScore());
-            totalScoreMapper.updateByPrimaryKeySelective(scorePO);
+            if(totalScorePO.getScore() != null) {
+                totalScorePO.setScore(totalScorePO.getScore()+scorePO.getScore());
+            }
+            totalScorePO.setId(scorePO.getId());
+            totalScoreMapper.updateByPrimaryKeySelective(totalScorePO);
         }else {
             totalScoreMapper.insertSelective(totalScorePO);
         }
