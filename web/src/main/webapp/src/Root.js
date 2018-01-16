@@ -66,7 +66,7 @@ class Root extends Component {
         /*_this.setState({
             showLoading: false
         });*/
-        jsSdkConfig(axios, store.getState().host);
+        /*jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             // alert('root ready');
             window.wx.getLocation({
@@ -98,7 +98,7 @@ class Root extends Component {
             }).catch(function (errors) {
                 console.log(errors);
             });
-        });
+        });*/
         window.wx.error(function(res) {
             if (res.errMsg === 'config:require subscribe') {
                 _this.setState({
