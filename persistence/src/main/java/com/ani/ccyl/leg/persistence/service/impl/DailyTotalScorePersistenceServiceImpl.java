@@ -26,6 +26,8 @@ public class DailyTotalScorePersistenceServiceImpl implements DailyTotalScorePer
             scorePO.setScore(scorePO.getScore()+dailyTotalScore.getScore());
             if(dailyTotalScore.getCorrectCount() != null)
                 scorePO.setCorrectCount(scorePO.getCorrectCount()+1);
+            scorePO.setProvince(dailyTotalScore.getProvince());
+            scorePO.setQuestionTime(dailyTotalScore.getQuestionTime());
             dailyTotalScoreMapper.updateByPrimaryKeySelective(scorePO);
         }else {
             if(dailyTotalScore.getCorrectCount() != null)
