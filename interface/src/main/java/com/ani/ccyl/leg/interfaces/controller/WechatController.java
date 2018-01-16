@@ -143,7 +143,7 @@ public class WechatController {
                 response.addCookie(cookie);
                 if(state.matches("^[0-9]+$")) {
                     AccountDto toAccount = accountService.findById(Integer.parseInt(state));
-                    if(!accountDto.getNew())
+                    if(accountDto.getNew())
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else {
