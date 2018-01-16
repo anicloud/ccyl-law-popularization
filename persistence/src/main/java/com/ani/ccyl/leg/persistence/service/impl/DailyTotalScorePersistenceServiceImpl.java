@@ -17,7 +17,7 @@ public class DailyTotalScorePersistenceServiceImpl implements DailyTotalScorePer
     public void updateDailyTotalScore(DailyTotalScorePO dailyTotalScore) {
         DailyTotalScorePO scoreParam=new DailyTotalScorePO();
         scoreParam.setAccountId(dailyTotalScore.getAccountId());
-        scoreParam.setDate(dailyTotalScore.getDate());
+        scoreParam.setLogDate(dailyTotalScore.getLogDate());
         List<DailyTotalScorePO> totalScorePOList=dailyTotalScoreMapper.select(scoreParam);
         if (totalScorePOList!=null && totalScorePOList.size()!=0){
             DailyTotalScorePO scorePO=totalScorePOList.get(0);
@@ -31,9 +31,14 @@ public class DailyTotalScorePersistenceServiceImpl implements DailyTotalScorePer
     @Override
     public List<DailyTotalScorePO> findTop20(String date) {
         DailyTotalScorePO scoreParam=new DailyTotalScorePO();
-        scoreParam.setDate(date);
+        scoreParam.setLogDate(date);
        List<DailyTotalScorePO> scorePOS= dailyTotalScoreMapper.findTop20(date);
         return scorePOS;
+    }
+
+    @Override
+    public DailyTotalScorePO findByAccountId(Integer accountId, String logDate) {
+        return null;
     }
 
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface DailyTotalScorePersistenceService {
     void updateDailyTotalScore(DailyTotalScorePO dailyTotalScore);
     List<DailyTotalScorePO> findTop20(String date);
+    DailyTotalScorePO findByAccountId(Integer accountId, String logDate);
 }

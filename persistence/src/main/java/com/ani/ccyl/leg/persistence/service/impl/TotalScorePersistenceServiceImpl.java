@@ -26,4 +26,9 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
         }
 
     }
+
+    @Override
+    public TotalScorePO findByAccountId(Integer accountId) {
+        return null;
+    }
 }
