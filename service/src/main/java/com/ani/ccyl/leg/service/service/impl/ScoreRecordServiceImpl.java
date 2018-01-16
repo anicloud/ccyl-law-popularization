@@ -139,14 +139,12 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         }
     }
     private void updateTotalScore(Integer score, Integer accountId, ProvinceEnum province, String date, Integer questionTime,Integer correctCount) {
-        if(score >0 ) {
-            // TODO: 2018/1/16 插入总分表
-            TotalScorePO totalScorePO = new TotalScorePO(null, accountId, score, province);
-            totalScorePersistenceService.updateTotalScore(totalScorePO);
-            // TODO: 2018/1/16 插入每日积分表
-            DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, score, date, province, questionTime, correctCount);
-            dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
-        }
+        // TODO: 2018/1/16 插入总分表
+        TotalScorePO totalScorePO = new TotalScorePO(null, accountId, score, province);
+        totalScorePersistenceService.updateTotalScore(totalScorePO);
+        // TODO: 2018/1/16 插入每日积分表
+        DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, score, date, province, questionTime, correctCount);
+        dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
     }
 
     @Override
