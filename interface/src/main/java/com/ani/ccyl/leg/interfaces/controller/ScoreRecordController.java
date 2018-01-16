@@ -73,14 +73,6 @@ public class ScoreRecordController {
         if(totalScore != null) {
             totalScore.setPortrait(accountDto.getPortrait());
             totalScore.setNickName(accountDto.getNickName());
-            Integer lastScore = totalScore.getScore();
-            List<MyAwardDto> myConvertAwards = scoreRecordService.findMyConvertAward(accountDto.getId());
-            if(myConvertAwards!=null) {
-                for(MyAwardDto myAwardsPO:myConvertAwards) {
-                    lastScore = lastScore - myAwardsPO.getAwardType().findScore();
-                }
-            }
-            totalScore.setScore(lastScore);
         }
         message.setState(ResponseStateEnum.OK);
         message.setData(totalScore);
@@ -155,14 +147,6 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
-        Integer lastScore = totalScoreDto.getScore();
-        List<MyAwardDto> myConvertAwards = scoreRecordService.findMyConvertAward(accountDto.getId());
-        if(myConvertAwards!=null) {
-            for(MyAwardDto myAwardsPO:myConvertAwards) {
-                lastScore = lastScore - myAwardsPO.getAwardType().findScore();
-            }
-        }
-        totalScoreDto.setScore(lastScore);
         if(totalScoreDto != null) {
             totalScoreDto.setNickName(accountDto.getNickName());
             totalScoreDto.setPortrait(accountDto.getPortrait());
