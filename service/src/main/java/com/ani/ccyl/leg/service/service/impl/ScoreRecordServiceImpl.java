@@ -145,6 +145,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Override
     public TotalScoreDto findTotalScore(Integer accountId) {
         TotalScoreDto totalScoreDto = scoreRecordMapper.findTotalScore(accountId);
+        if(totalScoreDto == null) totalScoreDto = new TotalScoreDto();
         totalScoreDto.setIsSignIn(scoreRecordMapper.findIsSignIn(accountId));
         return totalScoreDto;
     }
@@ -376,7 +377,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             mySelfRankDto.setRanking(rank);
         }
 
-        mySelfRankDto.setTotalScore(dailyTotalScorePO.getScore());
+        mySelfRankDto.setTotalScore(dailyTotalScorePO==null?0:dailyTotalScorePO.getScore());
         mySelfRankDto.setNickName(accountPO.getNickName());
         mySelfRankDto.setPortrait(accountPO.getPortrait());
         return mySelfRankDto;
