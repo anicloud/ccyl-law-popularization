@@ -64,7 +64,7 @@ class AnswerQuestion extends Component {
                         question: Map(response.data.data)
                     });
                 } else {
-                    history.push('/thumb');
+                    history.push('/prize');
                 }
             }
         }).catch(function (errors) {
