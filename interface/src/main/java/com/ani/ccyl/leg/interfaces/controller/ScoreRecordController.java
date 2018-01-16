@@ -91,16 +91,16 @@ public class ScoreRecordController {
         return message;
     }
 
-    @RequestMapping(value = "/findTotalSignIn", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto findTotalSignIn(HttpSession session) {
-        ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        message.setData(scoreRecordService.findTotalSignIn(accountDto.getId()));
-        message.setState(ResponseStateEnum.OK);
-        message.setMsg("查询成功");
-        return message;
-    }
+//    @RequestMapping(value = "/findTotalSignIn", method = RequestMethod.GET)
+//    @ResponseBody
+//    public ResponseMessageDto findTotalSignIn(HttpSession session) {
+//        ResponseMessageDto message = new ResponseMessageDto();
+//        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+//        message.setData(scoreRecordService.findTotalSignIn(accountDto.getId()));
+//        message.setState(ResponseStateEnum.OK);
+//        message.setMsg("查询成功");
+//        return message;
+//    }
 
     @RequestMapping(value = "/convertAward", method = RequestMethod.GET)
     @ResponseBody

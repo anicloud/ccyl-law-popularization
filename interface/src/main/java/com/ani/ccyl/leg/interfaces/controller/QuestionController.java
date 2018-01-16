@@ -36,8 +36,6 @@ public class QuestionController {
     private QuestionService questionService;
     @Autowired
     private ScoreRecordService scoreRecordService;
-    @Autowired
-    private ShareRelationService shareRelationService;
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessageDto uploadQuestionFile(@RequestParam QuestionTypeEnum type, @RequestParam MultipartFile file) {

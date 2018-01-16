@@ -41,24 +41,31 @@ class TrueFalseQuestion extends Component {
     handleChange(e) {
         let value = e.target.value;
         this.setState({
-            value
+            value,
+            isValue: false
         });
     }
     handleSubmit() {
         let _this = this;
-        const {id} = _this.state.question;
-        const {host, handleShowNext} = _this.props;
-        axios.get(`${host}/question/verify?id=${id}&answer=${_this.state.value}`).then(function (response) {
-            if (response.data.state === 0) {
-                _this.setState({
-                    answer: response.data.data
-                }, function () {
-                    handleShowNext();
-                });
-            }
-        }).catch(function (errors) {
-            console.log(errors);
-        })
+        if (_this.state.value) {
+            const {id} = _this.state.question;
+            const {host, handleShowNext} = _this.props;
+            axios.get(`${host}/question/verify?id=${id}&answer=${_this.state.value}`).then(function (response) {
+                if (response.data.state === 0) {
+                    _this.setState({
+                        answer: response.data.data
+                    }, function () {
+                        handleShowNext();
+                    });
+                }
+            }).catch(function (errors) {
+                console.log(errors);
+            })
+        } else {
+            _this.setState({
+                isValue: true
+            })
+        }
     }
     render() {
         let question = this.state.question;
