@@ -17,6 +17,7 @@ export function jsSdkConfig(axios, host) {
     let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     let url = '';
+    alert(window.navigator.userAgent);
     if (isiOS) {
         // let str = `http://www.12355.org.cn/leg/home/index?op=${window.sessionStorage.getItem('option')}`;
         // url = encodeURIComponent(window.sessionStorage.getItem('option'));
