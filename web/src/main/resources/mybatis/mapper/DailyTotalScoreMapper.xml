@@ -3,8 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ani.ccyl.leg.persistence.mapper.DailyTotalScoreMapper">
-    <select id=" findTop20" parameterType="java.lang.String" resultType="com.ani.ccyl.leg.persistence.po.ShareRelationPO" >
+    <select id="findTop20" parameterType="java.lang.String" resultType="com.ani.ccyl.leg.persistence.po.ShareRelationPO" >
         select * from T_DAILY_TOTAL WHERE log_date =#{date} ORDER BY SCORE DESC limit 20;
+    </select>
+    <select id="findRankByAccountId" parameterType="java.util.Map" resultType="java.lang.Integer">
+
     </select>
 
 </mapper>
