@@ -329,7 +329,7 @@ class MyScore extends Component {
         let mySelfRank = this.state.mySelfRank;
         let _this = this;
         return (
-            <div className="root">
+            <div className="root-score">
                 <div className="MyScore score-bg">
                     <div className='clearfix'>
                         <Back location='/home' history={this.props.history}/>
@@ -439,7 +439,7 @@ class MyScore extends Component {
                 </Dialog>
                 <Dialog type="ios" title="提示" buttons={this.state.tishiButtons} show={this.state.showTishi}>
                     <br/>
-                    兑换奖品前需补全信息，是否跳转
+                    兑换奖品前需补全信息
                 </Dialog>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>

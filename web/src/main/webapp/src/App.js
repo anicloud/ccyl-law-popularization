@@ -60,6 +60,10 @@ class App extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
+        window.removeEventListener('popstate', function () {
+            const {history} = _this.props;
+            history.push('/home');
+        }, false);
     }
 
     hideTishiDialog() {

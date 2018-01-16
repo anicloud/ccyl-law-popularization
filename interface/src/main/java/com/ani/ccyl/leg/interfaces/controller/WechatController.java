@@ -150,11 +150,11 @@ public class WechatController {
                     AccessTokenDto accessTokenDto = wechatService.updateToken();
                     String subscribeUrl = fetchIsSubscribeUrl.replace("ACCESS_TOKEN",accessTokenDto.getAccessToken()).replace("OPENID",openId);
                     JSONObject subscribeInfo = WechatUtil.httpRequest(subscribeUrl,"GET",null);
-                    if(subscribeInfo != null && subscribeInfo.containsKey("subscribe")&&subscribeInfo.getString("subscribe").equals("0")) {
-                        response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.UNSUBSCRIBE.name());
-                    } else {
+//                    if(subscribeInfo != null && subscribeInfo.containsKey("subscribe")&&subscribeInfo.getString("subscribe").equals("0")) {
+//                        response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.UNSUBSCRIBE.name());
+//                    } else {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.LOGIN_SUCCESS.name());
-                    }
+              //      }
                 }
             } else if(tokenObj.containsKey("errcode")) {
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+HttpMessageEnum.LOGIN_FAILURE.name());
