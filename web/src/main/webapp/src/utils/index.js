@@ -24,7 +24,7 @@ export function jsSdkConfig(axios, host) {
     }
 
     let time = Math.round(new Date().getTime() / 1000);
-    alert(window.location.href.split('#')[0]);
+    // alert(window.location.href.split('#')[0]);
     axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${url}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/
