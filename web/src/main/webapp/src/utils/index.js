@@ -15,6 +15,7 @@ export function getSearchString(search, key) {
 export function jsSdkConfig(axios, host) {
     let url = encodeURIComponent(window.location.href.split('#')[0]);
     let time = Math.round(new Date().getTime() / 1000);
+    alert(location.href.split('#')[0])
     axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${url}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/
