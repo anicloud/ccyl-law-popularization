@@ -22,7 +22,7 @@ public interface ScoreRecordService {
 
     Boolean findIsThumbUp(Integer srcId, Integer toAccountId);
     Boolean findIsSignIn(Integer accountId);
-    TotalSignInDto findTotalSignIn(Integer accountId);
+//    TotalSignInDto findTotalSignIn(Integer accountId);
 
     void updateConvertAward(Integer accountId, AwardTypeEnum awardType);
 
