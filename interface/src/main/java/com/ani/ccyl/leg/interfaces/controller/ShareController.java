@@ -92,6 +92,11 @@ public class ShareController {
     public ResponseMessageDto thumbUp(Integer toAccountId, HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+        if(toAccountId.equals(accountDto.getId())){
+            message.setState(ResponseStateEnum.EXCEPTION);
+            message.setMsg("对不起，不能为自己点赞哦");
+            return message;
+        }
         Boolean isThumbUp = scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId);
         if(!isThumbUp) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();

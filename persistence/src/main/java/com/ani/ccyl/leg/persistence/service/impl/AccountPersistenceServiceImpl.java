@@ -18,7 +18,7 @@ public class AccountPersistenceServiceImpl implements AccountPersistenceService 
     public Boolean findIsInfoComplete(Integer accountId) {
         AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
         if(accountPO != null) {
-            return !(StringUtils.isEmpty(accountPO.getPhone()) || StringUtils.isEmpty(accountPO.getEmail()) || accountPO.getProvince() == null);
+            return !(StringUtils.isEmpty(accountPO.getPhone()));
         }
         return false;
     }
