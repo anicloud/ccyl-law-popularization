@@ -456,7 +456,11 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
         List<ProvinceInfoDto> provinceInfoDtos=dailyTotalScoreMapper.findPrivanceInfo(dateString);
         for (ProvinceInfoDto infoDto:provinceInfoDtos){
-            infoDto.setProvince(ProvinceEnum.getEnum(Integer.parseInt(infoDto.getProvince())).getValue());
+            if(infoDto.getProvince()==null){
+                infoDto.setProvince("未定位");
+            }else{
+                infoDto.setProvince(ProvinceEnum.getEnum(Integer.parseInt(infoDto.getProvince())).getValue());
+            }
         }
 
 
