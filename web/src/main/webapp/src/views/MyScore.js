@@ -179,7 +179,7 @@ class MyScore extends Component {
 
     handleShare() {
         let _this = this;
-        const {history} = _this.props;
+        const {history, host} = _this.props;
         axios.get(`${host}/share/findShareInfo`).then(function (response) {
             if (response.data.state === 0) {
                 let scoreInfo = response.data.data;
