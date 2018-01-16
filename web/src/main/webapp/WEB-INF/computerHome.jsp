@@ -447,7 +447,7 @@
             <div><%=topList.get(i).getScore()%></div>
             <div><%=topList.get(i).getName()%></div>
           </div>
-          <div class='pull-right rank-third'><%=i%></div>
+          <div class='pull-right rank-third'><%=i+1%></div>
         </div>
         <%
           }
@@ -478,7 +478,7 @@
           for(int j=0;j<provinceList.size();j++){
           %>
         <div class='clearfix top-ranking'>
-          <div class='rank-first'><%=j%></div>
+          <div class='rank-first'><%=j+1%></div>
           <div class='rank-second'><%=provinceList.get(j).getProvince()%></div>
           <div class='rank-third'><%=provinceList.get(j).getAverageScore()%></div>
           <div class='rank-four'><%=provinceList.get(j).getTotalScore()%></div>
