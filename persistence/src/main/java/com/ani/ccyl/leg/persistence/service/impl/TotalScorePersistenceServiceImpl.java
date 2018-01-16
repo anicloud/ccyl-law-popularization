@@ -45,7 +45,11 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
         List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
         if(scorePOS!=null && scorePOS.size()!=0){
            TotalScorePO scorePO=scorePOS.get(0);
-           scorePO.setThumbUpCount(scorePO.getThumbUpCount()+1);
+           if (scorePO.getThumbUpCount()!=null){
+               scorePO.setThumbUpCount(scorePO.getThumbUpCount()+1);
+           }else {
+               scorePO.setInviteCount(1);
+           }
            totalScoreMapper.updateByPrimaryKeySelective(scorePO);
         }
 
@@ -58,8 +62,14 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
         List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
         if(scorePOS!=null && scorePOS.size()!=0){
             TotalScorePO scorePO=scorePOS.get(0);
-            scorePO.setThumbUpCount(scorePO.getSignInCount()+1);
+            if (scorePO.getThumbUpCount()!=null){
+                scorePO.setThumbUpCount(scorePO.getSignInCount()+1);
+
+            }else {
+                scorePO.setThumbUpCount(1);
+            }
             totalScoreMapper.updateByPrimaryKeySelective(scorePO);
+
         }
 
     }
@@ -71,7 +81,12 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
         List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
         if(scorePOS!=null && scorePOS.size()!=0){
             TotalScorePO scorePO=scorePOS.get(0);
-            scorePO.setInviteCount(scorePO.getInviteCount()+1);
+            if (scorePO.getInviteCount()!=null){
+                scorePO.setInviteCount(scorePO.getInviteCount()+1);
+            }else {
+                scorePO.setInviteCount(1);
+            }
+
             totalScoreMapper.updateByPrimaryKeySelective(scorePO);
         }
     }
@@ -83,7 +98,12 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
         List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
         if(scorePOS!=null && scorePOS.size()!=0){
             TotalScorePO scorePO=scorePOS.get(0);
-            scorePO.setShareCount(scorePO.getShareCount()+1);
+            if (scorePO.getShareCount()!=null){
+                scorePO.setShareCount(scorePO.getShareCount()+1);
+            }else {
+                scorePO.setShareCount(1);
+            }
+
             totalScoreMapper.updateByPrimaryKeySelective(scorePO);
         }
     }
