@@ -161,7 +161,7 @@ class SharePrize extends Component {
                 });
             }, 2000);
         } else {
-            history.push('/answer');
+            history.replace('/answer');
         }
     }
 
