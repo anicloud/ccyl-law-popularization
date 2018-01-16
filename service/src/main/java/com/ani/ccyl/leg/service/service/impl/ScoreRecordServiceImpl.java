@@ -153,14 +153,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         totalScoreDto.setPortrait(accountPO.getPortrait());
         if(totalScorePO == null) {
             totalScoreDto.setInviteCount(0);
-            totalScoreDto.setQuestionCount(0);
             totalScoreDto.setShareCount(0);
             totalScoreDto.setThumbUpCount(0);
+            totalScoreDto.setSignInCount(0);
             totalScoreDto.setScore(0);
         } else {
             totalScoreDto.setInviteCount(totalScorePO.getInviteCount());
             totalScoreDto.setShareCount(totalScorePO.getShareCount());
             totalScoreDto.setThumbUpCount(totalScorePO.getThumbUpCount());
+            totalScoreDto.setSignInCount(totalScorePO.getSignInCount());
             totalScoreDto.setScore(totalScorePO.getScore());
         }
         if(dailyTotalScorePO == null) {
