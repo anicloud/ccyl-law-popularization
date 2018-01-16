@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ani.ccyl.leg.persistence.mapper.QuestionMapper">
     <select id="findDayQuestions" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
-        SELECT q.* FROM t_question q LEFT JOIN t_day_question dq ON q.id=dq.id WHERE dq.log_date=date_format(#{createTime},'%Y-%m-%d') ORDER BY q.id
+        SELECT q.* FROM t_question q LEFT JOIN t_day_question dq ON q.id=dq.id WHERE date_format(dq.update_time,'%Y-%m-%d')=date_format(#{createTime},'%Y-%m-%d') ORDER BY q.id
     </select>
     <select id="findTopFive" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
         (SELECT id FROM t_question WHERE is_del=FALSE and type='2' ORDER BY id LIMIT 2)
