@@ -87,7 +87,7 @@ class SharePrize extends Component {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
                     alert("分享url："+scoreInfo.url);
-                    alert(location.href.split('#')[0]);
+                    alert(window.location.href.split('#')[0]);
                     _this.setState({
                         correctCount: scoreInfo.correctCount
                     });
