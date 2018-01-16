@@ -16,6 +16,9 @@ public class ProvinceInfoDto {
         this.peopleNumber = peopleNumber;
     }
 
+    public ProvinceInfoDto() {
+    }
+
     public String getProvince() {
 
         return province;
