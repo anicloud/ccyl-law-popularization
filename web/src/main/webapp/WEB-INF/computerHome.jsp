@@ -28,7 +28,7 @@
       height:3rem;
       width:70%;
       margin:0 auto;
-      background-color: grey;
+      background-color: #eaf1d9;
     }
   </style>
 </head>
