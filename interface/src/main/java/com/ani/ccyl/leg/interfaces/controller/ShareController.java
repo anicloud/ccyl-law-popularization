@@ -99,14 +99,7 @@ public class ShareController {
         }
         Boolean isThumbUp = scoreRecordService.findIsThumbUp(accountDto.getId(),toAccountId);
         if(!isThumbUp) {
-            ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
-            scoreRecordPO.setAccountId(toAccountId);
-            scoreRecordPO.setSrcAccountId(accountDto.getId());
-            scoreRecordPO.setSrcType(ScoreSrcTypeEnum.THUMB_UP);
-            scoreRecordPO.setScore(Constants.Score.THUMB_UP_SCORE);
-            scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            scoreRecordPO.setDel(false);
-            scoreRecordMapper.insertSelective(scoreRecordPO);
+            scoreRecordService.insertScore(toAccountId,Constants.Score.THUMB_UP_SCORE,null,ScoreSrcTypeEnum.THUMB_UP,accountDto.getId());
             message.setState(ResponseStateEnum.OK);
             message.setMsg("点赞成功");
         } else{

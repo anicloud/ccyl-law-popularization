@@ -16,18 +16,18 @@ public class DailyTotalScorePO implements Serializable {
     private Integer id;
     private Integer accountId;
     private Integer score;
-    private String date;
+    private String logDate;
     private ProvinceEnum province;
     private Integer questionTime;
 
     public DailyTotalScorePO() {
     }
 
-    public DailyTotalScorePO(Integer id, Integer accountId, Integer score, String date, ProvinceEnum province, Integer questionTime) {
+    public DailyTotalScorePO(Integer id, Integer accountId, Integer score, String logDate, ProvinceEnum province, Integer questionTime) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
-        this.date = date;
+        this.logDate = logDate;
         this.province = province;
         this.questionTime = questionTime;
     }
@@ -56,12 +56,12 @@ public class DailyTotalScorePO implements Serializable {
         this.score = score;
     }
 
-    public String getDate() {
-        return date;
+    public String getLogDate() {
+        return logDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setLogDate(String date) {
+        this.logDate = date;
     }
 
     public ProvinceEnum getProvince() {

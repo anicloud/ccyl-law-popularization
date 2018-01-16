@@ -326,10 +326,14 @@ CREATE TABLE `t_daily_total_score` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `account_id` int(11) NOT NULL COMMENT '账户id',
   `score` int(8) NOT NULL COMMENT '每天总积分',
-  `date` VARCHAR(20) NOT NULL COMMENT '日期',
+  `log_date` CHAR(20) NOT NULL COMMENT '日期',
   `province` tinyint(2) DEFAULT NULL COMMENT '省份',
   `question_time` int(1) DEFAULT NULL,
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每天总积分表';
+  PRIMARY KEY (`id`),
+  KEY `t_daily_total_score_account_id_key` (`account_id`),
+  KEY `t_daily_total_score_score_key` (`score`),
+  KEY `t_daily_total_score_log_date_key` (`log_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日总分表';
 
 
 DROP TABLE IF EXISTS `t_total_score`;
@@ -340,7 +344,10 @@ CREATE TABLE `t_total_score` (
   `account_id` int(11) NOT NULL COMMENT '账户id',
   `score` int(8) NOT NULL COMMENT '总积分',
   `province` tinyint(2) DEFAULT NULL COMMENT '省份',
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='总积分表';
+  PRIMARY KEY (`id`),
+  KEY `t_total_score_account_id_key` (`account_id`),
+  KEY `t_total_score_score` (`score`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='总分表';
 
 
 

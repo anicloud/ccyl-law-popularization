@@ -15,10 +15,9 @@ import java.util.Map;
  */
 public interface ScoreRecordService {
     void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId);
-    List<ScoreRecordDto> findDailyScoreRecoreds(Integer accountId);
 
     TotalScoreDto findTotalScore(Integer accountId);
-    DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType);
+//    DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType);
     List<Top20Dto> findDailyTop20() throws UnsupportedEncodingException;
 
     Boolean findIsThumbUp(Integer srcId, Integer toAccountId);

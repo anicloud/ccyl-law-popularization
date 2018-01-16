@@ -9,4 +9,5 @@ public interface DailyTotalScorePersistenceService {
     void updateDailyTotalScore(DailyTotalScorePO dailyTotalScore);
     List<DailyTotalScorePO> findTop20(String date);
     public int findRankByAccountId(Integer accountId);
+    DailyTotalScorePO findByAccountId(Integer accountId, String logDate);
 }
