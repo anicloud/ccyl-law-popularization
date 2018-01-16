@@ -99,9 +99,11 @@ class SharePrize extends Component {
             }).catch(function (errors) {
                 console.log(errors);
             });
-        })
+        });
         window.addEventListener('popstate', function (e) {
             alert('back');
+            const {history} = _this.props;
+            history.push('/home')
         })
     }
     componentWillUnmount() {
