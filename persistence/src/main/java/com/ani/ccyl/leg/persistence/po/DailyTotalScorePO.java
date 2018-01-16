@@ -19,17 +19,27 @@ public class DailyTotalScorePO implements Serializable {
     private String logDate;
     private ProvinceEnum province;
     private Integer questionTime;
+    private Integer correctCount;
 
     public DailyTotalScorePO() {
     }
 
-    public DailyTotalScorePO(Integer id, Integer accountId, Integer score, String logDate, ProvinceEnum province, Integer questionTime) {
+    public DailyTotalScorePO(Integer id, Integer accountId, Integer score, String logDate, ProvinceEnum province, Integer questionTime,Integer correctCount) {
         this.id = id;
         this.accountId = accountId;
         this.score = score;
         this.logDate = logDate;
         this.province = province;
         this.questionTime = questionTime;
+        this.correctCount = correctCount;
+    }
+
+    public Integer getCorrectCount() {
+        return correctCount;
+    }
+
+    public void setCorrectCount(Integer correctCount) {
+        this.correctCount = correctCount;
     }
 
     public Integer getId() {

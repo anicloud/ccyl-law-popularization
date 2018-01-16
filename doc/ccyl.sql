@@ -329,6 +329,7 @@ CREATE TABLE `t_daily_total_score` (
   `log_date` CHAR(20) NOT NULL COMMENT '日期',
   `province` tinyint(2) DEFAULT NULL COMMENT '省份',
   `question_time` int(1) DEFAULT NULL,
+  `correct_count` INT(2) COMMENT '正确题数',
   PRIMARY KEY (`id`),
   KEY `t_daily_total_score_account_id_key` (`account_id`),
   KEY `t_daily_total_score_score_key` (`score`),

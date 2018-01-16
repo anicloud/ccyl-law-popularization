@@ -123,7 +123,11 @@ public class ShareController {
             thumbUpDto.setToPortrait(toAccountDto.getPortrait());
             thumbUpDto.setThumbUpCount(scoreRecordMapper.findThumbUpCount(toAccountId));
             TotalScoreDto totalScore = scoreRecordService.findTotalScore(toAccountId);
-            thumbUpDto.setTotalScore(totalScore == null?0:totalScore.getScore());
+            int score=0;
+            if (totalScore != null && totalScore.getScore()!=null){
+                score=totalScore.getScore();
+            }
+            thumbUpDto.setTotalScore(score);
             message.setData(thumbUpDto);
         }
         message.setState(ResponseStateEnum.OK);

@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%
+    String jsonUrl = (String)request.getAttribute("jsonFileUrl");
+%>
 <html>
 <head>
   <meta charset=utf-8>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,shrink-to-fit=no"/>
   <meta name="theme-color" content="#000000">
-  <link rel="shortcut icon" href="./favicon.ico">
-  <link rel="stylesheet" href="./bootstrap.min.css">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/build/assets/images/favicon.ico">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <style>
     .title {
@@ -99,6 +101,8 @@
     }
     .sm-img{
       height:32%;
+      padding-top:.1rem;
+      margin-bottom:.1rem;
       margin-left:.4rem;
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/sssm.png") bottom left no-repeat;
     }
@@ -417,7 +421,7 @@
   <div class="paihangbang">
     <div class="paihangbang1">
       <div class="phb1-title"></div>
-      <div class="phb1-detail">
+      <div class="phb1-detail" id="top20Rank">
         <div class='clearfix info'>
           <div class='first'>
             今日得分
@@ -428,21 +432,21 @@
         </div>
         <div class='clearfix top-ranking'>
           <div class='pull-left rank-first'>
-            <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0" alt=""/>
+            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
           </div>
           <div class='pull-left rank-second'>
-            <div>"10000"</div>
-            <div>"secty"</div>
+            <div>10000</div>
+            <div>secty</div>
           </div>
           <div class='pull-right rank-third'>1</div>
         </div>
         <div class='top-ranking clearfix'>
           <div class='pull-left rank-first'>
-            <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0" alt=""/>
+            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
           </div>
           <div class='pull-left rank-second'>
-            <div>"10000"</div>
-            <div>"secty"</div>
+            <div>10000</div>
+            <div>secty</div>
           </div>
           <div class='pull-right rank-third'>2</div>
         </div>
@@ -450,7 +454,7 @@
     </div>
     <div class="paihangbang2">
       <div class="phb2-title"></div>
-      <div class="phb2-detail">
+      <div class="phb2-detail" id="provinceRank">
         <div class='clearfix info'>
           <div class='first'>
             排名
@@ -514,5 +518,62 @@
 
 </div>
 <script src="${pageContext.request.contextPath}/build/assets/js/rem.js"></script>
+<script src="${pageContext.request.contextPath}/build/assets/js/jquery-3.1.0.min.js"></script>
+<script>
+  var jsonUrl = '<%=jsonUrl%>';
+  //全国json获取
+  /*$.ajax({
+    type: "POST",//请求方式
+    url: "item.json",//地址，就是json文件的请求路径
+    dataType: "json",//数据类型可以为 text xml json  script  jsonp
+    success: function(result){//返回的参数就是 action里面所有的有get和set方法的参数
+      addBox(result);
+    }
+  });
+
+  function addBox(result){
+    //result是一个集合,所以需要先遍历
+    $.each(result,function(index,obj){
+      $("#provinceRank").append(
+              "<div class='clearfix top-ranking'>"+
+                "<div class='rank-first'>"+index+"</div>"+
+                "<div class='rank-second'>"+obj['province']+"</div>"+
+                "<div class='rank-third'>"+obj['averageScore']+"</div>"+
+                "<div class='rank-four'>"+obj['totalScore']+"</div>"+
+                "<div class='rank-five'>"+obj['peopleNumber']+"</div>"+
+              "</div>"
+      );
+    });
+  }
+
+  //top20Json获取
+  $.ajax({
+    type: "POST",//请求方式
+    url: "item.json",//地址，就是json文件的请求路径
+    dataType: "json",//数据类型可以为 text xml json  script  jsonp
+    success: function(result){//返回的参数就是 action里面所有的有get和set方法的参数
+      addBox(result);
+    }
+  });
+
+  function addBox(result){
+    //result是一个集合,所以需要先遍历
+    $.each(result,function(index,obj){
+      $("#top20Rank").append(
+              "<div class='clearfix top-ranking'>"+
+                "<div class='pull-left rank-first'>"+
+                  "<img src='"+obj['portrat']+"' alt=''/>"+
+                "</div>"+
+                "<div class='pull-left rank-second'>"+
+                    "<div>"+obj['score']+"</div>"+
+                    "<div>"+obj['name']+"</div>"+
+                    "</div>"+
+                "<div class='pull-right rank-third'>"+index+"</div>"+
+              "</div>"
+      );
+    });
+  }*/
+
+</script>
 </body>
 </html>
