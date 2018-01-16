@@ -67,7 +67,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
 
-                updateTotalScore(Constants.Score.THUMB_UP_SCORE,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
+                updateTotalScore(Constants.Score.INVITE_SC0RE,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                 totalScorePersistenceService.updateInviteCount(accountId);
 
                 shareRelationPO.setIsPartIn(true);
@@ -99,15 +99,22 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                     }
                     break;
                 case 2:
-                case 3:
                     scoreRecordPO.setSrcAccountId(srcId);
                     List<ScoreRecordPO> scoreRecordPOs1 = scoreRecordMapper.findByConditions(scoreRecordPO);
                     if(scoreRecordPOs1==null||scoreRecordPOs1.size()==0) {
-                        if(srcType.getCode().equals(2)) {
-                            totalScorePersistenceService.updateThumbUp(accountId);
-                        } else {
-                            totalScorePersistenceService.updateSignInCount(accountId);
-                        }
+                        totalScorePersistenceService.updateThumbUp(accountId);
+                        scoreRecordPO.setScore(score);
+                        scoreRecordPO.setSrcType(srcType);
+                        scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        scoreRecordMapper.insertSelective(scoreRecordPO);
+                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
+                    }
+                    break;
+                case 3:
+                    scoreRecordPO.setSrcAccountId(srcId);
+                    List<ScoreRecordPO> scoreRecordPOs2 = scoreRecordMapper.findByConditions(scoreRecordPO);
+                    if(scoreRecordPOs2==null||scoreRecordPOs2.size()==0) {
+                        totalScorePersistenceService.updateSignInCount(accountId);
                         scoreRecordPO.setScore(score);
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
