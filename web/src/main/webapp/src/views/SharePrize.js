@@ -100,6 +100,9 @@ class SharePrize extends Component {
                 console.log(errors);
             });
         })
+        window.addEventListener('popstate', function (e) {
+            alert('back');
+        })
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
