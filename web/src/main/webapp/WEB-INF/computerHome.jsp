@@ -1,8 +1,14 @@
+<%@ page import="java.util.Map" %>
+<%@ page import="com.ani.ccyl.leg.commons.dto.Top20Dto" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.ani.ccyl.leg.commons.dto.ProvinceInfoDto" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
-    String jsonUrl = (String)request.getAttribute("jsonFileUrl");
+  Map<String,Object> map = (Map<String,Object>)request.getAttribute("infoMap");
+  List<Top20Dto> topList =  (List<Top20Dto>)map.get("top20");
+  List<ProvinceInfoDto> provinceList =  (List<ProvinceInfoDto>)map.get("province");
 %>
 <html>
 <head>
@@ -430,26 +436,22 @@
             全国排名
           </div>
         </div>
+        <%
+          for(int i=0;i<topList.size();i++){
+        %>
         <div class='clearfix top-ranking'>
           <div class='pull-left rank-first'>
-            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
+            <img src='<%=topList.get(i).getPortrat()%>' alt=''/>
           </div>
           <div class='pull-left rank-second'>
-            <div>10000</div>
-            <div>secty</div>
+            <div><%=topList.get(i).getScore()%></div>
+            <div><%=topList.get(i).getName()%></div>
           </div>
-          <div class='pull-right rank-third'>1</div>
+          <div class='pull-right rank-third'><%=i%></div>
         </div>
-        <div class='top-ranking clearfix'>
-          <div class='pull-left rank-first'>
-            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
-          </div>
-          <div class='pull-left rank-second'>
-            <div>10000</div>
-            <div>secty</div>
-          </div>
-          <div class='pull-right rank-third'>2</div>
-        </div>
+        <%
+          }
+        %>
       </div>
     </div>
     <div class="paihangbang2">
@@ -472,13 +474,20 @@
             参赛人数
           </div>
         </div>
+        <%
+          for(int j=0;j<provinceList.size();j++){
+          %>
         <div class='clearfix top-ranking'>
-          <div class='rank-first'>1</div>
-          <div class='rank-second'>北京市</div>
-          <div class='rank-third'>370</div>
-          <div class='rank-four'>37,000,000</div>
-          <div class='rank-five'>100,000</div>
+          <div class='rank-first'><%=j%></div>
+          <div class='rank-second'><%=provinceList.get(j).getProvince()%></div>
+          <div class='rank-third'><%=provinceList.get(j).getAverageScore()%></div>
+          <div class='rank-four'><%=provinceList.get(j).getTotalScore()%></div>
+          <div class='rank-five'><%=provinceList.get(j).getPeopleNumber()%></div>
         </div>
+        <%
+        }
+        %>
+
       </div>
     </div>
   </div>
