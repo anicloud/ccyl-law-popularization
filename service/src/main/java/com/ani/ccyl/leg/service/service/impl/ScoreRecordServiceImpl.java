@@ -32,8 +32,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
     private AccountMapper accountMapper;
     @Autowired
     private ShareRelationPersistenceService shareRelationPersistenceService;
