@@ -178,10 +178,25 @@ class MyScore extends Component {
     }
 
     handleShare() {
-        const {history} = this.props;
-        history.push({
-            pathname: '/answer',
-            state: '/tasks'
+        let _this = this;
+        const {history} = _this.props;
+        axios.get(`${host}/share/findShareInfo`).then(function (response) {
+            if (response.data.state === 0) {
+                let scoreInfo = response.data.data;
+                if (scoreInfo.correctCount === 0) {
+                    history.push({
+                        pathname: '/answer',
+                        state: '/tasks'
+                    });
+                } else {
+                    history.push({
+                        pathname: '/prize',
+                        state: '/tasks'
+                    });
+                }
+            }
+        }).catch(function (errors) {
+            console.log(errors);
         });
     }
 
@@ -224,14 +239,14 @@ class MyScore extends Component {
 
     hideMyPrizeDialog() {
         this.setState({
-            showMyPrize: false,
+            showMyPrize: false
         });
     }
 
     hidePrizeDetailDialog() {
         this.setState({
             showPrizeDetail: false,
-            showMyPrize: true,
+            showMyPrize: true
         });
     }
 

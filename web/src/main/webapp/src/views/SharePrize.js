@@ -59,7 +59,7 @@ class SharePrize extends Component {
             _this.setState({
                 isReady: true
             });
-            axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
+            axios.get(`${host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
                     _this.setState({
