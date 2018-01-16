@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     QuestionPO findCurrentQuestion(Integer accountId);
-    List<ScoreRecordPO> findDailyScoreRecords(Integer accountId);
     ScoreRecordDto findById(Integer id);
     TotalScoreDto findTotalScore(Integer accountId);
 
