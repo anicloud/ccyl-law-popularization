@@ -302,7 +302,7 @@ public class WechatUtil {
         }
 
         // 3.将sha1加密后的字符串可与signature对比，标识该请求来源于微信
-        return tmpStr != null && tmpStr.equals(signature.toUpperCase());
+        return tmpStr != null && tmpStr.equalsIgnoreCase(signature.toUpperCase());
     }
     public static String getJsSDKSign(String noncestr,String jsapi_ticket, String timestamp, String url) {
         try{
@@ -405,5 +405,7 @@ public class WechatUtil {
             };
         }
     });
+
+
 
 }

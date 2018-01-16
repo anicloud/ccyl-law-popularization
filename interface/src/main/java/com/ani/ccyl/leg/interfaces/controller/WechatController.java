@@ -170,6 +170,7 @@ public class WechatController {
 
         if(accessToken != null) {
             String jsSDKSign = WechatUtil.getJsSDKSign(nonceStr, accessToken.getJsapiTicket(), timestamp, url);
+            jsSDKSign = jsSDKSign.toLowerCase();
             JsSDKConfigDto jsSDKConfigDto = new JsSDKConfigDto();
             jsSDKConfigDto.setAppId(appId);
             jsSDKConfigDto.setNonceStr(nonceStr);
@@ -181,5 +182,4 @@ public class WechatController {
         message.setMsg("查询成功");
         return message;
     }
-
 }
