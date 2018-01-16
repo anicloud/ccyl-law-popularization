@@ -329,7 +329,7 @@ class MyScore extends Component {
         let mySelfRank = this.state.mySelfRank;
         let _this = this;
         return (
-            <div className="root">
+            <div className="root-score">
                 <div className="MyScore score-bg">
                     <div className='clearfix'>
                         <Back location='/home' history={this.props.history}/>
