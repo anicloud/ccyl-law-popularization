@@ -42,8 +42,8 @@ public class DailyTotalScorePersistenceServiceImpl implements DailyTotalScorePer
         Map<String,Object> paramMap =new HashMap<>();
         paramMap.put("accountId",accountId);
         paramMap.put("logDate",logDate);
-
-        return 0;
+        return dailyTotalScoreMapper.findRankByAccountId(paramMap);
+        //return 0;
     }
 
 
