@@ -27,6 +27,7 @@ class SharePrize extends Component {
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
+        this.toastTimer2 = null;
         this.handleShare = this.handleShare.bind(this);
         this.backAnswer = this.backAnswer.bind(this);
     }
@@ -53,12 +54,34 @@ class SharePrize extends Component {
             console.log(errors);
         });
         jsSdkConfig(axios, host);
+        /*axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
+            if (response.data.state === 0) {
+                /!*配置微信jssdk*!/
+                _this.setState({
+                    loading: true
+                });
+                window.wx.config({
+                    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: response.data.data.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
+                    timestamp: response.data.data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: response.data.data.nonceStr, // 必填，生成签名的随机串
+                    signature: response.data.data.signature,// 必填，签名，见附录1
+                    jsApiList: [
+                        'getLocation',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage'
+                    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+            }
+        }).catch(function (errors) {
+            console.log('errors', errors);
+        });*/
         window.wx.ready(function () {
             console.log(1);
             _this.setState({
                 isReady: true
             });
-            axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
+            axios.get(`${host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
                     _this.setState({
@@ -71,6 +94,7 @@ class SharePrize extends Component {
                         success: function (res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);
+                                history.push('/tasks');
                             }).catch(function (errors) {
                                 console.log(errors);
                             });
@@ -88,6 +112,7 @@ class SharePrize extends Component {
                         success: function(res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);
+                                history.push('/tasks');
                             }).catch(function (errors) {
                                 console.log(errors);
                             });
@@ -96,14 +121,18 @@ class SharePrize extends Component {
 
                         }
                     });
+                    /*_this.setState({
+                        loading: false
+                    });*/
                 }
             }).catch(function (errors) {
                 console.log(errors);
             });
-        })
+        });
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
+        this.toastTimer2 && clearTimeout(this.toastTimer2);
     }
     handleShare() {
         this.setState(
@@ -115,8 +144,20 @@ class SharePrize extends Component {
         );
     }
     backAnswer() {
-        const {history} = this.props;
-        history.push('/answer');
+        let _this = this;
+        const {history} = _this.props;
+        if (_this.state.scoreInfo.questionTime === 2) {
+            _this.setState({
+                showReAnswer: true
+            });
+            _this.toastTimer2 = setTimeout(function () {
+                _this.setState({
+                    showReAnswer: false
+                });
+            }, 2000);
+        } else {
+            history.push('/answer');
+        }
     }
     render() {
         let scoreInfo = this.state.scoreInfo;
@@ -134,16 +175,16 @@ class SharePrize extends Component {
                 {
                     (isReady && scoreInfo)? (
                         <div className='text-center complete'>
-                            <h2 className='wrapper-title'>
-                                {
-                                    correctCount === 5? (
-                                        <span>已答完</span>
-                                    ) : (
-                                        <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
-                                    )
-                                }
-                            </h2>
                             <div className='wrapper'>
+                                <h2 className='wrapper-title'>
+                                    {
+                                        correctCount === 5? (
+                                            <span>已答完</span>
+                                        ) : (
+                                            <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
+                                        )
+                                    }
+                                </h2>
                                 <div className='sum-score'>
                                     <div><span className="score">+{correctCount*2?correctCount*2:0}</span></div>
                                 </div>
@@ -179,6 +220,7 @@ class SharePrize extends Component {
                 {/*<Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>*/}
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
+                <Toast icon="warn" show={this.state.showReAnswer}>重答次数已用完</Toast>
             </div>
         )
     }
