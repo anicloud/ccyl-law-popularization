@@ -476,7 +476,12 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
         try {
            // FileWriter fw = new FileWriter(new File("/home/anicloud/third/files/"+filePath));
-            FileOutputStream out = new FileOutputStream(new File("/home/anicloud/third/files/"+filePath));
+            File file = new File("/home/anicloud/third/files/"+filePath);
+            if(!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+            FileOutputStream out = new FileOutputStream(file);
             ObjectOutputStream objOut=new ObjectOutputStream(out);
             objOut.writeObject(obj);
             objOut.flush();
