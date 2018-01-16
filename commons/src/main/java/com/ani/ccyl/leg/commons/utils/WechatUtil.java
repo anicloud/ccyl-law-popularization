@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.ConnectException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -304,6 +305,11 @@ public class WechatUtil {
         return tmpStr != null && tmpStr.equals(signature.toUpperCase());
     }
     public static String getJsSDKSign(String noncestr,String jsapi_ticket, String timestamp, String url) {
+        try{
+           url = URLDecoder.decode(url,"UTF-8");
+        }catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
         if(StringUtils.isEmpty(jsapi_ticket))
             throw new WechatException("创建签名失败：ticket为空",ExceptionEnum.WECHAT_GENERATE_SIGNATURE_ERROR);
         try {
