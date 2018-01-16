@@ -151,19 +151,19 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public List<Top20Dto> findDailyTop20() throws UnsupportedEncodingException {
-        List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<DailyTotalScorePO> top20 = dailyTotalScorePersistenceService.findTop20(simpleDateFormat.format(new Date()));
         List<Top20Dto> top20Dtos = new ArrayList<>();
         ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
-        if(scoreRecordPOs != null && scoreRecordPOs.size()>0) {
-            for(ScoreRecordPO scoreRecordPO:scoreRecordPOs) {
+        if(top20 != null && top20.size()>0) {
+            for(DailyTotalScorePO dailyTotalScorePO:top20) {
                 Top20Dto top20Dto = new Top20Dto();
-                top20Dto.setId(scoreRecordPO.getAccountId());
-                scoreRecordParam.setAccountId(scoreRecordPO.getAccountId());
-                top20Dto.setScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
-                AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
+                top20Dto.setId(dailyTotalScorePO.getAccountId());
+                top20Dto.setScore(dailyTotalScorePO.getScore());
+                AccountPO accountPO = accountMapper.selectByPrimaryKey(dailyTotalScorePO.getAccountId());
                 top20Dto.setName(URLDecoder.decode(accountPO.getNickName(),"utf-8"));
                 top20Dto.setPortrat(accountPO.getPortrait());
-                top20Dto.setUpdateTime(scoreRecordPO.getUpdateTime());
+                top20Dto.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20Dtos.add(top20Dto);
             }
         }
@@ -231,36 +231,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, -1 * awardType.findScore(), simpleDateFormat.format(new Date()), accountPO.getProvince(), null);
         dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
-    }
-
-    /**查找所有我用积分兑换的奖品**/
-    @Override
-    public List<MyAwardDto> findMyConvertAward(Integer accountId){
-        DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
-        dailyAwardsParam.setAccountId(accountId);
-        List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
-        List<MyAwardDto> myAwardDtos = new ArrayList<>();
-        Integer lastScore = findTotalScore(accountId).getScore();
-        if(dailyAwardsPOs!=null) {
-            for(DailyAwardsPO dailyAwardsPO:dailyAwardsPOs) {
-                MyAwardDto myAwardDto = new MyAwardDto();
-                myAwardDto.setAwardType(dailyAwardsPO.getType());
-                myAwardDto.setCreateTime(dailyAwardsPO.getUpdateTime());
-                if((System.currentTimeMillis()-dailyAwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
-                    myAwardDto.setIsExpired(true);
-                } else {
-                    myAwardDto.setCodeSecret(dailyAwardsPO.getCodeSecret());
-                    myAwardDto.setIsExpired(false);
-                }
-                myAwardDto.setIsReceivedAward(true);
-                lastScore = lastScore - dailyAwardsPO.getType().findScore();
-                myAwardDtos.add(myAwardDto);
-            }
-        }
-        for(MyAwardDto myAwardDto : myAwardDtos) {
-            myAwardDto.setLastScore(lastScore);
-        }
-        return myAwardDtos;
     }
 
     @Override

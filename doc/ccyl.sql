@@ -344,6 +344,10 @@ CREATE TABLE `t_total_score` (
   `account_id` int(11) NOT NULL COMMENT '账户id',
   `score` int(8) NOT NULL COMMENT '总积分',
   `province` tinyint(2) DEFAULT NULL COMMENT '省份',
+  `thumb_up_count` INT(11) COMMENT '点赞次数',
+  `sign_in_count` INT(11) COMMENT '签到次数',
+  `invite_count` INT(11) COMMENT '邀请次数',
+  `share_count` INT(11) COMMENT '分享次数',
   PRIMARY KEY (`id`),
   KEY `t_total_score_account_id_key` (`account_id`),
   KEY `t_total_score_score` (`score`)
