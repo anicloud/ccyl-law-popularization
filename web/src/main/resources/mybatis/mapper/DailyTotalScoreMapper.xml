@@ -6,8 +6,9 @@
     <select id="findTop20" parameterType="java.lang.String" resultType="com.ani.ccyl.leg.persistence.po.ShareRelationPO" >
         select * from T_DAILY_TOTAL WHERE log_date =#{date} ORDER BY SCORE DESC limit 20;
     </select>
-    <select id="findRankByAccountId" parameterType="java.util.Map" resultType="java.lang.Integer">
 
+    <select id="findRankByAccountId" parameterType="java.util.Map" resultType="java.lang.Integer">
+       select ranks from (SELECT *, @rownum := @rownum +1 AS ranks FROM T_DAILY_TOTAL,(SELECT@rownum :=0) r WHERE LOG_DATE=${logDate} ORDER BY SCORE DESC) t WHERE t.accountId=#{accountId}
     </select>
 
 </mapper>
