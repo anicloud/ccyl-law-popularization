@@ -43,7 +43,7 @@ class AnswerQuestion extends Component {
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
-        const {history} = this.props;
+        const {history} = _this.props;
         axios.get(`${host}/share/findShareInfo?id=${_this.userId}`).then(function (response) {
             if (response.data.state === 0) {
                 let scoreInfo = response.data.data;
@@ -63,6 +63,8 @@ class AnswerQuestion extends Component {
                     _this.setState({
                         question: Map(response.data.data)
                     });
+                } else {
+                    history.push('/thumb');
                 }
             }
         }).catch(function (errors) {
@@ -81,7 +83,6 @@ class AnswerQuestion extends Component {
     handleNext() {
         let _this = this;
         const {host} = _this.props;
-        const {history} = _this.props;
         axios.get(`${host}/question/findCurrentQuestion`).then(function (response) {
             if (response.data.state === 0) {
                 if (response.data.data !== null) {
@@ -89,8 +90,6 @@ class AnswerQuestion extends Component {
                         question: Map(response.data.data)
                     });
                     _this.handleShowNext();
-                } else {
-                    history.push('/thumb');
                 }
             }
         }).catch(function (errors) {
