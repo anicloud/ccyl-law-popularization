@@ -66,7 +66,7 @@ class Root extends Component {
         /*_this.setState({
             showLoading: false
         });*/
-        jsSdkConfig(axios, store.getState().host);
+        /*jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             // alert('root ready');
             window.wx.getLocation({
@@ -81,12 +81,12 @@ class Root extends Component {
             axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     window.wx.onMenuShareTimeline({
-                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
+                        title: '我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品',
                         link: response.data.data.url,
                         imgUrl: response.data.data.portrait
                     });
                     window.wx.onMenuShareAppMessage({
-                        title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
+                        title: '我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品',
                         link: response.data.data.url,
                         imgUrl: response.data.data.portrait,
                         desc: '第十四届全国青少年学法用法网上知识竞赛'
@@ -98,7 +98,7 @@ class Root extends Component {
             }).catch(function (errors) {
                 console.log(errors);
             });
-        });
+        });*/
         window.wx.error(function(res) {
             if (res.errMsg === 'config:require subscribe') {
                 _this.setState({
@@ -106,7 +106,7 @@ class Root extends Component {
                 })
             }
             console.log('errInfo');
-            console.log(res.errMsg);
+            alert(res.errMsg);
         });
     }
     render() {
