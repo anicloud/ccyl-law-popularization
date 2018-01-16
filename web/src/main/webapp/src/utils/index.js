@@ -13,7 +13,8 @@ export function getSearchString(search, key) {
 }
 
 export function jsSdkConfig(axios, host) {
-    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href.split('#')[0]}`).then(function (response) {
+    let url = encodeURIComponent(window.location.href.split('#')[0]);
+    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${url}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/
             window.wx.config({
