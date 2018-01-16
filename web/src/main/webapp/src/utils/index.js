@@ -19,7 +19,8 @@ export function jsSdkConfig(axios, host) {
     let url = '';
     if (isiOS) {
         // let str = `http://www.12355.org.cn/leg/home/index?op=${window.sessionStorage.getItem('option')}`;
-        url = encodeURIComponent(window.sessionStorage.getItem('option'));
+        // url = encodeURIComponent(window.sessionStorage.getItem('option'));
+        url = encodeURIComponent('http://www.12355.org.cn/leg/');
     } else {
         url = encodeURIComponent(window.location.href.split('#')[0]);
     }
