@@ -79,6 +79,7 @@ class SharePrize extends Component {
         });*/
         window.wx.ready(function () {
             console.log(1);
+            alert('share ready');
             _this.setState({
                 isReady: true
             });
