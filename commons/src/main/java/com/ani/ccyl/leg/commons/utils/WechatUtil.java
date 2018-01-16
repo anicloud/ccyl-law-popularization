@@ -305,11 +305,6 @@ public class WechatUtil {
         return tmpStr != null && tmpStr.equalsIgnoreCase(signature.toUpperCase());
     }
     public static String getJsSDKSign(String noncestr,String jsapi_ticket, String timestamp, String url) {
-        try{
-           url = URLDecoder.decode(url,"UTF-8");
-        }catch(UnsupportedEncodingException e){
-            e.printStackTrace();
-        }
         if(StringUtils.isEmpty(jsapi_ticket))
             throw new WechatException("创建签名失败：ticket为空",ExceptionEnum.WECHAT_GENERATE_SIGNATURE_ERROR);
         try {
