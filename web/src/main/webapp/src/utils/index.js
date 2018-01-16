@@ -19,7 +19,7 @@ export function jsSdkConfig(axios, host) {
     let url = '';
     if (isiOS) {
         // let str = `http://www.12355.org.cn/leg/home/index?op=${window.sessionStorage.getItem('option')}`;
-        url = encodeURIComponent(window.location.href.split('#')[0]);
+        url = encodeURIComponent(window.sessionStorage.getItem('option'));
     } else {
         url = encodeURIComponent(window.location.href.split('#')[0]);
     }

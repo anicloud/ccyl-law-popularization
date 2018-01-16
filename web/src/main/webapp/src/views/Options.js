@@ -14,20 +14,23 @@ class Options extends Component {
                 this.props.history.push('/error');
                 break;
             case 'LOGIN_SUCCESS':
+                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
                 this.props.history.push('/');
-                window.sessionStorage.setItem('option', 'LOGIN_SUCCESS')
                 break;
             case 'LOGIN_FAILURE':
+                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
                 this.props.history.push('/error');
                 break;
             case 'THUMB_UP':
+                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
                 this.props.history.push({
                     pathname: '/thumb',
                     state: getSearchString(search, 'id')
                 });
-                window.sessionStorage.setItem('option', `THUMB_UP&id=${getSearchString(search, 'id')}`);
+                // window.sessionStorage.setItem('option', `THUMB_UP&id=${getSearchString(search, 'id')}`);
                 break;
             case 'ACCESS_DENIED':
+                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
                 this.props.history.push('/');
                 break;
             default:
