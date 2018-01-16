@@ -3,6 +3,7 @@ import './App.less';
 import {connect} from 'react-redux';
 import {Dialog,Toast} from 'react-weui';
 import axios from 'axios';
+import {backHome} from './utils/index';
 import getprize from "./media/imgs/getprize.jpg";
 
 class App extends Component {
@@ -60,6 +61,7 @@ class App extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
+        window.removeEventListener('popstate', backHome, false);
     }
 
     hideTishiDialog() {
