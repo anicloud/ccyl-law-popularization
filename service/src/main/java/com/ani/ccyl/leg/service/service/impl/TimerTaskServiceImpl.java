@@ -5,11 +5,19 @@ import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.*;
 import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -20,6 +28,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     @Autowired
     private DailyAwardsMapper dailyAwardsMapper;
+    @Autowired
+    DailyTotalScoreMapper dailyTotalScoreMapper;
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
     @Autowired
@@ -50,7 +60,57 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             }
         }
     }
+    @Override
+    public void top20ToJson(){
+        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+        List<DailyTotalScorePO> scorePOS=dailyTotalScoreMapper.findTop20(dateString);
+        JSONArray top20=new JSONArray();
+        for (DailyTotalScorePO scorePO:scorePOS){
+            AccountPO accountPO=accountMapper.selectByPrimaryKey(scorePO.getAccountId());
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("portrat",accountPO.getPortrait());
+            jsonObject.put("score",scorePO.getScore());
+            jsonObject.put("name",accountPO.getNickName());
+            top20.add(jsonObject);
+        }
+        try {
+            FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/top20/"+dateString+".json"));
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(top20.toString());
+            bw.flush();
 
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void provinceRankToJson(){
+        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+        Map<String,Object> infoMap=dailyTotalScoreMapper.findPrivanceInfo(dateString);
+        JSONArray infoArray=new JSONArray();
+        Set<String> set=infoMap.keySet();
+        for (String key:set){
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put(key,infoMap.get(key));
+            infoArray.add(jsonObject);
+        }
+        try {
+            FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/province/"+dateString+".json"));
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(infoArray.toString());
+            bw.flush();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+
+    }
     @Override
     @PostConstruct
     public void initTimeTask() {
@@ -91,6 +151,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
         @Override
         public void run() {
             timerTaskService.updateDailyTop20();
+            timerTaskService.top20ToJson();
+            timerTaskService.provinceRankToJson();
             List<AccountPO> accountPOs = accountMapper.findNotInTop20();
             List<AccountPO> luckyAccounts = new ArrayList<>();
             if(accountPOs!=null && accountPOs.size()>20) {
