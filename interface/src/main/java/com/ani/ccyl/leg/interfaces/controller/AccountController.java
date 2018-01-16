@@ -9,12 +9,14 @@ import com.ani.ccyl.leg.commons.utils.LocationUtil;
 import com.ani.ccyl.leg.commons.utils.SMSUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
@@ -29,6 +31,8 @@ import java.util.*;
 public class AccountController {
     @Autowired
     private AccountService accountService;
+    @Value("${base.file.path}")
+    private String baseFilePath;
     @RequestMapping(value = "/saveSelfInfo", method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessageDto saveSelfInfo(@RequestBody AccountDto accountDto, HttpSession session) {
@@ -135,5 +139,13 @@ public class AccountController {
         }
         in.close();
         out.close();
+    }
+    @RequestMapping(value = "/getTop20Json",method = RequestMethod.GET)
+    public ResponseMessageDto getTop20Json(HttpServletRequest request){
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+
+        //return"baseFilePath+\"/top20/\"+dateString+\".json\";
     }
 }

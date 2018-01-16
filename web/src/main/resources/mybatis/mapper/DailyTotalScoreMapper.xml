@@ -10,5 +10,7 @@
     <select id="findRankByAccountId" parameterType="java.util.Map" resultType="java.lang.Integer">
        select ranks from (SELECT *, @rownum := @rownum +1 AS ranks FROM t_daily_total_score,(SELECT@rownum :=0) r WHERE LOG_DATE=#{logDate} ORDER BY SCORE DESC) t WHERE t.account_id=#{accountId}
     </select>
-
+    <select id="findPrivanceInfo" parameterType="java.lang.String" resultType="java.util.Map">
+      SELECT sum(score) as totalScore ,avg(score) AS averageScore,count(account_id) as peopleNumber,province FROM t_daily_total_score where log_date =#{logDate} GROUP BY province
+    </select>
 </mapper>

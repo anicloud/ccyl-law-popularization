@@ -9,4 +9,6 @@ import java.util.Map;
 public interface DailyTotalScoreMapper extends SysMapper<DailyTotalScorePO> {
     List<DailyTotalScorePO> findTop20(String date);
     Integer findRankByAccountId(Map<String,Object> paramMap);
+
+    Map<String,Object> findPrivanceInfo(String logDate);
 }
