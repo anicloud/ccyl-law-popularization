@@ -529,7 +529,7 @@
 <script src="${pageContext.request.contextPath}/build/assets/js/rem.js"></script>
 <script src="${pageContext.request.contextPath}/build/assets/js/jquery-3.1.0.min.js"></script>
 <script>
-  var jsonUrl = '<%=jsonUrl%>';
+  //var jsonUrl = '<%=jsonUrl%>';
   //全国json获取
   /*$.ajax({
     type: "POST",//请求方式
