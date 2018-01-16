@@ -463,6 +463,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 infoDto.setProvince(ProvinceEnum.NUll.getValue());
             }
         }
+
+        if (totalInfo==null){
+            totalInfo=new HashMap<>();
+        }
         totalInfo.put("top20",top20Dtos);
         totalInfo.put("province",provinceInfoDtos);
         savetoFile("top20/"+dateString+".json",totalInfo);
