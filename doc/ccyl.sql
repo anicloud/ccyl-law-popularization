@@ -329,7 +329,7 @@ CREATE TABLE `t_daily_total_score` (
   `date` VARCHAR(20) NOT NULL COMMENT '日期',
   `province` tinyint(2) DEFAULT NULL COMMENT '省份',
   `question_time` int(1) DEFAULT NULL,
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每天总积分表';
 
 
 DROP TABLE IF EXISTS `t_total_score`;
@@ -340,7 +340,7 @@ CREATE TABLE `t_total_score` (
   `account_id` int(11) NOT NULL COMMENT '账户id',
   `score` int(8) NOT NULL COMMENT '总积分',
   `province` tinyint(2) DEFAULT NULL COMMENT '省份',
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='积分记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='总积分表';
 
 
 
