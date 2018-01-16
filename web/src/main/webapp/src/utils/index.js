@@ -18,13 +18,13 @@ export function jsSdkConfig(axios, host) {
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     let url = '';
     if (isiOS) {
-        url = encodeURIComponent('http://www.12355.org.cn/leg/home/index?op=LOGIN_SUCCESS');
+        url = encodeURIComponent(`http://www.12355.org.cn/leg/home/index?op=${window.sessionStorage.getItem('option')}`);
     } else {
         url = encodeURIComponent(window.location.href.split('#')[0]);
     }
 
     let time = Math.round(new Date().getTime() / 1000);
-    alert(window.location.href.split('#')[0]);
+    // alert(window.location.href.split('#')[0]);
     axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${url}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/

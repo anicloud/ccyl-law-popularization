@@ -15,6 +15,7 @@ class Options extends Component {
                 break;
             case 'LOGIN_SUCCESS':
                 this.props.history.push('/');
+                window.sessionStorage.setItem('option', 'LOGIN_SUCCESS')
                 break;
             case 'LOGIN_FAILURE':
                 this.props.history.push('/error');
@@ -24,6 +25,7 @@ class Options extends Component {
                     pathname: '/thumb',
                     state: getSearchString(search, 'id')
                 });
+                window.sessionStorage.setItem('option', `THUMB_UP&id=${getSearchString(search, 'id')}`);
                 break;
             case 'ACCESS_DENIED':
                 this.props.history.push('/');
