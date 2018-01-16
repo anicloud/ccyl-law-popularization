@@ -31,4 +31,24 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
     public TotalScorePO findByAccountId(Integer accountId) {
         return null;
     }
+
+    @Override
+    public void updateThumbUp(Integer accountId) {
+
+    }
+
+    @Override
+    public void updateSignInCount(Integer accountId) {
+
+    }
+
+    @Override
+    public void updateInviteCount(Integer accountId) {
+
+    }
+
+    @Override
+    public void updateShareCount(Integer accountId) {
+
+    }
 }
