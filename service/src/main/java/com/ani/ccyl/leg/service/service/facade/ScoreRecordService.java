@@ -38,7 +38,7 @@ public interface ScoreRecordService {
 
     Map<String,Object> findIsTop20(Integer accountId);
 
-    Map<String,Object> findTotalInfo() throws UnsupportedEncodingExceptionUnsupportedEncodingException;
+    Map<String,Object> findTotalInfo();
 
 
 }
