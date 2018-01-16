@@ -23,8 +23,7 @@ class SharePrize extends Component {
             isReady:false,
             mySelfRank:0,
             correctCount:0,
-            showReAnswer: false,
-            loading: false
+            showReAnswer: false
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
@@ -54,10 +53,10 @@ class SharePrize extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        // jsSdkConfig(axios, host);
-        axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
+        jsSdkConfig(axios, host);
+        /*axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
             if (response.data.state === 0) {
-                /*配置微信jssdk*/
+                /!*配置微信jssdk*!/
                 _this.setState({
                     loading: true
                 });
@@ -76,7 +75,7 @@ class SharePrize extends Component {
             }
         }).catch(function (errors) {
             console.log('errors', errors);
-        });
+        });*/
         window.wx.ready(function () {
             console.log(1);
             _this.setState({
@@ -122,9 +121,9 @@ class SharePrize extends Component {
 
                         }
                     });
-                    _this.setState({
+                    /*_this.setState({
                         loading: false
-                    });
+                    });*/
                 }
             }).catch(function (errors) {
                 console.log(errors);
@@ -220,7 +219,6 @@ class SharePrize extends Component {
                 </div>
                 {/*<Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>*/}
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
-                <Toast icon="loading" show={this.state.loading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
                 <Toast icon="warn" show={this.state.showReAnswer}>重答次数已用完</Toast>
             </div>
