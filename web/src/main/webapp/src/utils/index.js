@@ -18,8 +18,8 @@ export function jsSdkConfig(axios, host) {
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     let url = '';
     if (isiOS) {
-        let str = `http://www.12355.org.cn/leg/home/index?op=${window.sessionStorage.getItem('option')}`;
-        url = encodeURIComponent(str.split('#')[0]);
+        // let str = `http://www.12355.org.cn/leg/home/index?op=${window.sessionStorage.getItem('option')}`;
+        url = encodeURIComponent(window.location.href.split('#')[0]);
     } else {
         url = encodeURIComponent(window.location.href.split('#')[0]);
     }
