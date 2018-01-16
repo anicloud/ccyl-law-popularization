@@ -426,7 +426,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public Map<String, Object> findTotalInfo() {
+    public Map<String, Object> findTotalInfo(){
         Map<String,Object> totalInfo =new HashMap<>();
         Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -436,7 +436,11 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         for (DailyTotalScorePO scorePO:scorePOS){
             AccountPO accountPO=accountMapper.selectByPrimaryKey(scorePO.getAccountId());
             Top20Dto top20Dto=new Top20Dto();
-            top20Dto.setName(accountPO.getNickName());
+            try {
+                top20Dto.setName(URLDecoder.decode(accountPO.getNickName(), "utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             top20Dto.setPortrat(accountPO.getPortrait());
             top20Dto.setScore(scorePO.getScore());
             top20Dtos.add(top20Dto);
