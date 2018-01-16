@@ -51,7 +51,7 @@ class AnswerQuestion extends Component {
                     correctCount: scoreInfo.correctCount
                 });
                 if (scoreInfo.correctCount === 5) {
-                    history.push({
+                    history.replace({
                         pathname: '/prize',
                     });
                 }
@@ -64,7 +64,7 @@ class AnswerQuestion extends Component {
                         question: Map(response.data.data)
                     });
                 } else {
-                    history.push('/prize');
+                    history.replace('/prize');
                 }
             }
         }).catch(function (errors) {
