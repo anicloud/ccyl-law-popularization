@@ -522,7 +522,7 @@
 <script>
   var jsonUrl = '<%=jsonUrl%>';
   //全国json获取
-  $.ajax({
+  /*$.ajax({
     type: "POST",//请求方式
     url: "item.json",//地址，就是json文件的请求路径
     dataType: "json",//数据类型可以为 text xml json  script  jsonp
@@ -572,7 +572,7 @@
               "</div>"
       );
     });
-  }
+  }*/
 
 </script>
 </body>
