@@ -395,8 +395,8 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>签到</span>
-                            <span className="desc">已签{scoreInfo ? scoreInfo.signInCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo ? scoreInfo.signInCount * 5 : 0} 积分</span>
+                            <span className="desc">已签{scoreInfo ? (scoreInfo.signInCount === null? 0 : scoreInfo.signInCount) : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? (scoreInfo.signInCount === null? 0 : scoreInfo.signInCount * 5) : 0} 积分</span>
                         </div>
                         {/*<div className='middleDiv'>
                          获 {scoreInfo?scoreInfo.signInCount * 5 : 0} 积分
@@ -407,8 +407,8 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>分享答题</span>
-                            <span className="desc">已成功分享{scoreInfo ? scoreInfo.shareCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo ? scoreInfo.shareCount * 5 : 0} 积分</span>
+                            <span className="desc">已成功分享{scoreInfo ? (scoreInfo.shareCount === null? 0 : scoreInfo.shareCount) : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? (scoreInfo.shareCount === null? 0 : scoreInfo.shareCount * 5) : 0} 积分</span>
                         </div>
                         {/* <div className='middleDiv'>
                          获 {scoreInfo? scoreInfo.shareCount * 5 : 0} 积分
@@ -420,8 +420,8 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>邀请答题</span>
-                            <span className="desc">已成功邀请{scoreInfo ? scoreInfo.inviteCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo ? scoreInfo.inviteCount * 5 : 0} 积分</span>
+                            <span className="desc">已成功邀请{scoreInfo ? (scoreInfo.inviteCount === null? 0 : scoreInfo.inviteCount) : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? (scoreInfo.inviteCount === null? 0 : scoreInfo.inviteCount * 5) : 0} 积分</span>
                         </div>
                         {/*<div className='middleDiv'>
                          获 {scoreInfo? scoreInfo.inviteCount * 5 : 0} 积分
@@ -433,8 +433,8 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>好友点赞</span>
-                            <span className="desc">已被点赞{scoreInfo ? scoreInfo.thumbUpCount : 0}次</span>
-                            <span className="desc">获 {scoreInfo ? scoreInfo.thumbUpCount : 0} 积分</span>
+                            <span className="desc">已被点赞{scoreInfo ? (scoreInfo.thumbUpCount === null? 0 : scoreInfo.thumbUpCount) : 0}次</span>
+                            <span className="desc">获 {scoreInfo ? (scoreInfo.thumbUpCount === null? 0 : scoreInfo.thumbUpCount) : 0} 积分</span>
                         </div>
                         {/*<div className='middleDiv'>
                          获 {scoreInfo? scoreInfo.thumbUpCount : 0} 积分
