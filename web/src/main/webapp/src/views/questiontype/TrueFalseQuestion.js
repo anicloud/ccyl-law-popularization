@@ -93,7 +93,7 @@ class TrueFalseQuestion extends Component {
                                 result? (result.isCorrect? (
                                     <p className='text-success result'>恭喜你答对了，积分+2</p>
                                 ) : (
-                                    <p className='text-danger result'>很遗憾，正确答案为： {result.answer}</p>
+                                    <p className='text-danger result'>很遗憾，正确答案为： {result.answer==="y"?"对":"错"}</p>
                                 )) : (
                                     <div className='question-button' onClick={this.handleSubmit}>提交</div>
                                 )
