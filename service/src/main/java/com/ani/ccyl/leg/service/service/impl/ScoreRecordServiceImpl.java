@@ -397,6 +397,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         int rank = dailyTotalScorePersistenceService.findRankByAccountId(accountId,simpleDateFormat.format(new Date()));
+        if (rank==-1){
+            rank=0;
+        }
         DailyTotalScorePO dailyTotalScorePO = dailyTotalScorePersistenceService.findByAccountId(accountId,simpleDateFormat.format(new Date()));
         MySelfRankDto mySelfRankDto = new MySelfRankDto();
 
