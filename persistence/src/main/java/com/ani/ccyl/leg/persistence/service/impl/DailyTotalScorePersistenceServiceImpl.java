@@ -32,8 +32,12 @@ public class DailyTotalScorePersistenceServiceImpl implements DailyTotalScorePer
     public List<DailyTotalScorePO> findTop20(String date) {
         DailyTotalScorePO scoreParam=new DailyTotalScorePO();
         scoreParam.setDate(date);
-       List<DailyTotalScorePO> scorePOS= dailyTotalScoreMapper.findTop20(date);
+        List<DailyTotalScorePO> scorePOS= dailyTotalScoreMapper.findTop20(date);
         return scorePOS;
+    }
+    @Override
+    public int findRankByAccountId(Integer accountId){
+        return 0;
     }
 
 }
