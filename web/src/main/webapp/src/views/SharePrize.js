@@ -19,7 +19,7 @@ class SharePrize extends Component {
             showToast: false,
             toastText: '分享成功',
             location: this.props.location.state? this.props.location.state : '/answer',
-            showPopup: true,
+            showPopup: false,
             isReady:false,
             mySelfRank:0,
             correctCount:0
