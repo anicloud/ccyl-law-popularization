@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Back from './Back';
 import {connect} from 'react-redux';
-import {getCookie, jsSdkConfig, backHome} from "../utils/index";
+import {getCookie, jsSdkConfig} from "../utils/index";
 import {Toast} from 'react-weui';
 import axios from 'axios';
 import first from '../media/images/first.png';
@@ -99,8 +99,11 @@ class SharePrize extends Component {
             }).catch(function (errors) {
                 console.log(errors);
             });
-        })
-        window.addEventListener('popstate', backHome, false);
+        });
+        window.addEventListener('popstate', function () {
+            const {history} = _this.props;
+            history.push('/home');
+        }, false);
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);

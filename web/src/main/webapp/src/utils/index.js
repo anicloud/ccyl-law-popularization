@@ -52,8 +52,3 @@ export function getPartName(name) {
     }
     return name;
 }
-
-export function backHome (e) {
-    const {history} = _this.props;
-    history.push('/home');
-}
