@@ -27,6 +27,7 @@ class ChoiceQuestion extends Component {
         });
     }
     componentWillReceiveProps(nextProps) {
+        console.log('nextProps');
         console.log(nextProps);
         if (!this.state.question || (nextProps.question.order !== this.state.question.order)) {
             this.setState({
@@ -42,11 +43,14 @@ class ChoiceQuestion extends Component {
     handleChange(e) {
         let value = e.target.value;
         this.setState({
-            value
+            value,
+            isValue: false
         });
     }
     handleSubmit() {
         let _this = this;
+        console.log(111);
+        console.log(_this.state.value);
         if (_this.state.value) {
             const {id} = _this.state.question;
             const {host, handleShowNext} = _this.props;
