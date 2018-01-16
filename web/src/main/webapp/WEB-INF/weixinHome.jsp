@@ -104,6 +104,8 @@
     }
     .sm-img{
       height:32%;
+      padding-top:.1rem;
+      margin-bottom:.1rem;
       margin-left:.4rem;
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/sssm.png") bottom left no-repeat;
     }
