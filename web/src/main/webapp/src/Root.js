@@ -68,7 +68,7 @@ class Root extends Component {
         });*/
         jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
-            alert('root ready');
+            // alert('root ready');
             window.wx.getLocation({
                 success: function (res) {
                     axios.get(`${store.getState().host}/account/updateProvince?log=${res.longitude}&lat=${res.latitude}`).then(function (response) {
@@ -105,7 +105,8 @@ class Root extends Component {
                     isError: true
                 })
             }
-            alert(res.errMsg);
+            console.log('errInfo');
+            console.log(res.errMsg);
         });
     }
     render() {

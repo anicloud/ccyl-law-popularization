@@ -67,7 +67,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
 
-                updateTotalScore(Constants.Score.THUMB_UP_SCORE,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
+                updateTotalScore(Constants.Score.INVITE_SC0RE,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                 totalScorePersistenceService.updateInviteCount(accountId);
 
                 shareRelationPO.setIsPartIn(true);
@@ -99,15 +99,22 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                     }
                     break;
                 case 2:
-                case 3:
                     scoreRecordPO.setSrcAccountId(srcId);
                     List<ScoreRecordPO> scoreRecordPOs1 = scoreRecordMapper.findByConditions(scoreRecordPO);
                     if(scoreRecordPOs1==null||scoreRecordPOs1.size()==0) {
-                        if(srcType.getCode().equals(2)) {
-                            totalScorePersistenceService.updateThumbUp(accountId);
-                        } else {
-                            totalScorePersistenceService.updateSignInCount(accountId);
-                        }
+                        totalScorePersistenceService.updateThumbUp(accountId);
+                        scoreRecordPO.setScore(score);
+                        scoreRecordPO.setSrcType(srcType);
+                        scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        scoreRecordMapper.insertSelective(scoreRecordPO);
+                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
+                    }
+                    break;
+                case 3:
+                    scoreRecordPO.setSrcAccountId(srcId);
+                    List<ScoreRecordPO> scoreRecordPOs2 = scoreRecordMapper.findByConditions(scoreRecordPO);
+                    if(scoreRecordPOs2==null||scoreRecordPOs2.size()==0) {
+                        totalScorePersistenceService.updateSignInCount(accountId);
                         scoreRecordPO.setScore(score);
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -132,14 +139,12 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         }
     }
     private void updateTotalScore(Integer score, Integer accountId, ProvinceEnum province, String date, Integer questionTime,Integer correctCount) {
-        if(score >0 ) {
-            // TODO: 2018/1/16 插入总分表
-            TotalScorePO totalScorePO = new TotalScorePO(null, accountId, score, province);
-            totalScorePersistenceService.updateTotalScore(totalScorePO);
-            // TODO: 2018/1/16 插入每日积分表
-            DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, score, date, province, questionTime, correctCount);
-            dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
-        }
+        // TODO: 2018/1/16 插入总分表
+        TotalScorePO totalScorePO = new TotalScorePO(null, accountId, score, province);
+        totalScorePersistenceService.updateTotalScore(totalScorePO);
+        // TODO: 2018/1/16 插入每日积分表
+        DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, score, date, province, questionTime, correctCount);
+        dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
     }
 
     @Override
@@ -153,14 +158,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         totalScoreDto.setPortrait(accountPO.getPortrait());
         if(totalScorePO == null) {
             totalScoreDto.setInviteCount(0);
-            totalScoreDto.setQuestionCount(0);
             totalScoreDto.setShareCount(0);
             totalScoreDto.setThumbUpCount(0);
+            totalScoreDto.setSignInCount(0);
             totalScoreDto.setScore(0);
         } else {
             totalScoreDto.setInviteCount(totalScorePO.getInviteCount());
             totalScoreDto.setShareCount(totalScorePO.getShareCount());
             totalScoreDto.setThumbUpCount(totalScorePO.getThumbUpCount());
+            totalScoreDto.setSignInCount(totalScorePO.getSignInCount());
             totalScoreDto.setScore(totalScorePO.getScore());
         }
         if(dailyTotalScorePO == null) {
