@@ -67,7 +67,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
 
-                updateTotalScore(Constants.Score.THUMB_UP_SCORE,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null);
+                updateTotalScore(Constants.Score.THUMB_UP_SCORE,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                 totalScorePersistenceService.updateInviteCount(accountId);
 
                 shareRelationPO.setIsPartIn(true);
@@ -84,7 +84,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordPO.setQuestionTime(1);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
-                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),1);
+                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),1,score>0?1:null);
                     } else {
                         scoreRecordPO = scoreRecordPOs.get(0);
                         if(scoreRecordPO.getQuestionTime() != null && scoreRecordPO.getQuestionTime()==1) {
@@ -94,7 +94,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             scoreRecordPO.setQuestionTime(2);
                             scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
-                            updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2);
+                            updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
                         }
                     }
                     break;
@@ -112,7 +112,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordMapper.insertSelective(scoreRecordPO);
-                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null);
+                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                     }
                     break;
                 case 4:
@@ -124,28 +124,52 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordPO.setScore(score);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
-                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null);
+                        updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                         totalScorePersistenceService.updateShareCount(accountId);
                     }
                     break;
             }
         }
     }
-    private void updateTotalScore(Integer score, Integer accountId, ProvinceEnum province, String date, Integer questionTime) {
+    private void updateTotalScore(Integer score, Integer accountId, ProvinceEnum province, String date, Integer questionTime,Integer correctCount) {
         if(score >0 ) {
             // TODO: 2018/1/16 插入总分表
             TotalScorePO totalScorePO = new TotalScorePO(null, accountId, score, province);
             totalScorePersistenceService.updateTotalScore(totalScorePO);
             // TODO: 2018/1/16 插入每日积分表
-            DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, score, date, province, questionTime);
+            DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, score, date, province, questionTime, correctCount);
             dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
         }
     }
 
     @Override
     public TotalScoreDto findTotalScore(Integer accountId) {
-        TotalScoreDto totalScoreDto = scoreRecordMapper.findTotalScore(accountId);
-        if(totalScoreDto == null) totalScoreDto = new TotalScoreDto();
+        TotalScoreDto totalScoreDto = new TotalScoreDto();
+        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+        TotalScorePO totalScorePO = totalScorePersistenceService.findByAccountId(accountId);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DailyTotalScorePO dailyTotalScorePO = dailyTotalScorePersistenceService.findByAccountId(accountId,simpleDateFormat.format(new Date()));
+        totalScoreDto.setNickName(accountPO.getNickName());
+        totalScoreDto.setPortrait(accountPO.getPortrait());
+        if(totalScorePO == null) {
+            totalScoreDto.setInviteCount(0);
+            totalScoreDto.setQuestionCount(0);
+            totalScoreDto.setShareCount(0);
+            totalScoreDto.setThumbUpCount(0);
+            totalScoreDto.setScore(0);
+        } else {
+            totalScoreDto.setInviteCount(totalScorePO.getInviteCount());
+            totalScoreDto.setShareCount(totalScorePO.getShareCount());
+            totalScoreDto.setThumbUpCount(totalScorePO.getThumbUpCount());
+            totalScoreDto.setScore(totalScorePO.getScore());
+        }
+        if(dailyTotalScorePO == null) {
+            totalScoreDto.setQuestionTime(0);
+            totalScoreDto.setQuestionCount(0);
+        } else {
+            totalScoreDto.setQuestionCount(dailyTotalScorePO.getCorrectCount());
+            totalScoreDto.setQuestionTime(dailyTotalScorePO.getQuestionTime());
+        }
         totalScoreDto.setIsSignIn(scoreRecordMapper.findIsSignIn(accountId));
         return totalScoreDto;
     }
@@ -244,7 +268,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         totalScorePersistenceService.updateTotalScore(totalScorePO);
         // TODO: 2018/1/16 插入每日积分表
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, -1 * awardType.findScore(), simpleDateFormat.format(new Date()), accountPO.getProvince(), null);
+        DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, -1 * awardType.findScore(), simpleDateFormat.format(new Date()), accountPO.getProvince(), null,null);
         dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
     }
 
