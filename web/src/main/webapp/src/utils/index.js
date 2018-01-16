@@ -18,7 +18,7 @@ export function jsSdkConfig(axios, host) {
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     let iosVersion = window.parseInt(u.match(/\(iPhone; CPU iPhone OS ([0-9]+)_.+Mac OS X/)[1]);
     let url = '';
-    alert(window.navigator.userAgent);
+    // alert(window.navigator.userAgent);
     if (isiOS) {
         if (iosVersion >= 11) {
             url = encodeURIComponent('http://www.12355.org.cn/leg/');
