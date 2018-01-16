@@ -10,8 +10,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,shrink-to-fit=no"/>
   <meta name="theme-color" content="#000000">
-  <link rel="shortcut icon" href="./favicon.ico">
-  <link rel="stylesheet" href="./bootstrap.min.css">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/build/assets/images/favicon.ico">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <style>
     .title {
@@ -522,7 +522,7 @@
 <script>
   var jsonUrl = '<%=jsonUrl%>';
   //全国json获取
-  $.ajax({
+  /*$.ajax({
     type: "POST",//请求方式
     url: "item.json",//地址，就是json文件的请求路径
     dataType: "json",//数据类型可以为 text xml json  script  jsonp
@@ -572,7 +572,7 @@
               "</div>"
       );
     });
-  }
+  }*/
 
 </script>
 </body>
