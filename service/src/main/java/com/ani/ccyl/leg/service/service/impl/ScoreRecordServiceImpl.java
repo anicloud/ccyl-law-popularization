@@ -363,33 +363,22 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     public MySelfRankDto findSelfRank(Integer accountId) {
         Map<String,Object> map = findIsTop20(accountId);
         AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
-
-        List<ScoreRecordPO> selfRanks = scoreRecordMapper.findSelfRank(new Timestamp(System.currentTimeMillis()));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        int rank = dailyTotalScorePersistenceService.findRankByAccountId(accountId,simpleDateFormat.format(new Date()));
+        DailyTotalScorePO dailyTotalScorePO = dailyTotalScorePersistenceService.findByAccountId(accountId,simpleDateFormat.format(new Date()));
         MySelfRankDto mySelfRankDto = new MySelfRankDto();
-        if(selfRanks != null) {
-            int order = 0;
-            int temp = 0;
-            for(ScoreRecordPO scoreRecordPO:selfRanks) {
-                temp ++;
-                if(scoreRecordPO.getAccountId().equals(accountId)) {
-                    order = temp;
-                    break;
-                }
-                mySelfRankDto.setRanking(order);
-            }
 
-            ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
-            scoreRecordParam.setAccountId(accountId);
-            if(map != null){//获得过前20
-                mySelfRankDto.setRanking(-1);
-            }else{
-                mySelfRankDto.setRanking(order);
-            }
-
-            mySelfRankDto.setTotalScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
-            mySelfRankDto.setNickName(accountPO.getNickName());
-            mySelfRankDto.setPortrait(accountPO.getPortrait());
+        ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
+        scoreRecordParam.setAccountId(accountId);
+        if(map != null){
+            mySelfRankDto.setRanking(-1);
+        }else{
+            mySelfRankDto.setRanking(rank);
         }
+
+        mySelfRankDto.setTotalScore(dailyTotalScorePO.getScore());
+        mySelfRankDto.setNickName(accountPO.getNickName());
+        mySelfRankDto.setPortrait(accountPO.getPortrait());
         return mySelfRankDto;
     }
 
