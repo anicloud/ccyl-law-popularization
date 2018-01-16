@@ -105,6 +105,7 @@ class Root extends Component {
                     isError: true
                 })
             }
+            alert(res.toString());
         });
     }
     render() {
