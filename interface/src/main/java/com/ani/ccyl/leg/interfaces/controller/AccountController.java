@@ -140,12 +140,27 @@ public class AccountController {
         in.close();
         out.close();
     }
-    @RequestMapping(value = "/getTop20Json",method = RequestMethod.GET)
-    public ResponseMessageDto getTop20Json(HttpServletRequest request){
-        Date currentTime = new Date();
+  //  @RequestMapping(value = "/getTop20Json",method = RequestMethod.GET)
+    public void getTop20Json(HttpServletRequest request){
+        ResponseMessageDto message = new ResponseMessageDto();
+        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
-
+        String url ="/files"+"/top20/"+dateString+".json";
+        message.setMsg("获取成功");
+        message.setState(ResponseStateEnum.OK);
+        message.setData(url);
         //return"baseFilePath+\"/top20/\"+dateString+\".json\";
+    }
+    //@RequestMapping(value = "/getProvienceJson",method = RequestMethod.GET)
+    public  void getProvienceJson(){
+        ResponseMessageDto message = new ResponseMessageDto();
+        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+        String url ="/files"+"/province/"+dateString+".json";
+        message.setMsg("获取成功");
+        message.setState(ResponseStateEnum.OK);
+        message.setData(url);
     }
 }
