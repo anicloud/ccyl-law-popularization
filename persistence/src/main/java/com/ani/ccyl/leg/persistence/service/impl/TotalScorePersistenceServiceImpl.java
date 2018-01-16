@@ -29,26 +29,62 @@ public class TotalScorePersistenceServiceImpl implements TotalScorePersistenceSe
 
     @Override
     public TotalScorePO findByAccountId(Integer accountId) {
+        TotalScorePO scoreParam=new TotalScorePO();
+        scoreParam.setAccountId(accountId);
+        List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
+        if(scorePOS!=null && scorePOS.size()!=0){
+            return  scorePOS.get(0);
+        }
         return null;
     }
 
     @Override
     public void updateThumbUp(Integer accountId) {
+        TotalScorePO scoreParam=new TotalScorePO();
+        scoreParam.setAccountId(accountId);
+        List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
+        if(scorePOS!=null && scorePOS.size()!=0){
+           TotalScorePO scorePO=scorePOS.get(0);
+           scorePO.setThumbUpCount(scorePO.getThumbUpCount()+1);
+           totalScoreMapper.updateByPrimaryKeySelective(scorePO);
+        }
 
     }
 
     @Override
     public void updateSignInCount(Integer accountId) {
+        TotalScorePO scoreParam=new TotalScorePO();
+        scoreParam.setAccountId(accountId);
+        List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
+        if(scorePOS!=null && scorePOS.size()!=0){
+            TotalScorePO scorePO=scorePOS.get(0);
+            scorePO.setThumbUpCount(scorePO.getSignInCount()+1);
+            totalScoreMapper.updateByPrimaryKeySelective(scorePO);
+        }
 
     }
 
     @Override
     public void updateInviteCount(Integer accountId) {
-
+        TotalScorePO scoreParam=new TotalScorePO();
+        scoreParam.setAccountId(accountId);
+        List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
+        if(scorePOS!=null && scorePOS.size()!=0){
+            TotalScorePO scorePO=scorePOS.get(0);
+            scorePO.setInviteCount(scorePO.getInviteCount()+1);
+            totalScoreMapper.updateByPrimaryKeySelective(scorePO);
+        }
     }
 
     @Override
     public void updateShareCount(Integer accountId) {
-
+        TotalScorePO scoreParam=new TotalScorePO();
+        scoreParam.setAccountId(accountId);
+        List<TotalScorePO> scorePOS = totalScoreMapper.select(scoreParam);
+        if(scorePOS!=null && scorePOS.size()!=0){
+            TotalScorePO scorePO=scorePOS.get(0);
+            scorePO.setShareCount(scorePO.getShareCount()+1);
+            totalScoreMapper.updateByPrimaryKeySelective(scorePO);
+        }
     }
 }

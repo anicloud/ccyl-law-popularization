@@ -1,6 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: sunminggui
+  Date: 2018/1/16
+  Time: 16:44
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
@@ -8,8 +13,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,shrink-to-fit=no"/>
   <meta name="theme-color" content="#000000">
-  <link rel="shortcut icon" href="./favicon.ico">
-  <link rel="stylesheet" href="./bootstrap.min.css">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/build/assets/images/favicon.ico">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <style>
     .title {
@@ -21,7 +26,7 @@
     }
     .middle{
       width:100%;
-      height:21rem;
+      height:13rem;
       background-color: #9bbd4b;
     }
     .tubiao{
@@ -410,70 +415,6 @@
           <p>年学法用法网上知识竞赛</p>
           <br/>
           <p style="font-weight: bold;">举办时间:2018年1月15日 - 2018年2月28日</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="paihangbang">
-    <div class="paihangbang1">
-      <div class="phb1-title"></div>
-      <div class="phb1-detail">
-        <div class='clearfix info'>
-          <div class='first'>
-            今日得分
-          </div>
-          <div class='second'>
-            全国排名
-          </div>
-        </div>
-        <div class='clearfix top-ranking'>
-          <div class='pull-left rank-first'>
-            <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0" alt=""/>
-          </div>
-          <div class='pull-left rank-second'>
-            <div>"10000"</div>
-            <div>"secty"</div>
-          </div>
-          <div class='pull-right rank-third'>1</div>
-        </div>
-        <div class='top-ranking clearfix'>
-          <div class='pull-left rank-first'>
-            <img src="http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0" alt=""/>
-          </div>
-          <div class='pull-left rank-second'>
-            <div>"10000"</div>
-            <div>"secty"</div>
-          </div>
-          <div class='pull-right rank-third'>2</div>
-        </div>
-      </div>
-    </div>
-    <div class="paihangbang2">
-      <div class="phb2-title"></div>
-      <div class="phb2-detail">
-        <div class='clearfix info'>
-          <div class='first'>
-            排名
-          </div>
-          <div class='second'>
-            省份
-          </div>
-          <div class='third'>
-            平均得分
-          </div>
-          <div class='four'>
-            总得分
-          </div>
-          <div class='five'>
-            参赛人数
-          </div>
-        </div>
-        <div class='clearfix top-ranking'>
-          <div class='rank-first'>1</div>
-          <div class='rank-second'>北京市</div>
-          <div class='rank-third'>370</div>
-          <div class='rank-four'>37,000,000</div>
-          <div class='rank-five'>100,000</div>
         </div>
       </div>
     </div>
