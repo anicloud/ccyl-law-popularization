@@ -22,16 +22,18 @@ class SharePrize extends Component {
             showPopup: false,
             isReady:false,
             mySelfRank:0,
-            correctCount:0
+            correctCount:0,
+            showReAnswer: false
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
+        this.toastTimer2 = null;
         this.handleShare = this.handleShare.bind(this);
         this.backAnswer = this.backAnswer.bind(this);
     }
     componentDidMount() {
         let _this = this;
-        const {host} = _this.props;
+        const {host, history} = _this.props;
         axios.get(`${host}/score/findSelfRank`).then(function (response) {
             if (response.data.data !== null) {
                 _this.setState({
@@ -70,6 +72,7 @@ class SharePrize extends Component {
                         success: function (res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);
+                                history.push('/tasks');
                             }).catch(function (errors) {
                                 console.log(errors);
                             });
@@ -87,6 +90,7 @@ class SharePrize extends Component {
                         success: function(res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);
+                                history.push('/tasks');
                             }).catch(function (errors) {
                                 console.log(errors);
                             });
@@ -100,13 +104,10 @@ class SharePrize extends Component {
                 console.log(errors);
             });
         });
-        window.addEventListener('popstate', function () {
-            const {history} = _this.props;
-            history.push('/home');
-        }, false);
     }
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
+        this.toastTimer2 && clearTimeout(this.toastTimer2);
     }
     handleShare() {
         this.setState(
@@ -118,8 +119,20 @@ class SharePrize extends Component {
         );
     }
     backAnswer() {
-        const {history} = this.props;
-        history.push('/answer');
+        let _this = this;
+        const {history} = _this.props;
+        if (_this.state.scoreInfo.questionTime === 2) {
+            _this.setState({
+                showReAnswer: true
+            });
+            _this.toastTimer2 = setTimeout(function () {
+                _this.setState({
+                    showReAnswer: false
+                });
+            }, 2000);
+        } else {
+            history.push('/answer');
+        }
     }
     render() {
         let scoreInfo = this.state.scoreInfo;
@@ -137,16 +150,16 @@ class SharePrize extends Component {
                 {
                     (isReady && scoreInfo)? (
                         <div className='text-center complete'>
-                            <h2 className='wrapper-title'>
-                                {
-                                    correctCount === 5? (
-                                        <span>已答完</span>
-                                    ) : (
-                                        <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
-                                    )
-                                }
-                            </h2>
                             <div className='wrapper'>
+                                <h2 className='wrapper-title'>
+                                    {
+                                        correctCount === 5? (
+                                            <span>已答完</span>
+                                        ) : (
+                                            <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
+                                        )
+                                    }
+                                </h2>
                                 <div className='sum-score'>
                                     <div><span className="score">+{correctCount*2?correctCount*2:0}</span></div>
                                 </div>
@@ -182,6 +195,7 @@ class SharePrize extends Component {
                 {/*<Toast icon="success-no-circle" show={this.state.showToast}>{this.state.toastText}</Toast>*/}
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
+                <Toast icon="warn" show={this.state.showReAnswer}>重答次数已用完</Toast>
             </div>
         )
     }
