@@ -340,16 +340,16 @@ class MyScore extends Component {
                 result = "购物优惠券";
                 break;
             case "TOP_1":
-                result = "京东购物卡(积分清零)";
+                result = "京东购物卡(Top20奖)";
                 break;
             case "TOP_2":
-                result = "京东购物卡(积分清零)";
+                result = "京东购物卡(Top20奖)";
                 break;
             case "TOP_3":
-                result = "京东购物卡(积分清零)";
+                result = "京东购物卡(Top20奖)";
                 break;
             case "TOP_4S":
-                result = "腾讯视频会员月卡(积分清零)";
+                result = "腾讯视频会员月卡(Top20奖)";
                 break;
             case "LUCKY":
                 result = "摩拜单车骑行券";
