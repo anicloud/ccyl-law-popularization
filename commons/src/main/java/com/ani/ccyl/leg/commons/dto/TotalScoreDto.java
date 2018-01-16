@@ -16,8 +16,8 @@ public class TotalScoreDto implements Serializable {
     private Boolean isSignIn;
     private String portrait;
     private String nickName;
-
-    public TotalScoreDto(Integer score, Integer questionCount, Integer thumbUpCount, Integer signInCount, Integer inviteCount, Integer shareCount, Boolean isSignIn, String portrait, String nickName) {
+    private Integer questionTime;
+    public TotalScoreDto(Integer score, Integer questionCount, Integer thumbUpCount, Integer signInCount, Integer inviteCount, Integer shareCount, Boolean isSignIn, String portrait, String nickName, Integer questionTime) {
         this.score = score;
         this.questionCount = questionCount;
         this.thumbUpCount = thumbUpCount;
@@ -27,6 +27,15 @@ public class TotalScoreDto implements Serializable {
         this.isSignIn = isSignIn;
         this.portrait = portrait;
         this.nickName = nickName;
+        this.questionTime = questionTime;
+    }
+
+    public Integer getQuestionTime() {
+        return questionTime;
+    }
+
+    public void setQuestionTime(Integer questionTime) {
+        this.questionTime = questionTime;
     }
 
     public String getPortrait() {
