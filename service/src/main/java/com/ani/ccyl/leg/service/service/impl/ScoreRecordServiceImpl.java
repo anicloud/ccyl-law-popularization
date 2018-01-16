@@ -8,7 +8,9 @@ import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.po.*;
 import com.ani.ccyl.leg.persistence.service.facade.AccountPersistenceService;
+import com.ani.ccyl.leg.persistence.service.facade.DailyTotalScorePersistenceService;
 import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
+import com.ani.ccyl.leg.persistence.service.facade.TotalScorePersistenceService;
 import com.ani.ccyl.leg.service.adapter.AccountAdapter;
 import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
 import com.ani.ccyl.leg.service.adapter.ScoreRecordAdapter;
@@ -30,8 +32,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
     private AccountMapper accountMapper;
     @Autowired
     private ShareRelationPersistenceService shareRelationPersistenceService;
@@ -45,12 +45,18 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private Top20AwardsMapper top20AwardsMapper;
     @Autowired
     private Lucky20AwardsMapper lucky20AwardsMapper;
+    @Autowired
+    private DailyTotalScorePersistenceService dailyTotalScorePersistenceService;
+    @Autowired
+    private TotalScorePersistenceService totalScorePersistenceService;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
             ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
             scoreRecordPO.setAccountId(accountId);
             ShareRelationPO shareRelationPO = shareRelationPersistenceService.findBySharedId(accountId);
+            AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             if(shareRelationPO != null&&!shareRelationPO.getIsPartIn()) {
                 ScoreRecordPO shareRecord = new ScoreRecordPO();
                 shareRecord.setAccountId(shareRelationPO.getShareId());
@@ -59,9 +65,11 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 shareRecord.setSrcType(ScoreSrcTypeEnum.INVITE);
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
+
                 shareRelationPO.setIsPartIn(true);
                 shareRelationMapper.updateByPrimaryKeySelective(shareRelationPO);
             }
+            Integer questionTime = null;
             switch (srcType.getCode()) {
                 case 1:
                     scoreRecordPO.setSrcQuestionId(srcId);
@@ -72,6 +80,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordPO.setQuestionTime(1);
+                        questionTime = 1;
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                     } else {
                         scoreRecordPO = scoreRecordPOs.get(0);
@@ -80,6 +89,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             scoreRecordPO.setScore(score);
                             scoreRecordPO.setSrcType(srcType);
                             scoreRecordPO.setQuestionTime(2);
+                            questionTime = 2;
                             scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
                         }
@@ -105,61 +115,55 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                     }
                     break;
             }
-        }
-    }
-
-    @Override
-    public List<ScoreRecordDto> findDailyScoreRecoreds(Integer accountId) {
-        List<ScoreRecordPO> recordPOs = scoreRecordMapper.findDailyScoreRecords(accountId);
-        List<ScoreRecordDto> scoreRecordDtos = ScoreRecordAdapter.fromPOList(recordPOs);
-        if(scoreRecordDtos != null) {
-            for(ScoreRecordDto scoreRecordDto:scoreRecordDtos) {
-                QuestionDto questionDto = QuestionAdapter.fromPO(questionMapper.selectByPrimaryKey(scoreRecordDto.getSrcQuestion().getId()));
-                scoreRecordDto.setSrcQuestion(questionDto);
-                AccountDto accountDto = AccountAdapter.fromPO(accountMapper.selectByPrimaryKey(scoreRecordDto.getSrcAccount().getId()));
-                scoreRecordDto.setSrcAccount(accountDto);
+            if(score >0 ) {
+                // TODO: 2018/1/16 插入总分表
+                TotalScorePO totalScorePO = new TotalScorePO(null, accountId, score, accountPO.getProvince());
+                totalScorePersistenceService.updateTotalScore(totalScorePO);
+                // TODO: 2018/1/16 插入每日积分表
+                DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, score, simpleDateFormat.format(new Date()), accountPO.getProvince(), questionTime);
+                dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
             }
         }
-        return scoreRecordDtos;
     }
 
     @Override
     public TotalScoreDto findTotalScore(Integer accountId) {
+        // TODO: 2018/1/16 修改mapper sql语句
         TotalScoreDto totalScoreDto = scoreRecordMapper.findTotalScore(accountId);
         totalScoreDto.setIsSignIn(scoreRecordMapper.findIsSignIn(accountId));
         return totalScoreDto;
     }
 
-    @Override
-    public DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType) {
-        ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
-        scoreRecordPO.setAccountId(accountId);
-        scoreRecordPO.setSrcType(srcType);
-        Integer score = scoreRecordMapper.findDailyTotalScore(scoreRecordPO);
-        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
-        DailyTotalScoreDto scoreDto = new DailyTotalScoreDto();
-        scoreDto.setAccountId(accountId);
-        scoreDto.setName(accountPO.getNickName());
-        scoreDto.setScore(score);
-        scoreDto.setPortrait(accountPO.getPortrait());
-        return scoreDto;
-    }
+//    @Override
+//    public DailyTotalScoreDto findDailyTotalScore(Integer accountId, ScoreSrcTypeEnum srcType) {
+//        ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
+//        scoreRecordPO.setAccountId(accountId);
+//        scoreRecordPO.setSrcType(srcType);
+//        Integer score = scoreRecordMapper.findDailyTotalScore(scoreRecordPO);
+//        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+//        DailyTotalScoreDto scoreDto = new DailyTotalScoreDto();
+//        scoreDto.setAccountId(accountId);
+//        scoreDto.setName(accountPO.getNickName());
+//        scoreDto.setScore(score);
+//        scoreDto.setPortrait(accountPO.getPortrait());
+//        return scoreDto;
+//    }
 
     @Override
     public List<Top20Dto> findDailyTop20() throws UnsupportedEncodingException {
-        List<ScoreRecordPO> scoreRecordPOs = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<DailyTotalScorePO> top20 = dailyTotalScorePersistenceService.findTop20(simpleDateFormat.format(new Date()));
         List<Top20Dto> top20Dtos = new ArrayList<>();
         ScoreRecordPO scoreRecordParam = new ScoreRecordPO();
-        if(scoreRecordPOs != null && scoreRecordPOs.size()>0) {
-            for(ScoreRecordPO scoreRecordPO:scoreRecordPOs) {
+        if(top20 != null && top20.size()>0) {
+            for(DailyTotalScorePO dailyTotalScorePO:top20) {
                 Top20Dto top20Dto = new Top20Dto();
-                top20Dto.setId(scoreRecordPO.getAccountId());
-                scoreRecordParam.setAccountId(scoreRecordPO.getAccountId());
-                top20Dto.setScore(scoreRecordMapper.findDailyTotalScore(scoreRecordParam));
-                AccountPO accountPO = accountMapper.selectByPrimaryKey(scoreRecordPO.getAccountId());
+                top20Dto.setId(dailyTotalScorePO.getAccountId());
+                top20Dto.setScore(dailyTotalScorePO.getScore());
+                AccountPO accountPO = accountMapper.selectByPrimaryKey(dailyTotalScorePO.getAccountId());
                 top20Dto.setName(URLDecoder.decode(accountPO.getNickName(),"utf-8"));
                 top20Dto.setPortrat(accountPO.getPortrait());
-                top20Dto.setUpdateTime(scoreRecordPO.getUpdateTime());
+                top20Dto.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20Dtos.add(top20Dto);
             }
         }
@@ -219,36 +223,14 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             dailyAwardsMapper.insertSelective(newDailyAwards);
         }
         dailyAwardsMapper.updateByPrimaryKeySelective(dailyAwardsPO);
-    }
-
-    /**查找所有我用积分兑换的奖品**/
-    @Override
-    public List<MyAwardDto> findMyConvertAward(Integer accountId){
-        DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
-        dailyAwardsParam.setAccountId(accountId);
-        List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
-        List<MyAwardDto> myAwardDtos = new ArrayList<>();
-        Integer lastScore = findTotalScore(accountId).getScore();
-        if(dailyAwardsPOs!=null) {
-            for(DailyAwardsPO dailyAwardsPO:dailyAwardsPOs) {
-                MyAwardDto myAwardDto = new MyAwardDto();
-                myAwardDto.setAwardType(dailyAwardsPO.getType());
-                myAwardDto.setCreateTime(dailyAwardsPO.getUpdateTime());
-                if((System.currentTimeMillis()-dailyAwardsPO.getUpdateTime().getTime()) >= 6*24*60*60*1000) {
-                    myAwardDto.setIsExpired(true);
-                } else {
-                    myAwardDto.setCodeSecret(dailyAwardsPO.getCodeSecret());
-                    myAwardDto.setIsExpired(false);
-                }
-                myAwardDto.setIsReceivedAward(true);
-                lastScore = lastScore - dailyAwardsPO.getType().findScore();
-                myAwardDtos.add(myAwardDto);
-            }
-        }
-        for(MyAwardDto myAwardDto : myAwardDtos) {
-            myAwardDto.setLastScore(lastScore);
-        }
-        return myAwardDtos;
+        // TODO: 2018/1/16 插入总分表
+        AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
+        TotalScorePO totalScorePO = new TotalScorePO(null, accountId, -1 * awardType.findScore(), accountPO.getProvince());
+        totalScorePersistenceService.updateTotalScore(totalScorePO);
+        // TODO: 2018/1/16 插入每日积分表
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO(null, accountId, -1 * awardType.findScore(), simpleDateFormat.format(new Date()), accountPO.getProvince(), null);
+        dailyTotalScorePersistenceService.updateDailyTotalScore(dailyTotalScorePO);
     }
 
     @Override

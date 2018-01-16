@@ -24,29 +24,18 @@ import java.util.List;
 public class ScoreRecordController {
     @Autowired
     private ScoreRecordService scoreRecordService;
-    @RequestMapping(value = "/findDailyRecord", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto findDailyRecord(HttpSession session) {
-        ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        List<ScoreRecordDto> scoreRecordDtos = scoreRecordService.findDailyScoreRecoreds(accountDto.getId());
-        message.setData(scoreRecordDtos);
-        message.setMsg("查询成功");
-        message.setState(ResponseStateEnum.OK);
-        return message;
-    }
 
-    @RequestMapping(value = "/findDailyTotalScore",method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessageDto findDailyTotalScore(Integer id, HttpSession session) {
-        ResponseMessageDto message = new ResponseMessageDto();
-        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        DailyTotalScoreDto scoreDto = scoreRecordService.findDailyTotalScore(id == null?accountDto.getId():id,ScoreSrcTypeEnum.QUESTION);
-        message.setState(ResponseStateEnum.OK);
-        message.setData(scoreDto);
-        message.setMsg("查询成功");
-        return message;
-    }
+//    @RequestMapping(value = "/findDailyTotalScore",method = RequestMethod.GET)
+//    @ResponseBody
+//    public ResponseMessageDto findDailyTotalScore(Integer id, HttpSession session) {
+//        ResponseMessageDto message = new ResponseMessageDto();
+//        AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
+//        DailyTotalScoreDto scoreDto = scoreRecordService.findDailyTotalScore(id == null?accountDto.getId():id,ScoreSrcTypeEnum.QUESTION);
+//        message.setState(ResponseStateEnum.OK);
+//        message.setData(scoreDto);
+//        message.setMsg("查询成功");
+//        return message;
+//    }
 
     @RequestMapping(value = "/findTop20", method = RequestMethod.GET)
     @ResponseBody
@@ -84,14 +73,6 @@ public class ScoreRecordController {
         if(totalScore != null) {
             totalScore.setPortrait(accountDto.getPortrait());
             totalScore.setNickName(accountDto.getNickName());
-            Integer lastScore = totalScore.getScore();
-            List<MyAwardDto> myConvertAwards = scoreRecordService.findMyConvertAward(accountDto.getId());
-            if(myConvertAwards!=null) {
-                for(MyAwardDto myAwardsPO:myConvertAwards) {
-                    lastScore = lastScore - myAwardsPO.getAwardType().findScore();
-                }
-            }
-            totalScore.setScore(lastScore);
         }
         message.setState(ResponseStateEnum.OK);
         message.setData(totalScore);
@@ -166,14 +147,6 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
-        Integer lastScore = totalScoreDto.getScore();
-        List<MyAwardDto> myConvertAwards = scoreRecordService.findMyConvertAward(accountDto.getId());
-        if(myConvertAwards!=null) {
-            for(MyAwardDto myAwardsPO:myConvertAwards) {
-                lastScore = lastScore - myAwardsPO.getAwardType().findScore();
-            }
-        }
-        totalScoreDto.setScore(lastScore);
         if(totalScoreDto != null) {
             totalScoreDto.setNickName(accountDto.getNickName());
             totalScoreDto.setPortrait(accountDto.getPortrait());

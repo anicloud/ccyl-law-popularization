@@ -315,6 +315,46 @@ CREATE TABLE `t_share_relation` (
   UNIQUE KEY `t_share_relation_unique_key` (`shared_id`),
   KEY `t_share_relation_share_id_key` (`share_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='分享表';
+
+
+
+
+DROP TABLE IF EXISTS `t_daily_total_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_daily_total_score` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL COMMENT '账户id',
+  `score` int(8) NOT NULL COMMENT '每天总积分',
+  `log_date` CHAR(20) NOT NULL COMMENT '日期',
+  `province` tinyint(2) DEFAULT NULL COMMENT '省份',
+  `question_time` int(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `t_daily_total_score_account_id_key` (`account_id`),
+  KEY `t_daily_total_score_score_key` (`score`),
+  KEY `t_daily_total_score_log_date_key` (`log_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='每日总分表';
+
+
+DROP TABLE IF EXISTS `t_total_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_total_score` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `account_id` int(11) NOT NULL COMMENT '账户id',
+  `score` int(8) NOT NULL COMMENT '总积分',
+  `province` tinyint(2) DEFAULT NULL COMMENT '省份',
+  `thumb_up_count` INT(11) COMMENT '点赞次数',
+  `sign_in_count` INT(11) COMMENT '签到次数',
+  `invite_count` INT(11) COMMENT '邀请次数',
+  `share_count` INT(11) COMMENT '分享次数',
+  PRIMARY KEY (`id`),
+  KEY `t_total_score_account_id_key` (`account_id`),
+  KEY `t_total_score_score` (`score`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='总分表';
+
+
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

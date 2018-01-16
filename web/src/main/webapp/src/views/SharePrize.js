@@ -18,11 +18,11 @@ class SharePrize extends Component {
             scoreInfo: null,
             showToast: false,
             toastText: '分享成功',
-            location: this.props.location.state? this.props.location.state : '/answer',
+            location: this.props.location.state ? this.props.location.state : '/answer',
             showPopup: false,
-            isReady:false,
-            mySelfRank:0,
-            correctCount:0,
+            isReady: false,
+            mySelfRank: 0,
+            correctCount: 0,
             showReAnswer: false
         };
         this.userId = getCookie('LOGIN_COOKIE');
@@ -31,16 +31,17 @@ class SharePrize extends Component {
         this.handleShare = this.handleShare.bind(this);
         this.backAnswer = this.backAnswer.bind(this);
     }
+
     componentDidMount() {
         let _this = this;
         const {host, history} = _this.props;
         axios.get(`${host}/score/findSelfRank`).then(function (response) {
             if (response.data.data !== null) {
                 _this.setState({
-                    mySelfRank:response.data.data.ranking
+                    mySelfRank: response.data.data.ranking
                 });
             }
-        }).catch(function(errors){
+        }).catch(function (errors) {
             console.log(errors);
         });
         //剩余积分获取
@@ -54,8 +55,31 @@ class SharePrize extends Component {
             console.log(errors);
         });
         jsSdkConfig(axios, host);
+        /*axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
+            if (response.data.state === 0) {
+                /!*配置微信jssdk*!/
+                _this.setState({
+                    loading: true
+                });
+                window.wx.config({
+                    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: response.data.data.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
+                    timestamp: response.data.data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: response.data.data.nonceStr, // 必填，生成签名的随机串
+                    signature: response.data.data.signature,// 必填，签名，见附录1
+                    jsApiList: [
+                        'getLocation',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage'
+                    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+            }
+        }).catch(function (errors) {
+            console.log('errors', errors);
+        });*/
         window.wx.ready(function () {
             console.log(1);
+            alert('share ready');
             _this.setState({
                 isReady: true
             });
@@ -63,7 +87,7 @@ class SharePrize extends Component {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
                     _this.setState({
-                        correctCount:scoreInfo.correctCount
+                        correctCount: scoreInfo.correctCount
                     });
                     window.wx.onMenuShareTimeline({
                         title: `我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品`,
@@ -87,7 +111,7 @@ class SharePrize extends Component {
                         link: scoreInfo.url,
                         imgUrl: scoreInfo.portrait,
                         desc: '第十四届全国青少年学法用法网上知识竞赛',
-                        success: function(res) {
+                        success: function (res) {
                             axios.get(`${host}/share/share`).then(function (response) {
                                 console.log(response);
                                 history.push('/tasks');
@@ -95,20 +119,25 @@ class SharePrize extends Component {
                                 console.log(errors);
                             });
                         },
-                        fail: function(res) {
+                        fail: function (res) {
 
                         }
                     });
+                    /*_this.setState({
+                        loading: false
+                    });*/
                 }
             }).catch(function (errors) {
                 console.log(errors);
             });
         });
     }
+
     componentWillUnmount() {
         this.toastTimer && clearTimeout(this.toastTimer);
         this.toastTimer2 && clearTimeout(this.toastTimer2);
     }
+
     handleShare() {
         this.setState(
             function (prevState) {
@@ -118,6 +147,7 @@ class SharePrize extends Component {
             }
         );
     }
+
     backAnswer() {
         let _this = this;
         const {history} = _this.props;
@@ -134,6 +164,7 @@ class SharePrize extends Component {
             history.push('/answer');
         }
     }
+
     render() {
         let scoreInfo = this.state.scoreInfo;
         let isReady = this.state.isReady;
@@ -142,18 +173,18 @@ class SharePrize extends Component {
         return (
             <div className='share-prize myprize-bg'>
                 <div className='clearfix'>
-                    <Back location={this.state.location} history={this.props.history} />
+                    <Back location={this.state.location} history={this.props.history}/>
                 </div>
                 {/*<div className='text-center header'>
                     <img src={Achievement} alt=""/>
                 </div>*/}
                 {
-                    (isReady && scoreInfo)? (
+                    (isReady && scoreInfo) ? (
                         <div className='text-center complete'>
                             <div className='wrapper'>
                                 <h2 className='wrapper-title'>
                                     {
-                                        correctCount === 5? (
+                                        correctCount === 5 ? (
                                             <span>已答完</span>
                                         ) : (
                                             <span onClick={this.backAnswer}>重答 <img src={reback} alt=""/></span>
@@ -161,12 +192,14 @@ class SharePrize extends Component {
                                     }
                                 </h2>
                                 <div className='sum-score'>
-                                    <div><span className="score">+{correctCount*2?correctCount*2:0}</span></div>
+                                    <div><span className="score">+{correctCount * 2 ? correctCount * 2 : 0}</span></div>
                                 </div>
                                 <div className="sum-detail">
                                     <p className='first'>恭喜你！今日答对{correctCount}题</p>
-                                    <p className='second'>当前积分：<span>{scoreInfo.score?scoreInfo.score:0}</span></p>
-                                    {mySelfRank!==-1?(<p className="third">当前排名:<span>{mySelfRank?mySelfRank:0}</span></p>):(null)}
+                                    <p className='second'>当前积分：<span>{scoreInfo.score ? scoreInfo.score : 0}</span></p>
+                                    {mySelfRank !== -1 ? (
+                                        <p className="third">当前排名:<span>{mySelfRank ? mySelfRank : 0}</span>
+                                        </p>) : (null)}
                                 </div>
                                 <div className="sum-bottom">
                                     <p className='first'>马上拉好友为你点赞吧</p>
@@ -178,7 +211,7 @@ class SharePrize extends Component {
                         </div>
                     ) : (null)
                 }
-                <div className='popup' style={{display: this.state.showPopup? 'block' : 'none'}}>
+                <div className='popup' style={{display: this.state.showPopup ? 'block' : 'none'}}>
                     <div className='arrow'>
                         <img src={arrow} alt=""/>
                     </div>
