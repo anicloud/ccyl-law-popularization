@@ -480,7 +480,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             if(!file.getParentFile().exists()){
                 file.getParentFile().mkdirs();
             }
-            file.createNewFile();
+            if(!file.exists()){
+                file.createNewFile();
+            }
             FileOutputStream out = new FileOutputStream(file);
             ObjectOutputStream objOut=new ObjectOutputStream(out);
             objOut.writeObject(obj);
