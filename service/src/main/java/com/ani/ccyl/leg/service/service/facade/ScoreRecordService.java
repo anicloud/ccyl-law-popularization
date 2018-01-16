@@ -37,4 +37,8 @@ public interface ScoreRecordService {
 
 
     Map<String,Object> findIsTop20(Integer accountId);
+
+    Map<String,Object> findTotalInfo();
+
+
 }

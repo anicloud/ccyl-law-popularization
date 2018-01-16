@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.persistence.mapper;
 
+import com.ani.ccyl.leg.commons.dto.ProvinceInfoDto;
 import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.DailyTotalScorePO;
 
@@ -10,5 +11,5 @@ public interface DailyTotalScoreMapper extends SysMapper<DailyTotalScorePO> {
     List<DailyTotalScorePO> findTop20(String date);
     Integer findRankByAccountId(Map<String,Object> paramMap);
 
-    Map<String,Object> findPrivanceInfo(String logDate);
+    List<ProvinceInfoDto> findPrivanceInfo(String logDate);
 }

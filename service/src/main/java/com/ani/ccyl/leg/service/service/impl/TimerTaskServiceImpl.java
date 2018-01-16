@@ -76,7 +76,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             top20.add(jsonObject);
         }
         try {
-            FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/top20/"+dateString+".json"));
+            FileWriter fw=new FileWriter(new File("/home/zhanglina/file/aaa.json"));
+            //FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/top20/"+dateString+".json"));
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(top20.toString());
             bw.flush();
@@ -87,26 +88,27 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     }
     @Override
     public void provinceRankToJson(){
-        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        Map<String,Object> infoMap=dailyTotalScoreMapper.findPrivanceInfo(dateString);
-        JSONArray infoArray=new JSONArray();
-        Set<String> set=infoMap.keySet();
-        for (String key:set){
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put(key,infoMap.get(key));
-            infoArray.add(jsonObject);
-        }
-        try {
-            FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/province/"+dateString+".json"));
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(infoArray.toString());
-            bw.flush();
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+//        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        String dateString = formatter.format(currentTime);
+//       // Map<String,Object> infoMap=dailyTotalScoreMapper.findPrivanceInfo(dateString);
+//        JSONArray infoArray=new JSONArray();
+//        Set<String> set=infoMap.keySet();
+//        for (String key:set){
+//            JSONObject jsonObject=new JSONObject();
+//            jsonObject.put(key,infoMap.get(key));
+//            infoArray.add(jsonObject);
+//        }
+//        try {
+//            FileWriter fw=new FileWriter(new File("/home/zhanglina/file/aaa.json"));
+//           // FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/province/"+dateString+".json"));
+//            BufferedWriter bw = new BufferedWriter(fw);
+//            bw.write(infoArray.toString());
+//            bw.flush();
+//
+//        }catch (IOException e){
+//            e.printStackTrace();
+//        }
 
 
 
@@ -151,8 +153,6 @@ public class TimerTaskServiceImpl implements TimerTaskService {
         @Override
         public void run() {
             timerTaskService.updateDailyTop20();
-            timerTaskService.top20ToJson();
-            timerTaskService.provinceRankToJson();
             List<AccountPO> accountPOs = accountMapper.findNotInTop20();
             List<AccountPO> luckyAccounts = new ArrayList<>();
             if(accountPOs!=null && accountPOs.size()>20) {

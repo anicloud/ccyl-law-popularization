@@ -75,6 +75,7 @@
 				/build/** = anon
 				/share/toThumbUp = anon
 				/ = anon
+				/files/** = anon
 				/account/getCsvFile = anon
 				/** = authc
 			</value>

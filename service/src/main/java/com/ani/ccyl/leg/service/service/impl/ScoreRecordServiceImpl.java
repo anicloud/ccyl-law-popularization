@@ -12,9 +12,6 @@ import com.ani.ccyl.leg.persistence.service.facade.AccountPersistenceService;
 import com.ani.ccyl.leg.persistence.service.facade.DailyTotalScorePersistenceService;
 import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
 import com.ani.ccyl.leg.persistence.service.facade.TotalScorePersistenceService;
-import com.ani.ccyl.leg.service.adapter.AccountAdapter;
-import com.ani.ccyl.leg.service.adapter.QuestionAdapter;
-import com.ani.ccyl.leg.service.adapter.ScoreRecordAdapter;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +43,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private Top20AwardsMapper top20AwardsMapper;
     @Autowired
     private Lucky20AwardsMapper lucky20AwardsMapper;
+    @Autowired
+    private DailyTotalScoreMapper dailyTotalScoreMapper;
     @Autowired
     private DailyTotalScorePersistenceService dailyTotalScorePersistenceService;
     @Autowired
@@ -336,15 +335,15 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public List<AwardDto> findAllAwards(Integer accountId) {
-        DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
-        dailyAwardsParam.setAccountId(accountId);
-        List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
+//        DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
+//        dailyAwardsParam.setAccountId(accountId);
+       // List<DailyAwardsPO> dailyAwardsPOs = dailyAwardsMapper.select(dailyAwardsParam);
         Integer lastScore = findTotalScore(accountId).getScore();
-        if(dailyAwardsPOs!=null) {
-            for(DailyAwardsPO dailyAwardsPO:dailyAwardsPOs) {
-                lastScore = lastScore - dailyAwardsPO.getType().findScore();
-            }
-        }
+//        if(dailyAwardsPOs!=null) {
+//            for(DailyAwardsPO dailyAwardsPO:dailyAwardsPOs) {
+//                lastScore = lastScore - dailyAwardsPO.getType().findScore();
+//            }
+//        }
         List<AwardDto> awardDtos = new ArrayList<>();
         AwardDto tencentAward = new AwardDto(AwardTypeEnum.TENCENT_VIP, dailyAwardsMapper.findByType(AwardTypeEnum.TENCENT_VIP.getCode())==null,AwardTypeEnum.TENCENT_VIP.findScore(),lastScore,dailyAwardsMapper.findCount(AwardTypeEnum.TENCENT_VIP.getCode()));
         AwardDto ofoAward = new AwardDto(AwardTypeEnum.OFO_COUPON,dailyAwardsMapper.findByType(AwardTypeEnum.OFO_COUPON.getCode())==null,AwardTypeEnum.OFO_COUPON.findScore(),lastScore,dailyAwardsMapper.findCount(AwardTypeEnum.OFO_COUPON.getCode()));
@@ -424,6 +423,30 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             resultMap.put("date",simpleDateFormat.format(top20AwardsPO.getUpdateTime()));
         }
         return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> findTotalInfo() {
+        Map<String,Object> totalInfo =new HashMap<>();
+        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(currentTime);
+        List<DailyTotalScorePO> scorePOS=dailyTotalScoreMapper.findTop20(dateString);
+        List<Top20Dto> top20Dtos=new ArrayList<>();
+        for (DailyTotalScorePO scorePO:scorePOS){
+            AccountPO accountPO=accountMapper.selectByPrimaryKey(scorePO.getAccountId());
+            Top20Dto top20Dto=new Top20Dto();
+            top20Dto.setName(accountPO.getNickName());
+            top20Dto.setPortrat(accountPO.getPortrait());
+            top20Dto.setScore(scorePO.getScore());
+            top20Dtos.add(top20Dto);
+        }
+        List<ProvinceInfoDto> provinceInfoDtos=dailyTotalScoreMapper.findPrivanceInfo(dateString);
+
+        totalInfo.put("top20",top20Dtos);
+        totalInfo.put("province",provinceInfoDtos);
+
+        return totalInfo;
     }
 
 
