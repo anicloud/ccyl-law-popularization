@@ -16,9 +16,11 @@ export function jsSdkConfig(axios, host) {
     let u = window.navigator.userAgent;
     let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-    let iosVersion = window.parseInt(u.match(/\(iPhone; CPU iPhone OS ([0-9]+)_.+Mac OS X/)[1]);
+    let iosVersion = isiOS? window.parseInt(u.match(/\(iPhone; CPU iPhone OS ([0-9]+)_.+Mac OS X/)[1]) : '';
     let url = '';
-    // alert(window.navigator.userAgent);
+    alert(window.navigator.userAgent);
+    alert(isAndroid);
+    alert(isiOS);
     if (isiOS) {
         if (iosVersion >= 11) {
             url = encodeURIComponent('http://www.12355.org.cn/leg/');
@@ -28,6 +30,7 @@ export function jsSdkConfig(axios, host) {
     } else {
         url = encodeURIComponent(window.location.href.split('#')[0]);
     }
+    alert(url);
 
     let time = Math.round(new Date().getTime() / 1000);
     // alert(window.location.href.split('#')[0]);
