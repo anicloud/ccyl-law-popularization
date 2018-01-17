@@ -16,6 +16,7 @@ import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -51,6 +52,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     private DailyTotalScorePersistenceService dailyTotalScorePersistenceService;
     @Autowired
     private TotalScorePersistenceService totalScorePersistenceService;
+    @Value("${mysql.version}")
+    private String mysqlVersion;
     @Override
     public void insertScore(Integer accountId, Integer score, String answer, ScoreSrcTypeEnum srcType, Integer srcId) {
         if(accountId != null && score != null && srcType != null && srcId != null) {
@@ -66,6 +69,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 shareRecord.setCreateTime(new Timestamp(System.currentTimeMillis()));
                 shareRecord.setSrcType(ScoreSrcTypeEnum.INVITE);
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
+                // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
+                if("5.6".equals(mysqlVersion))
+                    shareRecord.setLogDate(simpleDateFormat.format(new Date()));
                 scoreRecordMapper.insertSelective(shareRecord);
                 AccountPO shareAccount = accountMapper.selectByPrimaryKey(shareRelationPO.getShareId());
                 updateTotalScore(ScoreSrcTypeEnum.INVITE,Constants.Score.INVITE_SC0RE,shareRelationPO.getShareId(),shareAccount.getProvince(),simpleDateFormat.format(new Date()),null,null);
@@ -84,6 +90,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordPO.setQuestionTime(1);
                         dailyTotalScorePersistenceService.updateCurrentQuestion(accountId,srcId);
+                        // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
+                        if("5.6".equals(mysqlVersion))
+                            scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.QUESTION,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),1,score>0?1:null);
                     } else {
@@ -95,13 +104,11 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             scoreRecordPO.setQuestionTime(2);
                             scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                             int updateScore = 0;
-                            if (scoreRecordPO.getScore()>score){
-                                updateScore = -2;
-                            }else if(scoreRecordPO.getScore()<score){
+                            if (scoreRecordPO.getScore()==0 && score>0){
                                 updateScore = 2;
                             }
                             dailyTotalScorePersistenceService.updateCurrentQuestion(accountId,srcId);
-                            updateTotalScore(ScoreSrcTypeEnum.QUESTION,updateScore,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
+                            updateTotalScore(ScoreSrcTypeEnum.QUESTION,updateScore,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,updateScore>0?1:null);
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
 
                         }
@@ -114,6 +121,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setScore(score);
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
+                        if("5.6".equals(mysqlVersion))
+                            scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.THUMB_UP,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                     }
@@ -125,6 +135,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setScore(score);
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                        // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
+                        if("5.6".equals(mysqlVersion))
+                            scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.SIGN_IN,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                     }
@@ -137,6 +150,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setSrcType(ScoreSrcTypeEnum.SHARE);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordPO.setScore(score);
+                        // TODO: 2018/1/17 mysql5.6适配，插入log_date,若为mysql5.7不允许设置
+                        if("5.6".equals(mysqlVersion))
+                            scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.SHARE,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                     }
