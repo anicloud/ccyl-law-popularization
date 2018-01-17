@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {getCookie, jsSdkConfig} from "../utils/index";
 import {Toast} from 'react-weui';
 import axios from 'axios';
+import {changeCountJsSdk} from '../redux/actions';
 import first from '../media/images/first.png';
 import second from '../media/images/second.png';
 import arrow from '../media/images/arrow.png';
@@ -135,6 +136,13 @@ class SharePrize extends Component {
                 console.log(errors);
             });
         });
+        window.wx.error(function(res) {
+            alert(res.errMsg);
+            _this.props.handleJsConfig(_this.props.countJsSdk + 1)
+            if (_this.props.countJsSdk <= 3) {
+                jsSdkConfig(axios, host);
+            }
+        });
     }
 
     componentWillUnmount() {
@@ -242,8 +250,17 @@ function mapStateToProps(state) {
     return {
         host: state.host,
         showLoading: state.showLoading,
-        showError: state.showError
+        showError: state.showError,
+        countJsSdk: state.countJsSdk
     };
 }
 
-export default connect(mapStateToProps)(SharePrize);
+function mapDispatchToProps(dispatch) {
+    return {
+        handleJsConfig: (num) => {
+            dispatch(changeCountJsSdk(num));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SharePrize);

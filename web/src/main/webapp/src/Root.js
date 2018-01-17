@@ -99,7 +99,7 @@ class Root extends Component {
                 console.log(errors);
             });
         });*/
-        window.wx.error(function(res) {
+        /*window.wx.error(function(res) {
             if (res.errMsg === 'config:require subscribe') {
                 _this.setState({
                     isError: true
@@ -107,7 +107,7 @@ class Root extends Component {
             }
             console.log('errInfo');
             alert(res.errMsg);
-        });
+        });*/
     }
     render() {
         let showLoading = this.state.showLoading;
