@@ -255,26 +255,22 @@
             全国排名
           </div>
         </div>
+        <%
+          for(int i=0;i<topList.size();i++){
+        %>
         <div class='clearfix top-ranking'>
           <div class='pull-left rank-first'>
-            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
+            <img src='<%=topList.get(i).getPortrat()%>' alt=''/>
           </div>
           <div class='pull-left rank-second'>
-            <div>1000000</div>
-            <div>1000</div>
+            <div><%=topList.get(i).getScore()%></div>
+            <div><%=topList.get(i).getName()%></div>
           </div>
-          <div class='pull-right rank-third'>1</div>
+          <div class='pull-right rank-third'><%=i+1%></div>
         </div>
-        <div class='clearfix top-ranking'>
-          <div class='pull-left rank-first'>
-            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
-          </div>
-          <div class='pull-left rank-second'>
-            <div>1000</div>
-            <div>tomcat</div>
-          </div>
-          <div class='pull-right rank-third'>2</div>
-        </div>
+        <%
+          }
+        %>
       </div>
     </div>
     <div class="paihangbang2">
@@ -297,20 +293,19 @@
             参赛人数
           </div>
         </div>
+        <%
+          for(int j=0;j<provinceNewList.size();j++){
+        %>
         <div class='clearfix top-ranking'>
-          <div class='rank-first'>1</div>
-          <div class='rank-second'>北京</div>
-          <div class='rank-third'>1000</div>
-          <div class='rank-four'>1000000</div>
-          <div class='rank-five'>1000</div>
+          <div class='rank-first'><%=j+1%></div>
+          <div class='rank-second'><%=provinceNewList.get(j).getProvince()%></div>
+          <div class='rank-third'><%=provinceNewList.get(j).getAverageScore()%></div>
+          <div class='rank-four'><%=provinceNewList.get(j).getTotalScore()%></div>
+          <div class='rank-five'><%=provinceNewList.get(j).getPeopleNumber()%></div>
         </div>
-        <div class='clearfix top-ranking'>
-          <div class='rank-first'>2</div>
-          <div class='rank-second'>上海</div>
-          <div class='rank-third'>2000</div>
-          <div class='rank-four'>2000000</div>
-          <div class='rank-five'>2000</div>
-        </div>
+        <%
+          }
+        %>
       </div>
     </div>
   </div>
