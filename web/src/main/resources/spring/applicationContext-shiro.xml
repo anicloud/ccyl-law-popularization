@@ -76,6 +76,7 @@
 				/share/toThumbUp = anon
 				/ = anon
 				/files/** = anon
+				/home/zqw = anon
 				/account/getCsvFile = anon
 				/** = authc
 			</value>
