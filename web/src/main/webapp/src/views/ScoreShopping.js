@@ -220,7 +220,7 @@ class ScoreShopping extends Component{
                             <span className="desc">{_this.state.awardInfo.length===0?1000:tencent_vip.score}积分</span>
                             <span className="desc">剩余{tencent_vip.awardCount?tencent_vip.awardCount:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>tencent_vip.score&&tencent_vip.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TENCENT_VIP")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>=tencent_vip.score&&tencent_vip.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TENCENT_VIP")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
@@ -228,7 +228,7 @@ class ScoreShopping extends Component{
                             <span className="desc">{_this.state.awardInfo.length===0?500:ofo_Coupon.score}积分</span>
                             <span className="desc">剩余{ofo_Coupon.awardCount?ofo_Coupon.awardCount:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>ofo_Coupon.score&&ofo_Coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("OFO_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>=ofo_Coupon.score&&ofo_Coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("OFO_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
@@ -236,7 +236,7 @@ class ScoreShopping extends Component{
                             <span className="desc">{_this.state.awardInfo.length===0?200:five_coupon.score}积分</span>
                             <span className="desc">剩余{five_coupon.awardCount?five_coupon.awardCount:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>five_coupon.score&&five_coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("FIVE_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>=five_coupon.score&&five_coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("FIVE_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                     <div className="task">
                         <div className="leftDiv">
@@ -244,7 +244,7 @@ class ScoreShopping extends Component{
                             <span className="desc">{_this.state.awardInfo.length===0?100:_this.getCurrentAwardScore("TEN_COUPON").score}积分</span>
                             <span className="desc">剩余{ten_coupon.awardCount?ten_coupon.awardCount:0}个</span>
                         </div>
-                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>ten_coupon.score&&ten_coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TEN_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
+                        {_this.state.awardInfo.length===0?<div className="rightDiv"><img src={disPlus}/></div>:_this.state.awardInfo[0].myScore>=ten_coupon.score&&ten_coupon.usedUp===false?<div className="rightDiv" onClick={() =>_this.exchangePrizes("TEN_COUPON")}><i className="plus"/></div>:<div className="rightDiv"><img src={disPlus}/></div>}>
                     </div>
                 </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>

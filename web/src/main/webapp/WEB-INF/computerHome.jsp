@@ -2,6 +2,7 @@
 <%@ page import="com.ani.ccyl.leg.commons.dto.Top20Dto" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.ani.ccyl.leg.commons.dto.ProvinceInfoDto" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -9,6 +10,18 @@
   Map<String,Object> map = (Map<String,Object>)request.getAttribute("infoMap");
   List<Top20Dto> topList =  (List<Top20Dto>)map.get("top20");
   List<ProvinceInfoDto> provinceList =  (List<ProvinceInfoDto>)map.get("province");
+  List<ProvinceInfoDto> provinceNewList = new ArrayList<ProvinceInfoDto>();
+  ProvinceInfoDto noLocation = null;
+  for(ProvinceInfoDto infoDto : provinceList){
+    if (!"未定位".equals(infoDto.getProvince())){
+      provinceNewList.add(infoDto);
+    }else{
+      noLocation = infoDto;
+    }
+  }
+  if(noLocation!=null){
+    provinceNewList.add(noLocation);
+  }
 %>
 <html>
 <head>
@@ -395,7 +408,7 @@
       <div class="sm-detail">
         <div class="detail1">
           <p style="font-weight: bold;font-size:.25rem;">主办单位</p>
-          <p>工青团中央</p>
+          <p>共青团中央</p>
           <p>司法部</p>
           <p>全国普法办</p>
         </div>
@@ -475,15 +488,15 @@
           </div>
         </div>
         <%
-          for(int j=0;j<provinceList.size();j++){
+          for(int j=0;j<provinceNewList.size();j++){
           %>
-        <div class='clearfix top-ranking'>
-          <div class='rank-first'><%=j+1%></div>
-          <div class='rank-second'><%=provinceList.get(j).getProvince()%></div>
-          <div class='rank-third'><%=provinceList.get(j).getAverageScore()%></div>
-          <div class='rank-four'><%=provinceList.get(j).getTotalScore()%></div>
-          <div class='rank-five'><%=provinceList.get(j).getPeopleNumber()%></div>
-        </div>
+            <div class='clearfix top-ranking'>
+              <div class='rank-first'><%=j+1%></div>
+              <div class='rank-second'><%=provinceNewList.get(j).getProvince()%></div>
+              <div class='rank-third'><%=provinceNewList.get(j).getAverageScore()%></div>
+              <div class='rank-four'><%=provinceNewList.get(j).getTotalScore()%></div>
+              <div class='rank-five'><%=provinceNewList.get(j).getPeopleNumber()%></div>
+            </div>
         <%
         }
         %>

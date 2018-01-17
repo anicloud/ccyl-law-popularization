@@ -1,9 +1,11 @@
 package com.ani.ccyl.leg.service.service.impl;
 
+import com.ani.ccyl.leg.commons.dto.Top20Dto;
 import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.*;
+import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -12,10 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,33 +26,43 @@ import java.util.*;
 public class TimerTaskServiceImpl implements TimerTaskService {
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     @Autowired
-    private DailyAwardsMapper dailyAwardsMapper;
-    @Autowired
     DailyTotalScoreMapper dailyTotalScoreMapper;
     @Autowired
-    private ScoreRecordMapper scoreRecordMapper;
+    private ScoreRecordService scoreRecordService;
     @Autowired
     private Top20AwardsMapper top20AwardsMapper;
     @Autowired
     private Lucky20AwardsMapper lucky20AwardsMapper;
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private TotalScoreMapper totalScoreMapper;
     @Override
     public void updateDailyTop20() {
-        List<ScoreRecordPO> dailyTop20 = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()-24*60*60*1000L));
-        if(dailyTop20 != null) {
+        List<Top20Dto> top20Dtos = null;
+        try {
+            top20Dtos = scoreRecordService.findDailyTop20();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if(top20Dtos != null) {
             int order = 1;
-            for(ScoreRecordPO scoreRecordPO:dailyTop20) {
+            for(Top20Dto top20Dto:top20Dtos) {
                 Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByType(AwardTypeEnum.getTopEnum(order).getCode());
-                top20AwardsPO.setAccountId(scoreRecordPO.getAccountId());
+                top20AwardsPO.setAccountId(top20Dto.getId());
                 top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20AwardsPO.setDel(true);
                 top20AwardsPO.setReceivedAward(true);
-                /*积分清零功能*/
-                DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
-                dailyAwardsParam.setAccountId(scoreRecordPO.getAccountId());
-                if(scoreRecordPO.getAccountId()!=null) {
-                    scoreRecordMapper.cleanUpScore(scoreRecordPO.getAccountId());
+                if(top20Dto.getId()!=null) {
+                    TotalScorePO totalScorePO = new TotalScorePO();
+                    totalScorePO.setAccountId(top20Dto.getId());
+                    List<TotalScorePO> scorePOS = totalScoreMapper.select(totalScorePO);
+                    if(scorePOS != null) {
+                        for(TotalScorePO totalScorePO1:scorePOS) {
+                            totalScorePO1.setScore(0);
+                            totalScoreMapper.updateByPrimaryKeySelective(totalScorePO1);
+                        }
+                    }
                 }
                 top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
                 order++;

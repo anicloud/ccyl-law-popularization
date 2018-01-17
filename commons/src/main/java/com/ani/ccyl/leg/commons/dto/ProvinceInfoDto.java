@@ -1,9 +1,13 @@
 package com.ani.ccyl.leg.commons.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by zhanglina on 18-1-16.
  */
-public class ProvinceInfoDto {
+public class ProvinceInfoDto implements Serializable {
+
+    private static final long serialVersionUID = -3367368360328132494L;
     private String province;
     private Integer averageScore;
     private Integer totalScore;

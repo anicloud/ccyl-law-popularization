@@ -1,4 +1,4 @@
-import { SHOW_LOADING, SHOW_ERROR } from './actionTypes';
+import { SHOW_LOADING, SHOW_ERROR, CHANGE_COUNTSDK } from './actionTypes';
 
 export function showLoading(flag) {
     return {
@@ -11,5 +11,12 @@ export function showError(flag) {
     return {
         type: SHOW_ERROR,
         flag
+    };
+}
+
+export function changeCountJsSdk(num) {
+    return {
+        type: SHOW_ERROR,
+        num
     };
 }

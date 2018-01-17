@@ -392,7 +392,7 @@
       <div class="sm-detail">
         <div class="detail1">
           <p style="font-weight: bold;font-size:.25rem;">主办单位</p>
-          <p>工青团中央</p>
+          <p>共青团中央</p>
           <p>司法部</p>
           <p>全国普法办</p>
         </div>

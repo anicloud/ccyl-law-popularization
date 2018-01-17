@@ -15,7 +15,6 @@ class ThumbUp extends Component {
             showToast: false,
             showError: false,
             isThumbUp: false,
-            isReady: false,
             alreadyThumbUp:false
         };
         this.handleAnswer = this.handleAnswer.bind(this);
@@ -26,11 +25,11 @@ class ThumbUp extends Component {
         let _this = this;
         const {host} = _this.props;
         const userId = _this.props.location.state;
-        jsSdkConfig(axios, host);
-        window.wx.ready(function () {
-            _this.setState({
+        // jsSdkConfig(axios, host);
+        /*window.wx.ready(function () {
+            /!*_this.setState({
                 isReady: true
-            });
+            });*!/
             axios.get(`${host}/share/findThumbUpInfo?toAccountId=${userId}`).then(function (response) {
                 if (response.data.state === 0) {
                     _this.setState({
@@ -41,6 +40,16 @@ class ThumbUp extends Component {
             }).catch(function (errors) {
                 console.log(errors);
             });
+        });*/
+        axios.get(`${host}/share/findThumbUpInfo?toAccountId=${userId}`).then(function (response) {
+            if (response.data.state === 0) {
+                _this.setState({
+                    scoreInfo: response.data.data,
+                    alreadyThumbUp: response.data.data.isThumbUp
+                })
+            }
+        }).catch(function (errors) {
+            console.log(errors);
         });
     }
     componentWillUnmount() {
@@ -79,14 +88,14 @@ class ThumbUp extends Component {
         let isThumbUp = this.state.isThumbUp;
         let alreadyThumbUp = this.state.alreadyThumbUp;
         let scoreInfo = this.state.scoreInfo;
-        let isReady = this.state.isReady;
+        // let isReady = this.state.isReady;
         return (
             <div className='thumb comeon-bg'>
                 {/*<div className='text-center header'>
                     <img src={header} alt=""/>
                 </div>*/}
                 {
-                    isReady && alreadyThumbUp?(
+                    alreadyThumbUp?(
                         <div className='wrapper'>
                             <div className='wrapper-thumb'>
                                 <div className='third'>
@@ -103,7 +112,7 @@ class ThumbUp extends Component {
                             </div>
                         </div>
                     ):(
-                        isReady && isThumbUp? (
+                        isThumbUp? (
                             scoreInfo? (
                                 <div className='wrapper'>
                                     <div className='wrapper-thumb'>
