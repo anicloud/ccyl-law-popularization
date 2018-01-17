@@ -89,6 +89,7 @@
       float:right;
       width:30%;
       text-align:center;
+      font-size: .2rem;
     }
 
     .phb1-detail .top-ranking{
@@ -162,26 +163,31 @@
       float:left;
       width:12.5%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .second {
       float:left;
       width:20%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .third {
       float:left;
       width:22.5%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .four {
       float:left;
       width:22.5%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .five {
       float:left;
       width:22.5%;
       text-align:center;
+      font-size: .2rem;
     }
 
     .phb2-detail .top-ranking{
