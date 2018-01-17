@@ -106,7 +106,7 @@ class Root extends Component {
                 })
             }
             console.log('errInfo');
-            alert(res.errMsg);
+            // alert(res.errMsg);
         });
     }
     render() {
