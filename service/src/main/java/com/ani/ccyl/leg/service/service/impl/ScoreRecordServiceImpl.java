@@ -82,6 +82,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO.setSrcType(srcType);
                         scoreRecordPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
                         scoreRecordPO.setQuestionTime(1);
+                        dailyTotalScorePersistenceService.updateCurrentQuestion(accountId,srcId);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.QUESTION,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),1,score>0?1:null);
                     } else {
@@ -98,6 +99,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             }else if(scoreRecordPO.getScore()<score){
                                 updateScore = 2;
                             }
+                            dailyTotalScorePersistenceService.updateCurrentQuestion(accountId,srcId);
                             updateTotalScore(ScoreSrcTypeEnum.QUESTION,updateScore,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
 

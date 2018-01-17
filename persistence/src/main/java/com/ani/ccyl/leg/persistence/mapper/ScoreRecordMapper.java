@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by lihui on 17-12-15.
  */
 public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
-    QuestionPO findCurrentQuestion(Integer accountId);
+    QuestionPO findCurrentQuestion(Map<String,Object> paramMap);
     ScoreRecordDto findById(Integer id);
 
     List<ScoreRecordPO> findByConditions(ScoreRecordPO scoreRecordPO);
