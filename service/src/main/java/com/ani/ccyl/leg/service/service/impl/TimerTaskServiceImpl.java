@@ -27,8 +27,6 @@ import java.util.*;
 public class TimerTaskServiceImpl implements TimerTaskService {
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     @Autowired
-    private DailyAwardsMapper dailyAwardsMapper;
-    @Autowired
     DailyTotalScoreMapper dailyTotalScoreMapper;
     @Autowired
     private ScoreRecordMapper scoreRecordMapper;
@@ -38,6 +36,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     private Lucky20AwardsMapper lucky20AwardsMapper;
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private TotalScoreMapper totalScoreMapper;
     @Override
     public void updateDailyTop20() {
         List<ScoreRecordPO> dailyTop20 = scoreRecordMapper.findDailyTop20(new Timestamp(System.currentTimeMillis()-24*60*60*1000L));
@@ -49,11 +49,16 @@ public class TimerTaskServiceImpl implements TimerTaskService {
                 top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20AwardsPO.setDel(true);
                 top20AwardsPO.setReceivedAward(true);
-                /*积分清零功能*/
-                DailyAwardsPO dailyAwardsParam = new DailyAwardsPO();
-                dailyAwardsParam.setAccountId(scoreRecordPO.getAccountId());
                 if(scoreRecordPO.getAccountId()!=null) {
-                    scoreRecordMapper.cleanUpScore(scoreRecordPO.getAccountId());
+                    TotalScorePO totalScorePO = new TotalScorePO();
+                    totalScorePO.setAccountId(scoreRecordPO.getAccountId());
+                    List<TotalScorePO> scorePOS = totalScoreMapper.select(totalScorePO);
+                    if(scorePOS != null) {
+                        for(TotalScorePO totalScorePO1:scorePOS) {
+                            totalScorePO1.setScore(0);
+                            totalScoreMapper.updateByPrimaryKeySelective(totalScorePO1);
+                        }
+                    }
                 }
                 top20AwardsMapper.updateByPrimaryKeySelective(top20AwardsPO);
                 order++;
