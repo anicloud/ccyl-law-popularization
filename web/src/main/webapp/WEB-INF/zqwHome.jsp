@@ -39,6 +39,11 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
   <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <style>
+    .bkg{
+      height:8rem;
+      width:100%;
+      background-color: #f1f9fc;
+    }
     .paihangbang{
       height:8rem;
       width:80%;
@@ -237,73 +242,75 @@
   <title></title>
 </head>
 <body>
-<div class="paihangbang">
-  <div class="paihangbang1">
-    <div class="phb1-title"></div>
-    <div class="phb1-detail" id="top20Rank">
-      <div class='clearfix info'>
-        <div class='first'>
-          得分
+<div class="bkg">
+  <div class="paihangbang">
+    <div class="paihangbang1">
+      <div class="phb1-title"></div>
+      <div class="phb1-detail" id="top20Rank">
+        <div class='clearfix info'>
+          <div class='first'>
+            得分
+          </div>
+          <div class='second'>
+            全国排名
+          </div>
         </div>
-        <div class='second'>
-          全国排名
+        <div class='clearfix top-ranking'>
+          <div class='pull-left rank-first'>
+            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
+          </div>
+          <div class='pull-left rank-second'>
+            <div>1000000</div>
+            <div>1000</div>
+          </div>
+          <div class='pull-right rank-third'>1</div>
         </div>
-      </div>
-      <div class='clearfix top-ranking'>
-        <div class='pull-left rank-first'>
-          <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
+        <div class='clearfix top-ranking'>
+          <div class='pull-left rank-first'>
+            <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
+          </div>
+          <div class='pull-left rank-second'>
+            <div>1000</div>
+            <div>tomcat</div>
+          </div>
+          <div class='pull-right rank-third'>2</div>
         </div>
-        <div class='pull-left rank-second'>
-          <div>1000000</div>
-          <div>1000</div>
-        </div>
-        <div class='pull-right rank-third'>1</div>
-      </div>
-      <div class='clearfix top-ranking'>
-        <div class='pull-left rank-first'>
-          <img src='http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqEacia8yO1dRwiclJiawFyt8PQsbibVld9PmCcyaGZlR2gCR8RNTojKFkVdePUdpw7FhiacjzOMtZNFHQ/0' alt=''/>
-        </div>
-        <div class='pull-left rank-second'>
-          <div>1000</div>
-          <div>tomcat</div>
-        </div>
-        <div class='pull-right rank-third'>2</div>
       </div>
     </div>
-  </div>
-  <div class="paihangbang2">
-    <div class="phb2-title"></div>
-    <div class="phb2-detail" id="provinceRank">
-      <div class='clearfix info'>
-        <div class='first'>
-          排名
+    <div class="paihangbang2">
+      <div class="phb2-title"></div>
+      <div class="phb2-detail" id="provinceRank">
+        <div class='clearfix info'>
+          <div class='first'>
+            排名
+          </div>
+          <div class='second'>
+            省份
+          </div>
+          <div class='third'>
+            平均得分
+          </div>
+          <div class='four'>
+            总得分
+          </div>
+          <div class='five'>
+            参赛人数
+          </div>
         </div>
-        <div class='second'>
-          省份
+        <div class='clearfix top-ranking'>
+          <div class='rank-first'>1</div>
+          <div class='rank-second'>北京</div>
+          <div class='rank-third'>1000</div>
+          <div class='rank-four'>1000000</div>
+          <div class='rank-five'>1000</div>
         </div>
-        <div class='third'>
-          平均得分
+        <div class='clearfix top-ranking'>
+          <div class='rank-first'>2</div>
+          <div class='rank-second'>上海</div>
+          <div class='rank-third'>2000</div>
+          <div class='rank-four'>2000000</div>
+          <div class='rank-five'>2000</div>
         </div>
-        <div class='four'>
-          总得分
-        </div>
-        <div class='five'>
-          参赛人数
-        </div>
-      </div>
-      <div class='clearfix top-ranking'>
-        <div class='rank-first'>1</div>
-        <div class='rank-second'>北京</div>
-        <div class='rank-third'>1000</div>
-        <div class='rank-four'>1000000</div>
-        <div class='rank-five'>1000</div>
-      </div>
-      <div class='clearfix top-ranking'>
-        <div class='rank-first'>2</div>
-        <div class='rank-second'>上海</div>
-        <div class='rank-third'>2000</div>
-        <div class='rank-four'>2000000</div>
-        <div class='rank-five'>2000</div>
       </div>
     </div>
   </div>
