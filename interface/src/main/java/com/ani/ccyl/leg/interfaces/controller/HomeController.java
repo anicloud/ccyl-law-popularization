@@ -26,6 +26,12 @@ public class HomeController {
         request.setAttribute("infoMap",map);
         return "computerHome";
     }
+    @RequestMapping("/zqw")
+    public String aqwHome(HttpServletRequest request) {
+        Map<String,Object> map=scoreRecordService.findTotalInfo();
+        request.setAttribute("infoMap",map);
+        return "zqwHome";
+    }
 
 
 
