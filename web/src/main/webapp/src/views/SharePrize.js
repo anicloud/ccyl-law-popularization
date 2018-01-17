@@ -138,7 +138,7 @@ class SharePrize extends Component {
         });
         window.wx.error(function(res) {
             alert(res.errMsg);
-            _this.props.handleJsConfig(_this.props.countJsSdk + 1)
+            _this.props.handleJsConfig(_this.props.countJsSdk + 1);
             if (_this.props.countJsSdk <= 3) {
                 jsSdkConfig(axios, host);
             }
