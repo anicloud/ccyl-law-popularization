@@ -18,18 +18,13 @@ import java.util.Map;
 public interface ScoreRecordMapper extends SysMapper<ScoreRecordPO> {
     QuestionPO findCurrentQuestion(Integer accountId);
     ScoreRecordDto findById(Integer id);
-    TotalScoreDto findTotalScore(Integer accountId);
 
     List<ScoreRecordPO> findByConditions(ScoreRecordPO scoreRecordPO);
     List<ScoreRecordPO> findDailyTop20(Timestamp createTime);
-    Integer findDailyTotalScore(ScoreRecordPO scoreRecordPO);
     Boolean findIsThumbUp(Map<String, Object> paramMap);
     Boolean findIsSignIn(Integer accountId);
-    List<Timestamp> findTotalSignIn(Integer accountId);
     Integer findDailyCorrectCount(Integer accountId);
     Integer findDailyShareCount(Integer accountId);
-    List<ScoreRecordPO> findSelfRank(Timestamp createTime);
-    Integer findDailyThumbUpCount(Integer accountId);
     List<ScoreRecordPO> findProvinceOrder(Map<String,Object> paramMap);
     void cleanUpScore(Integer accountId);
     Integer findThumbUpCount(Integer accountId);

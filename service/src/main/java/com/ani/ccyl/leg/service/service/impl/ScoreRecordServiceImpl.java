@@ -92,14 +92,14 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             scoreRecordPO.setScore(score);
                             scoreRecordPO.setSrcType(srcType);
                             scoreRecordPO.setQuestionTime(2);
-
                             scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                            int updateScore = 0;
                             if (scoreRecordPO.getScore()>score){
-                                updateTotalScore(-2,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
+                                updateScore = -2;
                             }else if(scoreRecordPO.getScore()<score){
-
-                                updateTotalScore(2,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
+                                updateScore = 2;
                             }
+                            updateTotalScore(updateScore,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
 
                         }
