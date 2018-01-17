@@ -40,7 +40,8 @@ public enum ProvinceEnum implements BaseEnum<ProvinceEnum, Integer> {
     CHONG_QING(31,"重庆市"),
     MACAO(32,"澳门"),
     HONG_KONG(33,"香港"),
-    TAI_WAN(34,"台湾");
+    TAI_WAN(34,"台湾"),
+    NUll(35,"未定位");
     private Integer code;
     private String value;
     private static Map<Integer,ProvinceEnum> enumMap = new HashMap<>();

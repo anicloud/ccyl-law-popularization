@@ -13,10 +13,12 @@ import com.ani.ccyl.leg.persistence.service.facade.DailyTotalScorePersistenceSer
 import com.ani.ccyl.leg.persistence.service.facade.ShareRelationPersistenceService;
 import com.ani.ccyl.leg.persistence.service.facade.TotalScorePersistenceService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -395,6 +397,9 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         AccountPO accountPO = accountMapper.selectByPrimaryKey(accountId);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         int rank = dailyTotalScorePersistenceService.findRankByAccountId(accountId,simpleDateFormat.format(new Date()));
+        if (rank==-1){
+            rank=0;
+        }
         DailyTotalScorePO dailyTotalScorePO = dailyTotalScorePersistenceService.findByAccountId(accountId,simpleDateFormat.format(new Date()));
         MySelfRankDto mySelfRankDto = new MySelfRankDto();
 
@@ -426,28 +431,92 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     }
 
     @Override
-    public Map<String, Object> findTotalInfo() {
+    public Map<String, Object> findTotalInfo(){
+
         Map<String,Object> totalInfo =new HashMap<>();
         Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
+        String filePath="top20/"+dateString+".json";
+        totalInfo=readObjectFromFile(filePath);
+        if (totalInfo!=null && totalInfo.size()!=0){
+            return totalInfo;
+        }
         List<DailyTotalScorePO> scorePOS=dailyTotalScoreMapper.findTop20(dateString);
         List<Top20Dto> top20Dtos=new ArrayList<>();
         for (DailyTotalScorePO scorePO:scorePOS){
             AccountPO accountPO=accountMapper.selectByPrimaryKey(scorePO.getAccountId());
             Top20Dto top20Dto=new Top20Dto();
-            top20Dto.setName(accountPO.getNickName());
+            try {
+                top20Dto.setName(URLDecoder.decode(accountPO.getNickName(), "utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             top20Dto.setPortrat(accountPO.getPortrait());
             top20Dto.setScore(scorePO.getScore());
             top20Dtos.add(top20Dto);
         }
-        List<ProvinceInfoDto> provinceInfoDtos=dailyTotalScoreMapper.findPrivanceInfo(dateString);
 
+        List<ProvinceInfoDto> provinceInfoDtos=dailyTotalScoreMapper.findPrivanceInfo(dateString);
+        for (ProvinceInfoDto infoDto:provinceInfoDtos){
+            if (infoDto.getProvince()!=null){
+                infoDto.setProvince(ProvinceEnum.getEnum(Integer.parseInt(infoDto.getProvince())).getValue());
+            }
+            else {
+                infoDto.setProvince(ProvinceEnum.NUll.getValue());
+            }
+        }
+
+        if (totalInfo==null){
+            totalInfo=new HashMap<>();
+        }
         totalInfo.put("top20",top20Dtos);
         totalInfo.put("province",provinceInfoDtos);
-
+        savetoFile("top20/"+dateString+".json",totalInfo);
         return totalInfo;
     }
+    public void savetoFile(String filePath,Map<String,Object> obj){
 
+        try {
+           // FileWriter fw = new FileWriter(new File("/home/anicloud/third/files/"+filePath));
+            File file = new File("/home/anicloud/third/files/"+filePath);
+            if(!file.getParentFile().exists()){
+                file.getParentFile().mkdirs();
+            }
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            FileOutputStream out = new FileOutputStream(file);
+            ObjectOutputStream objOut=new ObjectOutputStream(out);
+            objOut.writeObject(obj);
+            objOut.flush();
+            objOut.close();
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static Map<String,Object> readObjectFromFile(String filePath)
+    {
+        Map<String,Object> objectMap=null;
+        File file =new File("/home/anicloud/third/files/"+filePath);
+        if (!file.exists()){
+            return null;
+        }
+        FileInputStream in;
+        try {
+            in = new FileInputStream(file);
+            ObjectInputStream objIn=new ObjectInputStream(in);
+            objectMap=(Map<String, Object>) objIn.readObject();
+
+            objIn.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return objectMap;
+    }
 
 }
