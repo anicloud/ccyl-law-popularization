@@ -67,7 +67,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 shareRecord.setSrcType(ScoreSrcTypeEnum.INVITE);
                 shareRecord.setSrcAccountId(shareRelationPO.getSharedId());
                 scoreRecordMapper.insertSelective(shareRecord);
-
                 updateTotalScore(Constants.Score.INVITE_SC0RE,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                 totalScorePersistenceService.updateInviteCount(accountId);
 
@@ -93,9 +92,16 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             scoreRecordPO.setScore(score);
                             scoreRecordPO.setSrcType(srcType);
                             scoreRecordPO.setQuestionTime(2);
+
                             scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+                            if (scoreRecordPO.getScore()>score){
+                                updateTotalScore(-2,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
+                            }else if(scoreRecordPO.getScore()<score){
+
+                                updateTotalScore(2,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
+                            }
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
-                            updateTotalScore(score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,score>0?1:null);
+
                         }
                     }
                     break;
