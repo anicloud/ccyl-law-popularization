@@ -72,6 +72,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
                 if("5.6".equals(mysqlVersion))
                     shareRecord.setLogDate(simpleDateFormat.format(new Date()));
+                else
+                    scoreRecordPO.setLogDate(null);
                 scoreRecordMapper.insertSelective(shareRecord);
                 AccountPO shareAccount = accountMapper.selectByPrimaryKey(shareRelationPO.getShareId());
                 updateTotalScore(ScoreSrcTypeEnum.INVITE,Constants.Score.INVITE_SC0RE,shareRelationPO.getShareId(),shareAccount.getProvince(),simpleDateFormat.format(new Date()),null,null);
@@ -93,6 +95,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
                         if("5.6".equals(mysqlVersion))
                             scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
+                        else
+                            scoreRecordPO.setLogDate(null);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.QUESTION,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),1,score>0?1:null);
                     } else {
@@ -109,6 +113,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                             }
                             dailyTotalScorePersistenceService.updateCurrentQuestion(accountId,srcId);
                             updateTotalScore(ScoreSrcTypeEnum.QUESTION,updateScore,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,updateScore>0?1:null);
+                            scoreRecordPO.setLogDate(null);
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
 
                         }
@@ -124,6 +129,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
                         if("5.6".equals(mysqlVersion))
                             scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
+                        else
+                            scoreRecordPO.setLogDate(null);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.THUMB_UP,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                     }
@@ -138,6 +145,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         // TODO: 2018/1/17 mysql5.6适配，插入log_date，若为mysql5.7不允许设置
                         if("5.6".equals(mysqlVersion))
                             scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
+                        else
+                            scoreRecordPO.setLogDate(null);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.SIGN_IN,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                     }
@@ -153,6 +162,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         // TODO: 2018/1/17 mysql5.6适配，插入log_date,若为mysql5.7不允许设置
                         if("5.6".equals(mysqlVersion))
                             scoreRecordPO.setLogDate(simpleDateFormat.format(new Date()));
+                        else
+                            scoreRecordPO.setLogDate(null);
                         scoreRecordMapper.insertSelective(scoreRecordPO);
                         updateTotalScore(ScoreSrcTypeEnum.SHARE,score,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),null,null);
                     }
