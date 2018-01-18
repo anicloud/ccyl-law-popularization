@@ -62,11 +62,13 @@
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/glory_title.png") bottom center no-repeat;
       height:15%;
       margin-left:.4rem;
+      border-radius:5px;
     }
     .phb1-detail{
       overflow:auto;
       height:85%;
       width:100%;
+      border-radius:5px;
     }
     .phb1-detail .info {
       background-color: #fff;
@@ -141,11 +143,13 @@
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/national_rank.png") bottom center no-repeat;
       height:15%;
       margin-left:.4rem;
+      border-radius:5px;
     }
     .phb2-detail{
       overflow:auto;
       height:85%;
       width:100%;
+      border-radius:5px;
     }
 
     .phb2-detail .info {
