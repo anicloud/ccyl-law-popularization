@@ -49,9 +49,24 @@ export function jsSdkConfig(axios, host, count) {
         }
 
     }
+    let resultUrl = "";
+    if(url.indexOf("from")!==-1){
+        let strs =  url.split("from");
+        if(strs[0].lastIndexOf("?")===strs[0].length-1){
+            resultUrl = strs[0].split("?")[0];
+        }else if(strs[0].lastIndexOf("&")===strs[0].length-1){
+            resultUrl = strs[0].substring(0,strs[0].length-1);
+        }else{
+            resultUrl = strs[0];
+        }
+    }else{
+        resultUrl = url;
+    }
+    /*window.location.href = resultUrl;*/
+    alert(resultUrl);
     let time = Math.round(new Date().getTime() / 1000);
     // alert(window.location.href.split('#')[0]);
-    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${url}`).then(function (response) {
+    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${resultUrl}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/
             window.wx.config({
