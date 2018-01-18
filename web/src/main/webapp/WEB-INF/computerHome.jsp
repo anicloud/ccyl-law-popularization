@@ -191,8 +191,8 @@
       letter-spacing: .02rem;
       font-size: .26rem;
       border-radius: .08rem;
-      margin-left:.1rem;
-      margin-right:.1rem;
+      margin-left:.2rem;
+      margin-right:.2rem;
     }
     .phb1-detail .info .first{
       float:left;
@@ -271,8 +271,8 @@
       letter-spacing: .02rem;
       font-size: .26rem;
       border-radius: .08rem;
-      margin-left:.1rem;
-      margin-right:.1rem;
+      margin-left:.2rem;
+      margin-right:.2rem;
     }
     .phb2-detail .info .first{
       float:left;
