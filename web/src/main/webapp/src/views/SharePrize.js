@@ -81,13 +81,14 @@ class SharePrize extends Component {
          });*/
         window.wx.ready(function () {
             console.log(1);
-            // alert('share ready');
+            alert('share ready');
             _this.setState({
                 isReady: true
             });
             axios.get(`${host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
+                    alert(scoreInfo.url);
                     // alert("分享url："+scoreInfo.url);
                     // alert(window.location.href.split('#')[0]);
                     _this.setState({
