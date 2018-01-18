@@ -4,5 +4,5 @@ export default {
     host: '/leg',
     showLoading: false,
     showError: false,
-    countJsSdk: 0
+    countJsSdk: 1
 };
