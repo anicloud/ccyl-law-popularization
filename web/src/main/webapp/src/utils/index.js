@@ -23,6 +23,7 @@ export function jsSdkConfig(axios, host, count) {
     alert(window.location.href.split('#')[0]);
     if (isiOS) {
         if (iosVersion >= 11) {
+            alert(1);
             if (count === 1) {
                 url = 'http://www.12355.org.cn/leg/';
             } else if (count === 2) {
@@ -32,6 +33,7 @@ export function jsSdkConfig(axios, host, count) {
             }
 
         } else {
+            alert(2);
             if (count === 1) {
                 url = window.sessionStorage.getItem('option');
             } else if (count === 2) {
@@ -42,6 +44,7 @@ export function jsSdkConfig(axios, host, count) {
 
         }
     } else {
+        alert(3)
         if (count === 1) {
             url = window.location.href.split('#')[0];
         } else if (count === 2) {
