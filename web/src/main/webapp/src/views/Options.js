@@ -7,8 +7,6 @@ class Options extends Component {
         console.log(this.props);
     }
     componentWillMount() {
-        alert(1);
-        alert(JSON.stringify(this.props));
         if (this.props.match.params.id) {
             window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
             this.props.history.push({
@@ -24,6 +22,7 @@ class Options extends Component {
                     break;
                 case 'LOGIN_SUCCESS':
                     window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
+                    alert(window.location.href.split('#')[0]);
                     this.props.history.push('/');
                     break;
                 case 'LOGIN_FAILURE':
