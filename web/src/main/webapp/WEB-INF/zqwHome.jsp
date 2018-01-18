@@ -37,7 +37,7 @@
   <meta name="theme-color" content="#000000">
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/build/assets/images/favicon.ico">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
-  <title>全国第十四届全国青少年学法用法网上知识竞赛</title>
+  <title>第十四届全国青少年学法用法网上知识竞赛</title>
   <style>
     .bkg{
       height:8rem;

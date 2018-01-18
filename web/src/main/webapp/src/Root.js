@@ -89,7 +89,7 @@ class Root extends Component {
                         title: '我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品',
                         link: response.data.data.url,
                         imgUrl: response.data.data.portrait,
-                        desc: '全国第十四届全国青少年学法用法网上知识竞赛'
+                        desc: '第十四届全国青少年学法用法网上知识竞赛'
                     });
                     _this.setState({
                         showLoading: false
