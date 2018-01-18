@@ -24,14 +24,14 @@ export function jsSdkConfig(axios, host, count) {
     if (isiOS) {
         if (iosVersion >= 11) {
             alert(1);
-            if (count === 1) {
+            if (count === 2) {
                 url = 'http://www.12355.org.cn/leg/';
-            } else if (count === 2) {
-                url = window.sessionStorage.getItem('option');
             } else if (count === 3) {
+                url = window.sessionStorage.getItem('option');
+            } else if (count === 4) {
                 url = window.location.href.split('#')[0];
             } else {
-                url = 'http://www.12355.org.cn/leg/share/toThumbUp?accountId=1';
+                url = 'http://www.12355.org.cn/leg/home/index?op=THUMB_UP&id=1';
             }
 
         } else {
