@@ -37,7 +37,7 @@
       width: 100%;
       height: 100%;
       text-align: center;
-      background: #aee644 url("${pageContext.request.contextPath}/build/assets/images/computerBkg.png") center top no-repeat;
+      background: #aee644 url("${pageContext.request.contextPath}/build/assets/images/computerBkg.jpg") center top no-repeat;
       background-size: cover;
     }
     .middle{

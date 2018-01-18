@@ -42,7 +42,7 @@
     .bkg{
       height:8rem;
       width:100%;
-      background-color: #45caef;
+      background-color: #fff;
     }
     .paihangbang{
       height:8rem;
@@ -56,10 +56,10 @@
       width:49%;
       border-radius:5px;
       float:left;
-      background-color: #eaf1d9;
+      background-color: #45caef;
     }
     .phb1-title{
-      background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/glory_title.png") bottom center no-repeat;
+      background:#45caef url("${pageContext.request.contextPath}/build/assets/images/glory_title.png") bottom center no-repeat;
       height:15%;
       margin-left:.4rem;
       border-radius:5px;
@@ -136,11 +136,11 @@
       height:100%;
       width:49%;
       border-radius:5px;
-      background-color: #eaf1d9;
+      background-color: #45caef;
       float:left;
     }
     .phb2-title{
-      background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/national_rank.png") bottom center no-repeat;
+      background:#45caef url("${pageContext.request.contextPath}/build/assets/images/national_rank.png") bottom center no-repeat;
       height:15%;
       margin-left:.4rem;
       border-radius:5px;
