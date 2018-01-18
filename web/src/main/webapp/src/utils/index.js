@@ -48,13 +48,12 @@ export function jsSdkConfig(axios, host, count) {
         }
     }
     let resultUrl = "";
-    if(url.indexOf("&")!==-1){
-        let strs =  url.split("&");
-        resultUrl = resultUrl+strs[0];
-        for(let i=1;i<strs.length;i++){
-            if(strs[i].split("=")[0]==="id"){
-                resultUrl = resultUrl+"&"+strs[i];
-            }
+    if(url.indexOf("from")!==-1){
+        let strs =  url.split("from");
+        if(strs[0].indexOf("?")===strs[0].length-1){
+            resultUrl = strs[0].split("?")[0];
+        }else{
+            resultUrl = strs[0];
         }
     }
     /*window.location.href = resultUrl;*/
