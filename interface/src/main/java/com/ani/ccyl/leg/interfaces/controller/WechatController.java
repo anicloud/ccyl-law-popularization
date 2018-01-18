@@ -112,7 +112,7 @@ public class WechatController {
             if(accountDto.getNew() && toAccountId != null) {
                 AccountDto toAccount = accountService.findById(toAccountId);
 //                shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
-                response.sendRedirect(request.getContextPath()+"/home/index/thumbUp/"+toAccount.getId());
+                response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
             } else
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.LOGIN_SUCCESS.name());
         } else {
@@ -145,7 +145,7 @@ public class WechatController {
                     AccountDto toAccount = accountService.findById(Integer.parseInt(state));
                     if(accountDto.getNew())
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
-                    response.sendRedirect(request.getContextPath()+"/home/index/thumbUp/"+toAccount.getId());
+                    response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else {
                     AccessTokenDto accessTokenDto = wechatService.updateToken();
                     String subscribeUrl = fetchIsSubscribeUrl.replace("ACCESS_TOKEN",accessTokenDto.getAccessToken()).replace("OPENID",openId);
