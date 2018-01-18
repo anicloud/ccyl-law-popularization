@@ -48,7 +48,7 @@ export function jsSdkConfig(axios, host, count) {
         }
     }
     let resultUrl = "";
-    if(url.contains("&")){
+    if(url.indexOf("&")!==-1){
         let strs =  url.split("&");
         resultUrl = resultUrl+strs[0];
         for(let i=1;i<strs.length;i++){
