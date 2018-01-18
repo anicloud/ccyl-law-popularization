@@ -28,18 +28,10 @@ export function jsSdkConfig(axios, host, count) {
                 url = 'http://www.12355.org.cn/leg/';
             } else if (count === 2) {
                 url = window.sessionStorage.getItem('option');
-            } else if(count===3){
+            } else if (count === 3) {
                 url = window.location.href.split('#')[0];
-            }else if(count===4){
-                url = "http://www.12355.org.cn/leg/home/index?op=THUMB_UP";
-            }else if(count===5){
-                url = "http://www.12355.org.cn/leg/home/index/";
-            }else if(count===6){
-                url = "http://www.12355.org.cn/leg/home/";
-            }else if(count===7){
-                url = "http://www.12355.org.cn/leg/home";
-            }else if(count===8){
-                url = "http://www.12355.org.cn/leg/home/index";
+            } else {
+                url = 'http://www.12355.org.cn/leg/share/toThumbUp?accountId=1';
             }
 
         } else {
@@ -65,16 +57,16 @@ export function jsSdkConfig(axios, host, count) {
 
     }
     let resultUrl = "";
-    if(url.indexOf("from")!==-1){
-        let strs =  url.split("from");
-        if(strs[0].lastIndexOf("?")===strs[0].length-1){
+    if (url.indexOf("from") !== -1) {
+        let strs = url.split("from");
+        if (strs[0].lastIndexOf("?") === strs[0].length - 1) {
             resultUrl = strs[0].split("?")[0];
-        }else if(strs[0].lastIndexOf("&")===strs[0].length-1){
-            resultUrl = strs[0].substring(0,strs[0].length-1);
-        }else{
+        } else if (strs[0].lastIndexOf("&") === strs[0].length - 1) {
+            resultUrl = strs[0].substring(0, strs[0].length - 1);
+        } else {
             resultUrl = strs[0];
         }
-    }else{
+    } else {
         resultUrl = url;
     }
     /*window.location.href = resultUrl;*/
