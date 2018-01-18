@@ -78,6 +78,7 @@
 				/files/** = anon
 				/home/zqw = anon
 				/account/getCsvFile = anon
+				/home/index/thumbUp/** = anon
 				/** = authc
 			</value>
 		</property>
