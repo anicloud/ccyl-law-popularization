@@ -38,6 +38,8 @@ export function jsSdkConfig(axios, host, count) {
             alert(2);
             if (count === 1) {
                 url = window.sessionStorage.getItem('option');
+                alert(10);
+                alert(url);
             } else if (count === 2) {
                 url = 'http://www.12355.org.cn/leg/';
             } else {
