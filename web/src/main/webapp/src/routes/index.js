@@ -35,7 +35,6 @@ import ShowThumbUpDetail from '../views/ShowThumbUpDetail';
 const Routes = () => (
     <Switch>
         <Route exact path='/' component={App} />
-        <Route exact path='/share/toThumbUp/:id' component={Options} />
         <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
         <Route path='/scoreshopping' component={ScoreShopping}/>
@@ -46,7 +45,8 @@ const Routes = () => (
         <Route path='/announce' component={Tasks} />
         <Route exact path='/prize' component={SharePrize} />
         <Route path='/thumb' component={ThumbUp} />
-        <Route path='/home/index' component={Options} />
+        <Route exact path='/home/index' component={Options} />
+        <Route exact path='/home/index/THUMB_UP/:id' component={Options} />
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />
         <Route path='/error' component={Error} />
