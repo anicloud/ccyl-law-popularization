@@ -105,8 +105,8 @@ class SharePrize extends Component {
                             });
                         },
                         fail: function (res) {
-                            // alert("分享失败");
-                            // alert(res);
+                            alert("分享失败");
+                            alert(JSON.stringify(res));
                         }
                     });
                     /*我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!*/
@@ -124,8 +124,8 @@ class SharePrize extends Component {
                             });
                         },
                         fail: function (res) {
-                            // alert("分享失败");
-                            // alert(res);
+                            alert("分享失败");
+                            alert(JSON.stringify(res));
                         }
                     });
                     /*_this.setState({

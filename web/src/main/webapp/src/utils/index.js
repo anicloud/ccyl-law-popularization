@@ -25,19 +25,19 @@ export function jsSdkConfig(axios, host, count) {
         if (iosVersion >= 11) {
             alert(1);
             if (count === 2) {
-                url = 'http://www.12355.org.cn/leg/';
+                url = 'http://www.12355.org.cn/leg/'; // 1
             } else if (count === 3) {
                 url = window.sessionStorage.getItem('option');
             } else if (count === 4) {
                 url = window.location.href.split('#')[0];
             } else {
-                url = 'http://www.12355.org.cn/leg/thumb';
+                url = 'http://www.12355.org.cn/leg/thumb'; // 2
             }
 
         } else {
             alert(2);
             if (count === 1) {
-                url = window.sessionStorage.getItem('option');
+                url = window.sessionStorage.getItem('option'); // LOGIN_SUCCESS
             } else if (count === 2) {
                 url = 'http://www.12355.org.cn/leg/';
             } else {
