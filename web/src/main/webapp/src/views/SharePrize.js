@@ -138,7 +138,7 @@ class SharePrize extends Component {
             });
         });
         window.wx.error(function(res) {
-            /*alert(res.errMsg);*/
+            alert(res.errMsg);
             /*_this.props.handleJsConfig(_this.props.countJsSdk + 1);*/
             let count = _this.state.count+1;
             _this.setState({
