@@ -48,6 +48,7 @@ export function jsSdkConfig(axios, host, count) {
         }
 
     }
+    alert(url);
     let time = Math.round(new Date().getTime() / 1000);
     // alert(window.location.href.split('#')[0]);
     axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${url}`).then(function (response) {
