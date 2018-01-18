@@ -56,8 +56,7 @@ class SharePrize extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
-        jsSdkConfig(axios, host, _this.state.count);
+        jsSdkConfig(axios, host);
         /*axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
          if (response.data.state === 0) {
          /!*配置微信jssdk*!/
@@ -89,8 +88,7 @@ class SharePrize extends Component {
             axios.get(`${host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
-                    // alert("分享url："+scoreInfo.url);
-                    // alert(window.location.href.split('#')[0]);
+                    // alert(scoreInfo.url);
                     _this.setState({
                         correctCount: scoreInfo.correctCount
                     });
@@ -108,7 +106,7 @@ class SharePrize extends Component {
                         },
                         fail: function (res) {
                             // alert("分享失败");
-                            // alert(res);
+                            // alert(JSON.stringify(res));
                         }
                     });
                     /*我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!*/
@@ -127,7 +125,7 @@ class SharePrize extends Component {
                         },
                         fail: function (res) {
                             // alert("分享失败");
-                            // alert(res);
+                            // alert(JSON.stringify(res));
                         }
                     });
                     /*_this.setState({
@@ -139,16 +137,16 @@ class SharePrize extends Component {
             });
         });
         window.wx.error(function(res) {
-            alert(res.errMsg);
+            // alert(res.errMsg);
             /*_this.props.handleJsConfig(_this.props.countJsSdk + 1);*/
-            let count = _this.state.count+1;
+            /*let count = _this.state.count+1;
             _this.setState({
                count:count,
-            });
+            });*/
             /*alert(_this.state.count);*/
-            if (_this.state.count <= 3) {
-                jsSdkConfig(axios, host, _this.state.count);
-            }
+           /* if (_this.state.count <= 4) {
+                jsSdkConfig(axios, host);
+            }*/
         });
     }
 
