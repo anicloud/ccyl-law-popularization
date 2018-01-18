@@ -25,9 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lihui on 17-12-14.
@@ -101,7 +99,11 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public QuestionDto updateNewQuestion(Integer accountId) throws ParseException {
-        QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(accountId));
+        Map<String,Object> paramMap = new HashMap<>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        paramMap.put("accountId",accountId);
+        paramMap.put("logDate",simpleDateFormat.format(new Date()));
+        QuestionDto questionDto = QuestionAdapter.fromPO(scoreRecordMapper.findCurrentQuestion(paramMap));
         if(questionDto == null) {
             List<QuestionDto> questionDtos = findDayQuestions();
             if(questionDtos != null && questionDtos.size()>0) {

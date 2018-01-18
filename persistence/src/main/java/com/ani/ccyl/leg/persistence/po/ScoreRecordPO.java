@@ -28,6 +28,9 @@ public class ScoreRecordPO implements Serializable {
     private Timestamp updateTime;
     private Timestamp createTime;
     private Boolean isDel;
+    private String logDate;
+    public ScoreRecordPO() {
+    }
 
     public ScoreRecordPO(Integer accountId, Integer score, ScoreSrcTypeEnum srcType, Integer srcQuestionId, String selfAnswer, Integer srcAccountId, Integer questionTime, Timestamp updateTime, Timestamp createTime, Boolean isDel) {
 
@@ -42,6 +45,14 @@ public class ScoreRecordPO implements Serializable {
         this.createTime = createTime;
         this.isDel = isDel;
 
+    }
+
+    public String getLogDate() {
+        return logDate;
+    }
+
+    public void setLogDate(String logDate) {
+        this.logDate = logDate;
     }
 
     public Integer getQuestionTime() {
@@ -82,9 +93,6 @@ public class ScoreRecordPO implements Serializable {
 
     public void setSrcQuestionId(Integer srcQuestionId) {
         this.srcQuestionId = srcQuestionId;
-    }
-
-    public ScoreRecordPO() {
     }
 
     public Integer getId() {

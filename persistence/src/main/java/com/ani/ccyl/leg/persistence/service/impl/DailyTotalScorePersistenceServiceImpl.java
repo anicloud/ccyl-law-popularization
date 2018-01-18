@@ -6,6 +6,8 @@ import com.ani.ccyl.leg.persistence.service.facade.DailyTotalScorePersistenceSer
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +66,26 @@ public class DailyTotalScorePersistenceServiceImpl implements DailyTotalScorePer
         }
         return null;
 
+    }
+
+    @Override
+    public void updateCurrentQuestion(Integer accountId, Integer questionId) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DailyTotalScorePO scoreParam=new DailyTotalScorePO();
+        scoreParam.setAccountId(accountId);
+        scoreParam.setLogDate(simpleDateFormat.format(new Date()));
+        List<DailyTotalScorePO> scorePOS = dailyTotalScoreMapper.select(scoreParam);
+        if(scorePOS != null && scorePOS.size()>0) {
+            DailyTotalScorePO dailyTotalScorePO = scorePOS.get(0);
+            dailyTotalScorePO.setQuestionId(questionId);
+            dailyTotalScoreMapper.updateByPrimaryKeySelective(dailyTotalScorePO);
+        } else {
+            DailyTotalScorePO dailyTotalScorePO = new DailyTotalScorePO();
+            dailyTotalScorePO.setAccountId(accountId);
+            dailyTotalScorePO.setQuestionId(questionId);
+            dailyTotalScorePO.setLogDate(simpleDateFormat.format(new Date()));
+            dailyTotalScoreMapper.insertSelective(dailyTotalScorePO);
+        }
     }
 
 }

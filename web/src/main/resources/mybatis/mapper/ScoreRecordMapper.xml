@@ -3,8 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ani.ccyl.leg.persistence.mapper.ScoreRecordMapper">
-    <select id="findCurrentQuestion" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
-        SELECT q.* FROM t_question q LEFT JOIN t_score_record s ON q.id=s.src_question_id WHERE s.id=(SELECT id FROM t_score_record WHERE account_id=#{accountId} AND date_format(update_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d') AND src_type=1 ORDER BY update_time DESC LIMIT 1)
+    <select id="findCurrentQuestion" parameterType="java.util.Map" resultType="com.ani.ccyl.leg.persistence.po.QuestionPO">
+        SELECT * FROM t_question WHERE id=(SELECT question_id FROM ccyl.t_daily_total_score WHERE account_id=#{accountId} AND log_date=#{logDate} LIMIT 1)
     </select>
     <select id="findDailyScoreRecords" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
         SELECT * FROM t_score_record WHERE score>0 AND src_question_id IS NOT NULL AND date_format(update_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d') AND account_id=#{accountId}
@@ -33,7 +33,7 @@
         (SELECT question_time FROM t_daily_total_score WHERE log_date=date_format(now(),'%') AND account_id=#{accountId} LIMIT 1)t6
     </select>
     <select id="findByConditions" parameterType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
-        SELECT * FROM t_score_record WHERE src_account_id=#{srcAccountId} AND account_id=#{accountId} AND date_format(update_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+        SELECT * FROM t_score_record WHERE src_account_id=#{srcAccountId} AND account_id=#{accountId} AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findDailyTop20" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
         SELECT *,sum(score) AS total_score FROM t_score_record WHERE date_format(update_time,'%Y-%m-%d')=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id ORDER BY total_score DESC,update_time ASC LIMIT 20
@@ -62,7 +62,7 @@
         SELECT count(DISTINCT src_question_id) FROM t_score_record WHERE account_id=#{accountId} AND date_format(update_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d') AND src_type=1 AND score &gt; 0
     </select>
     <select id="findDailyShareCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        SELECT count(account_id) FROM t_score_record WHERE account_id=#{accountId} AND src_type=5 AND date_format(update_time,'%Y-%m-%d')=date_format(now(),'%Y-%m-%d')
+        SELECT count(account_id) FROM t_score_record WHERE account_id=#{accountId} AND src_type=5 AND log_date=date_format(now(),'%Y-%m-%d')
     </select>
     <select id="findSelfRank" parameterType="java.sql.Timestamp" resultType="com.ani.ccyl.leg.persistence.po.ScoreRecordPO">
         SELECT *,sum(score) AS total_score FROM t_score_record WHERE date_format(update_time,'%Y-%m-%d')=date_format(#{createTime},'%Y-%m-%d') AND account_id NOT IN (SELECT account_id FROM t_top20_awards WHERE account_id IS NOT NULL ) GROUP BY account_id ORDER BY total_score DESC,update_time ASC

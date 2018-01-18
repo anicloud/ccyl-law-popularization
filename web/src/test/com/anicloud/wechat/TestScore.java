@@ -26,4 +26,12 @@ public class TestScore {
         List<ScoreRecordPO> byConditions = scoreRecordMapper.findByConditions(scoreRecordPO);
         System.out.print(byConditions);
     }
+
+    @Test
+    public void testInsert() {
+        ScoreRecordPO scoreRecordPO = new ScoreRecordPO();
+        scoreRecordPO.setScore(12);
+        scoreRecordPO.setAccountId(1);
+        scoreRecordMapper.insertSelective(scoreRecordPO);
+    }
 }
