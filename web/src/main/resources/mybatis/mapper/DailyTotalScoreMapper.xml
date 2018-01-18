@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ani.ccyl.leg.persistence.mapper.DailyTotalScoreMapper">
     <select id="findTop20" parameterType="java.lang.String" resultType="com.ani.ccyl.leg.persistence.po.DailyTotalScorePO" >
-        select * from t_daily_total_score WHERE log_date =#{date} ORDER BY SCORE DESC limit 20;
+        select * from t_daily_total_score WHERE log_date =#{date} and account_id not IN (SELECT account_id from t_top20_awards WHERE t_top20_awards.account_id IS NOT null UNION SELECT account_id FROM t_lucky20_awards WHERE account_id is NOT NULL)ORDER BY SCORE DESC limit 20;
     </select>
 
     <select id="findRankByAccountId" parameterType="java.util.Map" resultType="java.lang.Integer">

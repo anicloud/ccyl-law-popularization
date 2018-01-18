@@ -103,17 +103,23 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                         scoreRecordPO = scoreRecordPOs.get(0);
                         if(scoreRecordPO.getQuestionTime() != null && scoreRecordPO.getQuestionTime()==1) {
                             scoreRecordPO.setSelfAnswer(answer);
-                            scoreRecordPO.setScore(score);
+                           // scoreRecordPO.setScore(score);
                             scoreRecordPO.setSrcType(srcType);
                             scoreRecordPO.setQuestionTime(2);
                             scoreRecordPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                             int updateScore = 0;
+                            Integer correctCount = null;
                             if (scoreRecordPO.getScore()==0 && score>0){
                                 updateScore = 2;
+                                correctCount = 1;
+                            }else if (scoreRecordPO.getScore()>0&&score==0){
+                                updateScore = -2;
+                                correctCount = -1;
                             }
                             dailyTotalScorePersistenceService.updateCurrentQuestion(accountId,srcId);
-                            updateTotalScore(ScoreSrcTypeEnum.QUESTION,updateScore,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,updateScore>0?1:null);
+                            updateTotalScore(ScoreSrcTypeEnum.QUESTION,updateScore,accountId,accountPO.getProvince(),simpleDateFormat.format(new Date()),2,correctCount);
                             scoreRecordPO.setLogDate(null);
+                            scoreRecordPO.setScore(score);
                             scoreRecordMapper.updateByPrimaryKeySelective(scoreRecordPO);
 
                         }
