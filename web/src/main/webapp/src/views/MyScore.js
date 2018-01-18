@@ -371,7 +371,7 @@ class MyScore extends Component {
                     <div className="detail">
                         <img src={scoreInfo.portrait} className="touxiang"/>
                         <br/>
-                        <span>{scoreInfo.nickName}</span>
+                        <span className='detail-name'>{scoreInfo.nickName}</span>
                         <br/>
                         <span className='detail-msg'>剩余积分:<span
                             className='detail-span'>{scoreInfo ? (scoreInfo.score ? scoreInfo.score : 0) : 0}</span>分</span>
