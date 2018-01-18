@@ -9,6 +9,8 @@ class Options extends Component {
     componentWillMount() {
         let search = this.props.location.search;
         let opt = getSearchString(search, 'op');
+        console.log('Options');
+        console.log(opt);
         switch (opt) {
             case 'UNSUBSCRIBE':
                 this.props.history.push('/error');
@@ -30,7 +32,7 @@ class Options extends Component {
                 // window.sessionStorage.setItem('option', `THUMB_UP&id=${getSearchString(search, 'id')}`);
                 break;
             case 'ACCESS_DENIED':
-                console.log('123');
+                console.log('ACCESS_DENIED');
                 window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
                 this.props.history.push('/');
                 break;
