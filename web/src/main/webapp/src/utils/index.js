@@ -46,7 +46,6 @@ export function jsSdkConfig(axios, host, count) {
         } else {
             url = encodeURIComponent(window.sessionStorage.getItem('option'));
         }
-
     }
     alert(url);
     let time = Math.round(new Date().getTime() / 1000);
