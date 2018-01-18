@@ -56,6 +56,7 @@ class SharePrize extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
+        window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
         jsSdkConfig(axios, host, _this.state.count);
         /*axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
          if (response.data.state === 0) {
