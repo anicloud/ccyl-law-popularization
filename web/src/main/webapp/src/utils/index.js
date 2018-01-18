@@ -23,7 +23,7 @@ export function jsSdkConfig(axios, host, count) {
     // alert(window.location.href.split('#')[0]);
     if (isiOS) {
         if (iosVersion >= 11) {
-            alert(1);
+            // alert(1);
             /*if (count === 2) {
                 url = 'http://www.12355.org.cn/leg/'; // 1
             } else if (count === 3) {
@@ -61,7 +61,7 @@ export function jsSdkConfig(axios, host, count) {
         resultUrl = url;
     }
     /*window.location.href = resultUrl;*/
-    alert(resultUrl);
+    // alert(resultUrl);
     resultUrl = encodeURIComponent(resultUrl);
     let time = Math.round(new Date().getTime() / 1000);
     // alert(window.location.href.split('#')[0]);

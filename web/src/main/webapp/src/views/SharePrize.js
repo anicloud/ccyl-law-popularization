@@ -81,14 +81,14 @@ class SharePrize extends Component {
          });*/
         window.wx.ready(function () {
             console.log(1);
-            alert('share ready');
+            // alert('share ready');
             _this.setState({
                 isReady: true
             });
             axios.get(`${host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     let scoreInfo = response.data.data;
-                    alert(scoreInfo.url);
+                    // alert(scoreInfo.url);
                     _this.setState({
                         correctCount: scoreInfo.correctCount
                     });
@@ -105,8 +105,8 @@ class SharePrize extends Component {
                             });
                         },
                         fail: function (res) {
-                            alert("分享失败");
-                            alert(JSON.stringify(res));
+                            // alert("分享失败");
+                            // alert(JSON.stringify(res));
                         }
                     });
                     /*我在中国共青团青少年学法用法知识竞赛答对${scoreInfo.correctCount}道题，快来支持我吧!*/
@@ -124,8 +124,8 @@ class SharePrize extends Component {
                             });
                         },
                         fail: function (res) {
-                            alert("分享失败");
-                            alert(JSON.stringify(res));
+                            // alert("分享失败");
+                            // alert(JSON.stringify(res));
                         }
                     });
                     /*_this.setState({
@@ -137,7 +137,7 @@ class SharePrize extends Component {
             });
         });
         window.wx.error(function(res) {
-            alert(res.errMsg);
+            // alert(res.errMsg);
             /*_this.props.handleJsConfig(_this.props.countJsSdk + 1);*/
             let count = _this.state.count+1;
             _this.setState({
