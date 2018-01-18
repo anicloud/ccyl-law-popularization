@@ -149,7 +149,7 @@ class ThumbUp extends Component {
                                         <img src={btn_thumbup} onClick={this.handleThumb} alt=""/>
                                     </div>
                                     <div className='text-center thumb-btn'>
-                                        <div className='right-now' onClick={this.handleAnswer}>马上答题</div>
+                                        <div className='right-now right-thumb' onClick={this.handleAnswer}>马上答题</div>
                                     </div>
                                 </div>
                             ) : (null)
