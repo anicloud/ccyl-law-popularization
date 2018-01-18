@@ -1,31 +1,52 @@
 export function getSearchString(search, key) {
     // 获取URL中?之后的字符
-    let str = search.substring(1,search.length);
-     // 以&分隔字符串，获得类似name=xiaoli这样的元素数组
+    let str = search.substring(1, search.length);
+    // 以&分隔字符串，获得类似name=xiaoli这样的元素数组
     let arr = str.split("&");
     let obj = {};
-     // 将每一个数组元素以=分隔并赋给obj对象
-    for(let i = 0; i < arr.length; i++) {
+    // 将每一个数组元素以=分隔并赋给obj对象
+    for (let i = 0; i < arr.length; i++) {
         let tmp_arr = arr[i].split("=");
         obj[decodeURIComponent(tmp_arr[0])] = decodeURIComponent(tmp_arr[1]);
     }
     return obj[key];
 }
 
-export function jsSdkConfig(axios, host) {
+export function jsSdkConfig(axios, host, count) {
     let u = window.navigator.userAgent;
     let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-    let iosVersion = isiOS? window.parseInt(u.match(/\(iPhone; CPU iPhone OS ([0-9]+)_.+Mac OS X/)[1]) : '';
+    let iosVersion = isiOS ? window.parseInt(u.match(/\(iPhone; CPU iPhone OS ([0-9]+)_.+Mac OS X/)[1]) : '';
     let url = '';
     if (isiOS) {
         if (iosVersion >= 11) {
+            if (count === 1) {
+                url = encodeURIComponent('http://www.12355.org.cn/leg/');
+            } else if (count === 2) {
+                url = encodeURIComponent(window.sessionStorage.getItem('option'));
+            } else {
+                url = encodeURIComponent(window.location.href.split('#')[0]);
+            }
+
+        } else {
+            if (count === 1) {
+                url = encodeURIComponent(window.sessionStorage.getItem('option'));
+            } else if (count === 2) {
+                url = encodeURIComponent('http://www.12355.org.cn/leg/');
+            } else {
+                url = encodeURIComponent(window.location.href.split('#')[0]);
+            }
+
+        }
+    } else {
+        if (count === 1) {
+            url = encodeURIComponent(window.location.href.split('#')[0]);
+        } else if (count === 2) {
             url = encodeURIComponent('http://www.12355.org.cn/leg/');
         } else {
             url = encodeURIComponent(window.sessionStorage.getItem('option'));
         }
-    } else {
-        url = encodeURIComponent(window.location.href.split('#')[0]);
+
     }
     let time = Math.round(new Date().getTime() / 1000);
     // alert(window.location.href.split('#')[0]);
@@ -53,9 +74,9 @@ export function jsSdkConfig(axios, host) {
 export function getCookie(name) {
     let strCookie = document.cookie;
     let arrCookie = strCookie.split("; ");
-    for(let i = 0; i < arrCookie.length; i++){
+    for (let i = 0; i < arrCookie.length; i++) {
         let arr = arrCookie[i].split("=");
-        if(name === arr[0]){
+        if (name === arr[0]) {
             return arr[1];
         }
     }

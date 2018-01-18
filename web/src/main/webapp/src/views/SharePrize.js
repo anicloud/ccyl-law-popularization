@@ -55,7 +55,7 @@ class SharePrize extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        jsSdkConfig(axios, host);
+        jsSdkConfig(axios, host, 1);
         /*axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
          if (response.data.state === 0) {
          /!*配置微信jssdk*!/
@@ -140,7 +140,7 @@ class SharePrize extends Component {
             /*alert(res.errMsg);*/
             _this.props.handleJsConfig(_this.props.countJsSdk + 1);
             if (_this.props.countJsSdk <= 3) {
-                jsSdkConfig(axios, host);
+                jsSdkConfig(axios, host, _this.props.countJsSdk);
             }
         });
     }
