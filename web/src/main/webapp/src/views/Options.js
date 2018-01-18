@@ -30,6 +30,7 @@ class Options extends Component {
                 // window.sessionStorage.setItem('option', `THUMB_UP&id=${getSearchString(search, 'id')}`);
                 break;
             case 'ACCESS_DENIED':
+                console.log('123');
                 window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
                 this.props.history.push('/');
                 break;
