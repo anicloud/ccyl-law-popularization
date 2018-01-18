@@ -140,8 +140,12 @@ class SharePrize extends Component {
         window.wx.error(function(res) {
             alert(res.errMsg);
             /*_this.props.handleJsConfig(_this.props.countJsSdk + 1);*/
-            alert(_this.props.countJsSdk);
-            if (_this.props.countJsSdk <= 3) {
+            let count = _this.state.count+1;
+            _this.setState({
+               count:count,
+            });
+            alert(_this.state.count);
+            if (_this.state.count <= 3) {
                 jsSdkConfig(axios, host, _this.state.count);
             }
         });
