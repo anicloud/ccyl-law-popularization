@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/build/assets/css/bootstrap.min.css">
         <link href="${pageContext.request.contextPath}/build/static/css/main.css" rel="stylesheet">
         <script src="${pageContext.request.contextPath}/build/assets/js/jweixin-1.2.0.js"></script>
-        <title>第十四届青少年学法用法知识竞赛项目</title>
+        <title>全国第十四届青少年学法用法知识竞赛项目</title>
     </head>
     <body>
         <noscript>
