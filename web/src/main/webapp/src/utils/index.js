@@ -23,14 +23,14 @@ export function jsSdkConfig(axios, host, count) {
             if (count === 1) {
                 url = 'http://www.12355.org.cn/leg/prize';
             } else if (count === 2) {
-                url = window.sessionStorage.getItem('option');
+                url = 'http://www.12355.org.cn/leg/';
             } else {
                 url = window.location.href.split('#')[0];
             }
 
         } else {
             if (count === 1) {
-                url = window.sessionStorage.getItem('option');
+                url = 'http://www.12355.org.cn/leg/';
             } else if (count === 2) {
                 url = 'http://www.12355.org.cn/leg/prize';
             } else {
@@ -44,7 +44,7 @@ export function jsSdkConfig(axios, host, count) {
         } else if (count === 2) {
             url = 'http://www.12355.org.cn/leg/prize';
         } else {
-            url = window.sessionStorage.getItem('option');
+            url = 'http://www.12355.org.cn/leg/';
         }
     }
     let resultUrl = "";
@@ -61,7 +61,7 @@ export function jsSdkConfig(axios, host, count) {
         resultUrl = url;
     }
     /*window.location.href = resultUrl;*/
-    console.log(resultUrl);
+    alert(resultUrl);
     let encodeUrl = encodeURIComponent(resultUrl);
     /*alert(url);*/
     let time = Math.round(new Date().getTime() / 1000);
