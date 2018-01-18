@@ -24,7 +24,8 @@ class SharePrize extends Component {
             isReady: false,
             mySelfRank: 0,
             correctCount: 0,
-            showReAnswer: false
+            showReAnswer: false,
+            count:1
         };
         this.userId = getCookie('LOGIN_COOKIE');
         this.toastTimer = null;
@@ -55,7 +56,7 @@ class SharePrize extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        jsSdkConfig(axios, host, 1);
+        jsSdkConfig(axios, host, _this.state.count);
         /*axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${new Date().getTime()}&nonceStr=nonceStr&url=${window.location.href}`).then(function (response) {
          if (response.data.state === 0) {
          /!*配置微信jssdk*!/
@@ -138,10 +139,10 @@ class SharePrize extends Component {
         });
         window.wx.error(function(res) {
             alert(res.errMsg);
-            _this.props.handleJsConfig(_this.props.countJsSdk + 1);
+            /*_this.props.handleJsConfig(_this.props.countJsSdk + 1);*/
             alert(_this.props.countJsSdk);
             if (_this.props.countJsSdk <= 3) {
-                jsSdkConfig(axios, host, _this.props.countJsSdk);
+                jsSdkConfig(axios, host, _this.state.count);
             }
         });
     }
