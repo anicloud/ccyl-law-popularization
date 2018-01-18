@@ -11,33 +11,41 @@ class Options extends Component {
         let opt = getSearchString(search, 'op');
         console.log('Options');
         console.log(opt);
-        switch (opt) {
-            case 'UNSUBSCRIBE':
-                this.props.history.push('/error');
-                break;
-            case 'LOGIN_SUCCESS':
-                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
-                this.props.history.push('/');
-                break;
-            case 'LOGIN_FAILURE':
-                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
-                this.props.history.push('/error');
-                break;
-            case 'THUMB_UP':
-                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
-                this.props.history.push({
-                    pathname: '/thumb',
-                    state: getSearchString(search, 'id')
-                });
-                // window.sessionStorage.setItem('option', `THUMB_UP&id=${getSearchString(search, 'id')}`);
-                break;
-            case 'ACCESS_DENIED':
-                console.log('ACCESS_DENIED');
-                window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
-                this.props.history.push('/');
-                break;
-            default:
-                return;
+        if (this.props.match.params.id) {
+            window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
+            this.props.history.push({
+                pathname: '/thumb',
+                state: this.props.match.params.id
+            });
+        } else {
+            switch (opt) {
+                case 'UNSUBSCRIBE':
+                    this.props.history.push('/error');
+                    break;
+                case 'LOGIN_SUCCESS':
+                    window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
+                    this.props.history.push('/');
+                    break;
+                case 'LOGIN_FAILURE':
+                    window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
+                    this.props.history.push('/error');
+                    break;
+                /*case 'THUMB_UP':
+                 window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
+                 this.props.history.push({
+                 pathname: '/thumb',
+                 state: getSearchString(search, 'id')
+                 });
+                 // window.sessionStorage.setItem('option', `THUMB_UP&id=${getSearchString(search, 'id')}`);
+                 break;*/
+                case 'ACCESS_DENIED':
+                    console.log('ACCESS_DENIED');
+                    window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
+                    this.props.history.push('/');
+                    break;
+                default:
+                    return;
+            }
         }
     }
     render() {

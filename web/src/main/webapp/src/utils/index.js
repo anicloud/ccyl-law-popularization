@@ -50,11 +50,15 @@ export function jsSdkConfig(axios, host, count) {
     let resultUrl = "";
     if(url.indexOf("from")!==-1){
         let strs =  url.split("from");
-        if(strs[0].indexOf("?")===strs[0].length-1){
+        if(strs[0].lastIndexOf("?")===strs[0].length-1){
             resultUrl = strs[0].split("?")[0];
+        }else if(strs[0].lastIndexOf("&")===strs[0].length-1){
+            resultUrl = strs[0].substring(0,strs[0].length-1);
         }else{
             resultUrl = strs[0];
         }
+    }else{
+        resultUrl = url;
     }
     /*window.location.href = resultUrl;*/
     console.log(resultUrl);
