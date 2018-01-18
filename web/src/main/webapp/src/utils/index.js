@@ -21,36 +21,49 @@ export function jsSdkConfig(axios, host, count) {
     if (isiOS) {
         if (iosVersion >= 11) {
             if (count === 1) {
-                url = encodeURIComponent('http://www.12355.org.cn/leg/');
+                url = 'http://www.12355.org.cn/leg/';
             } else if (count === 2) {
-                url = encodeURIComponent(window.sessionStorage.getItem('option'));
+                url = window.sessionStorage.getItem('option');
             } else {
-                url = encodeURIComponent(window.location.href.split('#')[0]);
+                url = window.location.href.split('#')[0];
             }
 
         } else {
             if (count === 1) {
-                url = encodeURIComponent(window.sessionStorage.getItem('option'));
+                url = window.sessionStorage.getItem('option');
             } else if (count === 2) {
-                url = encodeURIComponent('http://www.12355.org.cn/leg/');
+                url = 'http://www.12355.org.cn/leg/';
             } else {
-                url = encodeURIComponent(window.location.href.split('#')[0]);
+                url = window.location.href.split('#')[0];
             }
 
         }
     } else {
         if (count === 1) {
-            url = encodeURIComponent(window.location.href.split('#')[0]);
+            url = window.location.href.split('#')[0];
         } else if (count === 2) {
-            url = encodeURIComponent('http://www.12355.org.cn/leg/');
+            url = 'http://www.12355.org.cn/leg/';
         } else {
-            url = encodeURIComponent(window.sessionStorage.getItem('option'));
+            url = window.sessionStorage.getItem('option');
         }
     }
+    let resultUrl = "";
+    if(url.contains("&")){
+        let strs =  url.split("&");
+        resultUrl = resultUrl+strs[0];
+        for(let i=1;i<strs.length;i++){
+            if(strs[i].split("=")[0]==="id"){
+                resultUrl = resultUrl+"&"+strs[i];
+            }
+        }
+    }
+    window.location.href = resultUrl;
+    console.log(resultUrl);
+    let encodeUrl = encodeURIComponent(resultUrl);
     /*alert(url);*/
     let time = Math.round(new Date().getTime() / 1000);
     // alert(window.location.href.split('#')[0]);
-    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${url}`).then(function (response) {
+    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${encodeUrl}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/
             window.wx.config({
