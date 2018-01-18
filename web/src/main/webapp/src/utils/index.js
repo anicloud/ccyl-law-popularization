@@ -12,7 +12,7 @@ export function getSearchString(search, key) {
     return obj[key];
 }
 
-export function jsSdkConfig(axios, host, count) {
+export function jsSdkConfig(axios, host) {
     let u = window.navigator.userAgent;
     let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -23,16 +23,6 @@ export function jsSdkConfig(axios, host, count) {
     // alert(window.location.href.split('#')[0]);
     if (isiOS) {
         if (iosVersion >= 11) {
-            // alert(1);
-            /*if (count === 2) {
-                url = 'http://www.12355.org.cn/leg/'; // 1
-            } else if (count === 3) {
-                url = window.sessionStorage.getItem('option');
-            } else if (count === 4) {
-                url = window.location.href.split('#')[0];
-            } else {
-                url = 'http://www.12355.org.cn/leg/thumb'; // 2
-            }*/
             let status = window.sessionStorage.getItem('status');
             if (status === 'LOGIN_SUCCESS') {
                 url = 'http://www.12355.org.cn/leg/';
