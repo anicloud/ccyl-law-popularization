@@ -8,10 +8,10 @@ class Options extends Component {
     }
     componentWillMount() {
         alert(1);
-        alert(JSON.stringify(this.props.match.params))
+        alert(JSON.stringify(this.props))
         if (this.props.match.params.id) {
             window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
-            alert(2);
+            alert(window.location.href.split('#')[0]);
             this.props.history.push({
                 pathname: '/thumb',
                 state: this.props.match.params.id
