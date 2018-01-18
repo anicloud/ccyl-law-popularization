@@ -73,7 +73,7 @@
 				/upload = anon
 				/question/upload = anon
 				/build/** = anon
-				/share/toThumbUp = anon
+				/share/toThumbUp/** = anon
 				/ = anon
 				/files/** = anon
 				/home/zqw = anon
