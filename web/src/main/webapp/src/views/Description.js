@@ -71,7 +71,6 @@ class Description extends Component {
                                     </ul>
                                 </Article>
                                 <Article style={{display: this.state.tab == 1 ? null : 'none'}}>
-
                                     <ul>
                                         <li>争当普法先锋！赢取丰富奖品！</li>
                                         <br/>
