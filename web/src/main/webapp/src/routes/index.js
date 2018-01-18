@@ -46,7 +46,7 @@ const Routes = () => (
         <Route exact path='/prize' component={SharePrize} />
         <Route path='/thumb' component={ThumbUp} />
         <Route exact path='/home/index' component={Options} />
-        <Route exact path='/home/index/THUMB_UP/:id' component={Options} />
+        <Route exact path='/home/index/thumbUp/:id' component={Options} />
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />
         <Route path='/error' component={Error} />
