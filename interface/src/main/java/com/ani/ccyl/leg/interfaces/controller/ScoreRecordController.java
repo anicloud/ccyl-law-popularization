@@ -127,6 +127,7 @@ public class ScoreRecordController {
     @RequestMapping(value = "/findAllAwards", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findAllAwards(HttpSession session) {
+
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         List<AwardDto> awardDtos = scoreRecordService.findAllAwards(accountDto.getId());

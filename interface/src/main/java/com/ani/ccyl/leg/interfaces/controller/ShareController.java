@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -73,7 +74,7 @@ public class ShareController {
         } catch (NullPointerException e) {
             shareDto.setTotalScore(0);
         }
-        shareDto.setUrl(Constants.PROPERTIES.getProperty("http.host")+"/share/toThumbUp?accountId="+accountDto.getId());
+        shareDto.setUrl(Constants.PROPERTIES.getProperty("http.host")+"/share/toThumbUp/"+accountDto.getId());
         shareDto.setPortrait(accountDto.getPortrait());
         message.setMsg("查询成功");
         message.setData(shareDto);
@@ -81,8 +82,8 @@ public class ShareController {
         return message;
     }
 
-    @RequestMapping(value = "/toThumbUp",method = RequestMethod.GET)
-    public void toThumbUp(Integer accountId,HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/toThumbUp/{accountId}",method = RequestMethod.GET)
+    public void toThumbUp(@PathVariable Integer accountId, HttpServletResponse response) throws IOException {
         String url = Constants.PROPERTIES.getProperty("wechat.entrance.url").replace("APPID",appId).replace("REDIRECT_URI", URLEncoder.encode(Constants.PROPERTIES.getProperty("wechat.redirect.url"),"utf-8")).replace("STATE",accountId+"");
         response.sendRedirect(url);
     }
