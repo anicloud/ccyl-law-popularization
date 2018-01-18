@@ -18,6 +18,8 @@ export function jsSdkConfig(axios, host, count) {
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     let iosVersion = isiOS ? window.parseInt(u.match(/\(iPhone; CPU iPhone OS ([0-9]+)_.+Mac OS X/)[1]) : '';
     let url = '';
+    alert(iosVersion);
+    alert(u);
     alert(window.location.href.split('#')[0]);
     if (isiOS) {
         if (iosVersion >= 11) {
