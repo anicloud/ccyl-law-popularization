@@ -57,7 +57,7 @@ export function jsSdkConfig(axios, host, count) {
             }
         }
     }
-    window.location.href = resultUrl;
+    /*window.location.href = resultUrl;*/
     console.log(resultUrl);
     let encodeUrl = encodeURIComponent(resultUrl);
     /*alert(url);*/
