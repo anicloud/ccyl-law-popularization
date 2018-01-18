@@ -42,7 +42,7 @@
     .bkg{
       height:8rem;
       width:100%;
-      background-color: #41c9f0;
+      background-color: #45caef;
     }
     .paihangbang{
       height:8rem;
@@ -60,19 +60,19 @@
     }
     .phb1-title{
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/glory_title.png") bottom center no-repeat;
-      height:20%;
+      height:15%;
       margin-left:.4rem;
     }
     .phb1-detail{
       overflow:auto;
-      height:80%;
+      height:85%;
       width:100%;
     }
     .phb1-detail .info {
       background-color: #fff;
       color: #000000;
       line-height: .64rem;
-      margin-top: .3rem;
+      margin-top: .2rem;
       letter-spacing: .02rem;
       font-size: .26rem;
       border-radius: .08rem;
@@ -95,8 +95,8 @@
     .phb1-detail .top-ranking{
       margin-top: .2rem;
       margin-bottom: .2rem;
-      margin-left:.1rem;
-      margin-right:.1rem;
+      margin-left:.2rem;
+      margin-right:.2rem;
       font-size: .1rem;
       background-color: #fff;
       height: .7rem;
@@ -139,12 +139,12 @@
     }
     .phb2-title{
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/national_rank.png") bottom center no-repeat;
-      height:20%;
+      height:15%;
       margin-left:.4rem;
     }
     .phb2-detail{
       overflow:auto;
-      height:80%;
+      height:85%;
       width:100%;
     }
 
@@ -152,7 +152,7 @@
       background-color: #fff;
       color: #000000;
       line-height: .64rem;
-      margin-top: .3rem;
+      margin-top: .2rem;
       letter-spacing: .02rem;
       font-size: .26rem;
       border-radius: .08rem;

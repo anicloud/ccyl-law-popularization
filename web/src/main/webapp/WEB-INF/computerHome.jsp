@@ -150,13 +150,14 @@
       margin-top:0rem;
       float:left;
       width:14%;
-      height:100%
+      height:100%;
+      margin-left:.4rem;
     }
     .detail4{
       margin-left:5%;
       float:left;
-      width:50%;
-      height:100%
+      height:100%;
+      width:45%;
     }
     .paihangbang{
       height:8rem;
@@ -174,19 +175,19 @@
     }
     .phb1-title{
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/glory_title.png") bottom center no-repeat;
-      height:20%;
+      height:15%;
       margin-left:.4rem;
     }
     .phb1-detail{
       overflow:auto;
-      height:80%;
+      height:85%;
       width:100%;
     }
     .phb1-detail .info {
       background-color: #fff;
       color: #000000;
       line-height: .64rem;
-      margin-top: .3rem;
+      margin-top: .2rem;
       letter-spacing: .02rem;
       font-size: .26rem;
       border-radius: .08rem;
@@ -197,20 +198,22 @@
       float:left;
       width:40%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb1-detail .info .second {
       float:right;
       width:30%;
       text-align:center;
+      font-size: .2rem;
     }
 
     .phb1-detail .top-ranking{
       margin-top: .2rem;
       margin-bottom: .2rem;
-      margin-left:.1rem;
-      margin-right:.1rem;
+      margin-left:.2rem;
+      margin-right:.2rem;
       font-size: .1rem;
-      background-color: #aee644;
+      background-color: #fff;
       height: .7rem;
       border-radius: .08rem;
       box-shadow: .02rem .02rem .1rem rgba(0, 0, 0, .5);
@@ -228,8 +231,10 @@
     }
     .phb1-detail .top-ranking .rank-second{
       padding-top:.15rem;
-      width:55%;
+      width:50%;
       float:left;
+      font-size:.15rem;
+      margin-left:.15rem;
       text-align:left;
     }
     .phb1-detail .top-ranking .rank-third{
@@ -249,12 +254,12 @@
     }
     .phb2-title{
       background:#eaf1d9 url("${pageContext.request.contextPath}/build/assets/images/national_rank.png") bottom center no-repeat;
-      height:20%;
+      height:15%;
       margin-left:.4rem;
     }
     .phb2-detail{
       overflow:auto;
-      height:80%;
+      height:85%;
       width:100%;
     }
 
@@ -262,7 +267,7 @@
       background-color: #fff;
       color: #000000;
       line-height: .64rem;
-      margin-top: .3rem;
+      margin-top: .2rem;
       letter-spacing: .02rem;
       font-size: .26rem;
       border-radius: .08rem;
@@ -273,36 +278,40 @@
       float:left;
       width:12.5%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .second {
       float:left;
       width:20%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .third {
       float:left;
       width:22.5%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .four {
       float:left;
       width:22.5%;
       text-align:center;
+      font-size: .2rem;
     }
     .phb2-detail .info .five {
       float:left;
       width:22.5%;
       text-align:center;
+      font-size: .2rem;
     }
 
     .phb2-detail .top-ranking{
-
       margin-top: .2rem;
       margin-bottom: .2rem;
       margin-left:.1rem;
       margin-right:.1rem;
       font-size: .1rem;
-      background-color: #aee644;
+      background-color: #fff;
       height: .7rem;
       border-radius: .08rem;
       box-shadow: .02rem .02rem .1rem rgba(0, 0, 0, .5);
@@ -443,7 +452,7 @@
       <div class="phb1-detail" id="top20Rank">
         <div class='clearfix info'>
           <div class='first'>
-            今日得分
+            得分
           </div>
           <div class='second'>
             全国排名
