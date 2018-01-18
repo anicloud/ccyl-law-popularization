@@ -42,7 +42,7 @@
     .bkg{
       height:8rem;
       width:100%;
-      background-color: #f1f9fc;
+      background-color: #41c9f0;
     }
     .paihangbang{
       height:8rem;
