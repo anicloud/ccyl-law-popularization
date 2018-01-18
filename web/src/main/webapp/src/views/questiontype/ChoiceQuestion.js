@@ -83,23 +83,20 @@ class ChoiceQuestion extends Component {
                                 <FormCell checkbox>
                                     <CellHeader>
                                         <Radio name="radio1" value="A" onChange={(e) => {this.handleChange(e)}}/>
-                                        A.
                                     </CellHeader>
-                                    <CellBody>{question.optionOne}</CellBody>
+                                    <CellBody>A. {question.optionOne}</CellBody>
                                 </FormCell>
                                 <FormCell checkbox>
                                     <CellHeader>
                                         <Radio name="radio1" value="B" onChange={(e) => {this.handleChange(e)}}/>
-                                        B.
                                     </CellHeader>
-                                    <CellBody>{question.optionTwo}</CellBody>
+                                    <CellBody>B. {question.optionTwo}</CellBody>
                                 </FormCell>
                                 <FormCell checkbox>
                                     <CellHeader>
                                         <Radio name="radio1" value="C" onChange={(e) => {this.handleChange(e)}}/>
-                                        C.
                                     </CellHeader>
-                                    <CellBody>{question.optionThree}</CellBody>
+                                    <CellBody>C. {question.optionThree}</CellBody>
                                 </FormCell>
                             </Form>
                             {
