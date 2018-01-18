@@ -31,7 +31,7 @@ export function jsSdkConfig(axios, host, count) {
             } else if (count === 4) {
                 url = window.location.href.split('#')[0];
             } else {
-                url = 'http://www.12355.org.cn/leg/home/index?op=THUMB_UP&id=1';
+                url = 'http://www.12355.org.cn/leg/thumb';
             }
 
         } else {
