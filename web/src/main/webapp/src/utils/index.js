@@ -24,7 +24,7 @@ export function jsSdkConfig(axios, host, count) {
     if (isiOS) {
         if (iosVersion >= 11) {
             alert(1);
-            if (count === 2) {
+            /*if (count === 2) {
                 url = 'http://www.12355.org.cn/leg/'; // 1
             } else if (count === 3) {
                 url = window.sessionStorage.getItem('option');
@@ -32,29 +32,20 @@ export function jsSdkConfig(axios, host, count) {
                 url = window.location.href.split('#')[0];
             } else {
                 url = 'http://www.12355.org.cn/leg/thumb'; // 2
-            }
-
-        } else {
-            alert(2);
-            if (count === 1) {
-                url = window.sessionStorage.getItem('option'); // LOGIN_SUCCESS
-            } else if (count === 2) {
+            }*/
+            let status = window.sessionStorage.getItem('status');
+            if (status === 'LOGIN_SUCCESS') {
                 url = 'http://www.12355.org.cn/leg/';
+            } else if (status === 'THUMB_UP') {
+                url = 'http://www.12355.org.cn/leg/thumb';
             } else {
-                url = window.location.href.split('#')[0];
+                url = window.sessionStorage.getItem('option');
             }
-
+        } else {
+                url = window.sessionStorage.getItem('option'); // LOGIN_SUCCESS
         }
     } else {
-        alert(3)
-        if (count === 1) {
             url = window.location.href.split('#')[0];
-        } else if (count === 2) {
-            url = 'http://www.12355.org.cn/leg/';
-        } else {
-            url = window.sessionStorage.getItem('option');
-        }
-
     }
     let resultUrl = "";
     if (url.indexOf("from") !== -1) {
