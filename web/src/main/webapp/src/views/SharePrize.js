@@ -145,7 +145,7 @@ class SharePrize extends Component {
                count:count,
             });
             /*alert(_this.state.count);*/
-            if (_this.state.count <= 3) {
+            if (_this.state.count <= 8) {
                 jsSdkConfig(axios, host, _this.state.count);
             }
         });

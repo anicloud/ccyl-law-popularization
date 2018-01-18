@@ -28,8 +28,18 @@ export function jsSdkConfig(axios, host, count) {
                 url = 'http://www.12355.org.cn/leg/';
             } else if (count === 2) {
                 url = window.sessionStorage.getItem('option');
-            } else {
+            } else if(count===3){
                 url = window.location.href.split('#')[0];
+            }else if(count===4){
+                url = "http://www.12355.org.cn/leg/home/index?op=THUMB_UP";
+            }else if(count===5){
+                url = "http://www.12355.org.cn/leg/home/index/";
+            }else if(count===6){
+                url = "http://www.12355.org.cn/leg/home/";
+            }else if(count===7){
+                url = "http://www.12355.org.cn/leg/home";
+            }else if(count===8){
+                url = "http://www.12355.org.cn/leg/home/index";
             }
 
         } else {
