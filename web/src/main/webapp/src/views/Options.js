@@ -7,17 +7,19 @@ class Options extends Component {
         console.log(this.props);
     }
     componentWillMount() {
-        let search = this.props.location.search;
-        let opt = getSearchString(search, 'op');
-        console.log('Options');
-        console.log(opt);
+        alert(1);
         if (this.props.match.params.id) {
             window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
+            alert(2);
             this.props.history.push({
                 pathname: '/thumb',
                 state: this.props.match.params.id
             });
         } else {
+            let search = this.props.location.search;
+            let opt = getSearchString(search, 'op');
+            alert(search);
+            alert(opt);
             switch (opt) {
                 case 'UNSUBSCRIBE':
                     this.props.history.push('/error');
