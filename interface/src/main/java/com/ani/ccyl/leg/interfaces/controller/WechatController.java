@@ -145,7 +145,7 @@ public class WechatController {
                     AccountDto toAccount = accountService.findById(Integer.parseInt(state));
                     if(accountDto.getNew())
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
-                    response.sendRedirect(request.getContextPath()+"/home/index/"+HttpMessageEnum.THUMB_UP.name()+"/"+toAccount.getId());
+                    response.sendRedirect(request.getContextPath()+"/home/index/thumbUp/"+toAccount.getId());
                 } else {
                     AccessTokenDto accessTokenDto = wechatService.updateToken();
                     String subscribeUrl = fetchIsSubscribeUrl.replace("ACCESS_TOKEN",accessTokenDto.getAccessToken()).replace("OPENID",openId);
