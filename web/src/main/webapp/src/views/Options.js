@@ -8,10 +8,9 @@ class Options extends Component {
     }
     componentWillMount() {
         alert(1);
-        alert(JSON.stringify(this.props))
+        alert(JSON.stringify(this.props));
         if (this.props.match.params.id) {
             window.sessionStorage.setItem('option', window.location.href.split('#')[0]);
-            alert(window.location.href.split('#')[0]);
             this.props.history.push({
                 pathname: '/thumb',
                 state: this.props.match.params.id
@@ -19,8 +18,6 @@ class Options extends Component {
         } else {
             let search = this.props.location.search;
             let opt = getSearchString(search, 'op');
-            alert(search);
-            alert(opt);
             switch (opt) {
                 case 'UNSUBSCRIBE':
                     this.props.history.push('/error');

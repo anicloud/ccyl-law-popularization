@@ -21,9 +21,9 @@ export function jsSdkConfig(axios, host, count) {
     if (isiOS) {
         if (iosVersion >= 11) {
             if (count === 1) {
-                url = 'http://www.12355.org.cn/leg/prize';
-            } else if (count === 2) {
                 url = 'http://www.12355.org.cn/leg/';
+            } else if (count === 2) {
+                url = window.sessionStorage.getItem('option');
             } else {
                 url = window.location.href.split('#')[0];
             }
@@ -32,7 +32,7 @@ export function jsSdkConfig(axios, host, count) {
             if (count === 1) {
                 url = 'http://www.12355.org.cn/leg/';
             } else if (count === 2) {
-                url = 'http://www.12355.org.cn/leg/prize';
+                url = window.sessionStorage.getItem('option');
             } else {
                 url = window.location.href.split('#')[0];
             }
@@ -42,7 +42,7 @@ export function jsSdkConfig(axios, host, count) {
         if (count === 1) {
             url = window.location.href.split('#')[0];
         } else if (count === 2) {
-            url = 'http://www.12355.org.cn/leg/prize';
+            url = window.sessionStorage.getItem('option');
         } else {
             url = 'http://www.12355.org.cn/leg/';
         }
