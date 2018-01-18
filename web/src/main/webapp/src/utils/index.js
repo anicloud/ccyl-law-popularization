@@ -22,30 +22,30 @@ export function jsSdkConfig(axios, host, count) {
     if (isiOS) {
         if (iosVersion >= 11) {
             if (count === 1) {
-                url = encodeURIComponent('http://www.12355.org.cn/leg/');
+                url = 'http://www.12355.org.cn/leg/';
             } else if (count === 2) {
-                url = encodeURIComponent(window.sessionStorage.getItem('option'));
+                url = window.sessionStorage.getItem('option');
             } else {
-                url = encodeURIComponent(window.location.href.split('#')[0]);
+                url = window.location.href.split('#')[0];
             }
 
         } else {
             if (count === 1) {
-                url = encodeURIComponent(window.sessionStorage.getItem('option'));
+                url = window.sessionStorage.getItem('option');
             } else if (count === 2) {
-                url = encodeURIComponent('http://www.12355.org.cn/leg/');
+                url = 'http://www.12355.org.cn/leg/';
             } else {
-                url = encodeURIComponent(window.location.href.split('#')[0]);
+                url = window.location.href.split('#')[0];
             }
 
         }
     } else {
         if (count === 1) {
-            url = encodeURIComponent(window.location.href.split('#')[0]);
+            url = window.location.href.split('#')[0];
         } else if (count === 2) {
-            url = encodeURIComponent('http://www.12355.org.cn/leg/');
+            url = 'http://www.12355.org.cn/leg/';
         } else {
-            url = encodeURIComponent(window.sessionStorage.getItem('option'));
+            url = window.sessionStorage.getItem('option');
         }
 
     }
@@ -62,6 +62,7 @@ export function jsSdkConfig(axios, host, count) {
     }else{
         resultUrl = url;
     }
+    resultUrl = encodeURIComponent(resultUrl);
     /*window.location.href = resultUrl;*/
     alert(resultUrl);
     let time = Math.round(new Date().getTime() / 1000);
