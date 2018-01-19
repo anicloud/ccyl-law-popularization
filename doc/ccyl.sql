@@ -435,7 +435,7 @@ CREATE PROCEDURE proce_init_daily_info()
     FETCH cursor_day_question INTO day_question_id;
     IF (flag=1) THEN
       SET cur_order_num = 1;
-      SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2018-01-15')+1;
+      SET cur_day_num = datediff(date_format(now(),'%Y-%m-%d'),'2018-01-19')+1;
       SET flag=0;
       OPEN cursor_top_xz_question;
       FETCH cursor_top_xz_question INTO day_question_id;
@@ -472,7 +472,7 @@ CREATE PROCEDURE proce_init_daily_info()
 DELIMITER ;
 DROP EVENT IF EXISTS event_init_day_question;
 CREATE EVENT event_init_day_question
-  ON SCHEDULE EVERY 1 DAY STARTS '2018-01-14 00:00:00'
+  ON SCHEDULE EVERY 1 DAY STARTS '2018-01-19 00:00:00'
   ON COMPLETION  PRESERVE
   ENABLE
 DO CALL proce_init_daily_info();
