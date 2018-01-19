@@ -483,6 +483,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
         Map<String,Object> totalInfo =new HashMap<>();
         Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
+       // Date currentTime=new Date(System.currentTimeMillis());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
         String filePath="top20/"+dateString+".json";

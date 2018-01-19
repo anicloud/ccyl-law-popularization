@@ -6,6 +6,7 @@ import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.enums.ScoreSrcTypeEnum;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
+import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,8 @@ import java.util.List;
 public class ScoreRecordController {
     @Autowired
     private ScoreRecordService scoreRecordService;
+    @Autowired
+    private TimerTaskService timerTaskService;
 
 //    @RequestMapping(value = "/findDailyTotalScore",method = RequestMethod.GET)
 //    @ResponseBody
@@ -53,7 +56,7 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
-        if(totalScoreDto != null) {
+        if (totalScoreDto != null) {
             totalScoreDto.setNickName(accountDto.getNickName());
             totalScoreDto.setPortrait(accountDto.getPortrait());
         }
@@ -68,9 +71,9 @@ public class ScoreRecordController {
     public ResponseMessageDto signIn(HttpSession session) {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
-        scoreRecordService.insertScore(accountDto.getId(),Constants.Score.SIGN_IN_SCORE,null, ScoreSrcTypeEnum.SIGN_IN,accountDto.getId());
+        scoreRecordService.insertScore(accountDto.getId(), Constants.Score.SIGN_IN_SCORE, null, ScoreSrcTypeEnum.SIGN_IN, accountDto.getId());
         TotalScoreDto totalScore = scoreRecordService.findTotalScore(accountDto.getId());
-        if(totalScore != null) {
+        if (totalScore != null) {
             totalScore.setPortrait(accountDto.getPortrait());
             totalScore.setNickName(accountDto.getNickName());
         }
@@ -124,6 +127,7 @@ public class ScoreRecordController {
         message.setState(ResponseStateEnum.OK);
         return message;
     }
+
     @RequestMapping(value = "/findAllAwards", method = RequestMethod.GET)
     @ResponseBody
     public ResponseMessageDto findAllAwards(HttpSession session) {
@@ -139,6 +143,7 @@ public class ScoreRecordController {
 
     /**
      * 查找剩余积分
+     *
      * @param session
      * @return
      */
@@ -148,7 +153,7 @@ public class ScoreRecordController {
         ResponseMessageDto message = new ResponseMessageDto();
         AccountDto accountDto = (AccountDto) session.getAttribute(Constants.LOGIN_SESSION);
         TotalScoreDto totalScoreDto = scoreRecordService.findTotalScore(accountDto.getId());
-        if(totalScoreDto != null) {
+        if (totalScoreDto != null) {
             totalScoreDto.setNickName(accountDto.getNickName());
             totalScoreDto.setPortrait(accountDto.getPortrait());
         }
@@ -203,4 +208,13 @@ public class ScoreRecordController {
         message.setState(ResponseStateEnum.OK);
         return message;
     }
+
+    @RequestMapping(value = "/runTask", method = RequestMethod.GET)
+    @ResponseBody
+    public void runTask(HttpSession session) {
+        System.out.println("*************************************************");
+        timerTaskService.runTask();
+    }
+
+
 }

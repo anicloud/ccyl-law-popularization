@@ -12,7 +12,7 @@ public class MyTest {
     TimerTaskService timerTaskService;
     @Test
     public void testi(){
-        timerTaskService.top20ToJson();
+        //timerTaskService.top20ToJson();
     }
 
 }

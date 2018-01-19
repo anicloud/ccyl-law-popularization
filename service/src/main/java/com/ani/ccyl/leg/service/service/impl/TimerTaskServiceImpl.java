@@ -69,61 +69,9 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             }
         }
     }
+
     @Override
-    public void top20ToJson(){
-        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        List<DailyTotalScorePO> scorePOS=dailyTotalScoreMapper.findTop20(dateString);
-        JSONArray top20=new JSONArray();
-        for (DailyTotalScorePO scorePO:scorePOS){
-            AccountPO accountPO=accountMapper.selectByPrimaryKey(scorePO.getAccountId());
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("portrat",accountPO.getPortrait());
-            jsonObject.put("score",scorePO.getScore());
-            jsonObject.put("name",accountPO.getNickName());
-            top20.add(jsonObject);
-        }
-        try {
-            FileWriter fw=new FileWriter(new File("/home/zhanglina/file/aaa.json"));
-            //FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/top20/"+dateString+".json"));
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(top20.toString());
-            bw.flush();
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-    @Override
-    public void provinceRankToJson(){
-//        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        String dateString = formatter.format(currentTime);
-//       // Map<String,Object> infoMap=dailyTotalScoreMapper.findPrivanceInfo(dateString);
-//        JSONArray infoArray=new JSONArray();
-//        Set<String> set=infoMap.keySet();
-//        for (String key:set){
-//            JSONObject jsonObject=new JSONObject();
-//            jsonObject.put(key,infoMap.get(key));
-//            infoArray.add(jsonObject);
-//        }
-//        try {
-//            FileWriter fw=new FileWriter(new File("/home/zhanglina/file/aaa.json"));
-//           // FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/province/"+dateString+".json"));
-//            BufferedWriter bw = new BufferedWriter(fw);
-//            bw.write(infoArray.toString());
-//            bw.flush();
-//
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
-
-
-
-    }
-    @Override
-    @PostConstruct
+//    @PostConstruct
     public void initTimeTask() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
@@ -151,6 +99,23 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             lucky20AwardsPO.setReceivedAward(false);
             lucky20AwardsMapper.updateByPrimaryKeySelective(lucky20AwardsPO);
         }
+    }
+
+    @Override
+    public void runTask() {
+        this.updateDailyTop20();
+        List<AccountPO> accountPOs = accountMapper.findNotInTop20();
+        List<AccountPO> luckyAccounts = new ArrayList<>();
+        if(accountPOs!=null && accountPOs.size()>20) {
+            HashSet<Integer> set = new HashSet<>();
+            randomSet(accountPOs.size(),20,set);
+            for(Integer index:set) {
+                luckyAccounts.add(accountPOs.get(index));
+            }
+        } else if (accountPOs != null){
+            luckyAccounts = accountPOs;
+        }
+        this.insertLucky20(luckyAccounts);
     }
 
     private class MyTimerTask extends TimerTask {
