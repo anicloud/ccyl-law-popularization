@@ -17,7 +17,8 @@ class ShowAnsQuesDetail extends Component{
         this.state = {
             rankingInfo: [],
             location: this.props.location.state? this.props.location.state : '/home',
-        }
+        };
+        this.handleAnswer = this.handleAnswer.bind(this);
     }
     componentDidMount() {
         let _this = this;
@@ -34,10 +35,15 @@ class ShowAnsQuesDetail extends Component{
          console.log(errors);
          })
     }
+
+    handleAnswer() {
+        const {history} = this.props;
+        history.push('/');
+    }
     render(){
         let rankingInfo = this.state.rankingInfo;
         return (
-            <div className='score showAnsQues-bg'>
+            <div className='showThumb showAnsQues-bg'>
                 <div className='clearfix'>
                     <Back location={this.state.location} history={this.props.history} />
                 </div>
@@ -72,6 +78,9 @@ class ShowAnsQuesDetail extends Component{
                         <div className='text-center ranking'><div className="middle">暂无邀请答题相关信息</div></div>
                     )
                 }
+                <div className='text-center thumb-btn'>
+                    <div className='right-now right-thumb' onClick={this.handleAnswer}>继续得分</div>
+                </div>
                 <Toast icon="loading" show={this.props.showLoading}>Loading...</Toast>
                 <Toast icon="warn" show={this.props.showError}>请求失败</Toast>
             </div>
