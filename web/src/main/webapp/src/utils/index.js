@@ -12,61 +12,50 @@ export function getSearchString(search, key) {
     return obj[key];
 }
 
-export function jsSdkConfig(axios, host, count) {
+export function jsSdkConfig(axios, host) {
     let u = window.navigator.userAgent;
     let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     let iosVersion = isiOS ? window.parseInt(u.match(/\(iPhone; CPU iPhone OS ([0-9]+)_.+Mac OS X/)[1]) : '';
     let url = '';
+    // alert(iosVersion);
+    // alert(u);
+    // alert(window.location.href.split('#')[0]);
     if (isiOS) {
         if (iosVersion >= 11) {
-            if (count === 1) {
+            let status = window.sessionStorage.getItem('status');
+            if (status === 'LOGIN_SUCCESS') {
                 url = 'http://www.12355.org.cn/leg/';
-            } else if (count === 2) {
-                url = window.sessionStorage.getItem('option');
+            } else if (status === 'THUMB_UP') {
+                url = 'http://www.12355.org.cn/leg/thumb';
             } else {
-                url = window.location.href.split('#')[0];
+                url = window.sessionStorage.getItem('option');
             }
-
         } else {
-            if (count === 1) {
-                url = 'http://www.12355.org.cn/leg/';
-            } else if (count === 2) {
-                url = window.sessionStorage.getItem('option');
-            } else {
-                url = window.location.href.split('#')[0];
-            }
-
+                url = window.sessionStorage.getItem('option'); // LOGIN_SUCCESS
         }
     } else {
-        if (count === 1) {
             url = window.location.href.split('#')[0];
-        } else if (count === 2) {
-            url = window.sessionStorage.getItem('option');
-        } else {
-            url = 'http://www.12355.org.cn/leg/';
-        }
     }
     let resultUrl = "";
-    if(url.indexOf("from")!==-1){
-        let strs =  url.split("from");
-        if(strs[0].lastIndexOf("?")===strs[0].length-1){
+    if (url.indexOf("from") !== -1) {
+        let strs = url.split("from");
+        if (strs[0].lastIndexOf("?") === strs[0].length - 1) {
             resultUrl = strs[0].split("?")[0];
-        }else if(strs[0].lastIndexOf("&")===strs[0].length-1){
-            resultUrl = strs[0].substring(0,strs[0].length-1);
-        }else{
+        } else if (strs[0].lastIndexOf("&") === strs[0].length - 1) {
+            resultUrl = strs[0].substring(0, strs[0].length - 1);
+        } else {
             resultUrl = strs[0];
         }
-    }else{
+    } else {
         resultUrl = url;
     }
     /*window.location.href = resultUrl;*/
-    alert(resultUrl);
-    let encodeUrl = encodeURIComponent(resultUrl);
-    /*alert(url);*/
+    // alert(resultUrl);
+    resultUrl = encodeURIComponent(resultUrl);
     let time = Math.round(new Date().getTime() / 1000);
     // alert(window.location.href.split('#')[0]);
-    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${encodeUrl}`).then(function (response) {
+    axios.get(`${host}/wechat/getJsSDKConfig?timestamp=${time}&nonceStr=nonceStr&url=${resultUrl}`).then(function (response) {
         if (response.data.state === 0) {
             /*配置微信jssdk*/
             window.wx.config({

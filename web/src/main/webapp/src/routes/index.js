@@ -34,25 +34,24 @@ import ShowThumbUpDetail from '../views/ShowThumbUpDetail';
 
 const Routes = () => (
     <Switch>
-        <Route exact path='/' component={App} />
-        <Route exact path='/home' component={App} />
-        <Route exact path='/regist' component={Regist} />
-        <Route path='/scoreshopping' component={ScoreShopping}/>
-        <Route path='/showAnswerDetail' component={ShowAnsQuesDetail}/>
-        <Route path='/showThumbDetail' component={ShowThumbUpDetail}/>
-        <Route path='/tasks' component={MyScore} />
-        <Route path='/score' component={ScoreBoard} />
-        <Route path='/announce' component={Tasks} />
-        <Route exact path='/prize' component={SharePrize} />
-        <Route path='/thumb' component={ThumbUp} />
-        <Route exact path='/home/index' component={Options} />
-        <Route exact path='/home/index/thumbUp/:id' component={Options} />
-        <Route path='/answer' component={AnswerQuestion} />
-        <Route path='/description' component={Description} />
-        <Route path='/error' component={Error} />
-        <Route path='/upload' component={UploadQuestion} />
+            <Route exact path='/' component={App} />
+            <Route exact path='/home' component={App} />
+            <Route exact path='/regist' component={Regist} />
+            <Route path='/scoreshopping' component={ScoreShopping}/>
+            <Route path='/showAnswerDetail' component={ShowAnsQuesDetail}/>
+            <Route path='/showThumbDetail' component={ShowThumbUpDetail}/>
+            <Route path='/tasks' component={MyScore} />
+            <Route path='/score' component={ScoreBoard} />
+            <Route path='/announce' component={Tasks} />
+            <Route exact path='/prize' component={SharePrize} />
+            <Route path='/thumb' component={ThumbUp} />
+            <Route path='/home/index' component={Options} />
+            <Route path='/answer' component={AnswerQuestion} />
+            <Route path='/description' component={Description} />
+            <Route path='/error' component={Error} />
+            <Route path='/upload' component={UploadQuestion} />
 
-        <Redirect from='*' to='/' />
+            <Redirect from='*' to='/' />
     </Switch>
 );
 
