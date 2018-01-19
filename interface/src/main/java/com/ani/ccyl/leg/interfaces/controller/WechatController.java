@@ -98,7 +98,7 @@ public class WechatController {
     public void redirectNew(Integer toAccountId, String srcAccountJson, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         HttpSession session = request.getSession();
-        srcAccountJson = "{\"openid\":\"orf6ew_iTOFmBrXb9bG5b-IY2TeI\",\"nickname\":\"狂奔的蜗牛\",\"sex\":1,\"language\":\"zh_CN\",\"city\":\"石家庄\",\"province\":\"河北\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132\",\"privilege\":[]}";
+//        srcAccountJson = "{\"openid\":\"orf6ew_iTOFmBrXb9bG5b-IY2TeI\",\"nickname\":\"狂奔的蜗牛\",\"sex\":1,\"language\":\"zh_CN\",\"city\":\"石家庄\",\"province\":\"河北\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132\",\"privilege\":[]}";
         if(!StringUtils.isEmpty(srcAccountJson)) {
             AccountDto accountDto = accountService.insertAccount(JSONObject.fromObject(srcAccountJson));
             Subject subject = SecurityUtils.getSubject();
