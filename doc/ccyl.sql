@@ -470,6 +470,7 @@ CREATE PROCEDURE proce_init_daily_info()
     CLOSE cursor_day_question;
   END $
 DELIMITER ;
+
 DROP EVENT IF EXISTS event_init_day_question;
 CREATE EVENT event_init_day_question
   ON SCHEDULE EVERY 1 DAY STARTS '2018-01-19 00:05:00'
