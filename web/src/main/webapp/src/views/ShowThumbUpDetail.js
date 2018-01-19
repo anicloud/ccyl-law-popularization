@@ -15,7 +15,8 @@ class ShowThumbUpDetail extends Component{
     constructor(props){
         super(props);
         this.state = {
-            rankingInfo: [],
+            rankingInfo: [
+            ],
             location: this.props.location.state? this.props.location.state : '/home',
         };
         this.handleAnswer = this.handleAnswer.bind(this);
