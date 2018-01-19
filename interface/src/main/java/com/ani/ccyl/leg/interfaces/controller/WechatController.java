@@ -98,7 +98,7 @@ public class WechatController {
     public void redirectNew(Integer toAccountId, String srcAccountJson, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=utf-8");
         HttpSession session = request.getSession();
-        srcAccountJson = "{\"openid\":\"orf6ew_iTOFmBrXb9bG5b-IY2TeI\",\"nickname\":\"狂奔的蜗牛\",\"sex\":1,\"language\":\"zh_CN\",\"city\":\"石家庄\",\"province\":\"河北\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132\",\"privilege\":[]}";
+//        srcAccountJson = "{\"openid\":\"orf6ew_iTOFmBrXb9bG5b-IY2TeI\",\"nickname\":\"狂奔的蜗牛\",\"sex\":1,\"language\":\"zh_CN\",\"city\":\"石家庄\",\"province\":\"河北\",\"country\":\"中国\",\"headimgurl\":\"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKicVRn27Eo1qZJbicicMVIEIaVicIibic4ic111n0H6lzsicqIoJiaqHpy8cn6Go483ZiaczuVPSumFgIBeYUw/132\",\"privilege\":[]}";
         if(!StringUtils.isEmpty(srcAccountJson)) {
             AccountDto accountDto = accountService.insertAccount(JSONObject.fromObject(srcAccountJson));
             Subject subject = SecurityUtils.getSubject();
@@ -147,14 +147,14 @@ public class WechatController {
                         shareRelationService.insert(toAccount.getId(),loginAccount.getId(),false);
                     response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.THUMB_UP.name()+"&id="+toAccount.getId());
                 } else {
-                    AccessTokenDto accessTokenDto = wechatService.updateToken();
-                    String subscribeUrl = fetchIsSubscribeUrl.replace("ACCESS_TOKEN",accessTokenDto.getAccessToken()).replace("OPENID",openId);
-                    JSONObject subscribeInfo = WechatUtil.httpRequest(subscribeUrl,"GET",null);
+//                    AccessTokenDto accessTokenDto = wechatService.updateToken();
+//                    String subscribeUrl = fetchIsSubscribeUrl.replace("ACCESS_TOKEN",accessTokenDto.getAccessToken()).replace("OPENID",openId);
+//                    JSONObject subscribeInfo = WechatUtil.httpRequest(subscribeUrl,"GET",null);
 //                    if(subscribeInfo != null && subscribeInfo.containsKey("subscribe")&&subscribeInfo.getString("subscribe").equals("0")) {
 //                        response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.UNSUBSCRIBE.name());
 //                    } else {
                         response.sendRedirect(request.getContextPath() + "/home/index?op=" + HttpMessageEnum.LOGIN_SUCCESS.name());
-              //      }
+//                    }
                 }
             } else if(tokenObj.containsKey("errcode")) {
                 response.sendRedirect(request.getContextPath()+"/home/index?op="+HttpMessageEnum.LOGIN_FAILURE.name());
