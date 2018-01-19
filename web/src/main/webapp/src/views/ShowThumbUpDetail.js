@@ -36,8 +36,26 @@ class ShowThumbUpDetail extends Component{
          })
     }
     handleAnswer() {
-        const {history} = this.props;
-        history.push('/');
+        let _this = this;
+        const {history, host} = _this.props;
+        axios.get(`${host}/share/findShareInfo`).then(function (response) {
+            if (response.data.state === 0) {
+                let scoreInfo = response.data.data;
+                if (scoreInfo.correctCount === 0) {
+                    history.push({
+                        pathname: '/answer',
+                        state: '/tasks'
+                    });
+                } else {
+                    history.push({
+                        pathname: '/prize',
+                        state: '/tasks'
+                    });
+                }
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
     }
 
     render(){
