@@ -66,7 +66,7 @@ class Root extends Component {
         /*_this.setState({
             showLoading: false
         });*/
-        jsSdkConfig(axios, store.getState().host);
+        /*jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             window.wx.getLocation({
                 success: function (res) {
@@ -76,7 +76,7 @@ class Root extends Component {
                         console.log(errors);
                     })
                 }
-            });
+            });*/
             /*axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     window.wx.onMenuShareTimeline({
@@ -97,7 +97,7 @@ class Root extends Component {
             }).catch(function (errors) {
                 console.log(errors);
             });*/
-        });
+        /*});*/
     }
     render() {
         let showLoading = this.state.showLoading;
