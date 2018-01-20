@@ -66,7 +66,7 @@ class Root extends Component {
         /*_this.setState({
             showLoading: false
         });*/
-        /*jsSdkConfig(axios, store.getState().host);
+        jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
             // alert('root ready');
             window.wx.getLocation({
@@ -78,7 +78,7 @@ class Root extends Component {
                     })
                 }
             });
-            axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
+            /*axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     window.wx.onMenuShareTimeline({
                         title: '我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品',
@@ -97,8 +97,8 @@ class Root extends Component {
                 }
             }).catch(function (errors) {
                 console.log(errors);
-            });
-        });*/
+            });*/
+        });
         /*window.wx.error(function(res) {
             if (res.errMsg === 'config:require subscribe') {
                 _this.setState({
