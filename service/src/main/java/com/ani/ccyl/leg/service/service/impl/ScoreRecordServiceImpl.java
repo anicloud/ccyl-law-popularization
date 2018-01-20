@@ -480,10 +480,8 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public Map<String, Object> findTotalInfo(){
-
         Map<String,Object> totalInfo =new HashMap<>();
         Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-       // Date currentTime=new Date(System.currentTimeMillis());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
         String filePath="top20/"+dateString+".json";
@@ -491,7 +489,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         if (totalInfo!=null && totalInfo.size()!=0){
             return totalInfo;
         }
-//        List<DailyTotalScorePO> scorePOS=dailyTotalScoreMapper.findTop20(dateString);
         List<Top20AwardsPO> awardsPOS = top20AwardsMapper.findByDate(dateString);
         List<Top20Dto> top20Dtos=new ArrayList<>();
         for (Top20AwardsPO top20AwardsPO:awardsPOS){

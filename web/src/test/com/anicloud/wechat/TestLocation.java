@@ -4,6 +4,7 @@ import com.ani.ccyl.leg.commons.utils.LocationUtil;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -17,8 +18,12 @@ public class TestLocation {
 
     @Test
     public void testDate() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String date = simpleDateFormat.format(new Date(System.currentTimeMillis()-24*60*60*1000));
-        System.out.print(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,17);
+        calendar.set(Calendar.MINUTE,31);
+        calendar.set(Calendar.SECOND,59);
+        Date date = calendar.getTime();
+        System.out.println(date.getTime());
+        System.out.print(System.currentTimeMillis());
     }
 }
