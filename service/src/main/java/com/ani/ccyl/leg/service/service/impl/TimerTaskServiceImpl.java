@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.*;
+import com.ani.ccyl.leg.persistence.service.facade.DailyTotalScorePersistenceService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
 import net.sf.json.JSONArray;
@@ -26,7 +27,7 @@ import java.util.*;
 public class TimerTaskServiceImpl implements TimerTaskService {
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     @Autowired
-    DailyTotalScoreMapper dailyTotalScoreMapper;
+    private DailyTotalScorePersistenceService dailyTotalScorePersistenceService;
     @Autowired
     private ScoreRecordService scoreRecordService;
     @Autowired
@@ -39,23 +40,20 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     private TotalScoreMapper totalScoreMapper;
     @Override
     public void updateDailyTop20() {
-        List<Top20Dto> top20Dtos = null;
-        try {
-            top20Dtos = scoreRecordService.findDailyTop20();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        if(top20Dtos != null) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDateFormat.format(new Date(System.currentTimeMillis()-24*60*60*1000));
+        List<DailyTotalScorePO> dailyTotalScorePOS = dailyTotalScorePersistenceService.findTop20(date);
+        if(dailyTotalScorePOS != null) {
             int order = 1;
-            for(Top20Dto top20Dto:top20Dtos) {
+            for(DailyTotalScorePO top20PO:dailyTotalScorePOS) {
                 Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByType(AwardTypeEnum.getTopEnum(order).getCode());
-                top20AwardsPO.setAccountId(top20Dto.getId());
+                top20AwardsPO.setAccountId(top20PO.getAccountId());
                 top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20AwardsPO.setDel(true);
                 top20AwardsPO.setReceivedAward(true);
-                if(top20Dto.getId()!=null) {
+                if(top20PO.getAccountId()!=null) {
                     TotalScorePO totalScorePO = new TotalScorePO();
-                    totalScorePO.setAccountId(top20Dto.getId());
+                    totalScorePO.setAccountId(top20PO.getAccountId());
                     List<TotalScorePO> scorePOS = totalScoreMapper.select(totalScorePO);
                     if(scorePOS != null) {
                         for(TotalScorePO totalScorePO1:scorePOS) {
