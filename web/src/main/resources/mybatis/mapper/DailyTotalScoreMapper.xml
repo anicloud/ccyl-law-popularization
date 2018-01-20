@@ -13,7 +13,7 @@
     <select id="findPrivanceInfo" parameterType="java.lang.String" resultType="com.ani.ccyl.leg.commons.dto.ProvinceInfoDto">
       SELECT sum(score) as total_score ,avg(score) AS average_score,count(account_id) as people_number,province FROM t_daily_total_score where log_date =#{logDate} GROUP BY province
     </select>
-    <select id="findByAccAndDate" parameterType="java.util.Map" resultType="com.ani.ccyl.leg.persistence.po.DailyTotalScorePO">
+    <select id="findByAccAndDate" parameterType="java.util.Map" resultType="java.lang.Integer">
         SELECT score FROM t_daily_total_score WHERE account_id=#{accountId} AND log_date=#{logDate} LIMIT 1
     </select>
 </mapper>
