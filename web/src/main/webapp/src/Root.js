@@ -98,9 +98,6 @@ class Root extends Component {
                 console.log(errors);
             });*/
         });
-        window.wx.error(function(res) {
-
-        });
     }
     render() {
         let showLoading = this.state.showLoading;
