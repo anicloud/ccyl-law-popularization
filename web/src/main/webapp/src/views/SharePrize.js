@@ -136,18 +136,18 @@ class SharePrize extends Component {
                 console.log(errors);
             });
         });
-        window.wx.error(function(res) {
+        /*window.wx.error(function(res) {
             // alert(res.errMsg);
-            /*_this.props.handleJsConfig(_this.props.countJsSdk + 1);*/
-            /*let count = _this.state.count+1;
+            /!*_this.props.handleJsConfig(_this.props.countJsSdk + 1);*!/
+            /!*let count = _this.state.count+1;
             _this.setState({
                count:count,
-            });*/
-            /*alert(_this.state.count);*/
-           /* if (_this.state.count <= 4) {
+            });*!/
+            /!*alert(_this.state.count);*!/
+           /!* if (_this.state.count <= 4) {
                 jsSdkConfig(axios, host);
-            }*/
-        });
+            }*!/
+        });*/
     }
 
     componentWillUnmount() {
