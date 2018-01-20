@@ -73,20 +73,20 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     @Override
 //    @PostConstruct
     public void initTimeTask() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        Date date=calendar.getTime(); //第一次执行定时任务的时间
-        //如果第一次执行定时任务的时间 小于当前的时间
-        //此时要在 第一次执行定时任务的时间加一天，以便此任务在下个时间点执行。如果不加一天，任务会立即执行。
-        if (date.before(new Date())) {
-            date = this.addDay(date, 1);
-        }
-        Timer timer = new Timer();
-        MyTimerTask task = new MyTimerTask(this);
-        //安排指定的任务在指定的时间开始进行重复的固定延迟执行。
-        timer.schedule(task,date,PERIOD_DAY);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+//        Date date=calendar.getTime(); //第一次执行定时任务的时间
+//        //如果第一次执行定时任务的时间 小于当前的时间
+//        //此时要在 第一次执行定时任务的时间加一天，以便此任务在下个时间点执行。如果不加一天，任务会立即执行。
+//        if (date.before(new Date())) {
+//            date = this.addDay(date, 1);
+//        }
+//        Timer timer = new Timer();
+//        MyTimerTask task = new MyTimerTask(this);
+//        //安排指定的任务在指定的时间开始进行重复的固定延迟执行。
+//        timer.schedule(task,date,PERIOD_DAY);
     }
     @Override
     public void insertLucky20(List<AccountPO> lucky20POs) {

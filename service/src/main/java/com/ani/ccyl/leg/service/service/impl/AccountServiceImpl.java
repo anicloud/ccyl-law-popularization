@@ -60,10 +60,12 @@ public class AccountServiceImpl implements AccountService {
             accountPO.setAccountPwd(Encrypt.md5hash(Constants.DEFAULT_PWD,openId));
             accountPO.setDel(false);
             accountPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            accountPO.setProvince(ProvinceEnum.getEnum(province));
             accountMapper.insertSelective(accountPO);
         } else {
             accountPO.setId(accountPOs.get(0).getId());
             accountPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            accountPO.setProvince(ProvinceEnum.getEnum(province));
             accountMapper.updateByPrimaryKeySelective(accountPO);
             isNew = false;
         }
