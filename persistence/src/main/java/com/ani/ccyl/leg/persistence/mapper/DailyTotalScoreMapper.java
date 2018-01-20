@@ -12,4 +12,6 @@ public interface DailyTotalScoreMapper extends SysMapper<DailyTotalScorePO> {
     Integer findRankByAccountId(Map<String,Object> paramMap);
 
     List<ProvinceInfoDto> findPrivanceInfo(String logDate);
+
+    Integer findByAccAndDate(Map<String,Object> paraMMap);
 }
