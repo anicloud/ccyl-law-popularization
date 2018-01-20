@@ -3,6 +3,8 @@ package com.anicloud.wechat;
 import com.ani.ccyl.leg.commons.utils.LocationUtil;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,5 +27,11 @@ public class TestLocation {
         Date date = calendar.getTime();
         System.out.println(date.getTime());
         System.out.print(System.currentTimeMillis());
+    }
+
+    @Test
+    public void testNickName() throws UnsupportedEncodingException {
+        String nickName = URLEncoder.encode("六月雪","utf-8");
+        System.out.print(nickName);
     }
 }
