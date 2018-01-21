@@ -127,7 +127,10 @@ public class WechatUtil {
                 accessToken.setTokenCreateTime(new Timestamp(System.currentTimeMillis()));
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new WechatException("获取token失败",ExceptionEnum.WECHAT_TOKEN_ERROR);
+                String errorCode = "";
+                if(jsonObject.containsKey("errcode"))
+                    errorCode = jsonObject.getString("errcode");
+                throw new WechatException("获取token失败:"+errorCode,ExceptionEnum.WECHAT_TOKEN_ERROR);
             }
         }
         return accessToken;

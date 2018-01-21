@@ -60,10 +60,12 @@ public class AccountServiceImpl implements AccountService {
             accountPO.setAccountPwd(Encrypt.md5hash(Constants.DEFAULT_PWD,openId));
             accountPO.setDel(false);
             accountPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+            accountPO.setProvince(ProvinceEnum.getEnum(province));
             accountMapper.insertSelective(accountPO);
         } else {
             accountPO.setId(accountPOs.get(0).getId());
             accountPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            accountPO.setProvince(ProvinceEnum.getEnum(province));
             accountMapper.updateByPrimaryKeySelective(accountPO);
             isNew = false;
         }
@@ -119,7 +121,7 @@ public class AccountServiceImpl implements AccountService {
         List<CsvDto> csvDtos = new ArrayList<>();
         for(ProvinceEnum provinceEnum:ProvinceEnum.values()) {
             Map<String,Object> paramMap = new HashMap<>();
-            paramMap.put("createTime", new Timestamp(System.currentTimeMillis()));
+            paramMap.put("createTime", new Timestamp(System.currentTimeMillis()-24*60*60*1000L));
             paramMap.put("province", provinceEnum.getCode());
             List<ScoreRecordPO> provinceOrder = scoreRecordMapper.findProvinceOrder(paramMap);
             if (provinceOrder != null&&provinceOrder.size()>0) {
@@ -142,7 +144,7 @@ public class AccountServiceImpl implements AccountService {
         if(!file.exists()) {
             file.mkdirs();
         }
-        String resultPath = path+simpleDateFormat.format(new Date())+".csv";
+        String resultPath = path+simpleDateFormat.format(new Date(System.currentTimeMillis()-24*60*60*1000L))+".csv";
         CSVUtil.exportCsv(resultPath,csvStrs);
         return resultPath;
     }

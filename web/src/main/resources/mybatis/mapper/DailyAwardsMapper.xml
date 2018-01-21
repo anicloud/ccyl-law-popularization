@@ -17,6 +17,6 @@
         SELECT count(*) FROM t_daily_awards WHERE type=#{type} AND is_del=0 AND account_id IS NULL
     </select>
     <select id="find34Count" resultType="java.lang.Integer">
-        SELECT count(id) FROM ccyl.t_daily_awards WHERE type IN (3,4)
+        SELECT count(id) FROM t_daily_awards WHERE type IN (3,4)
     </select>
 </mapper>

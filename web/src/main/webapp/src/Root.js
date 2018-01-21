@@ -68,7 +68,6 @@ class Root extends Component {
         });*/
         /*jsSdkConfig(axios, store.getState().host);
         window.wx.ready(function () {
-            // alert('root ready');
             window.wx.getLocation({
                 success: function (res) {
                     axios.get(`${store.getState().host}/account/updateProvince?log=${res.longitude}&lat=${res.latitude}`).then(function (response) {
@@ -77,8 +76,8 @@ class Root extends Component {
                         console.log(errors);
                     })
                 }
-            });
-            axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
+            });*/
+            /*axios.get(`${store.getState().host}/share/findShareInfo`).then(function (response) {
                 if (response.data.state === 0) {
                     window.wx.onMenuShareTimeline({
                         title: '我正在争当普法先锋，大家快来给我点赞，助我涨积分赢奖品',
@@ -97,17 +96,8 @@ class Root extends Component {
                 }
             }).catch(function (errors) {
                 console.log(errors);
-            });
-        });*/
-        /*window.wx.error(function(res) {
-            if (res.errMsg === 'config:require subscribe') {
-                _this.setState({
-                    isError: true
-                })
-            }
-            console.log('errInfo');
-            alert(res.errMsg);
-        });*/
+            });*/
+        /*});*/
     }
     render() {
         let showLoading = this.state.showLoading;

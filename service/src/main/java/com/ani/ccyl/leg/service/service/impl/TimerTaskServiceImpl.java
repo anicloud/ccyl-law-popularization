@@ -5,6 +5,7 @@ import com.ani.ccyl.leg.commons.enums.AwardTypeEnum;
 import com.ani.ccyl.leg.persistence.mapper.*;
 import com.ani.ccyl.leg.persistence.mapper.base.SysMapper;
 import com.ani.ccyl.leg.persistence.po.*;
+import com.ani.ccyl.leg.persistence.service.facade.DailyTotalScorePersistenceService;
 import com.ani.ccyl.leg.service.service.facade.ScoreRecordService;
 import com.ani.ccyl.leg.service.service.facade.TimerTaskService;
 import net.sf.json.JSONArray;
@@ -26,7 +27,7 @@ import java.util.*;
 public class TimerTaskServiceImpl implements TimerTaskService {
     private static final long PERIOD_DAY = 24 * 60 * 60 * 1000;
     @Autowired
-    DailyTotalScoreMapper dailyTotalScoreMapper;
+    private DailyTotalScorePersistenceService dailyTotalScorePersistenceService;
     @Autowired
     private ScoreRecordService scoreRecordService;
     @Autowired
@@ -39,23 +40,20 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     private TotalScoreMapper totalScoreMapper;
     @Override
     public void updateDailyTop20() {
-        List<Top20Dto> top20Dtos = null;
-        try {
-            top20Dtos = scoreRecordService.findDailyTop20();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        if(top20Dtos != null) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = simpleDateFormat.format(new Date(System.currentTimeMillis()-24*60*60*1000));
+        List<DailyTotalScorePO> dailyTotalScorePOS = dailyTotalScorePersistenceService.findTop20(date);
+        if(dailyTotalScorePOS != null) {
             int order = 1;
-            for(Top20Dto top20Dto:top20Dtos) {
+            for(DailyTotalScorePO top20PO:dailyTotalScorePOS) {
                 Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByType(AwardTypeEnum.getTopEnum(order).getCode());
-                top20AwardsPO.setAccountId(top20Dto.getId());
+                top20AwardsPO.setAccountId(top20PO.getAccountId());
                 top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20AwardsPO.setDel(true);
                 top20AwardsPO.setReceivedAward(true);
-                if(top20Dto.getId()!=null) {
+                if(top20PO.getAccountId()!=null) {
                     TotalScorePO totalScorePO = new TotalScorePO();
-                    totalScorePO.setAccountId(top20Dto.getId());
+                    totalScorePO.setAccountId(top20PO.getAccountId());
                     List<TotalScorePO> scorePOS = totalScoreMapper.select(totalScorePO);
                     if(scorePOS != null) {
                         for(TotalScorePO totalScorePO1:scorePOS) {
@@ -69,76 +67,24 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             }
         }
     }
+
     @Override
-    public void top20ToJson(){
-        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        List<DailyTotalScorePO> scorePOS=dailyTotalScoreMapper.findTop20(dateString);
-        JSONArray top20=new JSONArray();
-        for (DailyTotalScorePO scorePO:scorePOS){
-            AccountPO accountPO=accountMapper.selectByPrimaryKey(scorePO.getAccountId());
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("portrat",accountPO.getPortrait());
-            jsonObject.put("score",scorePO.getScore());
-            jsonObject.put("name",accountPO.getNickName());
-            top20.add(jsonObject);
-        }
-        try {
-            FileWriter fw=new FileWriter(new File("/home/zhanglina/file/aaa.json"));
-            //FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/top20/"+dateString+".json"));
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(top20.toString());
-            bw.flush();
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-    @Override
-    public void provinceRankToJson(){
-//        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//        String dateString = formatter.format(currentTime);
-//       // Map<String,Object> infoMap=dailyTotalScoreMapper.findPrivanceInfo(dateString);
-//        JSONArray infoArray=new JSONArray();
-//        Set<String> set=infoMap.keySet();
-//        for (String key:set){
-//            JSONObject jsonObject=new JSONObject();
-//            jsonObject.put(key,infoMap.get(key));
-//            infoArray.add(jsonObject);
-//        }
-//        try {
-//            FileWriter fw=new FileWriter(new File("/home/zhanglina/file/aaa.json"));
-//           // FileWriter fw = new FileWriter(new File("/home/anicloud/third/apache-tomcat-8.0.36/webapps/leg/files"+"/province/"+dateString+".json"));
-//            BufferedWriter bw = new BufferedWriter(fw);
-//            bw.write(infoArray.toString());
-//            bw.flush();
-//
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
-
-
-
-    }
-    @Override
-    @PostConstruct
+//    @PostConstruct
     public void initTimeTask() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        Date date=calendar.getTime(); //第一次执行定时任务的时间
-        //如果第一次执行定时任务的时间 小于当前的时间
-        //此时要在 第一次执行定时任务的时间加一天，以便此任务在下个时间点执行。如果不加一天，任务会立即执行。
-        if (date.before(new Date())) {
-            date = this.addDay(date, 1);
-        }
-        Timer timer = new Timer();
-        MyTimerTask task = new MyTimerTask(this);
-        //安排指定的任务在指定的时间开始进行重复的固定延迟执行。
-        timer.schedule(task,date,PERIOD_DAY);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 1); //凌晨1点
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+//        Date date=calendar.getTime(); //第一次执行定时任务的时间
+//        //如果第一次执行定时任务的时间 小于当前的时间
+//        //此时要在 第一次执行定时任务的时间加一天，以便此任务在下个时间点执行。如果不加一天，任务会立即执行。
+//        if (date.before(new Date())) {
+//            date = this.addDay(date, 1);
+//        }
+//        Timer timer = new Timer();
+//        MyTimerTask task = new MyTimerTask(this);
+//        //安排指定的任务在指定的时间开始进行重复的固定延迟执行。
+//        timer.schedule(task,date,PERIOD_DAY);
     }
     @Override
     public void insertLucky20(List<AccountPO> lucky20POs) {
@@ -151,6 +97,23 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             lucky20AwardsPO.setReceivedAward(false);
             lucky20AwardsMapper.updateByPrimaryKeySelective(lucky20AwardsPO);
         }
+    }
+
+    @Override
+    public void runTask() {
+        this.updateDailyTop20();
+        List<AccountPO> accountPOs = accountMapper.findNotInTop20();
+        List<AccountPO> luckyAccounts = new ArrayList<>();
+        if(accountPOs!=null && accountPOs.size()>20) {
+            HashSet<Integer> set = new HashSet<>();
+            randomSet(accountPOs.size(),20,set);
+            for(Integer index:set) {
+                luckyAccounts.add(accountPOs.get(index));
+            }
+        } else if (accountPOs != null){
+            luckyAccounts = accountPOs;
+        }
+        this.insertLucky20(luckyAccounts);
     }
 
     private class MyTimerTask extends TimerTask {

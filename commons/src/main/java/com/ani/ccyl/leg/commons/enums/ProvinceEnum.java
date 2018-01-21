@@ -12,7 +12,7 @@ public enum ProvinceEnum implements BaseEnum<ProvinceEnum, Integer> {
     FU_JIAN(3,"福建省"),
     GAN_SU(4,"甘肃省"),
     GUANG_DONG(5,"广东省"),
-    GUANG_XI(6,"广西省"),
+    GUANG_XI(6,"广西省广西壮族自治区"),
     GUI_ZHOU(7,"贵州省"),
     HAI_NAN(8,"海南省"),
     HE_BEI(9,"河北省"),
@@ -24,23 +24,23 @@ public enum ProvinceEnum implements BaseEnum<ProvinceEnum, Integer> {
     JIANG_SU(15,"江苏省"),
     JIANG_XI(16,"江西省"),
     LIAO_NING(17,"辽宁省"),
-    INNER_MONGORIA(18,"内蒙古"),
-    NING_XIA(19,"宁夏"),
-    QING_HAI(20,"青海"),
+    INNER_MONGORIA(18,"内蒙古自治区"),
+    NING_XIA(19,"宁夏回族自治区"),
+    QING_HAI(20,"青海省"),
     SHAN_DONG(21,"山东省"),
     SHAN_XI(22,"山西省"),
     SHAAN_XI(23,"陕西省"),
     SHANG_HAI(24,"上海市"),
     SI_CHUAN(25,"四川省"),
     TIAN_JIN(26,"天津市"),
-    TIBET(27,"西藏"),
-    XIN_JIANG(28,"新疆"),
+    TIBET(27,"西藏自治区"),
+    XIN_JIANG(28,"新疆维吾尔自治区"),
     YUN_NAN(29,"云南省"),
     ZHE_JIANG(30,"浙江省"),
     CHONG_QING(31,"重庆市"),
-    MACAO(32,"澳门"),
-    HONG_KONG(33,"香港"),
-    TAI_WAN(34,"台湾"),
+    MACAO(32,"中华人民共和国澳门特别行政区"),
+    HONG_KONG(33,"中华人民共和国香港特别行政区"),
+    TAI_WAN(34,"台湾省"),
     NUll(35,"未定位");
     private Integer code;
     private String value;
@@ -79,7 +79,7 @@ public enum ProvinceEnum implements BaseEnum<ProvinceEnum, Integer> {
 
     public static ProvinceEnum getEnum(String value) {
         for(ProvinceEnum provinceEnum:ProvinceEnum.values()) {
-            if(value.contains(provinceEnum.getValue())) {
+            if(provinceEnum.getValue().contains(value)) {
                 return provinceEnum;
             }
         }

@@ -480,7 +480,6 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
     @Override
     public Map<String, Object> findTotalInfo(){
-
         Map<String,Object> totalInfo =new HashMap<>();
         Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -490,10 +489,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         if (totalInfo!=null && totalInfo.size()!=0){
             return totalInfo;
         }
-        List<DailyTotalScorePO> scorePOS=dailyTotalScoreMapper.findTop20(dateString);
+        List<Top20AwardsPO> awardsPOS = top20AwardsMapper.findByDate(dateString);
         List<Top20Dto> top20Dtos=new ArrayList<>();
-        for (DailyTotalScorePO scorePO:scorePOS){
-            AccountPO accountPO=accountMapper.selectByPrimaryKey(scorePO.getAccountId());
+        for (Top20AwardsPO top20AwardsPO:awardsPOS){
+            AccountPO accountPO=accountMapper.selectByPrimaryKey(top20AwardsPO.getAccountId());
             Top20Dto top20Dto=new Top20Dto();
             try {
                 top20Dto.setName(URLDecoder.decode(accountPO.getNickName(), "utf-8"));
@@ -501,7 +500,10 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
                 e.printStackTrace();
             }
             top20Dto.setPortrat(accountPO.getPortrait());
-            top20Dto.setScore(scorePO.getScore());
+            Map<String,Object> paramMap = new HashMap<>();
+            paramMap.put("accountId",top20AwardsPO.getAccountId());
+            paramMap.put("logDate",dateString);
+            top20Dto.setScore(dailyTotalScoreMapper.findByAccAndDate(paramMap));
             top20Dtos.add(top20Dto);
         }
 

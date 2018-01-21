@@ -11,7 +11,7 @@ public interface TimerTaskService {
     void updateDailyTop20();
     void initTimeTask();
     void insertLucky20(List<AccountPO> lucky20POs);
-
-    void top20ToJson();
-    void provinceRankToJson();
+    void runTask();
+//    void top20ToJson();
+//    void provinceRankToJson();
 }
