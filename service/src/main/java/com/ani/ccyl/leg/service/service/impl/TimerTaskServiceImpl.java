@@ -47,6 +47,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             int order = 1;
             for(DailyTotalScorePO top20PO:dailyTotalScorePOS) {
                 Top20AwardsPO top20AwardsPO = top20AwardsMapper.findByType(AwardTypeEnum.getTopEnum(order).getCode());
+                if(top20AwardsPO == null)
+                    return;
                 top20AwardsPO.setAccountId(top20PO.getAccountId());
                 top20AwardsPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                 top20AwardsPO.setDel(true);

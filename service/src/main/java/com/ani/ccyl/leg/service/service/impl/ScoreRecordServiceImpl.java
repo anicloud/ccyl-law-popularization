@@ -489,7 +489,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         if (totalInfo!=null && totalInfo.size()!=0){
             return totalInfo;
         }
-        List<Top20AwardsPO> awardsPOS = top20AwardsMapper.findByDate(dateString);
+        List<Top20AwardsPO> awardsPOS = top20AwardsMapper.findByDate(formatter.format(new Date(System.currentTimeMillis())));
         List<Top20Dto> top20Dtos=new ArrayList<>();
         for (Top20AwardsPO top20AwardsPO:awardsPOS){
             AccountPO accountPO=accountMapper.selectByPrimaryKey(top20AwardsPO.getAccountId());

@@ -31,7 +31,7 @@ public class TestLocation {
 
     @Test
     public void testNickName() throws UnsupportedEncodingException {
-        String nickName = URLEncoder.encode("六月雪","utf-8");
+        String nickName = URLEncoder.encode("lg985507","utf-8");
         System.out.print(nickName);
     }
 }
