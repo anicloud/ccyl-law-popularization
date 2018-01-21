@@ -19,6 +19,10 @@
   ProvinceInfoDto noLocation = null;
   for(ProvinceInfoDto infoDto : provinceList){
     if (!"未定位".equals(infoDto.getProvince())){
+      if(infoDto.getProvince().contains("中华人民共和国")&&infoDto.getProvince().length()>7){
+        String province = infoDto.getProvince().substring(7);
+        infoDto.setProvince(province);
+      }
       provinceNewList.add(infoDto);
     }else{
       noLocation = infoDto;
@@ -171,25 +175,25 @@
     }
     .phb2-detail .info .second {
       float:left;
-      width:20%;
+      width:23%;
       text-align:center;
       font-size: .2rem;
     }
     .phb2-detail .info .third {
       float:left;
-      width:22.5%;
+      width:21.5%;
       text-align:center;
       font-size: .2rem;
     }
     .phb2-detail .info .four {
       float:left;
-      width:22.5%;
+      width:21.5%;
       text-align:center;
       font-size: .2rem;
     }
     .phb2-detail .info .five {
       float:left;
-      width:22.5%;
+      width:21.5%;
       text-align:center;
       font-size: .2rem;
     }
@@ -217,7 +221,7 @@
     .phb2-detail .top-ranking .rank-second{
       font-size:.2rem;
       float:left;
-      width:20%;
+      width:23%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
@@ -225,7 +229,7 @@
     .phb2-detail .top-ranking .rank-third{
       font-size:.2rem;
       float:left;
-      width:22.5%;
+      width:21.5%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
@@ -233,7 +237,7 @@
     .phb2-detail .top-ranking .rank-four{
       font-size:.2rem;
       float:left;
-      width:22.5%;
+      width:21.5%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
@@ -242,7 +246,7 @@
     .phb2-detail .top-ranking .rank-five{
       font-size:.2rem;
       float:left;
-      width:22.5%;
+      width:21.5%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
