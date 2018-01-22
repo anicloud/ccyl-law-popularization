@@ -260,12 +260,12 @@
   <title></title>
 </head>
 <body>
-<div class="bkg">
-  <div class="paihangbang">
-    <div class="paihangbang1">
-      <div class="phb1-title"></div>
-      <div class="phb1-detail" id="top20Rank">
-        <div class='clearfix info'>
+<div style="height:8rem;width:100%;background-color: #fff;">
+  <div style="height:8rem;width:80%;margin:0.2rem auto 0;border-radius:5px;clear:both;">
+    <div style="height:100%;width:49%;border-radius:5px;float:left;background-color: #45caef;">
+      <div style="background:#45caef url('${pageContext.request.contextPath}/build/assets/images/glory_title.png') bottom center no-repeat;height:15%;margin-left:.4rem;border-radius:5px;"></div>
+      <div style="overflow:auto;height:85%;width:100%;border-radius:5px;" id="top20Rank">
+        <div class='clearfix' style="background-color: #fff;color: #000000;line-height: .64rem;margin-top: .2rem;letter-spacing: .02rem;font-size: .26rem;border-radius: .08rem;margin-left:.2rem;margin-right:.2rem;">
           <div style="float:left;width:40%;text-align:center;font-size: .2rem;">
             得分
           </div>
@@ -276,7 +276,7 @@
         <%
           for(int i=0;i<topList.size();i++){
         %>
-        <div class='clearfix top-ranking'>
+        <div class='clearfix' style="margin-top: .2rem;margin-bottom: .2rem;margin-left:.2rem;margin-right:.2rem;font-size: .1rem;background-color: #fff;height: .7rem;border-radius: .08rem;box-shadow: .02rem .02rem .1rem rgba(0, 0, 0, .5);">
           <div style="width:15%;float:left;text-align:center;">
             <img src='<%=topList.get(i).getPortrat()%>' style="padding-top:.01rem;width: .68rem;height:.68rem;border-radius: 50%;" alt=''/>
           </div>
@@ -291,10 +291,10 @@
         %>
       </div>
     </div>
-    <div class="paihangbang2">
-      <div class="phb2-title"></div>
-      <div class="phb2-detail" id="provinceRank">
-        <div class='clearfix info'>
+    <div style="margin-left:1.4%;height:100%;width:49%;border-radius:5px;background-color: #45caef;float:left;">
+      <div style="background:#45caef url('${pageContext.request.contextPath}/build/assets/images/national_rank.png') bottom center no-repeat;height:15%;margin-left:.4rem;border-radius:5px;"></div>
+      <div style="overflow:auto;height:85%;width:100%;border-radius:5px;" id="provinceRank">
+        <div class='clearfix' style="background-color: #fff;color: #000000;line-height: .64rem;margin-top: .2rem;letter-spacing: .02rem;font-size: .26rem;border-radius: .08rem;margin-left:.2rem;margin-right:.2rem;">
           <div style="float:left;width:12.5%;text-align:center;font-size: .2rem;">
             排名
           </div>
@@ -314,7 +314,7 @@
         <%
           for(int j=0;j<provinceNewList.size();j++){
         %>
-        <div class='clearfix top-ranking'>
+        <div class='clearfix' style="margin-top: .2rem;margin-bottom: .2rem;margin-left:.1rem;margin-right:.1rem;font-size: .1rem;background-color: #fff;height: .7rem;border-radius: .08rem;box-shadow: .02rem .02rem .1rem rgba(0, 0, 0, .5);">
           <div style="font-size:.3rem;float:left;width:12.5%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=j+1%></div>
           <div style="font-size:.2rem;float:left;width:24.5%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=provinceNewList.get(j).getProvince()%></div>
           <div style="font-size:.2rem;float:left;width:21%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=provinceNewList.get(j).getAverageScore()%></div>
