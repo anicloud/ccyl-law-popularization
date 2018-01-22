@@ -179,25 +179,25 @@
     }
     .phb2-detail .info .second {
       float:left;
-      width:23%;
+      width:24.5%;
       text-align:center;
       font-size: .2rem;
     }
     .phb2-detail .info .third {
       float:left;
-      width:21.5%;
+      width:21%;
       text-align:center;
       font-size: .2rem;
     }
     .phb2-detail .info .four {
       float:left;
-      width:21.5%;
+      width:21%;
       text-align:center;
       font-size: .2rem;
     }
     .phb2-detail .info .five {
       float:left;
-      width:21.5%;
+      width:21%;
       text-align:center;
       font-size: .2rem;
     }
@@ -225,7 +225,7 @@
     .phb2-detail .top-ranking .rank-second{
       font-size:.2rem;
       float:left;
-      width:23%;
+      width:24.5%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
@@ -233,7 +233,7 @@
     .phb2-detail .top-ranking .rank-third{
       font-size:.2rem;
       float:left;
-      width:21.5%;
+      width:21%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
@@ -241,7 +241,7 @@
     .phb2-detail .top-ranking .rank-four{
       font-size:.2rem;
       float:left;
-      width:21.5%;
+      width:21%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
@@ -250,7 +250,7 @@
     .phb2-detail .top-ranking .rank-five{
       font-size:.2rem;
       float:left;
-      width:21.5%;
+      width:21%;
       line-height: .7rem;
       vertical-align: middle;
       text-align:center;
