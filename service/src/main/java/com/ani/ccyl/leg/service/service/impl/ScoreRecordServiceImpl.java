@@ -520,23 +520,23 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         if (totalInfo==null){
             totalInfo=new HashMap<>();
         }
-        if (!isEmperty(top20Dtos) && !isEmperty(provinceInfoDtos)){
-            totalInfo.put("top20",top20Dtos);
-            totalInfo.put("province",provinceInfoDtos);
 
+        totalInfo.put("top20",top20Dtos);
+        totalInfo.put("province",provinceInfoDtos);
+        if (!isEmperty(top20Dtos) && !isEmperty(provinceInfoDtos))
             savetoFile("top20/"+dateString+".json",totalInfo);
 
-        }else {
-            String date = formatter.format(new Date(System.currentTimeMillis()-48*60*60*1000L));
-            String filePaths="top20/"+date+".json";
-            totalInfo=readObjectFromFile(filePaths);
-            if(totalInfo==null){
-                totalInfo=new HashMap<>();
-                totalInfo.put("top20",new ArrayList<>());
-                totalInfo.put("province",new ArrayList<>());
-            }
-
-        }
+//        }else {
+//            String date = formatter.format(new Date(System.currentTimeMillis()-48*60*60*1000L));
+//            String filePaths="top20/"+date+".json";
+//            totalInfo=readObjectFromFile(filePaths);
+//            if(totalInfo==null){
+//                totalInfo=new HashMap<>();
+//                totalInfo.put("top20",new ArrayList<>());
+//                totalInfo.put("province",new ArrayList<>());
+//            }
+//
+//        }
 
         return totalInfo;
     }
@@ -550,7 +550,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
         try {
            // FileWriter fw = new FileWriter(new File("/home/anicloud/third/files/"+filePath));
-            File file = new File("/home/zhanglina/third/files/"+filePath);
+            File file = new File("/home/anicloud/third/files/"+filePath);
             if(!file.getParentFile().exists()){
                 file.getParentFile().mkdirs();
             }
@@ -570,7 +570,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     public static Map<String,Object> readObjectFromFile(String filePath)
     {
         Map<String,Object> objectMap=null;
-        File file =new File("/home/zhanglina/third/files/"+filePath);
+        File file =new File("/home/anicloud/third/files/"+filePath);
         if (!file.exists()){
             return null;
         }
