@@ -23,6 +23,10 @@
         String province = infoDto.getProvince().substring(7);
         infoDto.setProvince(province);
       }
+      if(infoDto.getProvince().contains("广西省广西壮族自治区")){
+        String province = infoDto.getProvince().substring(3);
+        infoDto.setProvince(province);
+      }
       provinceNewList.add(infoDto);
     }else{
       noLocation = infoDto;
