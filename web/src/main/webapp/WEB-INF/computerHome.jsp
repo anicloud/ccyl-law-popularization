@@ -464,10 +464,10 @@
       <div class="phb1-title"></div>
       <div class="phb1-detail" id="top20Rank">
         <div class='clearfix info'>
-          <div class='first'>
+          <div style="float:left;width:40%;text-align:center;font-size: .2rem;">
             得分
           </div>
-          <div class='second'>
+          <div style="float:right;width:30%;text-align:center;font-size: .2rem;">
             全国排名
           </div>
         </div>
@@ -475,14 +475,14 @@
           for(int i=0;i<topList.size();i++){
         %>
         <div class='clearfix top-ranking'>
-          <div class='pull-left rank-first'>
-            <img src='<%=topList.get(i).getPortrat()%>' alt=''/>
+          <div style="width:15%;float:left;text-align:center;">
+            <img src='<%=topList.get(i).getPortrat()%>' style="padding-top:.01rem;width: .68rem;height:.68rem;border-radius: 50%;" alt=''/>
           </div>
-          <div class='pull-left rank-second'>
+          <div style="padding-top:.15rem;width:50%;float:left;font-size:.15rem;margin-left:.15rem;text-align:left;">
             <div><%=topList.get(i).getScore()%></div>
             <div><%=topList.get(i).getName()%></div>
           </div>
-          <div class='pull-right rank-third'><%=i+1%></div>
+          <div style="padding-top:.1rem;font-size: .3rem;width:30%;text-align:center;font-weight: bold;float:right;"><%=i+1%></div>
         </div>
         <%
           }
@@ -493,19 +493,19 @@
       <div class="phb2-title"></div>
       <div class="phb2-detail" id="provinceRank">
         <div class='clearfix info'>
-          <div class='first'>
+          <div style="float:left;width:12.5%;text-align:center;font-size: .2rem;">
             排名
           </div>
-          <div class='second'>
+          <div style="float:left;width:24.5%;text-align:center;font-size: .2rem;">
             省份
           </div>
-          <div class='third'>
+          <div style="float:left;width:21%;text-align:center;font-size: .2rem;">
             平均得分
           </div>
-          <div class='four'>
+          <div style="float:left;width:21%;text-align:center;font-size: .2rem;">
             总得分
           </div>
-          <div class='five'>
+          <div style="float:left;width:21%;text-align:center;font-size: .2rem;">
             参赛人数
           </div>
         </div>
@@ -513,11 +513,11 @@
           for(int j=0;j<provinceNewList.size();j++){
           %>
             <div class='clearfix top-ranking'>
-              <div class='rank-first'><%=j+1%></div>
-              <div class='rank-second'><%=provinceNewList.get(j).getProvince()%></div>
-              <div class='rank-third'><%=provinceNewList.get(j).getAverageScore()%></div>
-              <div class='rank-four'><%=provinceNewList.get(j).getTotalScore()%></div>
-              <div class='rank-five'><%=provinceNewList.get(j).getPeopleNumber()%></div>
+              <div style="font-size:.3rem;float:left;width:12.5%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=j+1%></div>
+              <div style="font-size:.2rem;float:left;width:24.5%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=provinceNewList.get(j).getProvince()%></div>
+              <div style="font-size:.2rem;float:left;width:21%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=provinceNewList.get(j).getAverageScore()%></div>
+              <div style="font-size:.2rem;float:left;width:21%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=provinceNewList.get(j).getTotalScore()%></div>
+              <div style="font-size:.2rem;float:left;width:21%;line-height: .7rem;vertical-align: middle;text-align:center;"><%=provinceNewList.get(j).getPeopleNumber()%></div>
             </div>
         <%
         }
