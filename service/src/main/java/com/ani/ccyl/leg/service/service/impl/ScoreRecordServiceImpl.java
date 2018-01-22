@@ -485,7 +485,14 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
         String filePath="top20/"+dateString+".json";
-        totalInfo=readObjectFromFile(filePath);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,1);
+        calendar.set(Calendar.MINUTE,30);
+        calendar.set(Calendar.SECOND,0);
+        Date date = calendar.getTime();
+        if(System.currentTimeMillis()>date.getTime())
+            totalInfo=readObjectFromFile(filePath);
         if (totalInfo!=null && totalInfo.size()!=0){
             return totalInfo;
         }
