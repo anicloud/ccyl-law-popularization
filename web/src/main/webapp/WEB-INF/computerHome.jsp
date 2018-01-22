@@ -44,7 +44,7 @@
   <style>
     .title {
       width: 100%;
-      height: 100%;
+      padding-bottom:43.75%;
       text-align: center;
       background: #aee644 url("${pageContext.request.contextPath}/build/assets/images/computerBkg.jpg") center top no-repeat;
       background-size: cover;
@@ -408,7 +408,7 @@
 <noscript>
   You need to enable JavaScript to run this app.
 </noscript>
-<div style="width: 100%;height: 100%;text-align: center;background: #aee644 url('${pageContext.request.contextPath}/build/assets/images/computerBkg.jpg') center top no-repeat;background-size: cover;"></div>
+<div style="width: 100%;padding-bottom:43.75%;text-align: center;background: #aee644 url('${pageContext.request.contextPath}/build/assets/images/computerBkg.jpg') center top no-repeat;background-size: cover;"></div>
 <div style="width:100%;height:21rem;background-color: #9bbd4b;">
   <div style="height:2.2rem;width:80%;margin:0 auto;background-color: #eaf1d9;border-radius:5px;text-align:center;">
     <div style="height:2.2rem;width:40%;background: #eaf1d9 url('${pageContext.request.contextPath}/build/assets/images/gifts_title.png') center no-repeat;padding-top:.2rem;float:left;display:inline-block;border-radius:5px;"></div>
