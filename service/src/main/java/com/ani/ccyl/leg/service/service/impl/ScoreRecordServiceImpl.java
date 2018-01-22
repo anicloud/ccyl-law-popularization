@@ -485,7 +485,14 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime);
         String filePath="top20/"+dateString+".json";
-        totalInfo=readObjectFromFile(filePath);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,1);
+        calendar.set(Calendar.MINUTE,30);
+        calendar.set(Calendar.SECOND,0);
+        Date date = calendar.getTime();
+        if(System.currentTimeMillis()>date.getTime())
+            totalInfo=readObjectFromFile(filePath);
         if (totalInfo!=null && totalInfo.size()!=0){
             return totalInfo;
         }
@@ -520,10 +527,31 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         if (totalInfo==null){
             totalInfo=new HashMap<>();
         }
+
         totalInfo.put("top20",top20Dtos);
         totalInfo.put("province",provinceInfoDtos);
-        savetoFile("top20/"+dateString+".json",totalInfo);
+        if (!isEmperty(top20Dtos) && !isEmperty(provinceInfoDtos))
+            savetoFile("top20/"+dateString+".json",totalInfo);
+
+//        }else {
+//            String date = formatter.format(new Date(System.currentTimeMillis()-48*60*60*1000L));
+//            String filePaths="top20/"+date+".json";
+//            totalInfo=readObjectFromFile(filePaths);
+//            if(totalInfo==null){
+//                totalInfo=new HashMap<>();
+//                totalInfo.put("top20",new ArrayList<>());
+//                totalInfo.put("province",new ArrayList<>());
+//            }
+//
+//        }
+
         return totalInfo;
+    }
+    private boolean isEmperty(List list){
+        if (list!=null && list.size()!=0){
+            return false;
+        }
+        return true;
     }
     public void savetoFile(String filePath,Map<String,Object> obj){
 
@@ -536,7 +564,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
             if(!file.exists()){
                 file.createNewFile();
             }
-            FileOutputStream out = new FileOutputStream(file);
+             FileOutputStream out = new FileOutputStream(file);
             ObjectOutputStream objOut=new ObjectOutputStream(out);
             objOut.writeObject(obj);
             objOut.flush();
