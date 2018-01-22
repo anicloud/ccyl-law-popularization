@@ -520,23 +520,44 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
         if (totalInfo==null){
             totalInfo=new HashMap<>();
         }
-        totalInfo.put("top20",top20Dtos);
-        totalInfo.put("province",provinceInfoDtos);
-        savetoFile("top20/"+dateString+".json",totalInfo);
+        if (!isEmperty(top20Dtos) && !isEmperty(provinceInfoDtos)){
+            totalInfo.put("top20",top20Dtos);
+            totalInfo.put("province",provinceInfoDtos);
+
+            savetoFile("top20/"+dateString+".json",totalInfo);
+
+        }else {
+            String date = formatter.format(new Date(System.currentTimeMillis()-48*60*60*1000L));
+            String filePaths="top20/"+date+".json";
+            totalInfo=readObjectFromFile(filePaths);
+            if(totalInfo==null){
+                totalInfo=new HashMap<>();
+                totalInfo.put("top20",new ArrayList<>());
+                totalInfo.put("province",new ArrayList<>());
+            }
+
+        }
+
         return totalInfo;
+    }
+    private boolean isEmperty(List list){
+        if (list!=null && list.size()!=0){
+            return false;
+        }
+        return true;
     }
     public void savetoFile(String filePath,Map<String,Object> obj){
 
         try {
            // FileWriter fw = new FileWriter(new File("/home/anicloud/third/files/"+filePath));
-            File file = new File("/home/anicloud/third/files/"+filePath);
+            File file = new File("/home/zhanglina/third/files/"+filePath);
             if(!file.getParentFile().exists()){
                 file.getParentFile().mkdirs();
             }
             if(!file.exists()){
                 file.createNewFile();
             }
-            FileOutputStream out = new FileOutputStream(file);
+             FileOutputStream out = new FileOutputStream(file);
             ObjectOutputStream objOut=new ObjectOutputStream(out);
             objOut.writeObject(obj);
             objOut.flush();
@@ -549,7 +570,7 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
     public static Map<String,Object> readObjectFromFile(String filePath)
     {
         Map<String,Object> objectMap=null;
-        File file =new File("/home/anicloud/third/files/"+filePath);
+        File file =new File("/home/zhanglina/third/files/"+filePath);
         if (!file.exists()){
             return null;
         }

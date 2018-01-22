@@ -11,7 +11,7 @@
        select ranks from (SELECT *, @rownum := @rownum +1 AS ranks FROM (SELECT * FROM t_daily_total_score WHERE log_date=#{logDate} AND account_id not IN (SELECT account_id from t_top20_awards WHERE t_top20_awards.account_id IS NOT null UNION SELECT account_id FROM t_lucky20_awards WHERE account_id is NOT NULL)) temp,(SELECT@rownum :=0) r ORDER BY SCORE DESC) t WHERE t.account_id=#{accountId}
     </select>
     <select id="findPrivanceInfo" parameterType="java.lang.String" resultType="com.ani.ccyl.leg.commons.dto.ProvinceInfoDto">
-      SELECT sum(score) as total_score ,avg(score) AS average_score,count(account_id) as people_number,province FROM t_daily_total_score where log_date =#{logDate} GROUP BY province
+      SELECT sum(score) as total_score ,avg(score) AS average_score,count(account_id) as people_number,province FROM t_daily_total_score where log_date =#{logDate} GROUP BY province ORDER by people_number DESC
     </select>
     <select id="findByAccAndDate" parameterType="java.util.Map" resultType="java.lang.Integer">
         SELECT score FROM t_daily_total_score WHERE account_id=#{accountId} AND log_date=#{logDate} LIMIT 1

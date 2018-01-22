@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -212,7 +214,10 @@ public class ScoreRecordController {
     @RequestMapping(value = "/runTask", method = RequestMethod.GET)
     @ResponseBody
     public void runTask(HttpSession session) {
-        System.out.println("*************************************************");
+        Date currentTime = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String dateString = formatter.format(currentTime);
+        System.out.println("*****************"+dateString);
         timerTaskService.runTask();
     }
 
