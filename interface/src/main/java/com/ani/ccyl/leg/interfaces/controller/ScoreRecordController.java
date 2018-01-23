@@ -218,7 +218,7 @@ public class ScoreRecordController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String dateString = formatter.format(currentTime);
         System.out.println("*****************"+dateString);
-        timerTaskService.runTask();
+        timerTaskService.updateRunTask();
     }
 
 

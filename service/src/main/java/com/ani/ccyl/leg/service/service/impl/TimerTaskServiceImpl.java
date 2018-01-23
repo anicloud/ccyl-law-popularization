@@ -102,20 +102,24 @@ public class TimerTaskServiceImpl implements TimerTaskService {
     }
 
     @Override
-    public void runTask() {
-        this.updateDailyTop20();
-        List<AccountPO> accountPOs = accountMapper.findNotInTop20();
-        List<AccountPO> luckyAccounts = new ArrayList<>();
-        if(accountPOs!=null && accountPOs.size()>20) {
-            HashSet<Integer> set = new HashSet<>();
-            randomSet(accountPOs.size(),20,set);
-            for(Integer index:set) {
-                luckyAccounts.add(accountPOs.get(index));
+    public void updateRunTask() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Top20AwardsPO> top20AwardsPOS = top20AwardsMapper.findByDate(simpleDateFormat.format(new Date(System.currentTimeMillis())));
+        if(top20AwardsPOS==null || top20AwardsPOS.size()==0) {
+            this.updateDailyTop20();
+            List<AccountPO> accountPOs = accountMapper.findNotInTop20();
+            List<AccountPO> luckyAccounts = new ArrayList<>();
+            if (accountPOs != null && accountPOs.size() > 20) {
+                HashSet<Integer> set = new HashSet<>();
+                randomSet(accountPOs.size(), 20, set);
+                for (Integer index : set) {
+                    luckyAccounts.add(accountPOs.get(index));
+                }
+            } else if (accountPOs != null) {
+                luckyAccounts = accountPOs;
             }
-        } else if (accountPOs != null){
-            luckyAccounts = accountPOs;
+            this.insertLucky20(luckyAccounts);
         }
-        this.insertLucky20(luckyAccounts);
     }
 
     private class MyTimerTask extends TimerTask {
