@@ -74,7 +74,7 @@ class MyScore extends Component {
         let _this = this;
         const {host} = _this.props;
         //获取组织名称
-        axios.get('${host}/account/findById').then(function (response){
+        axios.get(`${host}/account/findById`).then(function (response){
             if(response.data.state === 0){
                 if(response.data.data.orgName!==null&&response.data.data.orgName!==undefined&&response.data.data.orgName!==""){
                     _this.setState({
