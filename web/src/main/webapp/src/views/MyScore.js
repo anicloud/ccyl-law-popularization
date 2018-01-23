@@ -481,7 +481,7 @@ class MyScore extends Component {
                             <span>补全信息</span>
                             {orgName?(<span className="desc">组织：{orgName}</span>):(null)}
                         </div>
-                        <div className="rightDiv" onClick={this.handleThumbUp}>
+                        <div className="rightDiv" onClick={this.goToRegistFromTask}>
                             {/*<img src={billDetail} alt=""/>*/}
                             <i className='regist'></i>
                         </div>
