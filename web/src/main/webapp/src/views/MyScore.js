@@ -34,10 +34,11 @@ class MyScore extends Component {
             mySelfRank: 0,
             ifTop20: false,
             top20Time: '',
+            orgName:null,
             tishiButtons: [
                 {
                     label: '补全信息',
-                    onClick: this.goToRegist.bind(this)
+                    onClick: this.goToRegistFromPrize.bind(this)
                 },
                 {
                     label: '返回',
@@ -66,11 +67,24 @@ class MyScore extends Component {
         this.getPrizeDetail = this.getPrizeDetail.bind(this);
         this.handleInvitation = this.handleInvitation.bind(this);
         this.handleThumbUp = this.handleThumbUp.bind(this);
+        this.goToRegistFromTask = this.goToRegistFromTask.bind(this);
     }
 
     componentDidMount() {
         let _this = this;
         const {host} = _this.props;
+        //获取组织名称
+        axios.get('${host}/account/findById').then(function (response){
+            if(response.data.state === 0){
+                if(response.data.data.orgName!==null&&response.data.data.orgName!==undefined&&response.data.data.orgName!==""){
+                    _this.setState({
+                        orgName:response.data.data.orgName
+                    })
+                }
+            }
+        }).catch(function (errors) {
+            console.log(errors);
+        });
         //剩余积分获取
         axios.get(`${host}/score/findResidueScore`).then(function (response) {
             if (response.data.state === 0) {
@@ -121,9 +135,11 @@ class MyScore extends Component {
         }).catch(function (errors) {
             console.log(errors);
         });
-        if (_this.props.location !== undefined && _this.props.location !== null && _this.props.location.state !== undefined && _this.props.location.state !== null && _this.props.location.state.ifFromRegist !== undefined && _this.props.location.state.ifFromRegist !== null) {
+        if (_this.props.location !== undefined && _this.props.location !== null && _this.props.location.state !== undefined && _this.props.location.state !== null && _this.props.location.state.ifFromRegist !== undefined && _this.props.location.state.ifFromRegist !== null&&_this.props.location.state.sourceShow!== undefined&&_this.props.location.state.sourceShow!==null) {
             console.log(_this.props.location.state.ifFromRegist);
-            this.changeMyPrize();
+            if(_this.props.location.state.sourceShow === "prize"){
+                this.changeMyPrize();
+            }
         }
     }
 
@@ -221,12 +237,27 @@ class MyScore extends Component {
         history.push('/announce');
     }
 
-    goToRegist() {
+    goToRegistFromPrize() {
         let _this = this;
         const {history} = _this.props;
         history.push({
             pathname: '/regist',
-            state: '/tasks'
+            state: {
+                target: '/tasks',
+                source: "prize"
+            }
+        });
+    }
+
+    goToRegistFromTask() {
+        let _this = this;
+        const {history} = _this.props;
+        history.push({
+            pathname: '/regist',
+            state: {
+                target: '/tasks',
+                source: "task"
+            }
         });
     }
 
@@ -361,6 +392,7 @@ class MyScore extends Component {
     render() {
         let scoreInfo = this.state.scoreInfo;
         let mySelfRank = this.state.mySelfRank;
+        let orgName = this.state.orgName;
         let _this = this;
         return (
             <div className="root-score">
@@ -442,6 +474,16 @@ class MyScore extends Component {
                         <div className="rightDiv" onClick={this.handleThumbUp}>
                             {/*<img src={billDetail} alt=""/>*/}
                             <i className='plus'></i>
+                        </div>
+                    </div>
+                    <div className="task clearfix">
+                        <div className="leftDiv">
+                            <span>补全信息</span>
+                            {orgName?(<span className="desc">组织：{orgName}</span>):(null)}
+                        </div>
+                        <div className="rightDiv" onClick={this.handleThumbUp}>
+                            {/*<img src={billDetail} alt=""/>*/}
+                            <i className='regist'></i>
                         </div>
                     </div>
                     {_this.state.ifTop20 ? (<p className='detail-info'>恭喜！你在{_this.state.top20Time}获得Top前20，请在"我的奖品"中查看奖品，积分已被自动清零一次，欢迎继续每日答题赢积分兑换奖品</p>) : (null)}

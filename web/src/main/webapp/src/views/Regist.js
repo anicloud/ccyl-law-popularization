@@ -18,7 +18,8 @@ class Regist extends Component {
         super(props);
         console.log(this.props);
         this.state = {
-            location: this.props.location.state? this.props.location.state : '/home',
+            location: this.props.location.state.target? this.props.location.state.target : '/home',
+            sourceShow:this.props.location.state.source?this.props.location.state.source:'',
             smsCodeInfo: {
                 second: 60,
                 disabled: false,
@@ -537,7 +538,8 @@ class Regist extends Component {
                             history.push({
                                 pathname:url,
                                 state:{
-                                    ifFromRegist:true
+                                    ifFromRegist:true,
+                                    sourceShow:_this.state.sourceShow
                                 }
                             });
                         });
