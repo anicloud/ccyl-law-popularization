@@ -479,7 +479,7 @@ class MyScore extends Component {
                     <div className="task clearfix">
                         <div className="leftDiv">
                             <span>补全信息</span>
-                            {orgName?(<span className="desc">组织：{orgName}</span>):(null)}
+                            {orgName?(<span className="desc">组织：{orgName}</span>):(<span className="desc">请补全信息!</span>)}
                         </div>
                         <div className="rightDiv" onClick={this.goToRegistFromTask}>
                             {/*<img src={billDetail} alt=""/>*/}
