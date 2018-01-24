@@ -2,10 +2,10 @@
 
 #### change the values below where needed.....
 #### 多数据库DBNAMES="MyDb1 MyDb2 MyDb3"
-DBNAMES="ccyl"
-HOST="--host=101.201.76.227"
+DBNAMES="ccyleg_14"
+HOST="--host=rdsp1t16146w99vl6519.mysql.rds.aliyuncs.com"
 USER="--user=anicloud"
-PASSWORD="--password=Anicl0ud!"
+PASSWORD="--password=Anicl0ud"
 BACKUP_DIR="/home/anicloud/db"
 
 #### you can change these values but they are optional....

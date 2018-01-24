@@ -135,7 +135,7 @@ public class TimerTaskServiceImpl implements TimerTaskService {
             List<AccountPO> luckyAccounts = new ArrayList<>();
             if(accountPOs!=null && accountPOs.size()>20) {
                 HashSet<Integer> set = new HashSet<>();
-                randomSet(accountPOs.size(),20,set);
+                randomSet(accountPOs.size()-1,20,set);
                 for(Integer index:set) {
                     luckyAccounts.add(accountPOs.get(index));
                 }
@@ -148,14 +148,21 @@ public class TimerTaskServiceImpl implements TimerTaskService {
 
     public static void randomSet(int max, int n, HashSet<Integer> set) {
         for (int i = 0; i < n; i++) {
-            Random random = new Random(max);
-            int num = random.nextInt();
-            set.add(num);
+
+            if (set.size()<n){
+                Random random = new Random();
+                int num = random.nextInt(max);
+                set.add(num);
+            }else {
+                break;
+            }
+
+
         }
         int setSize = set.size();
         // 如果存入的数小于指定生成的个数，则调用递归再生成剩余个数的随机数，如此循环，直到达到指定大小
         if (setSize < n) {
-            randomSet(max, n - setSize, set);// 递归
+            randomSet(max, n, set);// 递归
         }
     }
     private Date addDay(Date date, int num) {
