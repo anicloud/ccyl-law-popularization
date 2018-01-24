@@ -19,13 +19,20 @@
   ProvinceInfoDto noLocation = null;
   for(ProvinceInfoDto infoDto : provinceList){
     if (!"未定位".equals(infoDto.getProvince())){
-      if(infoDto.getProvince().contains("中华人民共和国")&&infoDto.getProvince().length()>7){
-        String province = infoDto.getProvince().substring(7);
-        infoDto.setProvince(province);
-      }
-      if(infoDto.getProvince().contains("广西省广西壮族自治区")){
-        String province = infoDto.getProvince().substring(3);
-        infoDto.setProvince(province);
+      if(infoDto.getProvince().contains("中华人民共和国香港特别行政区")){
+        infoDto.setProvince("香港");
+      }else if(infoDto.getProvince().contains("中华人民共和国澳门特别行政区")){
+        infoDto.setProvince("澳门");
+      }else if(infoDto.getProvince().contains("广西省广西壮族自治区")){
+        infoDto.setProvince("广西");
+      }else if(infoDto.getProvince().contains("内蒙古自治区")){
+        infoDto.setProvince("内蒙古");
+      }else if(infoDto.getProvince().contains("新疆维吾尔自治区")){
+        infoDto.setProvince("新疆");
+      }else if(infoDto.getProvince().contains("宁夏回族自治区")){
+        infoDto.setProvince("宁夏");
+      }else if(infoDto.getProvince().contains("西藏自治区")){
+        infoDto.setProvince("西藏");
       }
       provinceNewList.add(infoDto);
     }else{
