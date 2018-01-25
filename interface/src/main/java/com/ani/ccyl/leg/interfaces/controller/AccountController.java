@@ -147,6 +147,11 @@ public class AccountController {
     public void getAwardsCsv(HttpServletResponse response)throws IOException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date=simpleDateFormat.format(new Date(System.currentTimeMillis()));
+        String date1="2018-01-19";
+
+        awardsInfoService.getAwardsCsv(date1);
+
+
         String path=awardsInfoService.getAwardsCsv(date);
 
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
