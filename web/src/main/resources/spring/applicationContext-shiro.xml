@@ -41,7 +41,12 @@
 		<property name="cacheManager" ref="shiroEhcacheManager"/>
 		<property name="rememberMeManager" ref="rememberMeManager"/>
 	</bean>
-	
+	<!--<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">-->
+		<!--&lt;!&ndash; session的失效时长，单位毫秒 &ndash;&gt;-->
+		<!--<property name="globalSessionTimeout" value="600000"/>-->
+		<!--&lt;!&ndash; 删除失效的session &ndash;&gt;-->
+		<!--<property name="deleteInvalidSessions" value="true"/>-->
+	<!--</bean>-->
 	<!-- 自定义realm -->
 	<bean id="authRealm" class="com.ani.ccyl.leg.service.infrastructure.shiro.AuthRealm">
 		<property name="accountService" ref="accountService"/>

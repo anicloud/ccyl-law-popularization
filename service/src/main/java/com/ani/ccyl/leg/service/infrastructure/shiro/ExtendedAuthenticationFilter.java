@@ -20,6 +20,4 @@ public class ExtendedAuthenticationFilter extends FormAuthenticationFilter {
         response.sendRedirect(request.getContextPath()+"/home/index?op="+ HttpMessageEnum.ACCESS_DENIED.name());
         return false;
     }
-
-
 }
