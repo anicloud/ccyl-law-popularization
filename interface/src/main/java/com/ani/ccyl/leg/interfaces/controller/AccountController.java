@@ -8,6 +8,7 @@ import com.ani.ccyl.leg.commons.enums.ResponseStateEnum;
 import com.ani.ccyl.leg.commons.utils.LocationUtil;
 import com.ani.ccyl.leg.commons.utils.SMSUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
+import com.ani.ccyl.leg.service.service.facade.AwardsInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,8 @@ import java.util.*;
 public class AccountController {
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private AwardsInfoService awardsInfoService;
     @Value("${base.file.path}")
     private String baseFilePath;
     @RequestMapping(value = "/saveSelfInfo", method = RequestMethod.POST)
@@ -140,27 +143,23 @@ public class AccountController {
         in.close();
         out.close();
     }
-  //  @RequestMapping(value = "/getTop20Json",method = RequestMethod.GET)
-    public void getTop20Json(HttpServletRequest request){
-        ResponseMessageDto message = new ResponseMessageDto();
-        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        String url ="/files"+"/top20/"+dateString+".json";
-        message.setMsg("获取成功");
-        message.setState(ResponseStateEnum.OK);
-        message.setData(url);
-        //return"baseFilePath+\"/top20/\"+dateString+\".json\";
-    }
-    //@RequestMapping(value = "/getProvienceJson",method = RequestMethod.GET)
-    public  void getProvienceJson(){
-        ResponseMessageDto message = new ResponseMessageDto();
-        Date currentTime = new Date(System.currentTimeMillis()-24*60*60*1000L);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        String url ="/files"+"/province/"+dateString+".json";
-        message.setMsg("获取成功");
-        message.setState(ResponseStateEnum.OK);
-        message.setData(url);
+    @RequestMapping(value = "/getAwardsCsv",method = RequestMethod.GET)
+    public void getAwardsCsv(HttpServletResponse response)throws IOException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date=simpleDateFormat.format(new Date(System.currentTimeMillis()));
+        String path=awardsInfoService.getAwardsCsv(date);
+
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        response.setHeader("content-disposition", "attachment;filename="+date+".csv");
+        InputStream in = new FileInputStream(path);
+        int len = 0;
+
+        byte[] buffer = new byte[1024];
+        OutputStream out = response.getOutputStream();
+        while ((len = in.read(buffer)) > 0) {
+            out.write(buffer,0,len);
+        }
+        in.close();
+        out.close();
     }
 }

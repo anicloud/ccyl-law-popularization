@@ -9,4 +9,7 @@
     <select id="findByAccountId" parameterType="java.lang.Integer" resultType="com.ani.ccyl.leg.persistence.po.Lucky20AwardsPO">
         SELECT * FROM t_lucky20_awards WHERE account_id=#{accountId} LIMIT 1
     </select>
+    <select id="findByDate" parameterType="java.lang.String" resultType="com.ani.ccyl.leg.persistence.po.Lucky20AwardsPO">
+        SELECT * FROM t_lucky20_awards WHERE date_format(update_time,'%Y-%m-%d')=date_format(#{createTime},'%Y-%m-%d') AND account_id IS NOT NULL
+    </select>
 </mapper>

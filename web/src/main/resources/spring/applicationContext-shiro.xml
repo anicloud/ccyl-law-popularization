@@ -79,6 +79,7 @@
 				/home/zqw = anon
 				/account/getCsvFile = anon
 				/score/runTask = anon
+				/account/getAwardsCsv = anon
 				/** = authc
 			</value>
 		</property>
