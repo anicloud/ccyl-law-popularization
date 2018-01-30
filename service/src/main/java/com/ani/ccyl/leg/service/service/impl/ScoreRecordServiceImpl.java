@@ -530,20 +530,20 @@ public class ScoreRecordServiceImpl implements ScoreRecordService{
 
         totalInfo.put("top20",top20Dtos);
         totalInfo.put("province",provinceInfoDtos);
-        if (!isEmperty(top20Dtos) && !isEmperty(provinceInfoDtos))
+        if (!isEmperty(top20Dtos) && !isEmperty(provinceInfoDtos)){
             savetoFile("top20/"+dateString+".json",totalInfo);
 
-//        }else {
-//            String date = formatter.format(new Date(System.currentTimeMillis()-48*60*60*1000L));
-//            String filePaths="top20/"+date+".json";
-//            totalInfo=readObjectFromFile(filePaths);
-//            if(totalInfo==null){
-//                totalInfo=new HashMap<>();
-//                totalInfo.put("top20",new ArrayList<>());
-//                totalInfo.put("province",new ArrayList<>());
-//            }
-//
-//        }
+        }else {
+            String date1 = formatter.format(new Date(System.currentTimeMillis()-48*60*60*1000L));
+            String filePaths="top20/"+date1+".json";
+            totalInfo=readObjectFromFile(filePaths);
+            if(totalInfo==null){
+                totalInfo=new HashMap<>();
+                totalInfo.put("top20",new ArrayList<>());
+                totalInfo.put("province",new ArrayList<>());
+            }
+
+        }
 
         return totalInfo;
     }

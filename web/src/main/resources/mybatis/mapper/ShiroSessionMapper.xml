@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ani.ccyl.leg.persistence.mapper.ShiroSessionMapper">
+    <delete id="clearAllShiros">
+        DELETE FROM t_shiro_session WHERE session_id is null and session_value is null;
+    </delete>
+    <select id="findAllShiros" resultType="com.ani.ccyl.leg.persistence.po.ShiroSessionPO">
+        select * from t_shiro_session WHERE session_id is null and session_value is null;
+    </select>
+    <select id="findCount" resultType="java.lang.Integer">
+        select count(*) from t_shiro_session WHERE session_id is null and session_value is null;
+    </select>
+    <select id="findAllSessions" resultType="com.ani.ccyl.leg.persistence.po.ShiroSessionPO">
+        select * from t_shiro_session WHERE shiro_key is null and shiro_value is null;
+    </select>
+    <delete id="clearExpiredSession" parameterType="java.lang.Long">
+        DELETE from t_shiro_session WHERE create_time &lt; #{createTime};
+    </delete>
+</mapper>

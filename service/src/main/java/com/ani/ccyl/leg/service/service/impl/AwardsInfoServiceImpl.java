@@ -1,5 +1,6 @@
 package com.ani.ccyl.leg.service.service.impl;
 
+import com.ani.ccyl.leg.commons.enums.ProvinceEnum;
 import com.ani.ccyl.leg.commons.utils.CSVUtil;
 import com.ani.ccyl.leg.persistence.mapper.AccountMapper;
 import com.ani.ccyl.leg.persistence.mapper.Lucky20AwardsMapper;
@@ -42,7 +43,21 @@ public class AwardsInfoServiceImpl implements AwardsInfoService {
                 Integer accountId=top20.getAccountId();
                 if (accountId!=null){
                   AccountPO account= accountMapper.selectByPrimaryKey(accountId);
-                  awardInfo= URLDecoder.decode(account.getNickName(), "utf-8")+":"+top20.getType().getValue();
+                  String province="";
+                    if (account.getProvince()!=null){
+                        province=account.getProvince().getValue();
+                    }
+                  String sex="";
+                    if (account.getSex()==null){
+                        sex="null";
+                    }
+                    if (account.getSex()) {
+                        sex = "男";
+                    }else if (!account.getSex()){
+                        sex="女";
+                    }
+                  awardInfo= URLDecoder.decode(account.getNickName(), "utf-8")+":"+top20.getType().getValue()+","+top20.getProdId()+","+account.getName()+","+account.getAge()
+                          +","+account.getEmail()+","+sex+","+account.getOrgName()+","+province;
                 }
                 values.add(awardInfo);
 
@@ -56,7 +71,21 @@ public class AwardsInfoServiceImpl implements AwardsInfoService {
                 Integer accountId=lucky20.getAccountId();
                 if (accountId!=null){
                     AccountPO account= accountMapper.selectByPrimaryKey(accountId);
-                    awardInfo=URLDecoder.decode(account.getNickName(), "utf-8")+":"+lucky20.getType().getValue();
+                    String province="";
+                    if (account.getProvince()!=null){
+                        province=account.getProvince().getValue();
+                    }
+                    String sex="";
+                    if (account.getSex()==null){
+                        sex="null";
+                    }
+                    if (account.getSex()) {
+                        sex = "男";
+                    }else if (!account.getSex()){
+                        sex="女";
+                    }
+                    awardInfo= URLDecoder.decode(account.getNickName(), "utf-8")+":"+lucky20.getType().getValue()+","+lucky20.getProdId()+","+account.getName()+","+account.getAge()
+                            +","+account.getEmail()+","+sex+","+account.getOrgName()+","+province;
                 }
                 values.add(awardInfo);
             }

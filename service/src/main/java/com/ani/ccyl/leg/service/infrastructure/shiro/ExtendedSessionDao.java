@@ -1,23 +1,31 @@
 package com.ani.ccyl.leg.service.infrastructure.shiro;
 
+import com.ani.ccyl.leg.commons.utils.SerializeUtils;
+import com.ani.ccyl.leg.service.service.facade.ShiroSessionService;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ExtendedSessionDao extends AbstractSessionDAO {
     private static final String KEY_PREFIX = "shiro_redis_session:";
+    private ShiroSessionService shiroSessionService;
+
+    public ShiroSessionService getShiroSessionService() {
+        return shiroSessionService;
+    }
+
+    public void setShiroSessionService(ShiroSessionService shiroSessionService) {
+        this.shiroSessionService = shiroSessionService;
+    }
 
     @Override
     protected Serializable doCreate(Session session) {
         Serializable sessionId = this.generateSessionId(session);
-        this.assignSessionId(session, sessionId);
-        // TODO: 2018/1/25 保存session 至redis
+        this.assignSessionId(session,sessionId);
+        shiroSessionService.insertSession(sessionId.toString(),SerializeUtils.serialize(session));
         return sessionId;
     }
 
@@ -25,29 +33,38 @@ public class ExtendedSessionDao extends AbstractSessionDAO {
     protected Session doReadSession(Serializable serializable) {
         Session session = null;
         if(serializable != null) {
-            // TODO: 2018/1/25 从redis根据KEY_PREFIX+sessionId读取session
-//            session = (Session)redisManager.get(KEY_PREFIX + sessionId);
+           byte[] sessionBytes= shiroSessionService.findbySessionId(serializable.toString());
+            if (sessionBytes!=null){
+                session=(Session) SerializeUtils.deserialize(sessionBytes);
+            }
         }
         return session;
     }
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-        // TODO: 2018/1/25 保存session至redis
+        if(session != null && session.getId()!=null) {
+            shiroSessionService.updateSession(session.getId().toString(),SerializeUtils.serialize(session));
+        }
+
     }
 
     @Override
     public void delete(Session session) {
         if(session != null && session.getId()!=null) {
-            // TODO: 2018/1/25 从redis删除session
+            shiroSessionService.deleteBySessionId(session.getId().toString());
         }
     }
 
     @Override
     public Collection<Session> getActiveSessions() {
         Set<Session> sessions = new HashSet<Session>();
-        // TODO: 2018/1/25 从redis拿出所有key 以 shiro_redis_session:开头的值并反序列化，返回
-//        Set<byte[]> keys = redisManager.keys(KEY_PREFIX + "*");
+        List<byte[]> sessionValues=shiroSessionService.findAllSessionValues();
+        if (sessionValues!=null && sessionValues.size()!=0){
+            for (byte[] bytes:sessionValues){
+                sessions.add((Session)SerializeUtils.deserialize(bytes));
+            }
+        }
         return sessions;
     }
 }

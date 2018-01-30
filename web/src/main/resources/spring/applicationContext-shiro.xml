@@ -38,15 +38,23 @@
 		<!-- 配置自定义realm -->
 		<property name="realm" ref="authRealm"/>
 		<!-- 引入二级缓存的支持 -->
-		<property name="cacheManager" ref="shiroEhcacheManager"/>
+		<property name="cacheManager" ref="shiroCacheManager"/>
+		<property name="sessionManager" ref="sessionManager"/>
 		<property name="rememberMeManager" ref="rememberMeManager"/>
 	</bean>
-	<!--<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">-->
-		<!--&lt;!&ndash; session的失效时长，单位毫秒 &ndash;&gt;-->
-		<!--<property name="globalSessionTimeout" value="600000"/>-->
-		<!--&lt;!&ndash; 删除失效的session &ndash;&gt;-->
-		<!--<property name="deleteInvalidSessions" value="true"/>-->
-	<!--</bean>-->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- session的失效时长，单位毫秒 -->
+		<property name="globalSessionTimeout" value="600000"/>
+		<!-- 删除失效的session -->
+		<property name="deleteInvalidSessions" value="true"/>
+		<property name="sessionDAO" ref="sessionDao"/>
+	</bean>
+	<bean id="sessionDao" class="com.ani.ccyl.leg.service.infrastructure.shiro.ExtendedSessionDao">
+		<property name="shiroSessionService" ref="shiroSessionServiceImpl"/>
+	</bean>
+	<bean id="shiroCacheManager" class="com.ani.ccyl.leg.service.infrastructure.shiro.MysqlCacheManager">
+		<property name="shiroSessionService" ref="shiroSessionServiceImpl"/>
+	</bean>
 	<!-- 自定义realm -->
 	<bean id="authRealm" class="com.ani.ccyl.leg.service.infrastructure.shiro.AuthRealm">
 		<property name="accountService" ref="accountService"/>
@@ -85,6 +93,7 @@
 				/account/getCsvFile = anon
 				/score/runTask = anon
 				/account/getAwardsCsv = anon
+				/account/clearSession = anon
 				/** = authc
 			</value>
 		</property>

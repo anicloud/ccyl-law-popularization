@@ -9,6 +9,7 @@ import com.ani.ccyl.leg.commons.utils.LocationUtil;
 import com.ani.ccyl.leg.commons.utils.SMSUtil;
 import com.ani.ccyl.leg.service.service.facade.AccountService;
 import com.ani.ccyl.leg.service.service.facade.AwardsInfoService;
+import com.ani.ccyl.leg.service.service.facade.ShiroSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class AccountController {
     private AccountService accountService;
     @Autowired
     private AwardsInfoService awardsInfoService;
+    @Autowired
+    private ShiroSessionService shiroSessionService;
     @Value("${base.file.path}")
     private String baseFilePath;
     @RequestMapping(value = "/saveSelfInfo", method = RequestMethod.POST)
@@ -147,11 +150,6 @@ public class AccountController {
     public void getAwardsCsv(HttpServletResponse response)throws IOException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String date=simpleDateFormat.format(new Date(System.currentTimeMillis()));
-        String date1="2018-01-19";
-
-        awardsInfoService.getAwardsCsv(date1);
-
-
         String path=awardsInfoService.getAwardsCsv(date);
 
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -166,5 +164,9 @@ public class AccountController {
         }
         in.close();
         out.close();
+    }
+    @RequestMapping(value = "/clearSession",method = RequestMethod.GET)
+    public void clearSession(){
+        shiroSessionService.clearExpiredSession();
     }
 }

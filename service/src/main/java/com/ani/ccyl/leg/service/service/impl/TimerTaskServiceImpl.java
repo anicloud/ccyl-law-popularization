@@ -107,7 +107,7 @@ public class TimerTaskServiceImpl implements TimerTaskService {
         List<Top20AwardsPO> top20AwardsPOS = top20AwardsMapper.findByDate(simpleDateFormat.format(new Date(System.currentTimeMillis())));
         if(top20AwardsPOS==null || top20AwardsPOS.size()==0) {
             this.updateDailyTop20();
-            List<AccountPO> accountPOs = accountMapper.findNotInTop20();
+            List<AccountPO> accountPOs = accountMapper.findNotInTop20(simpleDateFormat.format(new Date(System.currentTimeMillis()-24*60*60*1000)));
             List<AccountPO> luckyAccounts = new ArrayList<>();
             if (accountPOs != null && accountPOs.size() > 20) {
                 HashSet<Integer> set = new HashSet<>();
@@ -131,7 +131,8 @@ public class TimerTaskServiceImpl implements TimerTaskService {
         @Override
         public void run() {
             timerTaskService.updateDailyTop20();
-            List<AccountPO> accountPOs = accountMapper.findNotInTop20();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            List<AccountPO> accountPOs = accountMapper.findNotInTop20(simpleDateFormat.format(new Date(System.currentTimeMillis()-24*60*60*1000)));
             List<AccountPO> luckyAccounts = new ArrayList<>();
             if(accountPOs!=null && accountPOs.size()>20) {
                 HashSet<Integer> set = new HashSet<>();
