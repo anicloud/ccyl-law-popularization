@@ -63,9 +63,9 @@ class ScoreBoard extends Component {
                             <div className='pull-left first'>
                                 <img src={myRankInfo.portrait} alt=""/>
                             </div>
-                            <div className='pull-left second'>
+                            <div className='pull-left five'>
                                 <div>{myRankInfo.totalScore? myRankInfo.totalScore : 0}</div>
-                                <div>{myRankInfo.nickName}</div>
+                                <div className="nick">{myRankInfo.nickName}</div>
                             </div>
                             {myRankInfo.ranking===-1?<div className='pull-right four'>已获奖，不再参与排名</div>:<div className='pull-right third'>{myRankInfo.ranking}</div>}
                         </div>
@@ -81,7 +81,7 @@ class ScoreBoard extends Component {
                                         </div>
                                         <div className='pull-left second'>
                                             <div>{item.score}</div>
-                                            <div>{item.name}</div>
+                                            <div className="nick">{item.name}</div>
                                         </div>
                                         <div className='pull-right third'>{index + 1}</div>
                                     </div>
