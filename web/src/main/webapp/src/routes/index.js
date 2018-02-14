@@ -1,6 +1,8 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import App from '../App';
+/*引导页*/
+import Main from '../views/Main'
 
 import Home from '../views/Home';
 import AsyncCounter from '../views/AsyncCounter';
@@ -13,15 +15,18 @@ import Regist from '../views/Regist';
 import AnswerQuestion from '../views/AnswerQuestion';
 /*赛事说明*/
 import Description from '../views/Description';
+/*签到*/
+import SignIn from '../views/SignIn';
 
 const Routes = () => (
     <Switch>
-        <Route exact path='/' component={App} />
+        <Route exact path='/' component={Main} />
+        <Route exact path='/home' component={App} />
         <Route exact path='/regist' component={Regist} />
+        <Route Path='/signin' component={SignIn}/>
         <Route path='/answer' component={AnswerQuestion} />
         <Route path='/description' component={Description} />
 
-        <Route exact path='/home' component={Home} />
         <Route path='/counter' component={AsyncCounter} />
         <Route path='/zen' component={AsyncZen} />
         <Route path='/elapse' component={AsyncElapse} />

@@ -1,6 +1,9 @@
 /**
  * Created by wxw on 2017/12/13.
  */
+/**
+ * 答题界面
+ */
 import React, {Component} from 'react';
 import '../media/styles/answer.less';
 import ChoiceQuestion from "./questiontype/ChoiceQuestion"

@@ -25,12 +25,7 @@ class App extends Component {
         }
     }
     handleSign() {
-        /*发送签到请求*/
-        /*axios.get('').then(function (response) {
-
-        }).catch(function (errors) {
-
-        })*/
+        this.props.history.push('/signin');
     }
     render() {
         return (
